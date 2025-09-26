@@ -1,0 +1,19 @@
+use int.Int
+
+let abs (a b: int) : int
+  requires { true }
+  returns { rabs -> rabs >= 0}
+  = if (a < b) then b - a else a - b
+  
+let rec fib (n: int) : int =
+  if n = 0 then 0
+    else
+   if n = 1 then 1
+    else fib(n - 1) + fib(n - 2)
+    
+let gcd(a b: int) : int =
+  let ref aux = a in
+  while (aux <> b) do
+    if aux > b then aux <- a - b;
+  done;
+  aux;
