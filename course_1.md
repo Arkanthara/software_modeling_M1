@@ -54,7 +54,7 @@ Ex: t is sorted "$\forall i \in \{0, \dots, n - 2\}, t[i] \leq t[i + 1]$"
 
 Is my program correct ?
 
-```{plantuml}
+```{.plantuml}
 @startuml
 [Computer based system / programs] -model-> [Program]
 [Specifications] -model-> [spec]
