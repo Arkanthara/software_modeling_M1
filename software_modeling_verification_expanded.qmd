@@ -1,7 +1,9 @@
 ---
 title: "Software Modeling and Verification — Expanded"
 author: "Completed Course Notes with PlantUML Diagrams and Examples"
-format: pdf
+format:
+  pdf:
+    pdf-engine: xelatex
 filters: [diagram]
 toc: true
 nummer-sections: true
