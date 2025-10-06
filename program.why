@@ -1,4 +1,12 @@
 use int.Int
+use int.EuclideanDivision
+
+let g(a b: int) : int
+  requires { ((a >= b) \/ ((div a b) >= 1) /\ (b <> 0))
+         /\ ((a < b) \/ ((div b a >= 1) /\ (a <> 0)))}
+  returns { rg -> rg >= 1 }
+  = if (a >= b) then div a b else div b a
+
 
 let abs (a b: int) : int
   requires { true }
