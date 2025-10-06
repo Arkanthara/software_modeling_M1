@@ -4,19 +4,17 @@ author: "Completed Course Notes with PlantUML Diagrams and Examples"
 format:
   pdf:
     pdf-engine: xelatex
-filters: [diagram]
+    pdf-engine-opt: -shell-escape
+    header-includes:
+      - \usepackage{plantuml}
+# filters: [diagram]
 toc: true
 nummer-sections: true
----
-
-# Preface
-
-This document expands and completes your Software Modeling and Verification notes. It contains:
-
-- fully usable PlantUML.locks (Quarto `diagram` filter) — renderable when you run `quarto render` or build the PDF,  
-- additional worked examples, step-by-step proof sketches, and more detailed explanations,  
-- a final **Summary** section.  
-
+# diagram:
+#   engine:
+#     plantuml:
+#       mime-type:
+#         application/pdf: false
 ---
 
 # 1. Overview: What is verification?
@@ -36,7 +34,7 @@ A program source file has *syntax* (checked by compiler) and *semantics* (meanin
 
 **Notation:** `Program |= Spec` means the program satisfies the specification.
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Overview: program, spec, correctness
 [Computer-based system / programs] -left-> [Program: source + compiler]
@@ -44,7 +42,7 @@ title Overview: program, spec, correctness
 [Program] --> [Correct?]
 [Spec] --> [Correct?]
 @enduml
-```
+\end{plantuml}
 
 ---
 
@@ -54,40 +52,40 @@ title Overview: program, spec, correctness
 
 We encode program behavior as logical formulas and discharge proof obligations with SMT solvers or proof assistants.
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Deductive reasoning pipeline
 [Program + Spec] --> [Generate Proof Obligations]
 [Generate Proof Obligations] --> [SMT Solver / Theorem Prover]
 [SMT Solver / Theorem Prover] --> [Valid / Invalid / Unknown]
 @enduml
-```
+\end{plantuml}
 
 ## 3.2 Abstract Interpretation
 
 Compute an **over-approximation** of reachable states (safe but may report false alarms).
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Abstract interpretation
 pgm -> "Abstract Model (lattice)"
 "Abstract Model (lattice)" -> "Fixpoint computation"
 "Fixpoint computation" -> "Over-approximation of reachable states"
 @enduml
-```
+\end{plantuml}
 
 ## 3.3 Model Checking
 
 Explicitly or symbolically enumerate reachable states and verify temporal properties (CTL/LTL). Exact for finite-state systems; faces state-explosion for larger systems.
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Model checking pipeline
 [System Model] --> [State Space / Kripke Structure]
 [Spec (LTL/CTL)] --> [Model Checker]
 [Model Checker] --> [Counterexample or Verified]
 @enduml
-```
+\end{plantuml}
 
 ## 3.4 Assisted Proofs (Proof Assistants)
 
@@ -122,13 +120,13 @@ $$
 Meaning: if $P$ holds in the initial state and $c$ executes (terminates), then $Q$ holds in the resulting state.
 Validity: for every state $\mu$, $\mu \models P \Rightarrow Mem(c,\mu) \models Q$ (assuming termination).
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Hoare triple idea
 [P: Precondition] --> [c: Command]
 [c: Command] --> [Q: Postcondition]
 @enduml
-```
+\end{plantuml}
 
 **Note:** Partial correctness excludes termination reasoning. Total correctness includes termination proof (often via variants/metrics).
 
@@ -231,7 +229,7 @@ Invariant: `acc = sum_{k=0}^{i-1} k` and `0 <= i <= n+1`. At termination `i = n+
 
 Model checking verifies properties often expressed in temporal logics (LTL/CTL). A counterexample is a concrete trace showing a property violation.
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Model checking: counterexample trace
 start
@@ -243,7 +241,7 @@ else (no)
 endif
 stop
 @enduml
-```
+\end{plantuml}
 
 **Small worked example (informal):** a mutual exclusion protocol with two processes. Model checker may find a trace where both enter critical section — that trace is a counterexample to mutual exclusion.
 
@@ -265,7 +263,7 @@ This is efficient and safe but loses some precision (e.g., relational facts like
 - Use **model checking** for concurrent/finite-state controllers and protocols.  
 - Use **proof assistants** to obtain end-to-end certified proofs when absolute guarantees are required.
 
-```{.plantuml}
+\begin{plantuml}
 @startuml
 title Combined verification workflow
 [Source code] --> [Front-end: parse/model]
@@ -273,7 +271,7 @@ title Combined verification workflow
 [Front-end: parse/model] --> [SMT / Hoare proof obligations (precise)]
 [Front-end: parse/model] --> [Model checker (finite-state)]
 @enduml
-```
+\end{plantuml}
 
 ---
 

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Completed Course Notes with PlantUML Diagrams and Examples">
+
+<title>Software Modeling and Verification — Expanded</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="software_modeling_verification_expanded_files/libs/clipboard/clipboard.min.js"></script>
+<script src="software_modeling_verification_expanded_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="software_modeling_verification_expanded_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="software_modeling_verification_expanded_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="software_modeling_verification_expanded_files/libs/quarto-html/popper.min.js"></script>
+<script src="software_modeling_verification_expanded_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="software_modeling_verification_expanded_files/libs/quarto-html/anchor.min.js"></script>
+<link href="software_modeling_verification_expanded_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="software_modeling_verification_expanded_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="software_modeling_verification_expanded_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="software_modeling_verification_expanded_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="software_modeling_verification_expanded_files/libs/bootstrap/bootstrap-bc0bad68cb9b3f5df58eb75ded1689ad.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview-what-is-verification" id="toc-overview-what-is-verification" class="nav-link active" data-scroll-target="#overview-what-is-verification">1. Overview: What is verification?</a></li>
+  <li><a href="#models-specifications-and-the-verification-question" id="toc-models-specifications-and-the-verification-question" class="nav-link" data-scroll-target="#models-specifications-and-the-verification-question">2. Models, Specifications, and the Verification Question</a></li>
+  <li><a href="#main-verification-approaches-with-diagrams" id="toc-main-verification-approaches-with-diagrams" class="nav-link" data-scroll-target="#main-verification-approaches-with-diagrams">3. Main Verification Approaches (with diagrams)</a>
+  <ul class="collapse">
+  <li><a href="#deductive-reasoning-hoare-logic-wp-smt" id="toc-deductive-reasoning-hoare-logic-wp-smt" class="nav-link" data-scroll-target="#deductive-reasoning-hoare-logic-wp-smt">3.1 Deductive Reasoning (Hoare Logic, WP, SMT)</a></li>
+  <li><a href="#abstract-interpretation" id="toc-abstract-interpretation" class="nav-link" data-scroll-target="#abstract-interpretation">3.2 Abstract Interpretation</a></li>
+  <li><a href="#model-checking" id="toc-model-checking" class="nav-link" data-scroll-target="#model-checking">3.3 Model Checking</a></li>
+  <li><a href="#assisted-proofs-proof-assistants" id="toc-assisted-proofs-proof-assistants" class="nav-link" data-scroll-target="#assisted-proofs-proof-assistants">3.4 Assisted Proofs (Proof Assistants)</a></li>
+  </ul></li>
+  <li><a href="#a-small-language-syntax-and-semantics" id="toc-a-small-language-syntax-and-semantics" class="nav-link" data-scroll-target="#a-small-language-syntax-and-semantics">4. A Small Language: Syntax and Semantics</a>
+  <ul class="collapse">
+  <li><a href="#operational-semantics-big-step-informal" id="toc-operational-semantics-big-step-informal" class="nav-link" data-scroll-target="#operational-semantics-big-step-informal">4.1 Operational Semantics (big-step, informal)</a></li>
+  </ul></li>
+  <li><a href="#hoare-logic-triples-and-validity" id="toc-hoare-logic-triples-and-validity" class="nav-link" data-scroll-target="#hoare-logic-triples-and-validity">5. Hoare Logic: Triples and Validity</a></li>
+  <li><a href="#weakest-preconditions-wp-definitions-and-examples" id="toc-weakest-preconditions-wp-definitions-and-examples" class="nav-link" data-scroll-target="#weakest-preconditions-wp-definitions-and-examples">6. Weakest Preconditions (WP) — definitions and examples</a>
+  <ul class="collapse">
+  <li><a href="#example-assignment" id="toc-example-assignment" class="nav-link" data-scroll-target="#example-assignment">6.1 Example: assignment</a></li>
+  <li><a href="#example-sequential-composition" id="toc-example-sequential-composition" class="nav-link" data-scroll-target="#example-sequential-composition">6.2 Example: sequential composition</a></li>
+  <li><a href="#example-hoare-proof-with-function-addab" id="toc-example-hoare-proof-with-function-addab" class="nav-link" data-scroll-target="#example-hoare-proof-with-function-addab">6.3 Example: Hoare proof with function <code>add(a,b)</code></a></li>
+  </ul></li>
+  <li><a href="#loops-invariants-and-termination" id="toc-loops-invariants-and-termination" class="nav-link" data-scroll-target="#loops-invariants-and-termination">7. Loops, Invariants and Termination</a>
+  <ul class="collapse">
+  <li><a href="#loop-invariants-how-to-choose-one" id="toc-loop-invariants-how-to-choose-one" class="nav-link" data-scroll-target="#loop-invariants-how-to-choose-one">7.1 Loop invariants (how to choose one)</a></li>
+  <li><a href="#example-sumn-using-loop-iterative-rewrite" id="toc-example-sumn-using-loop-iterative-rewrite" class="nav-link" data-scroll-target="#example-sumn-using-loop-iterative-rewrite">7.2 Example: sum(n) using loop (iterative rewrite)</a></li>
+  </ul></li>
+  <li><a href="#model-checking-example-and-counterexample" id="toc-model-checking-example-and-counterexample" class="nav-link" data-scroll-target="#model-checking-example-and-counterexample">8. Model Checking — example and counterexample</a></li>
+  <li><a href="#abstract-interpretation-example-abstract-domain" id="toc-abstract-interpretation-example-abstract-domain" class="nav-link" data-scroll-target="#abstract-interpretation-example-abstract-domain">9. Abstract Interpretation — example abstract domain</a></li>
+  <li><a href="#combining-approaches-in-practice" id="toc-combining-approaches-in-practice" class="nav-link" data-scroll-target="#combining-approaches-in-practice">10. Combining Approaches in Practice</a></li>
+  <li><a href="#additional-examples-detailed" id="toc-additional-examples-detailed" class="nav-link" data-scroll-target="#additional-examples-detailed">11. Additional Examples (detailed)</a>
+  <ul class="collapse">
+  <li><a href="#prove-minab-correctness" id="toc-prove-minab-correctness" class="nav-link" data-scroll-target="#prove-minab-correctness">11.1 Prove <code>min(a,b)</code> correctness</a></li>
+  <li><a href="#example-small-program-with-a-failing-spec-counterexample" id="toc-example-small-program-with-a-failing-spec-counterexample" class="nav-link" data-scroll-target="#example-small-program-with-a-failing-spec-counterexample">11.2 Example: small program with a failing spec (counterexample)</a></li>
+  </ul></li>
+  <li><a href="#practical-tips-and-tooling" id="toc-practical-tips-and-tooling" class="nav-link" data-scroll-target="#practical-tips-and-tooling">12. Practical Tips and Tooling</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">13. Summary</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Software Modeling and Verification — Expanded</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Completed Course Notes with PlantUML Diagrams and Examples </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview-what-is-verification" class="level1">
+<h1>1. Overview: What is verification?</h1>
+<p>Software verification answers: <strong>Does the program meet its specification?</strong></p>
+<ul>
+<li><strong>Functional properties</strong>: what the program computes (correctness of algorithms)<br>
+</li>
+<li><strong>Non-functional properties</strong>: time, memory, security, usability</li>
+</ul>
+<p>We formalize programs with mathematical <strong>models</strong> and express desired properties in <strong>logic</strong> so that tools can reason automatically or semi-automatically.</p>
+<hr>
+</section>
+<section id="models-specifications-and-the-verification-question" class="level1">
+<h1>2. Models, Specifications, and the Verification Question</h1>
+<p>A program source file has <em>syntax</em> (checked by compiler) and <em>semantics</em> (meaning). Compilers generally check syntax; verification tackles semantics.</p>
+<p><strong>Notation:</strong> <code>Program |= Spec</code> means the program satisfies the specification.</p>
+<pre class="plantuml"><code>@startuml
+'|title Overview: program, spec, correctness
+[Computer-based system / programs] -left-&gt; [Program: source + compiler]
+[Specifications] -right-&gt; [Spec: formal properties]
+[Program] --&gt; [Correct?]
+[Spec] --&gt; [Correct?]
+@enduml</code></pre>
+<hr>
+</section>
+<section id="main-verification-approaches-with-diagrams" class="level1">
+<h1>3. Main Verification Approaches (with diagrams)</h1>
+<section id="deductive-reasoning-hoare-logic-wp-smt" class="level2">
+<h2 class="anchored" data-anchor-id="deductive-reasoning-hoare-logic-wp-smt">3.1 Deductive Reasoning (Hoare Logic, WP, SMT)</h2>
+<p>We encode program behavior as logical formulas and discharge proof obligations with SMT solvers or proof assistants.</p>
+<pre class="plantuml"><code>@startuml
+'|title Deductive reasoning pipeline
+[Program + Spec] --&gt; [Generate Proof Obligations]
+[Generate Proof Obligations] --&gt; [SMT Solver / Theorem Prover]
+[SMT Solver / Theorem Prover] --&gt; [Valid / Invalid / Unknown]
+@enduml</code></pre>
+</section>
+<section id="abstract-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="abstract-interpretation">3.2 Abstract Interpretation</h2>
+<p>Compute an <strong>over-approximation</strong> of reachable states (safe but may report false alarms).</p>
+<pre class="plantuml"><code>@startuml
+'|title Abstract interpretation
+pgm -&gt; "Abstract Model (lattice)"
+"Abstract Model (lattice)" -&gt; "Fixpoint computation"
+"Fixpoint computation" -&gt; "Over-approximation of reachable states"
+@enduml</code></pre>
+</section>
+<section id="model-checking" class="level2">
+<h2 class="anchored" data-anchor-id="model-checking">3.3 Model Checking</h2>
+<p>Explicitly or symbolically enumerate reachable states and verify temporal properties (CTL/LTL). Exact for finite-state systems; faces state-explosion for larger systems.</p>
+<pre class="plantuml"><code>@startuml
+'|title Model checking pipeline
+[System Model] --&gt; [State Space / Kripke Structure]
+[Spec (LTL/CTL)] --&gt; [Model Checker]
+[Model Checker] --&gt; [Counterexample or Verified]
+@enduml</code></pre>
+</section>
+<section id="assisted-proofs-proof-assistants" class="level2">
+<h2 class="anchored" data-anchor-id="assisted-proofs-proof-assistants">3.4 Assisted Proofs (Proof Assistants)</h2>
+<p>User-guided, machine-checked proofs with tools like Coq, Isabelle — great for deep correctness theorems, less automated.</p>
+<hr>
+</section>
+</section>
+<section id="a-small-language-syntax-and-semantics" class="level1">
+<h1>4. A Small Language: Syntax and Semantics</h1>
+<p>We consider a tiny imperative language with integers and booleans, assignments, <code>if</code> and <code>while</code>, and function calls (simple).</p>
+<section id="operational-semantics-big-step-informal" class="level2">
+<h2 class="anchored" data-anchor-id="operational-semantics-big-step-informal">4.1 Operational Semantics (big-step, informal)</h2>
+<ul>
+<li>Memory/state: <span class="math inline">\(\mu: Var \rightarrow \mathbb{Z} \cup \{tt, ff\}\)</span><br>
+</li>
+<li><span class="math inline">\(Val(e,\mu)\)</span>: evaluation of expression <span class="math inline">\(e\)</span> in state <span class="math inline">\(\mu\)</span><br>
+</li>
+<li><span class="math inline">\(Mem(c,\mu)\)</span>: executing command <span class="math inline">\(c\)</span> in state <span class="math inline">\(\mu\)</span> returns new state <span class="math inline">\(\mu'\)</span> (if it terminates)</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li><span class="math inline">\(Mem(\text{y := 0},\mu) = \mu[y \leftarrow 0]\)</span></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="hoare-logic-triples-and-validity" class="level1">
+<h1>5. Hoare Logic: Triples and Validity</h1>
+<p>A Hoare triple is written:</p>
+<p><span class="math display">\[
+\{P\}\ c\ \{Q\}
+\]</span></p>
+<p>Meaning: if <span class="math inline">\(P\)</span> holds in the initial state and <span class="math inline">\(c\)</span> executes (terminates), then <span class="math inline">\(Q\)</span> holds in the resulting state. Validity: for every state <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\mu \models P \Rightarrow Mem(c,\mu) \models Q\)</span> (assuming termination).</p>
+<pre class="plantuml"><code>@startuml
+'|title Hoare triple idea
+[P: Precondition] --&gt; [c: Command]
+[c: Command] --&gt; [Q: Postcondition]
+@enduml</code></pre>
+<p><strong>Note:</strong> Partial correctness excludes termination reasoning. Total correctness includes termination proof (often via variants/metrics).</p>
+<hr>
+</section>
+<section id="weakest-preconditions-wp-definitions-and-examples" class="level1">
+<h1>6. Weakest Preconditions (WP) — definitions and examples</h1>
+<p><strong>Rules</strong> (deterministic language):</p>
+<ul>
+<li>Assignment: <span class="math inline">\(WP(x := t, Q) = Q[x \leftarrow t]\)</span><br>
+</li>
+<li>Sequence: <span class="math inline">\(WP(i_1; i_2, Q) = WP(i_1, WP(i_2, Q))\)</span><br>
+</li>
+<li>Conditional: <span class="math inline">\(WP(\text{if } b \text{ then } i_1 \text{ else } i_2, Q) = (b \Rightarrow WP(i_1,Q)) \land (\neg b \Rightarrow WP(i_2,Q))\)</span></li>
+</ul>
+<section id="example-assignment" class="level3">
+<h3 class="anchored" data-anchor-id="example-assignment">6.1 Example: assignment</h3>
+<p>Program: <code>x := x + 1</code> and postcondition <code>Q: x &gt;= 1</code>.</p>
+<p>Compute WP:</p>
+<ul>
+<li><span class="math inline">\(WP(x := x + 1, x \ge 1) = (x + 1 \ge 1)\)</span></li>
+<li>Simplify: <span class="math inline">\(x \ge 0\)</span></li>
+</ul>
+<p>Thus, the Hoare triple <code>{x &gt;= 0} x := x + 1 {x &gt;= 1}</code> is valid.</p>
+</section>
+<section id="example-sequential-composition" class="level3">
+<h3 class="anchored" data-anchor-id="example-sequential-composition">6.2 Example: sequential composition</h3>
+<p>Program:</p>
+<pre class="{text}"><code>y := x + 2;
+x := y - 1;</code></pre>
+<p>Postcondition: <code>Q: x &gt;= 5</code>.</p>
+<p>Compute backwards:</p>
+<ul>
+<li>WP(<code>x := y - 1</code>, <code>x &gt;= 5</code>) = <code>y - 1 &gt;= 5</code> ⇒ <code>y &gt;= 6</code><br>
+</li>
+<li>WP(<code>y := x + 2</code>, <code>y &gt;= 6</code>) = <code>x + 2 &gt;= 6</code> ⇒ <code>x &gt;= 4</code></li>
+</ul>
+<p>So <code>{x &gt;= 4} y := x + 2; x := y - 1 {x &gt;= 5}</code></p>
+</section>
+<section id="example-hoare-proof-with-function-addab" class="level3">
+<h3 class="anchored" data-anchor-id="example-hoare-proof-with-function-addab">6.3 Example: Hoare proof with function <code>add(a,b)</code></h3>
+<p>Consider the simple loop-based addition (from your notes):</p>
+<pre class="{text}"><code>add(a, b) =
+  res := a;
+  aux := b;
+  while aux &gt; 0 do
+    res := res + 1;
+    aux := aux - 1;
+  done;
+  res</code></pre>
+<p>We want partial correctness: <code>{aux = b &amp; res = a} loop {res = a + b}</code> at loop exit.</p>
+<p><strong>Loop invariant</strong> candidate: <code>I: res = a + (b - aux)</code> and <code>aux &gt;= 0</code>.</p>
+<ul>
+<li>Initialization: before loop, <code>res = a</code> and <code>aux = b</code> ⇒ <code>res = a + (b - b) = a</code>. OK.<br>
+</li>
+<li>Preservation: assume <code>I</code> and <code>aux &gt; 0</code> hold, after the body:
+<ul>
+<li><code>res' = res + 1 = a + (b - aux) + 1 = a + (b - (aux - 1))</code><br>
+</li>
+<li><code>aux' = aux - 1</code><br>
+So invariant holds for next iteration.<br>
+</li>
+</ul></li>
+<li>Termination (when loop ends): <code>aux = 0</code> ⇒ invariant gives <code>res = a + (b - 0) = a + b</code>. So postcondition holds.</li>
+</ul>
+<p>Thus the loop is partially correct wrt the specification.</p>
+<hr>
+</section>
+</section>
+<section id="loops-invariants-and-termination" class="level1">
+<h1>7. Loops, Invariants and Termination</h1>
+<section id="loop-invariants-how-to-choose-one" class="level3">
+<h3 class="anchored" data-anchor-id="loop-invariants-how-to-choose-one">7.1 Loop invariants (how to choose one)</h3>
+<ul>
+<li>Derive invariant from desired postcondition by working backwards.<br>
+</li>
+<li>Invariants must be strong enough to imply postcondition when combined with loop exit condition.<br>
+</li>
+<li>For termination proofs, provide a <strong>variant</strong> (a well-founded integer measure) that strictly decreases each iteration and is bounded below (e.g., <code>aux</code> in the example).</li>
+</ul>
+</section>
+<section id="example-sumn-using-loop-iterative-rewrite" class="level3">
+<h3 class="anchored" data-anchor-id="example-sumn-using-loop-iterative-rewrite">7.2 Example: sum(n) using loop (iterative rewrite)</h3>
+<p>Recursive <code>sum(n)</code> in your notes can be made iterative:</p>
+<pre class="{text}"><code>sum_iter(n):
+  i := 0;
+  acc := 0;
+  while i &lt;= n do
+    acc := acc + i;
+    i := i + 1;
+  done;
+  return acc;</code></pre>
+<p>Invariant: <code>acc = sum_{k=0}^{i-1} k</code> and <code>0 &lt;= i &lt;= n+1</code>. At termination <code>i = n+1</code>, so <code>acc = sum_{k=0}^n k = n(n+1)/2</code>.</p>
+<hr>
+</section>
+</section>
+<section id="model-checking-example-and-counterexample" class="level1">
+<h1>8. Model Checking — example and counterexample</h1>
+<p>Model checking verifies properties often expressed in temporal logics (LTL/CTL). A counterexample is a concrete trace showing a property violation.</p>
+<pre class="plantuml"><code>@startuml
+'|title Model checking: counterexample trace
+start
+:Initial state s0;
+if (property holds?) then (yes)
+  :Verified;
+else (no)
+  :Return counterexample trace (s0 -&gt; s1 -&gt; ... -&gt; sk);
+endif
+stop
+@enduml</code></pre>
+<p><strong>Small worked example (informal):</strong> a mutual exclusion protocol with two processes. Model checker may find a trace where both enter critical section — that trace is a counterexample to mutual exclusion.</p>
+<hr>
+</section>
+<section id="abstract-interpretation-example-abstract-domain" class="level1">
+<h1>9. Abstract Interpretation — example abstract domain</h1>
+<p>Abstract interpretation uses lattices (e.g., intervals, signs, parity) to safely approximate sets of states.</p>
+<p><strong>Interval domain example:</strong> Track <code>x</code> as interval <code>[l, u]</code>. For <code>x := x + 1</code> we map <code>[l, u] -&gt; [l+1, u+1]</code>. This is efficient and safe but loses some precision (e.g., relational facts like <code>x = y + 1</code>).</p>
+<hr>
+</section>
+<section id="combining-approaches-in-practice" class="level1">
+<h1>10. Combining Approaches in Practice</h1>
+<ul>
+<li>Use <strong>static analyzers / abstract interpreters</strong> for scalable bug-finding (e.g., taint analysis).<br>
+</li>
+<li>Use <strong>SMT-based verification</strong> for verifying small but complex algorithms (e.g., sorting routines).<br>
+</li>
+<li>Use <strong>model checking</strong> for concurrent/finite-state controllers and protocols.<br>
+</li>
+<li>Use <strong>proof assistants</strong> to obtain end-to-end certified proofs when absolute guarantees are required.</li>
+</ul>
+<pre class="plantuml"><code>@startuml
+'|title Combined verification workflow
+[Source code] --&gt; [Front-end: parse/model]
+[Front-end: parse/model] --&gt; [Abstract interpreter (fast)]
+[Front-end: parse/model] --&gt; [SMT / Hoare proof obligations (precise)]
+[Front-end: parse/model] --&gt; [Model checker (finite-state)]
+@enduml</code></pre>
+<hr>
+</section>
+<section id="additional-examples-detailed" class="level1">
+<h1>11. Additional Examples (detailed)</h1>
+<section id="prove-minab-correctness" class="level2">
+<h2 class="anchored" data-anchor-id="prove-minab-correctness">11.1 Prove <code>min(a,b)</code> correctness</h2>
+<p>Program:</p>
+<pre class="{text}"><code>min(a, b) =
+  if a &lt; b then
+    res := a
+  else
+    res := b
+  endif;
+  res</code></pre>
+<p>Spec: <code>returns min(a,b)</code> i.e.&nbsp;<code>res &lt;= a &amp; res &lt;= b &amp; (res = a or res = b)</code>.</p>
+<p>Use WP for each branch:</p>
+<ul>
+<li>If <code>a &lt; b</code> branch: post <code>Q</code> becomes <code>Q[res := a]</code> which is <code>a &lt;= a &amp; a &lt;= b &amp; (a = a or a = b)</code> — simplifies to <code>a &lt;= b</code> needed. But since the branch is taken under <code>a &lt; b</code> (stronger than <code>a &lt;= b</code>), the triple holds.<br>
+</li>
+<li>If <code>not (a &lt; b)</code> branch: symmetrical reasoning.</li>
+</ul>
+<p>Combine using conditional rule and the guard conditions; the triple is valid.</p>
+</section>
+<section id="example-small-program-with-a-failing-spec-counterexample" class="level2">
+<h2 class="anchored" data-anchor-id="example-small-program-with-a-failing-spec-counterexample">11.2 Example: small program with a failing spec (counterexample)</h2>
+<p>Program:</p>
+<pre class="{text}"><code>x := 0;
+y := 1;
+if y = 0 then
+  x := x + 1
+else
+  skip
+endif;</code></pre>
+<p>Spec: final <code>x = 1</code>.</p>
+<p>Compute WP: <code>WP(if y=0 then x:=x+1 else skip, x=1) = (y=0 =&gt; WP(x:=x+1, x=1)) &amp; (y&lt;&gt;0 =&gt; WP(skip, x=1))</code><br>
+- WP(x:=x+1, x=1) = <code>x+1 = 1</code> ⇒ <code>x = 0</code>.<br>
+- WP(skip, x=1) = <code>x = 1</code>.<br>
+So WP overall: <code>(y=0 =&gt; x = 0) &amp; (y&lt;&gt;0 =&gt; x = 1)</code>. Before the <code>if</code>, we had <code>x := 0; y := 1</code> ⇒ state is <code>x=0, y=1</code>. Evaluate WP: since <code>y&lt;&gt;0</code> branch holds, we need <code>x=1</code> but <code>x=0</code>. Hence the triple is invalid and a counterexample state exists (the actual run gives <code>x=0</code> at the end).</p>
+<hr>
+</section>
+</section>
+<section id="practical-tips-and-tooling" class="level1">
+<h1>12. Practical Tips and Tooling</h1>
+<ul>
+<li>Express assertions and invariants early and keep them simple.<br>
+</li>
+<li>Use automated invariant inference when available, but validate them manually.<br>
+</li>
+<li>Combine quick scalable analyses (abstract interpretation) with precise checks (SMT) in a staged pipeline.<br>
+</li>
+<li>For concurrent systems, model-check small instances to find concurrency bugs (then generalize proofs).</li>
+</ul>
+<hr>
+</section>
+<section id="summary" class="level1">
+<h1>13. Summary</h1>
+<ul>
+<li><strong>Verification</strong> is the formal study of program correctness; several approaches exist (deduction, abstract interpretation, model checking, proof assistants).<br>
+</li>
+<li><strong>Hoare Logic</strong> and WP let us derive preconditions and structure proofs.<br>
+</li>
+<li><strong>Loop invariants</strong> and <strong>variants</strong> are central for reasoning about loops and termination.<br>
+</li>
+<li><strong>Abstract interpretation</strong> trades precision for scalability; <strong>model checking</strong> trades scalability for exhaustiveness on finite-state models.<br>
+</li>
+<li>A pragmatic verification workflow mixes tools to get early feedback (fast over-approx), deep proofs for critical components, and model checking for protocols.</li>
+</ul>
+<hr>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
