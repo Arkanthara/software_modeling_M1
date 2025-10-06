@@ -1,0 +1,25 @@
+use int.Int
+use int.EuclideanDivision
+use ref.Ref
+
+let stupidadd (a b: int) : int = 
+  let ref a1 = a in
+  let ref b1 = b in
+  while (b > 0) do
+    a1 <- a1 + 1;
+    b1 <- b1 - 1;
+   done;
+   a1
+
+let eucliddiv (a b: int) : int =
+  requires { b > 0 /\ a >= 0 }
+  ensures { let r = result in exists q: int. a = b * q + r /\ 0 <= r < b }
+  let ref quot = 0 in
+  let ref rest = a in
+  while (rest >= b) do
+    invariant { a = rest + quot * b /\ rest >= 0 }
+    variant { rest }
+    rest <- rest - b;
+    quot <- quot + 1;
+   done;
+   quot
