@@ -1,0 +1,19 @@
+use int.Int
+use ref.Ref
+use array.Array
+use int.EuclideanDivision
+
+let binarysearch(a: array int) (elem: int) =
+  let ref l = 0 in
+  let ref u = length a - 1 in
+  while (l <= u) do
+    let ref m = div (u-l) 2 in
+    if (a[m] < elem) then
+      l <- m + 1
+    else
+      if (a[m] > elem) then
+        u <- m + 1
+      else
+        return m;
+  done;
+  return -1
