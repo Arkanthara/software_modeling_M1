@@ -1,0 +1,33 @@
+# SMT Solving
+
+## SAT Solving
+
+1. Equivalent CNF formula contains $2^n$ clauses (each time we must distribuate: $A \lor (B \land C) = (A \lor B) \land (A \lor C))$
+
+3. Example
+$$P = r \land (q \lor \neg r) \land (s \lor \neg r) \land (p \lor \neg q \lor \neg s) \land (\neg p \lor \neg q \lor \neg s)$$
+$$P[r] = q \land s \land (p \lor \neg q \lor \neg s) \land (\neg p \lor \neg q \lor \neg s)$$
+$$P[r, q] = s \land (p \lor \neg s) \land (\neg p \lor \neg s)$$
+$$P[r, q, s] = p \land \neg p$$
+$$P[r, q, s, p] = False$$
+
+4. Candy box
+
+$$P = (A \lor B \lor C) \land (A \Longrightarrow B) \land (\neg A \Longrightarrow \neg B) \land ((A \land B) \Longrightarrow C) \land ((\neg A \land \neg B) \Longrightarrow \neg C)$$
+$$P = (A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C)$$
+$$P[A] = B \land (\neg B \lor C)$$
+$$P[A, B] = C$$
+$$P[A, B, C] = True$$
+
+$A \Longrightarrow B$
+
+To check if proof $P$ is valid:
+
+proof that $\neg P$ is unsatifiable !!
+
+So $\neg (A \Longrightarrow B) \equiv A \land \neg B$ is unsatifiable
+
+$$P = (A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C) \land (\neg A \lor \neg B \lor \neg C)$$
+$$P[A] = B \land (\neg B \lor C) \land (\neg B \lor \neg C)$$
+$$P[A, B] = C \land \neg C$$
+$$P[A, B, C] = False$$
