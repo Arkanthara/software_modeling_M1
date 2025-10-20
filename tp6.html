@@ -93,6 +93,16 @@ window.Quarto = {
 <p>So <span class="math inline">\(\neg (A \Longrightarrow B) \equiv A \land \neg B\)</span> is unsatifiable</p>
 <p><span class="math display">\[\neg P = (A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C) \land (\neg A \lor \neg B \lor \neg C)\]</span> <span class="math display">\[\neg P[A] = B \land (\neg B \lor C) \land (\neg B \lor \neg C)\]</span> <span class="math display">\[\neg P[A, B] = C \land \neg C\]</span> <span class="math display">\[\neg P[A, B, C] = False\]</span></p>
 <p>So <span class="math inline">\(\neg P\)</span> is unsatifiable so <span class="math inline">\(P\)</span> is valid !</p>
+<ol start="5" type="1">
+<li>Proof by refutation</li>
+</ol>
+<p>E contains NO positive OR NO negative clauses</p>
+<p>E contains NO positive clause</p>
+<p><span class="math display">\[(\neg a_1 \lor b \lor \cdots) \land (\neg a_2 \lor c \lor \cdots) \land \cdots\]</span></p>
+<p>Set to false every literal appearing negeted in every clause =&gt; contradiction, E is satisfied !!!</p>
+<p>E contains NO negative clauses</p>
+<p><span class="math display">\[(a_1 \lor \neg b \lor \cdots) \land (a_2 \lor \neg c \lor \cdots) \land \cdots\]</span></p>
+<p>set to true every literal appearing without negation in every clause =&gt; E is satisfied, contradiction</p>
 </section>
 </section>
 

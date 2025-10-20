@@ -30,3 +30,21 @@ $$\neg P[A, B] = C \land \neg C$$
 $$\neg P[A, B, C] = False$$
 
 So $\neg P$ is unsatifiable so $P$ is valid !
+
+5. Proof by refutation
+
+E contains NO positive OR NO negative clauses
+
+E contains NO positive clause
+
+$$(\neg a_1 \lor b \lor \cdots) \land (\neg a_2 \lor c \lor \cdots) \land \cdots$$
+
+Set to false every literal appearing negeted in every clause
+ => contradiction, E is satisfied !!!
+
+E contains NO negative clauses
+
+$$(a_1 \lor \neg b \lor \cdots) \land (a_2 \lor \neg c \lor \cdots) \land \cdots$$
+ 
+ set to true every literal appearing without negation in every clause
+ => E is satisfied, contradiction
