@@ -1,0 +1,145 @@
+---
+title: SMT Solving
+---
+
+# Introduction
+
+SMT: Sat-Modulo Theory
+
+-> n > 0 => n - 1 <= n
+-> $\neg(aux > 0) $ /\ $(res + aux = a + b)$ /\ $aux \geq 0$
+
+why3 -> WP precond => WP(..., postcond)
+obtains conditions like these and delegates the satisfaction of such a formula to a SMT solver
+
+$\underbrace{b \geq 0 \Longrightarrow a + b = a + b /\ b \geq 0}_{P(a, b)}$
+
+$\forall a, b$, $P(a, b)$
+
+- basic mechanisms of SMT-Solving
+- How it connect to tools such as why3
+
+
+# SAT-Solving
+
+SAT-Problem
+
+Propositional Logic: variables -> propositional $Var = {p, q, ...}$ $p, q$ can be $true / false$
+
+$+$ Logic connectors, $\land, \lor, \implies, \neg, \cdots$
+
+Grammar generate a PL formula.
+
+$F \longmapsto P$
+$\longmapsto \neg F$
+$\longmapsto F \land F | F \lor F | F \Longrightarrow F$
+
+why3 begin to compute $\land$ and then $\lor$ !
+
+::: {.notes}
+$p \Longrightarrow q \Longrightarrow t \Longleftrightarrow p \Longrightarrow (q \Longrightarrow t)$
+:::
+
+### Satisfaction of a PL formula ?
+ (Complete this part, please !!!)
+
+ - f: PL blabla -> true -> false
+- an interpretation: I is Var -> {true, false}
+- I is extended to any PL formula
+  - if $f = p \in Var$  $I(f) = I(p)$
+  - if $f = \neg f'$  $I(f) = \text{true iff} I(f') = false$
+  - if $f = f_1 \lor (\land) f_2$ $I(f) = \text{true iff} I(f_1) = true \text{or / and} I(f_2) = true$
+  - if $f = f_1 \Longrightarrow f_2$  $I(f) = \text{true iff is} I(f_1) \text{is true then} I(f_2) \text{is true (otherwise false)}$
+
+- $f$ is satisfied by $I$ ($I \models f$) iff $I(f)$ is true
+- $f$ is satisfiable iff $\exists I, I \models f$
+- $f$ is valid iff $\forall I, I \models f$ (a tanto logy ???)
+
+ex:
+
+$\forall a, \forall b, P(a, b)$
+- why3: $f$ valid
+- SAT: satisfiability of a formula
+  $\Longrightarrow f$ is unsatisfiable: $\forall I, I(f) = false \Longleftrightarrow \forall I, I(\neg f) = true \Longleftrightarrow I(\neg f) is valid$
+
+$\Longrightarrow g \text{valid} \Longleftrightarrow \neg g \text{is unsatisfiable}$
+
+This is called *Proof by refutation*
+
+Usually, $g$ wil be writtent as some hypothesis implies some conclusion, so $\neg g = hypothesis \land \neg concl$ 
+
+### SAT-problem
+
+$f$: PL formula -> answers: is the formula satisfiable ??? 
+
+graph: f --> SAT, SAT --> yes, SAT --> no (please create simple tikz graph here according to relations given !!!)
+
+$#$ if interpretations: $2^n$
+Decidable: $\exists$ algorithm to solve it 
+NP-Complete: $\Longrightarrow$ no efficient algorithm !!!
+
+May fail due to lack of ressources Mem | time
+
+#### An (old) method ot solve the problem
+
+(Make good definition of CNF equivalent formula here !!!)
+
+$f$: PL formula
+$\Longrightarrow$ transform it in a conjunctive normal formula (CNF) equivalent formula 
+
+CNF: $C_1 \land C_2 \land \cdots \land C_n$ $C_i$: clause subformula... $C_i = f^i_1 \lor f^i_2 \lor \cdots \lor f^i_n$ with $f^i_j$ a litterals $\in Var \lor {\neg p, p\in Var}$
+
+EX: (generate example here !)
+
+(Admitted) For every $f$ (PL formula), $\exists$ a PL formula in CNF which is equivalent to $f$.
+
+
+So we restrict the SAT problem to CNF satisfiability.
+
+graph: f --> CNF, CNF -equiv f-> SAT, SAT --> yes, SAT --> no (make tikz graph here !!!)
+
+Remark:
+
+- $P \land (a \lor \neg a \lor \cdots \lor \cdots) \land Q \underbrace{\longrightarrow}_{\text{simplify} P \land Q$
+- $P \land \underbrace{a}_{\text{unit clause (contains only 1 litteral)}} \land Q$
+  if $(P \land a \land Q = true$) then ($a = true$, $P \land Q$ = true) enforces the value of a. => solve the problem $P \land Q$
+
+#### DPLL (Davis-Putman-Logeman-Lovelang 1962)
+
+(make good and structured definition here !!)
+
+$P$ = PL CNF formula
+For $x \in Var \lor {\neg p, p \in Var}$ a litteral, $P[x]$ is the formula obtained enforcing the waluve of $x$ to true, the result is satisfied.
+
+- if $x$ is in a clause of $P$, $P = A \land (\cdots \lor x \lor \cdots) B$ => $P[x]  = A \land B$
+- if $x$ contains only one clause, $P = (\cdots \lor x \lor \cdots)$ => $P[x] = true$
+- if $\neg x$ appears in $P$, then $P = A \land (\cdots \lor \neg x \lor \cdots) \land B$ => $P[x] = A \land (\cdots \lor \cdots) \land B$
+- if $\neg x$ appears in a unit clause, $P = A \land \neg x \land B$ => $P[x] = false$
+
+DPLL(P) = returns true iff $P$ is satisfialbe
+
+- if $P = true$ then return true
+- if $P = false$ then return false
+- if $P$ contains a unit clause $x$, then return DPLL($P[x]$) 
+
+Pick a variable $x$ in $P$ and then we try: return DPLL($P[x]$) or (it's a lazy operator !) DPLL($P[\neg x$])
+
+- algo terminates !!!
+
+  Hoare Logic
+
+  the variant is the number of variables in $P$ (it decreases by 1 at each call)
+
+- algo return true iff $P$ is satisfiable
+
+Example: 
+$P = (p \lor q \lor r) \land (\neg q \lor r) \land \neg r \land (\neg p \lor q \lor r)$
+DPLL($P$) = 
+
+- $P[\neg r] = (p \lor q) \land \neg q \land (\neg p \lor q)$
+- $P[\neg r, \neg q] = p \land \neg p$
+- $P[\neg r, \neg q, p] = False$
+
+=> $P$ is unsatisfiable
+
+if DPLL(Q) = $Q[p, \neg r, \cdots] = True$, we know how to set variables to have true => $Q$ is satisfiable !!!
