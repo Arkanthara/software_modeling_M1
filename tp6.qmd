@@ -13,11 +13,8 @@ $$P[r, q, s, p] = False$$
 
 4. Candy box
 
-$$P = (A \lor B \lor C) \land (A \Longrightarrow B) \land (\neg A \Longrightarrow \neg B) \land ((A \land B) \Longrightarrow C) \land ((\neg A \land \neg B) \Longrightarrow \neg C)$$
-$$P = (A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C)$$
-$$P[A] = B \land (\neg B \lor C)$$
-$$P[A, B] = C$$
-$$P[A, B, C] = True$$
+$$P = ((A \lor B \lor C) \land (A \Longrightarrow B) \land (\neg A \Longrightarrow \neg B) \land ((A \land B) \Longrightarrow C) \land ((\neg A \land \neg B) \Longrightarrow \neg C)) \Longrightarrow (A \land B \land C)$$
+$$P = ((A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C)) \Longrightarrow (A \land B \land C)$$
 
 $A \Longrightarrow B$
 
@@ -27,7 +24,9 @@ proof that $\neg P$ is unsatifiable !!
 
 So $\neg (A \Longrightarrow B) \equiv A \land \neg B$ is unsatifiable
 
-$$P = (A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C) \land (\neg A \lor \neg B \lor \neg C)$$
-$$P[A] = B \land (\neg B \lor C) \land (\neg B \lor \neg C)$$
-$$P[A, B] = C \land \neg C$$
-$$P[A, B, C] = False$$
+$$\neg P = (A \lor B \lor C) \land (\neg A \lor B) \land (A \lor \neg B) \land (\neg A \lor \neg B \lor C) \land (A \lor B \lor \neg C) \land (\neg A \lor \neg B \lor \neg C)$$
+$$\neg P[A] = B \land (\neg B \lor C) \land (\neg B \lor \neg C)$$
+$$\neg P[A, B] = C \land \neg C$$
+$$\neg P[A, B, C] = False$$
+
+So $\neg P$ is unsatifiable so $P$ is valid !
