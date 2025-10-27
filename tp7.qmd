@@ -1,0 +1,206 @@
+# DPLL
+
+## DPLL(T)
+
+### Part 1
+
+Use **DPLL(T)** to solve the following:
+
+$ (a + 1 \leq b \lor a \leq 1)$
+$\land (a + 1 > b \lor a > b + c)$  
+$\land (b > 0 \lor a + b > b + b)$  
+$\land (a \le b + c \lor b > 0 \lor c > 0)$ 
+
+- $p \longrightarrow a + 1 \leq b$
+- $q \longrightarrow a \leq 1$
+- $r \longrightarrow a > b + c$
+- $s \longrightarrow b > 0$
+- $t \longrightarrow a + b > b + b$
+- $u \longrightarrow c > 0$
+
+$f = (p \lor q) \land (\neg p \lor r) \land (s \lor t) \land (\neg r \lor s \lor u)$
+
+$DPLL(f[p]) = r \land (s \lor t) \land (\neg r \lor s \lor u)$
+$DPLL(f[p, r]) = (s \lor t) \land (s \lor u)$
+$DPLL(f[p, r, s]) = True$
+
+Reconstruct the formula:
+
+$M_T = A^{-1}(M) \longrightarrow (a + 1 \leq b) \land (a > b + c) \land (b > 0)$
+
+Choose $a = 10, b = 11, c = -2$.
+
+So yes, the system is satisfiable !
+
+**Questions:**
+- Which theory do you use?
+  Integers
+- Is the system satisfiable?  
+
+---
+
+### Part 2
+
+Again, use **DPLL(T)** to solve the following:
+
+$a = b \lor f(b) = f(d))$
+$\land(a \ne b \lor f(c) = f(b))$
+$\land(a \ne b \lor g(f(b)) \ne g(f(a)) \lor g(f(a)) \ne g(f(c)))$
+$\land(f(b) \ne f(d) \lor g(f(a)) = g(f(c)))$
+$\land(f(b) \ne f(d) \lor f(c) = f(b))$
+$\land(a = c \lor a = d)$
+$\land(a = b \lor f(a) \ne f(d))$
+
+**Questions:**
+- Which theory do you use?
+  Integers, Functions
+- Is the system satisfiable?  
+
+- $p \longrightarrow a = b$
+- $q \longrightarrow f(b) = f(d)$
+- $r \longrightarrow f(c) = f(b)$
+- $s \longrightarrow g(f(b)) \neq g(f(a))$
+- $t \longrightarrow g(f(a)) \neq g(f(c))$
+- $u \longrightarrow a = c$
+- $v \longrightarrow a = d$
+- $w \longrightarrow f(a) \neq f(d)$
+
+$f = (p \lor q) \land (\neg p \lor r)\land (\neg p \lor s \lor t)\land (\neg q \lor \neg t)\land (\neg q \lor r)\land (u \lor v)\land (p \lor w)$
+
+$DPLL(f[p]) = r \land ( s \lor t) \land (\neg q \lor \neg t) \land (\neg q \lor r) \land (u \lor v)$
+$DPLL(f[p, r]) =  ( s \lor t) \land (\neg q \lor \neg t) \land (u \lor v)$
+$DPLL(f[p, r, t]) = \neg q \land (u \lor v)$
+$DPLL(f[p, r, t, \neg q]) = u \lor v$
+$DPLL(f[p, r, t, \neg q, u]) = True$
+
+$M_T = A^{-1}(f) = (a = b) \land (f(c) = f(b)) \land (g(f(a)) \ne g(f(c))) \land (f(b) \ne f(d)) \land (a = c)$
+
+$\Longrightarrow$ unsatisfiable because $a = c \Longrightarrow f(a) = f(c) \Longrightarrow g(f(a)) = g(f(c)) \neq g(f(a)) \neq g(f(c))$
+
+$DPLL(f[p]) =  r\land (s \lor t)\land (\neg q \lor \neg t)\land (\neg q \lor r)\land (u \lor v)\land (\neg t \lor \neg u)$
+$DPLL(f[p, r, \neg t]) =  s \land (u \lor v)$
+$DPLL(f[p, r, s, \neg t]) =  (u \lor v)$
+$DPLL(f[p, r, s, \neg t, u]) = True$
+
+$M_T = A^{-1}(M) = (a = b) \land (f(c) = f(b)) \land (g(f(b)) \ne g(f(a))) \land \neg(g(f(a)) \ne g(f(c))) \land (a = c)$
+
+$\Longrightarrow$ unsatisfiable because $a = b \Longrightarrow f(a) = f(b) \Longrightarrow g(f(a)) = g(f(b)) \neq g(f(a)) \neq g(f(b))$
+
+
+$DPLL(f[p]) =  r\land (s \lor t)\land (\neg q \lor \neg t)\land (\neg q \lor r)\land (u \lor v)\land (\neg t \lor \neg u) \land \neg s$
+$DPLL(f[p, r]) =  (s \lor t)\land (\neg q \lor \neg t)\land (u \lor v)\land (\neg t \lor \neg u) \land \neg s$
+$DPLL(f[p, r, \neg s]) =  t\land (\neg q \lor \neg t)\land (u \lor v)\land (\neg t \lor \neg u)$
+$DPLL(f[p, r, \neg s, t]) = \neg q \land (u \lor v)\land \neg u$
+$DPLL(f[p, r, \neg s, t, \neg q, \neg u, v]) = True$
+
+$M_T = A^{-1}(M) = (a = b) \land (f(c) = f(b)) \land \neg(g(f(b)) \ne g(f(a))) \land (g(f(a)) \ne g(f(c))) \land \neg(f(b) = f(d)) \land \neg(a = c) \land (a = d)$
+
+$DPLL(f[p]) =  r\land (s \lor t)\land (\neg q \lor \neg t)\land (\neg q \lor r)\land (u \lor v)\land (\neg t \lor \neg u) \land \neg s \land (\neg v \lor \neg u \lor \neg r)$
+$DPLL(f[p, r]) =  (s \lor t)\land (\neg q \lor \neg t)\land (u \lor v)\land (\neg t \lor \neg u) \land \neg s \land (\neg v \lor \neg u)$
+$DPLL(f[p, r, \neg s]) =  t\land (\neg q \lor \neg t)\land (u \lor v)\land (\neg t \lor \neg u) \land (\neg v \lor \neg u)$
+$DPLL(f[p, r, \neg s, t]) = \neg q \land (u \lor v)\land \neg u \land (\neg v \lor \neg u)$
+$DPLL(f[p, r, \neg s, t, \neg q, \neg u, v]) = True$
+
+$M_T = A^{-1}(M) = (a = b) \land (f(c) = f(b)) \land \neg(g(f(b)) \ne g(f(a))) \land (g(f(a)) \ne g(f(c))) \land \neg(f(b) = f(d)) \land \neg(a = c) \land (a = d)$
+
+
+$DPLL(f[p]) =  r\land (s \lor t)\land (\neg q \lor \neg t)\land (\neg q \lor r)\land (u \lor v)\land (\neg t \lor \neg u) \land \neg s \land (\neg v \lor \neg u \lor \neg r) \land (q \lor \neg v)$
+$DPLL(f[p, r, \neg s]) = t\land (\neg q \lor \neg t)\land (u \lor v)\land (\neg t \lor \neg u) \land (\neg v \lor \neg u) \land (q \lor \neg v)$
+$DPLL(f[p, r, \neg s, t]) = \neg q\land (u \lor v)\land \neg u \land (\neg v \lor \neg u) \land (q \lor \neg v)$
+$DPLL(f[p, r, \neg s, t \neg q]) = (u \lor v)\land \neg u \land (\neg v \lor \neg u) \land \neg v$
+$DPLL(f[p, r, \neg s, t \neg q, \neg u]) = v \land \neg v$
+
+So Not satisfiable !!!!!!
+
+(Warning !!!! $p \land v \Longrightarrow q$ gives $\neg p \lor \neg v \lor q$ condition !!!)
+
+## Theory for arrays
+
+Let us introduce the theory on arrays. We use the two functions:
+
+- `store(a,i,e)`: returns the same array as `a`, with the element `e` placed at index `i`.
+- `select(a,i)`: returns the element of `a` at index `i`.
+
+Express the following statements as **First-Order Logic (FOL) formulas**:
+
+1. If an element `e` is stored at index `i` in an array `a`, then what is selected afterwards at index `i` is actually `e`:
+
+$$
+\forall a, i, e.\ \text{select}(\text{store}(a,i,e), i) = e
+$$
+
+2. If an element `e` is stored at index `i` in an array `a`, then what is selected afterwards at an index different from `i` is actually what was in `a` before the store operation:
+
+$$
+\forall a, i, j, e.\ i \neq j \Rightarrow \text{select}(\text{store}(a,i,e), j) = \text{select}(a,j)
+$$
+
+3. If two arrays contain the same elements at the same indices then they are the same:
+
+$$
+\forall a, b.\ (\forall i.\ \text{select}(a,i) = \text{select}(b,i)) \Rightarrow a = b
+$$
+
+---
+
+## 1.3 Little test code
+
+You are given the following two pieces of code. `a` is an array, `i` and `j` are two valid indices, and `b` and `c` are two integer values:
+
+```text
+array1(a,i,j,b,c):
+  a[i] := b;
+  a[j] := c;
+
+array2(a,i,j,b,c):
+  a[j] := c;
+  a[i] := b;
+```
+
+### Questions
+
+1. Are `array1` and `array2` equivalent?
+
+2. Express `array1` and `array2` using the theory for arrays from the previous exercise:
+
+$$
+\text{array1\_result} = \text{store}(\text{store}(a, i, b), j, c)
+$$
+
+$$
+\text{array2\_result} = \text{store}(\text{store}(a, j, c), i, b)
+$$
+
+3. Intuitively, for which conditions is the result of `array1` equal to the result of `array2$?
+
+$$
+\text{array1\_result} = \text{array2\_result} \quad \text{iff } i = j \text{ or } b = c
+$$
+
+We can prove it by refutation (but it's quite long):
+$P = (1.2.1) \land (1.2.2) \land (1.3.2a) \land (1.3.2b) \Rightarrow array1 = array2$
+$\Longrightarrow \neg P = (1.2.1) \land (1.2.2) \land (1.3.2a) \land (1.3.2b) \land rray1 \neg array2$
+
+4. Once you found the condition, try to code this in **Why3**, add it as a property, and try to obtain the green V.
+
+```{why3}
+theory Arrays
+
+  type array
+  
+  function select (a: array) (i: int) : int
+  function store (a: array) (i: int) (v: int) : array
+
+  axiom sel_store_same :
+    forall a: array, i: int, v: int. select (store a i v) i = v
+
+  axiom sel_store_other :
+    forall a: array, i: int, j: int, v: int.
+      i <> j -> select (store a i v) j = select a j
+
+  axiom extensionality :
+    forall a1: array, a2: array.
+      (forall k: int. select a1 k = select a2 k) -> a1 = a2
+
+  To complete !!!!
+```
