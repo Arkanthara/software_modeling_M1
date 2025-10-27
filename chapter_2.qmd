@@ -143,3 +143,185 @@ DPLL($P$) =
 => $P$ is unsatisfiable
 
 if DPLL(Q) = $Q[p, \neg r, \cdots] = True$, we know how to set variables to have true => $Q$ is satisfiable !!!
+
+### Course 2
+
+enhancement to DPLL: CDCL Conflict Driven Clause Learning (1996-99)
+  
+  - More than 100000 variables
+  - Millions of clauses
+  => very efficient !!
+
+Based on decision trees (Can you make here a decision tree ??? With each node a variable, left branch is true and right branch is false)
+We want to see if set a variable will go to deadlocks (leaf False) or not...
+
+Back to our problem...
+Remember: we use why3 to have some formula and then we ask us if it's valid
+
+$a \geq 0 \land b \geq 0 \Longrightarrow a + b \geq b + c$
+
+- variables: $a, b, c \in \mathbb{Z}$ (Domain of the variables)
+- functions: $+: \mathbb{Z}^2 \longrightarrow \mathbb{Z}$ (computes new values in the domain)
+- predicates: $\geq: \mathbb{Z}^2 \longrightarrow \{True, False\}$
+
+=> First order logic formula !!!
+
+### First order logic formula
+
+It's how we describe a formula.
+It contains quantifiers ! ($\exists$, $\forall$)
+
+$Var = {a, b, c, \cdots}$ variables
+$D$: domain of value for $Var$ in $Var$
+$\mathbf{F} = {f: D^R \longrightarrow D, R \in \mathbb{N}}$ funcitons (including functions with no parameters which are just CONSTANTS !!!)
+$\mathbf{P} = {P: D^P \longrightarrow {True, Valse, k \n \mathbb{N}}}$ predicates
+
+Now it's possible to build a term
+
+#### Building a term
+
+(Value in $D$ !)
+
+- $a \in Var$, $a$ is a term
+- if $t_1, \cdots, t_k$ are terms $f(t_1, \cdots, t_k)$ is term for $f \in \mathbf{F}$
+
+#### Building an axiom
+
+- True, False are axioms.
+- if $t_1, \cdots, t_k$ are terms, $p(t_1, \cdots, t_k)$ is a term for $p \in \mathbf{P}$
+
+#### Building a formula
+
+- if $f$ is axiom then $f$ is a formula.
+- if $f_1, f_2$ are formulas then $f_1 \land f_2, f_1 \lor f_2, f_1 \Longrightarrow f_2, \neg f_1$ are formulas.
+
+We don't use it $\Downarrow$ in this lecture !!!
+
+- if $f$ is a formula, then $\exists x f$ is a formula
+- if $x \in Var$ is a formula, then $\forall x f$ is a formula
+
+Go back to this: 
+$a \geq 0 \land b \geq 0 \Longrightarrow a + b \geq b + c$
+We need:
+
+- Logic: $\land, \lor, \cdots$
+- integer numbers, $+, \geq, leq, \cdots$ (it's a theory !! (Can you short define it ???))
+
+Theory is a set of formulas that describe some particular things and gives the rules about a domain, some functions and predicates on it.
+
+(For integers, it could be arithmetic on integers)
+
+$\Longrightarrow$ a formula is valid in some theory $\mathbf{T} \longrightarrow (\mathbf{T}-valid)$ iff the formula is a consequence of $\mathbf{T}$.
+I want that $\forall I$, $I$ is an interpretation, $I \models \mathbf{T} \Longrightarrow I \models f$
+
+We just assume that a sef of elements works, and then we can deduce something from our formula !
+
+### Examples
+
+#### Theory about integer numbers
+
+- $+, \leq, \cdots$
+- $*$
+
+#### Theory of arrays
+
+$\underbrace{a[i]}_{\text{select}}$
+$\underbrace{a[i]:=x}_{\text{store}}$
+
+Our domain include arrays
+$D \include arrays$
+$\mathbf{F} \include {store (store(a, i, x)), select (select(a, i))}$
+axioms $\forall a, x, z, y, \ select(store(x, z, y), z, y) = y$
+
+#### Equality with uninterpreted functions (EUF)
+
+$D, \mathbf{F}, \mathbf{P} \include {\underbrace{\approx}_{\text{equality on}\ D}}$
+
+Axioms:
+
+$\approx$ is an equivalence:
+
+- R: $\forall x, x \approx x$
+- S: $\forall x, y, x \approx y \Longrightarrow y \approx y$
+- T: $forall x, y, z, x \approx y \Longrightarrow y \approx z \Longrightarrow x \approx z$
+
+Each function (in $\mathbf{F}$) and predicate (int $\mathbf{P}-{\approx}$) is congruent.
+  
+  - $\forall x, y, x \approx y \Longrightarrow f(x) \approx f(y)$ (for $f \in \mathbf{F}$ with one parameter... Same for 2 parameters etc... Make here a small proof !!!)
+- $\forall x_1, x_2, y_1, y_2, x_1 \approx y_1 \Longrightarrow x_2 \approx y_2 \Longrightarrow f(x_1, x_2) \approx f(y_1, y_2)$ (for 2 parameters)
+  - $\forall x, y, x \approx y \Longrightarrow (p(x) \Longleftrightarrow p(y))$ (1 param $p \in \mathbf{P}$)
+
+
+### SMT Solving
+
+- Logic => solving a propositional logic (using SAT Solver) is very efficient
+- theories => solving problems with ad hoc theories (but no logic inside) can also be very efficient
+
+However, trying to use both is difficult !!
+
+(make a graph here !!! Here is the decription of the graph :)
+Algorithm DPLL(T) with T a theory
+
+We take $f$ a formula: FOL, uses T, quantifier-free
+We translate it to a propositional formula (it's a kind of abstraction !)
+
+$A(f)=$ propositional logic formula which is able to use a SAT solver.
+
+The SAT solver can answer yes or no.
+
+If it's no, it means that $A(f)$ is unsatisfiable => $f$ is unsatisfiable too !!
+
+If it's yes, we obtain a model/interpretation $M$  of $A(f)$ such as $M \models A(f)$
+=> concretize $M_T = A^{-1}(M)$ and this will be pushed in an ad hoc solver of the Theory T which responds to the question 'is M_T satisfiable ?'
+If it answer yes, $M_T \models f$, $f$ is satisfiable
+If it aswer no, we redefine the problem using $\neg M$.
+Sometimes it fail (decidability, lack of ressources, ...)
+
+(End of description of the graph !)
+
+- $A(f)$: replace each axiom in $f by a propositional variable.
+  Example:
+  $f = (a + b \leq c \land a > 0 \Longrightarrow b + c < a) \lor a \leq 0$
+
+  - $p \longrightarrow a + b \leq c$
+  - $q \longrightarrow a > 0$
+  - $r \longrightarrow b + c < a$
+
+  $A(f) = (p \land q \Longrightarrow r ) \lor \neg q$
+
+- $A^{-1}(M)$ replaces each propositional variable by it initial definition.
+  Example:
+  Suppose $M = q \land \neg r \models A(f)$
+  $A^{-1}(M) = a > 0 \land \neg(b + c < a)$
+
+#### Example EUF
+
+$P = g(a) = c \land (f(g(a)) \neq f(c) \lor g(a) = d) \land c \neq d$
+
+- $Var = {a, c, d}$
+- $D$ is arbitrary
+- $\mathbf{F} = {f, g}$
+- $\mathbf{P} = {=}$
+
+$A(P) = p_1 \land (\neg p_2 \lor p_3) \land \neg p_4$
+
+- $p_1 \longrightarrow g(a) = c$
+- $p_2 \longrightarrow f(g(a)) = f(c)$
+- $p_3 \longrightarrow g(a) = d$
+- $p_4 \longrightarrow c = d$
+
+... SAT solving $\longrightarrow M = p_1 \land \neg p_2 \land \neg p_4$
+$\Longrightarrow M_T = A^{-1}(M) = g(a) = c \land f(g(a)) \neg f(c) \land c \neg d$
+is $M_T$ EUF satisfiable ??? $g(a) = c \Longrightarrow f(g(a)) = f(c)$ so $M_T$ is not T-satisfiable !!!
+
+Add the clause $\neg M$ to $P$. Now we redo same computation of $A(P) \land \neg M \Longrightarrow p_1 \land(\neg p_2 \lor p_3) \land \neg p_4 \land(\neg p_1 \lor p_2 \lor p_4)$
+and we redo the computation.
+(continues the example here !!!)
+
+At some point, we reach that $P$ is unsatisfiable.
+
+How work the refine ??
+
+$A(f) \Longrightarrow M \lor f \Longrightarrow M_T$ if $M_T$ is false, adding $\neg M_T$ to $f$ will not change $f$.
+
+
