@@ -1,0 +1,345 @@
+---
+title: "TP8"
+author: "Michel Jean Joseph Donnet"
+format:
+  pdf:
+    pdf-engine: pdflatex
+---
+## Introducing Quantifiers
+
+### Is this formula satisfiable?
+
+$$\forall x \, p(x) \iff \neg p(f(x))$$
+
+- $D = \mathbb{N}$
+- $F = {f(x) = x + 1}$
+- $P = {p(x) = x \mod 2 \equiv 0}$
+
+###  Is this formula satisfiable? Is it valid?
+
+$$
+\forall x \, \exists y \, p(x, y) \iff 
+\forall x \, p(x, f(x))
+$$
+
+- $D = \mathbb{N}$
+- $F = {f(x) = x}$
+- $P = {p(x, y) = x \equiv y}$
+
+---
+
+###  Definition of Free Variables
+
+We define $FV(\varphi)$ as the set of **free variables** of a first-order logic (FOL) formula $\varphi$,  
+i.e. the variables that appear in $\varphi$ but are **not bound** by a quantifier.
+
+For example, in:
+
+$$
+\forall x \, p(x) \land g(y)
+$$
+
+the variable $y$ is **free**.
+
+#### Task
+
+Give an **inductive definition** of $FV(\varphi)$.
+
+#### Inductive Definition of Free Variables \(FV(\varphi)\)
+
+We define $FV(\varphi)$, the set of **free variables** of a first-order logic formula $\varphi$, **inductively** as follows:
+
+##### Terms
+
+- If $x_i$ is a variable:
+  $$
+  FV(x_i) = \{ x_i \}
+  $$
+
+- If $f(x_1, \ldots, x_k)$ is a function term:
+  $$
+  FV(f(x_1, \ldots, x_k)) = \bigcup_{i=1}^{k} FV(x_i)
+  $$
+
+---
+
+##### Atomic Formulas
+
+- If $p(x_1, \ldots, x_k)$ is a predicate (atomic proposition):
+  $$
+  FV(p(x_1, \ldots, x_k)) = \bigcup_{i=1}^{k} FV(x_i)
+  $$
+
+---
+
+##### Logical Connectives
+
+For composite formulas built using logical connectives:
+
+- Conjunction:
+  $$
+  FV(\varphi_1 \land \varphi_2) = FV(\varphi_1) \cup FV(\varphi_2)
+  $$
+
+- Disjunction:
+  $$
+  FV(\varphi_1 \lor \varphi_2) = FV(\varphi_1) \cup FV(\varphi_2)
+  $$
+
+- Negation:
+  $$
+  FV(\neg \varphi) = FV(\varphi)
+  $$
+
+- Implication:
+  $$
+  FV(\varphi_1 \Rightarrow \varphi_2) = FV(\varphi_1) \cup FV(\varphi_2)
+  $$
+
+---
+
+### 4. Quantifiers
+
+- Existential quantification:
+  $$
+  FV(\exists x \, \varphi) = FV(\varphi) \setminus \{ x \}
+  $$
+
+- Universal quantification:
+  $$
+  FV(\forall x \, \varphi) = FV(\varphi) \setminus \{ x \}
+  $$
+
+#### Worked Example
+
+Let:
+$$
+\varphi = \forall x \, \exists y \, (f(x, z, w) \land p(y, z, u))
+$$
+
+We compute $FV(\varphi)$ step-by-step.
+
+1. **Inside the conjunction:**
+
+   - $FV(f(x, z, w)) = \{ x, z, w \}$
+   - $FV(p(y, z, u)) = \{ y, z, u \}$
+
+   Hence:
+   $$
+   FV(f(x, z, w) \land p(y, z, u)) = \{ x, y, z, w, u \}
+   $$
+
+2. **Apply the existential quantifier** $\exists y$:
+   $$
+   FV(\exists y \, (f(x, z, w) \land p(y, z, u))) = \{ x, z, w, u \}
+   $$
+
+3. **Apply the universal quantifier** $\forall x$:
+   $$
+   FV(\forall x \, \exists y \, (f(x, z, w) \land p(y, z, u))) = \{ z, w, u \}
+   $$
+
+**Final Result:**
+$$
+FV(\varphi) = \{ z, w, u \}
+$$
+
+---
+
+### Transform the following FOL formula into its universal form
+
+
+$$\exists x \, p(x) \Leftrightarrow \forall y \, \exists z \, q(y, z)$$
+
+$$\left(\exists x \, p(x) \Rightarrow \forall y \, \exists z \, q(y, z)\right) \land \left(\forall y \, \exists z \, q(y, z) \Rightarrow \exists x \, p(x)\right)$$
+
+$$\left[\neg \exists x \, p(x) \lor \forall y \, \exists z \, q(y, z)\right] \land \left[\neg \forall y \, \exists z \, q(y, z) \lor \exists x \, p(x)\right]$$
+
+$$\left[\forall x \, \neg p(x) \lor \forall y \, \exists z \, q(y, z)\right] \land \left[\exists y \, \forall z \, \neg q(y, z) \lor \exists x \, p(x)\right]$$
+
+$$\left[\forall x \, \neg p(x) \lor \forall y \, q(y, f(y))\right] \land \left[\forall z \, \neg q(g(z), z) \lor p(s)\right]$$
+
+$$\forall x, y, z, \ \left[\neg p(x) \lor q(y, f(y))\right] \land \left[\neg q(g(z), z) \lor p(s)\right]$$
+
+
+---
+
+### Transform the following FOL formula into its universal form
+
+$$\exists x \, (p(x) \Rightarrow r(x) \lor \forall y \, p(y))$$
+$$\exists x \, (\neg p(x) \lor (r(x) \lor \forall y \, p(y)))$$
+$$\forall y, \ (\neg p(s) \lor r(s) \lor p(y))$$
+
+---
+
+### Is the following set of clauses satisfiable?
+
+(a and b are constants, x, y and z are variables)
+
+$$
+\{\, P(f(y, f(a, y))) \lor P(f(x, z)), \; \neg P(f(x, f(y, a))) \lor \neg P(f(f(a, b), x), y) \,\}
+$$
+
+---
+
+#### Step 1. Identify the clauses
+
+We have two clauses:
+
+1. $C_1 = P(f(y, f(a, y))) \lor P(f(x, z))$
+2. $C_2 = \neg P(f(x, f(y, a))) \lor \neg P(f(f(a, b), x), y)$
+
+Each clause is a disjunction of literals containing the predicate $P$ and terms built from the function symbol $f$.
+
+---
+
+#### Step 2. Attempt to resolve
+
+To use the **resolution rule**, we must find a substitution (unifier) such that a literal in one clause complements a literal in the other.
+
+We can attempt to unify:
+
+- From $C_1$: $P(f(y, f(a, y)))$
+- From $C_2$: $\neg P(f(x, f(y, a)))$
+
+We need $f(y, f(a, y)) = f(x, f(y, a))$.
+
+By comparing both sides:
+
+- From the outer $f$:  
+  $y = x$
+- From the inner $f(a, y) = f(y, a)$:  
+  this requires $a = y$ **and** $y = a$
+
+This is impossible unless $a$ and $y$ are the same symbol,  
+but $a$ is a **constant** and $y$ is a **variable**, so $y$ could take the value $a$.
+
+Let’s take the substitution:
+$$
+\theta_1 = \{ x \mapsto a, \; y \mapsto a \}
+$$
+
+Applying $\theta_1$:
+
+- $f(y, f(a, y))$ becomes $f(a, f(a, a))$
+- $f(x, f(y, a))$ becomes $f(a, f(a, a))$
+
+✅ These two terms unify under $\theta_1$.
+
+---
+
+#### Step 3. Apply resolution under $\theta_1$
+
+Resolving $P(f(y, f(a, y)))$ in $C_1$  
+and $\neg P(f(x, f(y, a)))$ in $C_2$, we get the resolvent:
+
+From $C_1$ we keep $P(f(x, z))$.  
+From $C_2$ we keep $\neg P(f(f(a, b), x), y)$.
+
+Apply the substitution $\theta_1$:
+
+$$
+C_3 = P(f(a, z)) \lor \neg P(f(f(a, b), a), a)
+$$
+
+---
+
+#### Step 4. Check for further resolution
+
+Now, we can attempt to unify the two $P$ terms in $C_3$:
+
+We have $P(f(a, z))$ and $\neg P(f(f(a, b), a), a)$.
+
+To unify:
+
+- $f(a, z) = f(f(a, b), a)$
+
+Comparing the arguments:
+
+- $a = f(a, b)$ → not possible (a constant ≠ function term)
+- $z = a$ → possible, but the first condition fails.
+
+Thus, **no unifier exists** for these two terms.
+
+---
+
+#### Step 5. Conclusion
+
+No further resolution is possible, and no contradiction (empty clause) is derived.
+
+✅ Therefore, the set of clauses is **satisfiable**.
+
+---
+
+#### ✅ Final Answer
+
+The set
+$$
+\{\, P(f(y, f(a, y))) \lor P(f(x, z)), \; \neg P(f(x, f(y, a))) \lor \neg P(f(f(a, b), x), y) \,\}
+$$
+is **satisfiable** (no contradiction can be derived by resolution).
+
+#### Correction
+
+$\theta_1 = \{x \leftarrow a,\ y \leftarrow a,\ z \leftarrow a\}$
+$$
+\{\, P(f(a, f(a, a))) \lor P(f(a, a)), \; \neg P(f(a, f(a, a))) \lor \neg P(f(f(a, b), a), a) \,\}
+$$
+
+- With $P(f(a, f(a, a))) = True$ for fixed $f \in F$
+- With $\neg P(f(f(a, b), a), a) = True$
+
+So the new formula is:
+$$
+\{\, \phi \land P(f(a, f(a, a)))  \land \neg P(f(f(a, b), a), a) \,\}
+$$
+
+
+---
+
+### Substitutions and Closed Instances
+
+You are given the set of functions:
+
+$$
+F = \{ a, f \}
+$$
+
+- $a$ is a constant function (no parameters)  
+- $f$ takes one parameter  
+
+and the set of predicates:
+
+$$
+P = \{ p \}
+$$
+
+We consider the following FOL formula:
+
+$$
+\forall x \, \varphi \quad \text{where} \quad \varphi = p(x) \Leftrightarrow \neg p(f(x))
+$$
+
+#### Tasks
+
+- Propose **3 substitutions** $\theta$ such that $\varphi.\theta$ is a closed instance of $\varphi$.
+- For each substitution, write the corresponding $\varphi.\theta$.
+- Can you propose an interpretation such that $\forall x \, \varphi$ is satisfiable?
+
+---
+
+### DFP-Validity and Substitutions
+
+In this exercise, we fix the domain, the set of functions, and predicates $(D, F, P)$.
+
+We say that a formula is **DFP-valid** if and only if for every interpretation the formula is satisfied.
+
+Let $C$ be a clause and $\Pi$ a substitution on the variables of $C$.  
+Then $\Pi(C)$ is the result of substituting every variable $x$ in $C$ by $\Pi(x)$.
+
+#### Tasks
+
+1. Prove that if $C$ is DFP-valid, then $\Pi(C)$ is DFP-valid.  
+2. If $\Pi$ is a *renaming* (a substitution that maps each variable to a fresh variable), prove the reverse implication.
+
+
