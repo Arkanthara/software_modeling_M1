@@ -325,3 +325,125 @@ How work the refine ??
 $A(f) \Longrightarrow M \lor f \Longrightarrow M_T$ if $M_T$ is false, adding $\neg M_T$ to $f$ will not change $f$.
 
 
+Next course 
+Pickt slides from Matteo's exercices
+1. SAT solving -> SAT problems
+2. Theories -> FOL formulas with ro quantifies
+3. +quantifiers
+
+
+### FOL formula -> SAT ???
+
+#### Definition
+
+- Universal formula: $\forall x_1, x_2, \cdots, x_k \phi$ where $\phi$ is quantifier free.
+- a closed formula is FOL formula where every variable has been introduced beforeland by a quantifier (a free variable: a variable which has no been introduced by a quantifier)
+  Ex:
+  - $\forall a, b, c, \ \ a + b < c \lor b > 0$ closed, universal
+  - $\forall a \ \ a + b < c \lor \exists c \ c < b$ not closed, universal
+  - $\forall a, b \ a + b < 0 \ \exists 0 \ c < b$ closed, not universal
+
+- Closed instance: def $\phi$ FOL formula quantifier-free
+  A closed instance of $\phi$ is a formula $\theta(\phi)$ 
+    - $\theta(\phi)$ is closed
+    - $\theta$ is a substitution: it associates an expression to each of variable of this formula
+      $\theta(\phi)$ is the formula $\phi$ where every variable $x \in \phi$ has been replace by $\theta(x)$
+      Ex: $\forall x,y,z \ \phi \ \phi \equiv x = y \Longrightarrow f(z) = f^2(y)$
+          $\theta: {x \leftarrow f^2(a), y \leftarrow b, z \leftarrow f(b)}$ where $a, b$ are constants.
+          $\theta(\phi) = f^2(a) = b \Longrightarrow f^2(b) = f^2(b)$ -> hole formula is closed...
+
+::: {.notes}
+Universal formula are easy to satisfy ???
+:::
+
+#### Theorem of Herbrand (1930) (Admitted)
+
+A set of quantifier-free FOL formula is unsatisfiable iff there exist a finite set of unsatisfiable closed instances 
+
+Ex: $\neg (\forall a, b, c \ a + b \geq 0 \Longrightarrow c \geq b) \Longleftrightarrow \exists a, b, c \ a + b \geq 0 \land c < b$
+
+So we will have $\exists x_1, x_k$ such that $\neg \phi$...
+
+TestSat(\phi (quantifier \ free)):
+  F:= \phi
+  while F is satisfiable:
+    let \theta be a substitution such that \theta(\phi) is a closed instance
+    F:= F \lor {\theta(\phi)}
+  // F is unsatisfiable
+  // F contains a finite number of closed instances.
+  return False // \phi is unsat (thm of Herbrand)
+
+::: {.notes}
+If satisfiable, then infinite loop $\Longleftrightarrow$ semi-algorithm !!!
+:::
+
+::: {.notes}
+Still on going research !!! trigger, unification, e-matching, ...
+:::
+
+Ex1: $\phi \ {\forall z\ z = f(z) \land \forall x, y \ g(x, y) \neq f^2(y) \land g(a, a) = a}$
+ENF: arbitrary domain of values, ${a, b}$ are 2 constants
+
+1. $\theta_1: x \leftarrow a,\ y \leftarrow b$
+  $a = f(a) \land g(a, b) \neq f^2(b) \land g(a, a) = a$
+  $F = {\theta_a(\phi)}$
+
+2. $\theta_2: x \leftarrow f(a), g \leftarrow f(b), z \leftarrow f(a)$
+  $f(a) = f^2(a) \land g(f(a), f(b)) \neq f^3(b) \land g(a, a) = a$
+  $F = {\theta_1(\phi), \theta_2(\phi)}$
+
+3. $\theta_3: x \leftarrow a, g \leftarrow a, z \leftarrow a$
+  $a = f(a) \land g(a, a) \neq f^2(a) \land g(a, a) = a$
+  $F = {\theta_1, \theta_2, \theta_3}$
+
+  Return false
+
+Ex:
+all humans are mortel
+all greeks are human
+then all greeks are mortel
+
+Model:$(\forall x, \ H(x) \Longrightarrow M(x)\land G(x) \Longrightarrow H(x))\Longrightarrow G(x) \Longrightarrow M(x)$
+Is this formula valid ???
+
+Compute result using refutation... unsatisfibility of $\neg \phi$
+
+Model:$(\forall x, \ H(x) \Longrightarrow M(x)\land G(x) \Longrightarrow H(x))\land (\exists x, \ G(x) \land \neg M(x)$
+It's not a universal formula !!!!!
+
+$\neg \phi = \forall x, y, \ \left[(\neg H(x) \lor M(x)) \land (\neg G(y) \lor H(y)) \land G(s) \land \neg M(s)\right]$ if $s$ is a constant, it is closed.
+So this formula is universal and close !
+
+$\theta: x \leftarrow b; y \leftarrow b$ (the only possible closed instance !)
+$\theta(\neg \phi) = (\neg H(s) \lor M(b)) \land (\neg G(s) \lor H(s)) \land G(s) \land \neg M(s)$
+$F= {\theta(\neg \phi)}$ is F satisfiable ? No $\Longrightarrow$ not satisfiable !!!
+
+$\neg \phi$ is unsatisfiable so the conclusion is valid !!!
+
+How to transform a formula to universal formula ???
+
+FOL formula |                                 | FOL formula
+(arbitrary) |-> preserves unsatisfiability -> | Universal 
+closed      |                                 | closed
+
+#### Transformation
+
+1. Remove $\Longrightarrow, \Longleftrightarrow$, put the $\neg$ such that they only apply on variables/predicates.
+
+2. Each quantifier introduces a fresh variable.
+  $(\forall x, \cdots) \land (\forall x, \cdots) \land (\exists x, \cdots) \Longrightarrow (\forall x, \cdots) \land (\forall y, \cdots) \land(\exists z, \cdots)$
+
+3. Skolenization (Tharalf Albert Skolen, 1887-1963) which remove $\exits$ by introducing fresh functions
+  Extract subformula $\exists y, \ \psi$. $\psi$ may depend on other variables $x_1, \cdots, x_k$.
+  We pick fresh function $f$ with fresh name and we replace the subformula by $\psi[y \leftarrow f(x_1, \cdots, x_k)]$
+
+  ::: {.notes}
+  A constant is a function with no parameters !!!
+  :::
+
+  Ex: $\forall x, \exits y, \ P(x, y) \longrightarrow \forall x, \ P(x, f(x))$ with $f$ a fresh function.
+  Ex: $\forall x, \exists y, \ Q(y) \longrightarrow \forall x, \ Q(s)$ with $s$ a fresh constant.
+  Ex: $\forall x,y \exists z, \ R(x, y, z) \longrightarrow \forall x, y, \ R(x, y, g(x, y))$
+
+4. Put every $\forall$ at the begining. It's awlays equivalent because we have fresh names of variables !
+
