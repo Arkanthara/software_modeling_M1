@@ -323,8 +323,14 @@ $$
 #### Tasks
 
 - Propose **3 substitutions** $\theta$ such that $\varphi.\theta$ is a closed instance of $\varphi$.
-- For each substitution, write the corresponding $\varphi.\theta$.
+  - $\varphi.\theta_1 = {x \leftarrow a} \rightarrow p(a) \Leftrightarrow \neg p(f(a))$
+  - $\varphi.\theta_2 = {x \leftarrow f(a)} \rightarrow p(f(a)) \Leftrightarrow \neg p(f(f(a)))$
+  - $\varphi.\theta_3 = {x \leftarrow f(f(a))} \rightarrow p(f(f(a))) \Leftrightarrow \neg p(f(f(f(a))))$
+  - $\varphi.\theta_4 = {x \leftarrow p(a)} \rightarrow p(p(a)) \Leftrightarrow \neg p(f(p(a)))$ Warning: it depends on functions and predicates !!
 - Can you propose an interpretation such that $\forall x \, \varphi$ is satisfiable?
+  - $D = \mathbb{N}$
+  - $F = {f(x) = x + 1}$
+  - $P = {p(x) = x \mod 2 \equiv 0}$
 
 ---
 
@@ -340,6 +346,33 @@ Then $\Pi(C)$ is the result of substituting every variable $x$ in $C$ by $\Pi(x)
 #### Tasks
 
 1. Prove that if $C$ is DFP-valid, then $\Pi(C)$ is DFP-valid.  
+
+Proof by induction 
+
+Step 1:
+
+- $C = x$ with $x \in \mathbf{D}$ then $\Pi(x)$
+- $C = f(x)$ with $f \in \mathbf{F}$ then $\Pi(f(x))$
+- $C = p(x)$ with $p \in \mathbf{P}$ then $\Pi(p(x))$
+- $C = C_1 \land C_2$ then $\Pi(C_1) \land \Pi(C_2)$
+- $C = C_1 \lor C_2$ then $\Pi(C_1) \lor \Pi(C_2)$
+- $\forall x\ C$ then $\Pi(C.[x \leftarrow \Pi(x)])$
+- $\exists x\ C$ then $\Pi(C.[x \leftarrow \Pi(x)])$
+
+| Step | Expression                                       | Rule Used |
+| ---- | ------------------------------------------------ | --------- |
+| 1    | $\Pi(\forall x \exists y (g(x, y) \lor p(y))) $ | given (C) |
+| 2    | $\Pi(\exists y (g(\Pi(x), y) \lor p(y))) $      | $\forall$-rule    |
+| 3    | $\Pi(g(\Pi(x), \Pi(y)) \lor p(\Pi(y))) $        | $\exists$-rule    |
+| 4    | $\Pi(g(\Pi(x), \Pi(y))) \lor \Pi(p(\Pi(y))) $   | $\lor$-rule    |
+
+$\Pi$ is an assignment of variables.
+$\Pi_s = \{x \leftarrow A, y \leftarrow B, z \leftarrow C, \cdots \}$
+$\Pi_s^{-1} = \{A \leftarrow x, B \leftarrow y, C \leftarrow z, \cdots \}$
+
 2. If $\Pi$ is a *renaming* (a substitution that maps each variable to a fresh variable), prove the reverse implication.
 
-
+$\Pi$ is an assignment of variables.
+$\Pi_s = \{x \leftarrow A, y \leftarrow B, z \leftarrow C, \cdots \}$
+$\Pi_s^{-1} = \{A \leftarrow x, B \leftarrow y, C \leftarrow z, \cdots \}$
+We redo Step 1 with $\Pi_s^{-1}$ !!
