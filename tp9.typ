@@ -2,7 +2,7 @@
 
 = Abstract Interpretation I
 
-== Building C F G
+== Building CFG
 
 Given the following programs
 
@@ -115,11 +115,11 @@ binarysearch(a, elem) =
   -1
 ```
 
-== Defining C F G
+== Defining CFG
 
-Define the function that builds a C F G, from a program P. To make the definition easier, we
+Define the function that builds a CFG, from a program P. To make the definition easier, we
 advise that the function also takes as inputs ip and rp which will be the entry and return
-control points of the resulting C F G. At last, we will define $C F G(P, i p, r p)$; it should depend
+control points of the resulting CFG. At last, we will define $C F G(P, i p, r p)$; it should depend
 on the grammar that defines the instructions of the language.
 
 === Value Equations for Silly Program
@@ -180,3 +180,47 @@ Verification:
 Still not matching exactly. Let's try with more precise intervals:
 
 V(A) = {a: [4, 5], b: [2, 3]}
+
+=== 1.2
+
+$"CFG"(P, "ip", "rp") = "CFG"(I_1; I_2;, ...; I_n, top, f )$
+- $"CFG"(x:= e, i p_0, r p_0) = $ automaton here
+- $"CFG"("if cond then" o p_1 "else" o p_2, i p_0, r p_0) = $ automaton here
+- $"CFG"(o p_1, i p_(o p_1), r p_0) union "CFG"(o p_2, i p_(o p_2), r p_0)$
+- $"CFG"("while cond then" o p_1, i p_0, r p_0) = $ automaton here
+- $"CFG"(o p_1, i p_(o p_1), r p_0) union underbrace("CFG"(underbrace(emptyset, "pass"), i p_0, r p_0), "cond is false")$
+
+So $"CFG"(I_1; I_2;, ...; I_n, top, f ) = "CFG"(I_1, top, r p_(I_1)) union "CFG"(I_2, r p_(I_1), r p(I_2)) union "CFG"(I_3, r p_(I_2), r p(I_3))$
+
+
+- $V(A) = T$
+- $V(B) = V(A)[a:=5]$
+- $V(C) = V(B)[b:=3] union V(E)[a:= a / b] union V(G)[a := a + 1]$
+- $V(D) = V(C) and [a > 0]$
+- $V(E) = V(D) and [a % 2 = 0]$
+- $V(F) = V(D) and [a % 2 != 0]$
+- $V(G) = V(F)[b :=  b - 1]$
+- $V(H) = V(C) and [a <= 0]$
+
+==== Iterations
+
+We should stop if we get some similar values !
+
+0. $V(C) = {a: [5], b: [3]}$
+1. $V(C) = {a: [5, 6], b: [2, 3]}$ because we have $a:= a + 1$ and $b := b - 1$
+2. $V(C) = {a: [2, 6], b: [1, 3]}$
+3. $V(C) = {a: [0, 6], b: [0, 3]}$
+4. $V(C) = {a: [0, 6], b: [-1, 3]}$
+5. $V(C) = {a: [-6, 6], b: [-2, 3]}$
+$dots.v$
+
+$infinity$. $V(C) = {a: [-6, 6], b: [-infinity, 3]}$
+
+===== Abstraction
+
+0. $V(C) = {a: > 0, b: > 0}$
+1. $V(C) = {a: >= 0, b: >= 0}$
+2. $V(C) = {a: >= 0, b: top}$
+3. $V(C) = {a: top, b: top}$
+4. $V(C) = {a: top, b: top}$
+5. Stop.... However, we can't say for which value the program will finish...
