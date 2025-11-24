@@ -1,0 +1,177 @@
+---
+title: "Course: Hoare Logic — Deductive Reasoning for Program Verification"
+author: "Generated from user's notes"
+format:
+  pdf:
+    pdf-engine: luatex
+    toc: true
+    number-sections: true
+---
+
+# Introduction
+
+This course is a clean, self-contained explanation of **Hoare logic** and related deductive techniques for reasoning about programs. It is based on the notes you provided (where you used `m` to denote the program memory state instead of the usual $\mu$), expanded with clarifications, proofs, and worked examples. The file is a Quarto `.qmd` document configured to render to PDF using the LuTeX engine.
+
+We assume a small imperative language with integers and booleans, assignments, sequencing, conditionals, loops, and function calls. No explicit memory management is considered (no heaps, pointers, or allocation).
+
+# 1. Programs, specifications and correctness
+
+A *program* is a finite sequence of instructions written in our small language. A *specification* describes what the program is supposed to compute; we focus on **functional properties**, expressed as formulas of first-order logic (FOL).
+
+A common way to specify a program fragment $c$ is a **Hoare triple**
+$$
+\{P\}\; c\; \{Q\}
+$$
+
+where $P$ (precondition) and $Q$ (postcondition) are logical predicates over program variables.
+
+**Meaning.** The triple $\{P\}\; c\; \{Q\}$ is *valid* iff for every memory state $m$, if $m \models P$ and the execution of $c$ from $m$ terminates producing state $m'$, then $m' \models Q$.
+
+# 2. Memory and semantics
+
+We model the program memory as a function:
+$$
+m : Var \to \mathbb{Z} \cup \{\text{tt}, \text{ff}\}.
+$$
+
+We define two semantic functions:
+
+- $Val(e, m)$: evaluates expression $e$ in state $m$.
+- $Mem(c, m)$: state after executing command $c$ from state $m$.
+
+Notation: $m[x \leftarrow v]$ means the same as $m$, except $x$ now maps to $v$.
+
+Example: $Mem(x := t, m) = m[x \leftarrow Val(t,m)]$.
+
+# 3. Axioms and rules of Hoare logic
+
+## 3.1 Assignment axiom
+
+$$
+\{Q[x \leftarrow t]\}\; x := t\; \{Q\}
+$$
+
+## 3.2 Consequence, sequencing, conditional, and while rules
+
+| Rule | Formulation |
+|------|--------------|
+| **Consequence** | If $P' \Rightarrow P$, $\{P\}\; c\; \{Q\}$ and $Q \Rightarrow Q'$, then $\{P'\}\; c\; \{Q'\}$. |
+| **Sequence** | If $\{P\}\; c_1\; \{R\}$ and $\{R\}\; c_2\; \{Q\}$, then $\{P\}\; c_1; c_2\; \{Q\}$. |
+| **Conditional** | If $\{P \land b\}\; c_1\; \{Q\}$ and $\{P \land \lnot b\}\; c_2\; \{Q\}$, then $\{P\}\; \text{if } b \text{ then } c_1 \text{ else } c_2\; \{Q\}$. |
+| **While** | If $\{I \land b\}\; c\; \{I\}$, then $\{I\}\; \text{while } b \text{ do } c\; \{I \land \lnot b\}$. |
+
+### Example TikZ figure — Hoare logic rule structure
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[node distance=1.5cm,>=stealth,thick]
+\node (p) {$P$};
+\node[right=of p] (c) {$c$};
+\node[right=of c] (q) {$Q$};
+\draw[->] (p) -- (c) node[midway, above] {execution};
+\draw[->] (c) -- (q) node[midway, above] {result};
+\node[below=0.7cm of c] (triple) {$\{P\}\;c\;\{Q\}$};
+\draw[dashed] (p.south) -- (triple.north west);
+\draw[dashed] (q.south) -- (triple.north east);
+\end{tikzpicture}
+\end{center}
+```
+
+# 4. Weakest precondition (WP)
+
+The weakest precondition $WP(c,Q)$ is the least predicate $P$ such that $\{P\}\; c\; \{Q\}$ holds.
+
+$$
+WP(x := t, Q) = Q[x \leftarrow t]
+$$
+
+$$
+WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))
+$$
+
+$$
+WP(\text{if } b \text{ then } c_1 \text{ else } c_2, Q) =
+(b \Rightarrow WP(c_1,Q)) \land (\lnot b \Rightarrow WP(c_2,Q))
+$$
+
+### Example TikZ — WP propagation
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[node distance=1.5cm,>=stealth,thick]
+\node (q) {$Q$};
+\node[below=of q] (wp2) {$WP(c_2, Q)$};
+\node[below=of wp2] (wp1) {$WP(c_1, WP(c_2, Q))$};
+\node[left=of wp1] (p) {$P$};
+\draw[->] (wp2) -- (q) node[midway, right] {$c_2$};
+\draw[->] (wp1) -- (wp2) node[midway, right] {$c_1$};
+\draw[->, dashed] (p) -- (wp1);
+\node[right=1.5cm of q] {Backward reasoning flow};
+\end{tikzpicture}
+\end{center}
+```
+
+# 5. Loops and invariants
+
+An *invariant* $I$ satisfies:
+$$
+\{I \land b\}\; c\; \{I\}.
+$$
+
+When the loop exits, $(I \land \lnot b) \Rightarrow Q$ should hold.
+
+### Example TikZ — Loop structure
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[node distance=1.8cm,>=stealth,thick]
+\node (start) [draw, rounded corners] {Entry: $I$};
+\node[below=of start] (cond) [draw, diamond, aspect=2, inner sep=2pt] {$b$};
+\node[below left=1.2cm and 1.5cm of cond] (body) [draw, rounded corners] {Body $c$};
+\node[below right=1.2cm and 1.5cm of cond] (exit) [draw, rounded corners] {Exit: $\lnot b \land I$};
+\draw[->] (start) -- (cond);
+\draw[->] (cond) -- node[left] {true} (body);
+\draw[->] (cond) -- node[right] {false} (exit);
+\draw[->] (body) |- (cond);
+\end{tikzpicture}
+\end{center}
+```
+
+# 6. Example proofs
+
+### Example 1: addition loop invariant
+
+```text
+res := a;
+aux := b;
+while aux > 0 do
+  res := res + 1;
+  aux := aux - 1;
+done
+```
+Invariant: $res + aux = a + b \land aux \ge 0$.
+
+### Example TikZ — Proof structure
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[node distance=1.8cm,>=stealth,thick]
+\node (pre) [draw, rounded corners] {$I$};
+\node[below=of pre] (cond) [draw, diamond, aspect=2, inner sep=2pt] {$aux > 0$};
+\node[below left=1.2cm and 1.4cm of cond] (body) [draw, rounded corners] {Body: $res:=res+1; aux:=aux-1$};
+\node[below right=1.2cm and 1.4cm of cond] (post) [draw, rounded corners] {$I \land \lnot(aux>0)$};
+\draw[->] (pre) -- (cond);
+\draw[->] (cond) -- node[left] {true} (body);
+\draw[->] (cond) -- node[right] {false} (post);
+\draw[->] (body) |- (cond);
+\end{tikzpicture}
+\end{center}
+```
+
+# 7. Summary
+
+- Hoare logic = logical reasoning about programs.  
+- Key constructs: triples, inference rules, invariants, variants.  
+- Proofs can be automated via weakest precondition generation.  
+- TikZ diagrams above illustrate rule flow and loop invariants.
+

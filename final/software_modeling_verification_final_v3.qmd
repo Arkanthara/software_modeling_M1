@@ -1,0 +1,525 @@
+---
+title: ""
+subtitle: "Software Modeling and Verification"
+courseid: 14XBlabla
+author: "Michel Jean Joseph Donnet"
+# email: "Fitzwilliam.Darcy@blabla.ch"
+# repository: "https://github.com/yourname/your_repository"
+# repositoryName: "Repository Name"
+university: "University of Geneva"
+department: "Department Informatic"
+# logo: ""
+# logofooter: "./images/unige_csd.png"
+# logofootersize: 1.5cm
+toc: true
+format:
+  pdf:
+    pdf-engine: xelatex
+    pdf-engine-opts: ["--shell-escape"]
+    template: template.tex
+    execute: true # Code execution
+    echo: true    # Code printing in document
+---
+
+# Preface
+
+These notes present an academic treatment of software modeling and verification. Program states (memories) are denoted by the Greek letter $\mu$. Satisfaction of an assertion $P$ by a state $\mu$ is written $\mu \models P$.
+
+Inline mathematical expressions use single dollar signs `$...$`; display formulas use `$$...$$` where appropriate.
+
+This document focuses on:
+
+- Deductive verification using Hoare logic
+- Weakest preconditions (WP) and their computation
+- Loop invariants and variants
+- Soundness and completeness proofs
+- Semantic execution examples using $\mu$ and $\mathsf{Mem}$
+
+---
+
+# Introduction
+
+Formal verification provides mathematical guarantees that programs meet their specifications. It complements testing by proving properties for all inputs using logical reasoning and program semantics.  
+
+These notes cover the formal foundations of program verification and illustrate their use through many examples and formal proofs.
+
+---
+
+# Formal language, semantics and notation
+
+## Syntax
+
+We consider a classical imperative core language:
+
+- **Arithmetic expressions $A$**: variables $x$, integer constants $c$, binary operators $+$, $-$, $*$, and function calls.
+- **Boolean expressions $B$**: comparisons $A_1 \le A_2$, $A_1 = A_2$, logical connectives $\land$, $\lor$, $\neg$.
+- **Instructions $I$**:
+  - Assignment $x := E$
+  - Sequencing $I_1;I_2$
+  - Conditional `if b then I_t else I_e endif`
+  - Loop `while b do I done`
+
+A program state (memory) is a total function $\mu : \text{Var} \rightarrow \mathbf{Z}$.  
+
+We write $\mu[x \leftarrow v]$ for the state identical to $\mu$ except $x$ maps to $v$.  
+
+The evaluation function $\mathsf{Val}(e,\mu)$ yields the value of expression $e$ under $\mu$.
+
+---
+
+## Big-step semantics (memory transformer)
+
+Define the partial function $\mathsf{Mem}(I,\mu)$ returning the final state after executing $I$ from state $\mu$ if $I$ terminates; otherwise it is undefined.
+
+- **Assignment**  
+  $\mathsf{Mem}(x := t,\mu) = \mu[x \leftarrow \mathsf{Val}(t,\mu)]$.
+
+- **Sequence**  
+  $\mathsf{Mem}(I_1;I_2,\mu) = \mathsf{Mem}(I_2,\mathsf{Mem}(I_1,\mu))$ (when defined).
+
+- **Conditional**  
+  $\mathsf{Mem}(\textbf{if } b \textbf{ then } I_t \textbf{ else } I_e,\mu) =$  
+  if $\mathsf{Val}(b,\mu)=\text{true}$ then $\mathsf{Mem}(I_t,\mu)$ else $\mathsf{Mem}(I_e,\mu)$.
+
+- **While loop**  
+  $\mathsf{Mem}(\textbf{while } b \textbf{ do } I \textbf{ done},\mu)$ is defined recursively:
+  - If $\mathsf{Val}(b,\mu)=\text{false}$, return $\mu$.
+  - Else let $\nu = \mathsf{Mem}(I,\mu)$ (if defined) and continue from $\nu$.
+
+Execution is deterministic when defined.
+
+---
+
+# Hoare logic: triples and rules
+
+A Hoare triple has the form $\{P\}\ I\ \{Q\}$, where $P$ and $Q$ are assertions in first-order logic.  
+
+**Semantics:** the triple is valid iff for all states $\mu$,
+
+- if $\mu \models P$ and
+- if $\mathsf{Mem}(I,\mu)$ is defined, then
+- $\mathsf{Mem}(I,\mu) \models Q$.
+
+## Axioms and inference rules
+
+- **Assignment axiom**  
+  $\{Q[x \leftarrow t]\}\ x := t\ \{Q\}$
+
+- **Consequence rule**  
+  If $P' \Rightarrow P$, $\{P\}I\{Q\}$, and $Q \Rightarrow Q'$, then $\{P'\}I\{Q'\}$.
+
+- **Sequence rule**  
+  From $\{P\}I_1\{R\}$ and $\{R\}I_2\{Q\}$ infer $\{P\}I_1;I_2\{Q\}$.
+
+- **Conditional rule**  
+  From $\{P \land b\}I_t\{Q\}$ and $\{P \land \neg b\}I_e\{Q\}$ infer  
+  $\{P\}\ \textbf{if }b\textbf{ then }I_t\textbf{ else }I_e\textbf{ endif}\ \{Q\}$.
+
+- **While rule**  
+  If there exists an invariant $J$ such that $\{J \land b\}I_{body}\{J\}$ and $J \land \neg b \Rightarrow Q$, then  
+  $\{J\}\ \textbf{while } b \textbf{ do } I_{body} \textbf{ done}\ \{Q\}$.  
+
+To use from a precondition $P$, also prove $P \Rightarrow J$.
+
+These rules address **partial correctness**. Total correctness additionally requires termination proofs.
+
+# Weakest precondition calculus (WP)
+
+For a postcondition $Q$, the weakest precondition $WP(I,Q)$ is the strongest assertion $P$ such that $\{P\}I\{Q\}$ holds.
+
+## WP rules
+
+- **Assignment**
+
+  $$WP(x := t, Q) = Q[x \leftarrow t]$$
+
+- **Sequence**
+
+  $$WP(I_1; I_2, Q) = WP(I_1, WP(I_2, Q))$$
+
+- **Conditional**
+
+  $$
+  WP(\textbf{if } b \textbf{ then } I_t \textbf{ else } I_e, Q) =
+  (b \Rightarrow WP(I_t, Q)) \land (\neg b \Rightarrow WP(I_e, Q))
+  $$
+
+- **While (with invariant)**
+
+  For a loop `while b do I done` and a candidate invariant $J$, set
+
+  $$WP(\textbf{while } b \textbf{ do } I \textbf{ done}, Q) := J$$
+
+  provided that the following verification conditions hold:
+
+  - **Initialization:** $P \Rightarrow J$
+  - **Preservation:** $J \land b \Rightarrow WP(I, J)$
+  - **Exit condition:** $J \land \neg b \Rightarrow Q$
+
+In practice, these verification conditions (VCs) are discharged using SMT solvers.
+
+---
+
+## WP correctness theorem (loop-free programs)
+
+**Theorem.** For loop-free instructions $I$, the Hoare triple $\{P\}I\{Q\}$ is valid if and only if
+
+$$
+P \Rightarrow WP(I,Q).
+$$
+
+**Proof sketch.**  
+By structural induction on $I$:
+
+- **Assignment:** $\{Q[x \leftarrow t]\}x:=t\{Q\}$ holds by substitution semantics.
+- **Sequence:** Induction applies to each part of the sequence.
+- **Conditional:** The WP is exactly the conjunction of implications for both branches.
+
+$\square$
+
+---
+
+# Soundness and completeness
+
+## Soundness (informal)
+
+Any Hoare triple derived using the axioms and inference rules is semantically valid.  
+
+Soundness ensures the proof system never derives incorrect judgments.
+
+The proof is by induction on the structure of derivations. For the while-rule, a finite induction on the number of loop iterations is used.
+
+---
+
+## Relative completeness (Cook's theorem)
+
+**Theorem (Cook, 1978).**  
+If the assertion language is expressive enough (i.e., can express strongest postconditions and necessary arithmetic facts) and all valid first-order formulas are provable, then Hoare logic is relatively complete: every semantically valid triple is derivable.
+
+**Sketch.**
+
+- Translate the program into first-order verification conditions using strongest postconditions or weakest preconditions.
+- Use expressivity of the logic to state required invariants.
+- Completeness is *relative* because it depends on the power of the underlying logic (e.g., arithmetic is undecidable in general).
+
+This theorem provides a theoretical foundation: given strong enough invariants, Hoare logic can prove any valid partial correctness property.
+
+---
+
+# Formal proofs
+
+## Soundness of Hoare logic (full proof)
+
+**Theorem (Soundness).**  
+If $\{P\}I\{Q\}$ is derivable in Hoare logic, then for all states $\mu$:
+
+- if $\mu \models P$ and
+- if $\mathsf{Mem}(I,\mu)$ is defined, then
+- $\mathsf{Mem}(I,\mu) \models Q$.
+
+**Proof.**  
+By induction on the derivation of $\{P\}I\{Q\}$.
+
+- **Assignment axiom:** Let $I$ be $x := t$ and assume $\{Q[x \leftarrow t]\} x := t \{Q\}$.  
+  Suppose $\mu \models Q[x \leftarrow t]$.  
+  By semantics of substitution: $\mu[x \leftarrow \mathsf{Val}(t,\mu)] \models Q$.  
+  But $\mathsf{Mem}(x := t,\mu) = \mu[x \leftarrow \mathsf{Val}(t,\mu)]$.  
+  Therefore the triple is valid.
+
+- **Consequence rule:** Straightforward from logical implication.
+
+- **Sequence rule:** Induction hypothesis (IH) for $\{P\}I_1\{R\}$ and $\{R\}I_2\{Q\}$. Combine using definition of $\mathsf{Mem}(I_1;I_2,\mu)$.
+
+- **Conditional rule:** Apply IH to each branch depending on evaluation of $b$.
+
+- **While rule:** Use induction on the number $n$ of loop iterations.  
+  Define states $\mu_0, \mu_1, \ldots, \mu_n$ where $\mu_{i+1} = \mathsf{Mem}(I_{body},\mu_i)$.  
+  Show by induction that the invariant $J$ holds for all $\mu_i$.  
+  When the loop exits ($b$ false), $J \land \neg b \Rightarrow Q$ implies the postcondition.
+
+$\square$
+
+---
+
+## WP-correctness (formal proof)
+
+**Theorem.**  
+For loop-free $I$, for all states $\mu$:
+
+$$
+\mu \models WP(I,Q) \quad \text{iff} \quad \mathsf{Mem}(I,\mu) \text{ defined } \Rightarrow \mathsf{Mem}(I,\mu) \models Q.
+$$
+
+**Proof.**  
+By structural induction on $I$:
+
+- **Assignment:**  
+  $\mu \models WP(x:=t,Q)$ iff $\mu \models Q[x \leftarrow t]$  
+  iff $\mu[x \leftarrow \mathsf{Val}(t,\mu)] \models Q$  
+  iff $\mathsf{Mem}(x:=t,\mu) \models Q$.
+
+- **Sequence:**  
+  Induction hypothesis on $I_2$ gives equivalence for $WP(I_2,Q)$; then apply IH on $I_1$.
+
+- **Conditional:**  
+  Split on $\mathsf{Val}(b,\mu)$; apply IH on the appropriate branch.
+
+$\square$
+
+---
+
+# Termination and total correctness
+
+Partial correctness makes no claim about whether a program halts.  
+
+To prove **total correctness**, termination must also be shown. The standard method is to exhibit a **variant** $V(\mu)$ taking values in $\mathbb{N}$, such that:
+
+1. $J(\mu)$ implies $V(\mu) \ge 0$.
+2. $J(\mu) \land b(\mu)$ implies $V(\mathsf{Mem}(I_{body},\mu)) < V(\mu)$.
+
+Since there is no infinite descending chain in $\mathbb{N}$, this guarantees that the loop must eventually terminate.
+
+**Examples of variants:**
+
+- For a countdown loop: $V(\mu) = n - i$.
+- For a factorial loop: $V(\mu) = n - (i - 1)$.
+- For Euclid’s algorithm: $V(\mu) = b$.
+
+**Lemma (Termination).**  
+Under the above conditions, every execution starting from a state satisfying $J$ terminates.
+
+**Proof.**  
+Assume an infinite execution. Then we obtain an infinite strictly decreasing sequence $V(\mu_0) > V(\mu_1) > \dots$ in $\mathbb{N}$, which is impossible.  
+
+$\square$
+
+# Semantic execution examples
+
+These examples illustrate how program execution transforms states $\mu$ step by step, and how WP calculations correspond to this semantics.
+
+## Example A — simple sequence
+
+Program:
+```{why3}
+x := 1;
+y := x + 2;
+```
+
+Let the initial state be $\mu_0$ with $\mu_0(x)=0$ and $\mu_0(y)=0$.
+
+1. Assignment `x := 1`:  
+   $\mathsf{Val}(1,\mu_0)=1$ and $\mu_1=\mu_0[x \leftarrow 1]$.
+
+2. Assignment `y := x + 2`:  
+   $\mathsf{Val}(x+2,\mu_1)=\mu_1(x)+2=3$ and $\mu_2=\mu_1[y \leftarrow 3]$.
+
+The final state $\mu_2$ has $x=1$, $y=3$.  
+
+**WP check:**  
+Postcondition $Q : y = 3$  
+- $WP(y:=x+2, Q) = (x+2=3)$  
+- $WP(x:=1, x+2=3) = (1+2=3)$ which is true.  
+
+So the program ensures $y=3$ for all initial states.
+
+---
+
+## Example B — conditional with memory states
+
+Program:
+```{why3}
+if x > 0 then
+  y := x
+else
+  y := -x
+fi
+```
+
+Initial state $\mu(x)=-2$.
+
+- Evaluate guard: $\mathsf{Val}(x>0,\mu)=\text{false}$.
+- Execute else-branch: $\mathsf{Val}(-x,\mu)=2$.
+- $\mu'=\mu[y \leftarrow 2]$.
+
+Postcondition $y \ge 0$ holds in $\mu'$.
+
+---
+
+## Example C — loop unfolding (addition)
+
+Program:
+```{why3}
+res := a;
+aux := b;
+while aux > 0 do
+  res := res + 1;
+  aux := aux - 1;
+done
+```
+
+Initial state: $\mu_0(a)=2$, $\mu_0(b)=2$, $\mu_0(res)=0$, $\mu_0(aux)=0$.
+
+- After initialization: $\mu_1 = \mu_0[res \leftarrow 2][aux \leftarrow 2]$.
+- Iteration 1: aux = 2 > 0,  
+  $\mu_2 = \mu_1[res \leftarrow 3][aux \leftarrow 1]$.
+- Iteration 2: aux = 1 > 0,  
+  $\mu_3 = \mu_2[res \leftarrow 4][aux \leftarrow 0]$.
+- Exit: guard false, final $\mu_3$ has $res=4$ and $aux=0$.
+
+Invariant $res + aux = a + b$ is preserved across $\mu_1, \mu_2, \mu_3$.
+
+---
+
+# Extended formal verification examples
+
+## Addition by repeated increment (full proof)
+
+Program:
+```{why3}
+res := a;
+aux := b;
+while aux > 0 do
+  res := res + 1;
+  aux := aux - 1;
+done
+```
+
+Precondition $b \ge 0$, postcondition $res = a + b$.
+
+Invariant candidate:
+
+$$
+J(\mu) \equiv res + aux = a + b \land aux \ge 0.
+$$
+
+- **Initialization:** After assignments, $J$ holds.
+- **Preservation:** $J \land aux > 0 \Rightarrow WP(\text{body},J)$ holds by substitution.
+- **Exit:** $aux=0$ gives $res=a+b$.
+
+Variant $V(\mu)=aux$ decreases each iteration and is bounded below by 0 ⇒ termination.
+
+---
+
+## Factorial
+
+Program:
+```{why3}
+res := 1;
+i := 1;
+while i <= n do
+  res := res * i;
+  i := i + 1;
+done
+```
+
+Invariant:
+
+$$
+J(\mu): 1 \le i \le n+1 \land res = (i-1)!.
+$$
+
+- **Initialization:** holds after first two assignments.
+- **Preservation:** multiplying by $i$ updates $res$ to $i!$ and increments $i$.
+- **Exit:** $i=n+1$ gives $res=n!$.
+
+Variant $V(\mu)=n - (i - 1)$ decreases monotonically ⇒ termination.
+
+---
+
+## Euclid's algorithm (GCD)
+
+Program:
+```{why3}
+while b != 0 do
+  r := a mod b;
+  a := b;
+  b := r;
+done
+return a
+```
+
+Invariant:
+
+$$
+J(\mu): \gcd(a,b) = \gcd(a_0,b_0) \land a \ge 0 \land b \ge 0.
+$$
+
+**Lemma:** For $b>0$, $\gcd(a,b)=\gcd(b, a \bmod b)$ and $0 \le a \bmod b < b$.
+
+- **Preservation:** applying the lemma maintains gcd.
+- **Exit:** when $b=0$, $\gcd(a,0)=a$ gives postcondition.
+- **Termination:** $V(\mu)=b$ decreases because $b$ is replaced by $a \bmod b < b$.
+
+---
+
+## Binary search (formal invariants)
+
+Loop invariants track the interval $[lo,hi]$ where the target may lie:
+
+- Before each iteration: if the key is in the array, it must be in $[lo,hi]$.
+- The interval shrinks each iteration, guaranteeing termination.
+
+The mid computation `lo + (hi - lo)/2` requires reasoning over integer division.  
+Exit conditions prove correctness for both "found" and "not found" cases.
+
+---
+
+## Nested conditionals — semantic development
+
+Program:
+```{why3}
+if x >= 0 then
+  if x = 0 then y := 0 else y := 1 fi
+else
+  y := -1
+fi
+```
+
+For $\mu(x)=-3$, the outer guard is false ⇒ executes else ⇒ sets $y=-1$.  
+Postcondition $y \ge -1$ holds.  
+WP calculation confirms the triple is valid for all $x$.
+
+---
+
+## WP with quantifiers
+
+Program:
+```{why3}
+i := 0;
+found := false;
+while i < N do
+  if A[i] = key then found := true; break; fi;
+  i := i + 1;
+done
+```
+
+Postcondition:
+
+$$
+found \Leftrightarrow \exists j < N.\ A[j] = key.
+$$
+
+Loop invariant:
+
+- If `found` is true, then some processed index $j < i$ satisfies $A[j]=key$.
+- If `found` is false, then no index in $[0,i)$ matches.
+
+VCs involve quantified formulas over indices. SMT solvers can often handle such VCs if the array theory is supported.
+
+---
+
+# Recap
+
+- **States:** $\mu$ represents memory; $\mu \models P$ means $P$ holds in $\mu$.
+- **Hoare triple:** $\{P\}I\{Q\}$ asserts partial correctness.
+- **WP calculus:** mechanical computation of necessary preconditions.
+- **Loops:** require user-supplied invariants $J$ and variants $V$ for total correctness.
+- **Proof obligations:**
+  - Initialization: $P \Rightarrow J$
+  - Preservation: $J \land b \Rightarrow WP(\text{body}, J)$
+  - Exit: $J \land \neg b \Rightarrow Q$
+  - Termination: $V$ decreases and is bounded below
+- **Tools:** Why3 generates VCs; SMT solvers discharge them automatically in many cases.
+- **Theory:** Hoare logic is sound and relatively complete.
+
+---

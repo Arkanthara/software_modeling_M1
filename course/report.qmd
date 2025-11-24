@@ -1,0 +1,64 @@
+---
+title: "My Super Cool Report"
+subtitle: "An Amazing course"
+courseid: 14XBlabla
+author: "Fitzwilliam Darcy"
+email: "Fitzwilliam.Darcy@blabla.ch"
+repository: "https://github.com/yourname/your_repository"
+repositoryName: "Repository Name"
+university: "University of Silly Sockets"
+department: "Dummy Ducks"
+# logo: ""
+# logofooter: "./images/unige_csd.png"
+# logofootersize: 1.5cm
+toc: true
+format:
+  pdf:
+    pdf-engine: xelatex
+    pdf-engine-opts: ["--shell-escape"]
+    template: template.tex
+    execute: true # Code execution
+    echo: true    # Code printing in document
+---
+
+\newpage
+
+# Introduction
+
+Your introduction
+
+# Methodology {#sec-met}
+
+Your section [-@sec-met]
+
+## Subsection
+
+Your subsection with no ref link
+
+Your latex formula [-@eq-mse]
+$$
+\text{MSE} = \frac{1}{mn}\sum_{i = 1}^m \sum_{j = 1}^n \left[I(i, j) - K(i, j)\right]^2
+$$ {#eq-mse}
+
+# Implementation
+
+Blabla
+```{python}
+#| echo: true #print your code
+print("Hello")
+```
+```{bash}
+echo "Coucou"
+```
+
+# Results
+
+Blablablablabla
+
+# Discussion
+
+Blablablablblablblablalblablal
+
+# Conclusion
+
+Blablablablblablblablalblablalablablablblablblablalblablal

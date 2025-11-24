@@ -269,3 +269,127 @@ Allow to get values
 - $f: E |-> E, f$ is Scott-continuous.
 - The least fixed-point of $f$ is equal to $"sup"_(n >= 0){f^n(bot)}$ where $bot = "inf"E$
 - The greatest fixed-point of $f$ is equal to $"inf"_(n >= 0){f^n(top)}$ where $top = "sup"E$
+
+==== 1. LFP blablabla
+
+$u in A$
+
+- Note that $A != emptyset$: $forall y in E, y <= "sup" E$ $f("sup"E) in E$
+  $f("sup"E) <= "sup"E -> "sup"E in A$
+  So $A$ is not empty !.
+- Let $x in A$ ($x$ exists since $A != emptyset$).
+  $u = "inf" A <= x$
+    - $f(u) <= f(x)$ (f monotonic)
+    - $f(u) <= x$ ($f(x) <= x$ since $x in A$ transitivity)
+  We obtain $forall x in A, f(u) <= x$:
+    - $f(u)$ is a lower bound of $A$
+    - $u = "inf"A$ is the greatest lower bound
+    So $f(u) <= u$
+  Let $x in A$, $f(x) <= x$ (by def of $A$).
+  So $f(f(x)) <= f(x)$ ($f$ monotonic).
+
+
+===== a)
+
+- As $u in A, f(u) in A$. But $u = inf A$. So $u <= f(u)$
+
+- 1, 2 $-> f(u) = u$
+
+===== b)
+
+Let $x$ be a solution of $x = f(x)$ ($x$ exists, see u)
+So $x in A$. $u = inf A$
+
+$u <= x$: $u$ is the least Fixed-point (LFP).
+
+====== 1. $"sup"{f^n(bot), n >= 0}$ is FP ??
+
+Let $U_n = f^n(bot), n >= 0$.
+
+- $U_n$ is non-decreasing ($forall n >= 0, U_n <= U_(n + 1)$)
+  
+  Induction step
+  - $n = 0$
+    $f^0(bot) = "identity"(bot) = bot "(inf E)" <= f(top)$
+    $U_0 <= U_1$
+
+  - induction step. Let $n > 0$. Assume that $U_n <= U_(n + 1)$.
+    $f^n(bot) <= f^(n  + 1)(bot) => f(f^n(bot)) <= f(f^(n + 1)(bot)) => U_(n + 1) <= U_(n + 2)$ since $f$ continuous ($=>$ monotonic)
+
+  - $f$ is continuous and $U_n$ non decreasing.
+    So $f("sup"{f^n(bot), n >= 0}) = "sup"{f(f^n(bot)), n >= 0} = "sup"{f^(n + 1)(bot), n >= 0} = "sup"{f^(n')(bot), n' >= 1}$
+    As $f^0(bot) = bot <= x forall x in E = "inf" E$
+    So $"sup"{f^(n')(bot), n' >= 1} = "sup"{f^(n')(bot), n' >= 1} union {f^0(bot)} = "sup"{f^(n')(bot), n' >= 0}$
+
+======= 2. It is the least one
+
+Let $x$ be a FP of $f$.
+
+We prone that $f^n(bot) <= x, forall n >= 0$
+Induction on $n >= 0$.
+
+- $n = 0$: $f^0(bot) = bot = "inf" E <= x$
+- Let $n >= 0$. Assume that $f^n(bot) <= x$.
+  So $f^(n + 1)(bot) <= f(x) = x$ ($f$ monotonic)
+
+As we prone that $f^n(bot) <= x, forall n >= 0$, we have:
+$U_n = f^n(bot) <= x$ so $x$ is an upper bound of the sequence of $U_n$.
+$"sup"{f^n(bot)} <= x$
+
+
+```raw
+X = bot
+Repeat
+  X' = f(X)
+until X' = X
+```
+
+Here X is the Least Fixed-point of f.
+
+The program may not response (infinite loop) if E is infinite !
+
+Example how values are propagated:
+
+```raw
+a = -3
+while a < 10 do
+  a = a + 1
+done
+```
+(make here an automaton of the small program !!)
+
+- $V(A) = top$
+- $V(B) = V(A)[a = -3] union V(C)[a = a + 1]$
+- $V(C) = V(B) inter [a < 10]$
+- $V(D) = V(B) inter [a >= 10]$
+
+$V = phi(V)$
+
+$V in cal(S)^4$.
+We don't define the order...
+
+===== Lemma
+
+If we take 2 complete lattices $(E, <=), (F, <=)$.
+Then, $(E times F, <=)$ where $(a, b) <= (c, d)$ iff $a <= c$ and $b <= d$ for $a, c in E$, $b, d in F$ is a complete lattice.
+
+So $(cal(S)^4, <=)$ is a complete lattice.
+If we take another variable, we have $V in cal(S)^(2("variables") times 4) = cal(S)^8 = "complete lattice"$
+
+====== Program
+
+- CFG. Collect Sen
+- Solve equation:
+  $V(alpha)$: all the values (or abstraction) the variables may reach during the execution...
+
+======= Specifications
+(give here better definitions with examples !)
+
+- Safety: nothing wrong can never happen
+- Liveness: something good will eventually happen.
+
+Ex: no zero-division is safety property. Termination is liveness.
+
+Here we only focus on safety.
+
+
