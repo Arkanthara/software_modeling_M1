@@ -392,4 +392,96 @@ Ex: no zero-division is safety property. Termination is liveness.
 
 Here we only focus on safety.
 
+==== Abstract interpretation method
+
+1. choose an abstract domain
+  - signs, intervals, ...
+  - <= (less precise)
+  - $V(A) inter [...], V(A)[x:=...]$
+
+2. Express a safety property as an observer (with error states) (number of states of observer x number of states of the regular program)
+
+3. Transform program + property into an automaton (Control Flow Graph CFG)
+  Here we will obtain a CFG with an ERROR state
+
+4. (Try to because Fixed Point computation may not terminate) compute the Least Fixed-point of the equation and detect if the ERROR Control Point (CP) is equal to $(bot, ..., bot)$ which means that it is unreachable.
+  
+  This is a conservative answer: the analysis will answer OK if no error state can be reached.
+  In fact the set where error can not be reached is bigger.
+  This is due to the abstract domain chosen that is not enough precise.
+
+  (graph here with a big set named error is reachable, then inside a set called error cannot be reached (analysis answers I don't know), and finally inside a set where analysis answers OK (error state cannot be reached for sure !))
+
+However, why is the answer conservative ?
+
+==== A Galois Connection
+
+- a concrete complete lattice $(E, <=)$
+- an abstract complete lattice $(F, <=)$
+- two functions
+  - $alpha: E --> F$ (abstraction)
+  - $gamma: F --> E$ (concretization)
+
+such that $forall x in E, forall y in F, alpha(x) <= y <==> x <= gamma(y)$
+
+===== Prop
+
+- $forall x in E, x <= gamma(alpha(x))$
+- $forall y in F, alpha(gamma(y)) <= y$
+- $alpha$ and $gamma$ are monotonic
+- $alpha$ is Scott-continuous (ref to Scott-Continuity here !)
+
+($gamma$ is not general)
+
+An interval is really two elements that is given BY the concretization function.
+
+To compute the least fixed-point, we will use the abstract complete lattice.
+So we will use a kind of abstract $Psi_("abstract")$ in $V = Psi(V)$.
+
+!!! Here we will detect that error is reached !!!
+
+Define $(alpha, gamma)$ from your abstract domain.
+- $Psi_("abstract") = alpha dot Psi, dot gamma$.
+
+Conditions for Klemar theorem:
+- Complete Lattice
+- $Psi_("abstract")$ is Scott-continuous.
+  - Is $Psi$ Scott-continuous ???
+  - Is $gamma$ Scott-continuous ???
+
+Then we have to check that $(alpha, gamma)$ is a Galois Connection...
+
+We have to proof that $V <= gamma(A)$.
+
+$gamma(A) = gamma(Psi_a(A)) = gamma(alpha dot Psi dot gamma(A)) = gamma dot alpha dot Psi(gamma(A))$
+
+$gamma(A)$ is a FP of $gamma dot alpha dot Psi$.
+
+We compare $gamma$ and $gamma dot alpha dot Psi$.
+
+Let $x, y in E, x <= y$
+
+Then
+- $Psi(x) <= Psi(y)$ since $Psi$ is monotonic.
+- $alpha dot Psi(x) <= alpha dot Psi(y)$ since $alpha$ is monotonic.
+- $Psi(x) <= gamma dot alpha dot Psi(y)$ since $alpha, gamma$ is a Galois Connection.
+
+($x = y, Psi(x) <= gamma dot alpha dot Psi(x)$
+
+So $bot <= bot$
+
+So $Psi^n(bot) <= (gamma dot alpha dot Psi)^n(bot)$
+
+so $"sup" ... <= "sup" ...$)
+
+Now we want to compare the LFP of $Psi$ to LFP of $gamma dot alpha dot Psi$.
+
+We have: $"LFP"(Psi) <= underbrace("LFP"(gamma dot alpha dot Psi), X)$
+
+$X$ is a FP of $gamma alpha Psi$. It is the least one.
+
+On top of that, $gamma(A)$ is a FP of $gamma dot alpha dot Psi$.
+
+So we have:$"LFP"(Psi) <= underbrace("LFP"(gamma dot alpha dot Psi), X) <= gamma(A)$
+
 
