@@ -97,3 +97,13 @@ $E$ is finite. So $exists j > 0, forall i >= 0, "sup"{u_i} = u_j$
 - $g$ continuous
 - $g(f)$ continuous
 
+
+3 properties:
+
+- reflexivity $(a, b) <= (a, b) -> a <= a and b <= b$
+- antisymmetry $(a, b) <= (c, d) and (c, d) <= (a, b) -> a <= c and c <= a and b <= d and d <= b$
+- transitivity $(a, b) <= (c, d) and (c, d) <= (e, f) -> (a, b) <= (e, f)$
+
+So $<=$ is an order !
+
+Warning !!! $alpha$ and $gamma$ are not the inverse of themselves
