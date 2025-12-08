@@ -484,4 +484,112 @@ On top of that, $gamma(A)$ is a FP of $gamma dot alpha dot Psi$.
 
 So we have:$"LFP"(Psi) <= underbrace("LFP"(gamma dot alpha dot Psi), X) <= gamma(A)$
 
+=== Recap
 
+1. Deductive reasoning / Hoare Logic / axiomatic semantics
+
+  - Syst underveriv
+  - prop
+
+2. SMT Solving
+
+3. Abstract Interpretation
+
+  - syst. underverif: program
+  - prop: safety property (observer)
+
+4. Model checking
+
+  - syst underverif: finite state machine (automaton)
+  - property: linear temporal logic (LTL)
+    - system satisfies prop ??
+    system: {execution of system / traces}
+    prop: {traces that represent the prop}
+
+    $ "Tr"(underbrace(S, "System")) include.eq "Tr"(underbrace(P, "Property")) $
+
+= Model checking
+
+- 1981 Clarke Emerson/Sifatis
+
+- S: finite automaton
+- P: LTL formula
+- $S model P, "Tr"(S) include.eq "Tr"(P) ?$
+  if not provide counter example ! (must be automatic)
+
+Ex:
+  - P: every toggle-lock action is followed by a toggle-lock action
+    $underbrace(square, "always")("toggle-lock" => underbrace(circle, "next")("toggle-lock"))$
+
+== Infinite traces
+
+Also called $omega$-word
+
+Ex: ababab...ab...ab...: this is the word (ab)$^omega$
+  Difference with $("ab")^*$: $("ab")^*$ is finite ! 
+
+  - regular expressions: $+, dot, *$
+  - $omega$-regular expressions: $+, dot, *, omega$
+    Ex: $(a + b)^* dot a^omega$: finite number of b.
+        $(a^*b)^omega$: $omega$-word with infinite number of b.
+        $a^omega b^omega$: non-sense because we will never finish to read $a$ !
+
+
+Regular languages can be represented by regular expressions/finite automata (which recognize the language)(P)
+
+$omega$-regular languages can be represented by $omega$-regular expressions/Buchi automata (1960)(NP)
+
+(Admitted !)
+
+==== Definition Buchi automaton (BA)
+
+$cal(A) = (S, S_0, L, T, F)$
+- $S$ states
+- $S_0$ init state
+- $L$ labels
+- $T subset.eq S times L times L$ transitions
+- $F subset.eq S$ final state
+
+$L(cal(A)) = {omega, omega$-word state: it starts at $S_0$ and infinitely often goes through a final state in $F}$
+
+===== Properties (Admitted)
+
+$L$ is $omega$-regular.
+
+It means:
+- $L = A^omega, A$ is a regular language, $epsilon in.not A$ (empty word not in $A$)
+  if $T_A$ is an automaton for $A$, we can build a Buchi Automaton for $A^omega$
+- $L = A dot B$, $A$ is regular, $B$ is $omega$-regular.
+  if we have an automaton $T_A$ for $A$ and an automaton $T_B$ for $B$, then we can build an automaton for $A dot B$.
+- $L = A + B$, $A, B$ $omega$-regular.
+  We can build the automaton.
+
+- $bar(A)$: exponential computation 
+- $A inter B$
+
+I have $L$ a $omega$-regular...
+Emptiness problem: decide whether $L$ is empty (provide an algorithm to compute the answer)
+
+The problem for BA ($L$ $omega$-regular) is decidable.
+
+Ex: Build from $L$ a BA automaton such that $L(A) = L$.
+
+- $L != emptyset$ iff $exists "word" in L$
+
+  $omega$ is ultimately periodic (repeating sequences) (We can always represent a $omega$-regular by finite automaton !!! Instead of automaton that represent infinite word $pi$...)
+
+  In finite automaton, we will have some strongly connected components that:
+  - include a final state
+  - is reachable from init state
+  We can make an algorithm that computes this !
+
+
+S: finite automaton
+P: LTL formula = $omega$-word that can be transformed into BA automaton.
+
+$S model P$
+$L(S) subset.eq L(P)$ which is equivalent to check than $L(S) inter bar(L(P)) = emptyset <==> L(S) inter L(bar(P)) = emptyset$
+If we have $emptyset$, it means that $S model P$, else $S model.not P$ and $"word" in L(S) inter L(bar(P))$ that is an execution of $S$ which doesn't satisfy $P$ (this is the witness/counter example).
+
+This is an automatic and complete method.
+But restrictions comes from hypothesis...
