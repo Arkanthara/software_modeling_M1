@@ -593,3 +593,81 @@ If we have $emptyset$, it means that $S model P$, else $S model.not P$ and $"wor
 
 This is an automatic and complete method.
 But restrictions comes from hypothesis...
+
+== Linear temporal logic
+
+Syntax: $phi := a ("proposition") | not phi | phi_1 or phi_2 | underbrace(circle, "next") phi | phi_1 underbrace(cal(U), "until") phi_2$
+
+Next: $circle a$: $sigma model circle a$: $sigma = sigma_0 sigma_1 sigma_2 ... sigma_n ...$ with $sigma_1 = a$ it means that the next, so the second element is $a$
+
+Until: $sigma |= a cal(U) b$ means that we will have some $a$ until $b$ is reached !
+
+=== Semantics
+
+$sigma |= phi, sigma = (sigma_1)_(i >= 0)$
+
+- $sigma |= a$ iff $sigma_0 |= a$
+- $sigma |= circle phi$ iff $sigma' = (sigma_1)_(i >= 1), sigma' |= phi$
+- $sigma |= not phi$ iff $sigma model.neg phi_1$ or $sigma |= phi_2$
+- $sigma |= phi_1 cal(U) phi_2$ iff $exists k >= 0, sigma_2 = (sigma_i)_(i >= k), sigma_2 |= phi_2$
+  and if $k > 0, forall j in {0, ..., k-1}, sigma_1 = (sigma_i)_(i >= j) sigma_1 |= phi_1$
+
+==== Deriving operator
+
+- $phi_1 and phi_2 = not (phi_1 or phi_2)$
+- Eventually: $lozenge phi = "True" cal(U) phi$
+  $phi$ becomes true, eventually (finite time)
+
+  $sigma |= lozenge phi => underbrace(sigma_0 sigma_1 sigma_2 ..., "True [any]") underbrace(sigma_k, phi) ... sigma_n$
+  It means that at any time, I will have $b$
+
+- Always: $square phi = not (lozenge not phi)$
+  $sigma |= square a$ means that all $sigma$ satisfies $a$
+  $sigma |= square phi$ means that all sequences satisfies $phi$, no importance on the cut made...
+
+- $square a or square b != square (a or b)$
+- $lozenge a or lozenge b = lozenge (a or b)$
+- $square a and square b = square (a and b)$
+- $lozenge a and lozenge b != lozenge (a and b)$ because first part doesn't implies that a and b appear at the same time...
+
+We can always design a Buchi automaton which accept the same set of $omega$ words as a LTL formula (admitted).
+This means that there exist an algorithm...
+
+Examples (no epsilon transition here !):
+
+- $circle a$
+- $a cal(U) b$
+- $lozenge a$
+- $square a$
+
+== Verification technique
+
+=== Model checking an Buchi Automata / LTL formula
+
+1. Write the system to verify as finite automaton $A$
+2. Express the property as a LTL formula $F$
+3. Compute a Buchi Automaton for $not F$
+4. Compute a Buchi Automaton to represent $L(A) inter L(not F)$ (synchronous product)
+5. Check if $L(A) inter L(not F)$ is empty (algo that answers yes to say it's empty... It implies that $L(A) include.eq L(F)$
+  - yes: $underbrace(L(A) inter L(not F) = emptyset, A |= F) ~> L(A) inter bar(L(F)) = emptyset ~> L(A) include.eq L(F)$
+  - no: $L(A) inter L(F) != emptyset$ we have a weakness / counter example $omega in L(A) inter bar(L(F))$ $omega in L(A)$ but $w |=.neg F$
+
+Example Lift
+
+(Automaton here !)
+
+$F = square(start => circle("move" cal(U) "stop"))$
+
+Buchi Automaton of $F$ for training...
+
+$not F = lozenge("start" and circle (not ("move" cal (U) "stop")))$
+
+We build: $A inter not F$
+
+$L(A inter not F) ?= emptyset$
+scc: strongly connected component that is reachable from initial state and that contains a final state
+
+since scc2 exists, we have that $L(A) inter L(not F) != emptyset$
+
+a counter-example: setfloor start (move and bar(stop))^omega in (L(A)) model.neg F
+
