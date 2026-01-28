@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ch1 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-langage" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Langage</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-langage">    
+        <li>
+    <a class="dropdown-item" href="./../index.html">
+ <span class="dropdown-text">Anglais</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">Français</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Cours</a></li><li class="breadcrumb-item"><a href="./ch1.html">Modélisation et Vérification de Logiciels</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Modélisation et Vérification de Logiciels</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#modélisation-et-vérification-de-logiciels" id="toc-modélisation-et-vérification-de-logiciels" class="nav-link active" data-scroll-target="#modélisation-et-vérification-de-logiciels">Modélisation et Vérification de Logiciels</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  </ul></li>
+  <li><a href="#partie-1-concepts-de-base-de-la-modélisation-et-vérification" id="toc-partie-1-concepts-de-base-de-la-modélisation-et-vérification" class="nav-link" data-scroll-target="#partie-1-concepts-de-base-de-la-modélisation-et-vérification">Partie 1 : Concepts de base de la modélisation et vérification</a>
+  <ul class="collapse">
+  <li><a href="#programme-et-spécifications" id="toc-programme-et-spécifications" class="nav-link" data-scroll-target="#programme-et-spécifications">Programme et spécifications</a>
+  <ul class="collapse">
+  <li><a href="#définition-dun-programme" id="toc-définition-dun-programme" class="nav-link" data-scroll-target="#définition-dun-programme">Définition d’un programme</a></li>
+  </ul></li>
+  <li><a href="#propriétés-fonctionnelles-et-non-fonctionnelles" id="toc-propriétés-fonctionnelles-et-non-fonctionnelles" class="nav-link" data-scroll-target="#propriétés-fonctionnelles-et-non-fonctionnelles">Propriétés fonctionnelles et non fonctionnelles</a>
+  <ul class="collapse">
+  <li><a href="#propriétés-non-fonctionnelles" id="toc-propriétés-non-fonctionnelles" class="nav-link" data-scroll-target="#propriétés-non-fonctionnelles">Propriétés non fonctionnelles</a></li>
+  <li><a href="#propriétés-fonctionnelles" id="toc-propriétés-fonctionnelles" class="nav-link" data-scroll-target="#propriétés-fonctionnelles">Propriétés fonctionnelles</a></li>
+  </ul></li>
+  <li><a href="#spécifications-formelles" id="toc-spécifications-formelles" class="nav-link" data-scroll-target="#spécifications-formelles">Spécifications formelles</a></li>
+  <li><a href="#le-problème-de-la-vérification" id="toc-le-problème-de-la-vérification" class="nav-link" data-scroll-target="#le-problème-de-la-vérification">Le problème de la vérification</a></li>
+  <li><a href="#méthodes-de-vérification" id="toc-méthodes-de-vérification" class="nav-link" data-scroll-target="#méthodes-de-vérification">Méthodes de vérification</a>
+  <ul class="collapse">
+  <li><a href="#raisonnement-déductif-deductive-reasoning" id="toc-raisonnement-déductif-deductive-reasoning" class="nav-link" data-scroll-target="#raisonnement-déductif-deductive-reasoning">Raisonnement déductif (Deductive Reasoning)</a></li>
+  <li><a href="#interprétation-abstraite-abstract-interpretation" id="toc-interprétation-abstraite-abstract-interpretation" class="nav-link" data-scroll-target="#interprétation-abstraite-abstract-interpretation">Interprétation abstraite (Abstract Interpretation)</a></li>
+  <li><a href="#model-checking" id="toc-model-checking" class="nav-link" data-scroll-target="#model-checking">Model Checking</a></li>
+  <li><a href="#preuve-assistée-assisted-proof" id="toc-preuve-assistée-assisted-proof" class="nav-link" data-scroll-target="#preuve-assistée-assisted-proof">Preuve assistée (Assisted Proof)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#partie-2-raisonnement-déductif-et-logique-de-hoare" id="toc-partie-2-raisonnement-déductif-et-logique-de-hoare" class="nav-link" data-scroll-target="#partie-2-raisonnement-déductif-et-logique-de-hoare">Partie 2 : Raisonnement déductif et logique de Hoare</a>
+  <ul class="collapse">
+  <li><a href="#introduction-à-la-logique-de-hoare" id="toc-introduction-à-la-logique-de-hoare" class="nav-link" data-scroll-target="#introduction-à-la-logique-de-hoare">Introduction à la logique de Hoare</a></li>
+  <li><a href="#sémantique-opérationnelle" id="toc-sémantique-opérationnelle" class="nav-link" data-scroll-target="#sémantique-opérationnelle">Sémantique opérationnelle</a>
+  <ul class="collapse">
+  <li><a href="#définitions-formelles" id="toc-définitions-formelles" class="nav-link" data-scroll-target="#définitions-formelles">Définitions formelles</a></li>
+  </ul></li>
+  <li><a href="#triplets-de-hoare-et-correction-partielle" id="toc-triplets-de-hoare-et-correction-partielle" class="nav-link" data-scroll-target="#triplets-de-hoare-et-correction-partielle">Triplets de Hoare et correction partielle</a>
+  <ul class="collapse">
+  <li><a href="#définition-des-triplets" id="toc-définition-des-triplets" class="nav-link" data-scroll-target="#définition-des-triplets">Définition des triplets</a></li>
+  <li><a href="#validité-dun-triplet" id="toc-validité-dun-triplet" class="nav-link" data-scroll-target="#validité-dun-triplet">Validité d’un triplet</a></li>
+  <li><a href="#correction-partielle" id="toc-correction-partielle" class="nav-link" data-scroll-target="#correction-partielle">Correction partielle</a></li>
+  </ul></li>
+  <li><a href="#calcul-de-la-plus-faible-précondition-wp" id="toc-calcul-de-la-plus-faible-précondition-wp" class="nav-link" data-scroll-target="#calcul-de-la-plus-faible-précondition-wp">Calcul de la plus faible précondition (WP)</a>
+  <ul class="collapse">
+  <li><a href="#définition-récursive-de-wp" id="toc-définition-récursive-de-wp" class="nav-link" data-scroll-target="#définition-récursive-de-wp">Définition récursive de WP</a></li>
+  <li><a href="#théorème-fondamental-pour-les-programmes-sans-boucle" id="toc-théorème-fondamental-pour-les-programmes-sans-boucle" class="nav-link" data-scroll-target="#théorème-fondamental-pour-les-programmes-sans-boucle">Théorème fondamental pour les programmes sans boucle</a></li>
+  </ul></li>
+  <li><a href="#traitement-des-boucles-invariants" id="toc-traitement-des-boucles-invariants" class="nav-link" data-scroll-target="#traitement-des-boucles-invariants">Traitement des boucles : invariants</a>
+  <ul class="collapse">
+  <li><a href="#définition-dun-invariant" id="toc-définition-dun-invariant" class="nav-link" data-scroll-target="#définition-dun-invariant">Définition d’un invariant</a></li>
+  <li><a href="#wp-avec-invariant-pour-une-boucle" id="toc-wp-avec-invariant-pour-une-boucle" class="nav-link" data-scroll-target="#wp-avec-invariant-pour-une-boucle">WP avec invariant pour une boucle</a></li>
+  </ul></li>
+  <li><a href="#traitement-des-appels-de-fonction" id="toc-traitement-des-appels-de-fonction" class="nav-link" data-scroll-target="#traitement-des-appels-de-fonction">Traitement des appels de fonction</a>
+  <ul class="collapse">
+  <li><a href="#contrat-de-fonction" id="toc-contrat-de-fonction" class="nav-link" data-scroll-target="#contrat-de-fonction">Contrat de fonction</a></li>
+  <li><a href="#wp-pour-un-appel-de-fonction" id="toc-wp-pour-un-appel-de-fonction" class="nav-link" data-scroll-target="#wp-pour-un-appel-de-fonction">WP pour un appel de fonction</a></li>
+  </ul></li>
+  <li><a href="#correction-totale-variant" id="toc-correction-totale-variant" class="nav-link" data-scroll-target="#correction-totale-variant">Correction totale (variant)</a>
+  <ul class="collapse">
+  <li><a href="#définition-du-variant" id="toc-définition-du-variant" class="nav-link" data-scroll-target="#définition-du-variant">Définition du variant</a></li>
+  </ul></li>
+  <li><a href="#théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique" id="toc-théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique" class="nav-link" data-scroll-target="#théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique">Théorème de correspondance entre sémantique opérationnelle et axiomatique</a>
+  <ul class="collapse">
+  <li><a href="#énoncé-du-théorème" id="toc-énoncé-du-théorème" class="nav-link" data-scroll-target="#énoncé-du-théorème">Énoncé du théorème</a></li>
+  <li><a href="#idée-de-la-preuve" id="toc-idée-de-la-preuve" class="nav-link" data-scroll-target="#idée-de-la-preuve">Idée de la preuve</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch1.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Cours</a></li><li class="breadcrumb-item"><a href="./ch1.html">Modélisation et Vérification de Logiciels</a></li></ol></nav></header>
+
+
+
+
+
+<section id="modélisation-et-vérification-de-logiciels" class="level1">
+<h1>Modélisation et Vérification de Logiciels</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>La question centrale de ce domaine est : <strong>mon système informatique, programme ou logiciel est-il correct ?</strong></p>
+<p>Cette préoccupation est cruciale à toutes les échelles :</p>
+<ul>
+<li><strong>Systèmes larges</strong> : Internet, systèmes distribués</li>
+<li><strong>Systèmes embarqués</strong> : IoT, systèmes critiques, automatisation</li>
+</ul>
+<p>La vérification porte sur plusieurs aspects fondamentaux :</p>
+<ul>
+<li><strong>Algorithmes</strong> → leur implémentation sous forme de programmes</li>
+<li><strong>Types de données</strong> → représentation et manipulation correctes</li>
+<li><strong>Protocoles</strong> → communication et coordination entre composants</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="partie-1-concepts-de-base-de-la-modélisation-et-vérification" class="level1">
+<h1>Partie 1 : Concepts de base de la modélisation et vérification</h1>
+<section id="programme-et-spécifications" class="level2">
+<h2 class="anchored" data-anchor-id="programme-et-spécifications">Programme et spécifications</h2>
+<section id="définition-dun-programme" class="level3">
+<h3 class="anchored" data-anchor-id="définition-dun-programme">Définition d’un programme</h3>
+<p>Un programme est initialement une <strong>séquence de caractères</strong> qui doit respecter les règles syntaxiques vérifiées par un compilateur.</p>
+<p><strong>Attention</strong> : Un compilateur ne vérifie que la <strong>syntaxe</strong>, pas la correction sémantique !</p>
+<p>De cette séquence de caractères, nous construisons un <strong>modèle du programme</strong> – une abstraction mathématique qui représente la sémantique (la signification) du programme.</p>
+<p><strong>Sémantique</strong> : Signification des constructions syntaxiques. Exemple : <code>x++</code> a pour sémantique “x est incrémenté de 1”.</p>
+<p>Les modèles formels sont des <strong>objets mathématiques</strong> qui permettent de raisonner sur le comportement des programmes de manière systématique et, dans une certaine mesure, automatisée. Ceci est particulièrement utile pour les systèmes complexes où l’intuition peut faire défaut.</p>
+</section>
+</section>
+<section id="propriétés-fonctionnelles-et-non-fonctionnelles" class="level2">
+<h2 class="anchored" data-anchor-id="propriétés-fonctionnelles-et-non-fonctionnelles">Propriétés fonctionnelles et non fonctionnelles</h2>
+<section id="propriétés-non-fonctionnelles" class="level3">
+<h3 class="anchored" data-anchor-id="propriétés-non-fonctionnelles">Propriétés non fonctionnelles</h3>
+<p>Ces propriétés concernent la <strong>qualité de service</strong> plutôt que le calcul spécifique :</p>
+<ul>
+<li>Temps d’exécution, performance</li>
+<li>Ergonomie, utilisabilité</li>
+<li>Propriétés de sécurité</li>
+<li>Consommation de ressources (mémoire, énergie)</li>
+</ul>
+</section>
+<section id="propriétés-fonctionnelles" class="level3">
+<h3 class="anchored" data-anchor-id="propriétés-fonctionnelles">Propriétés fonctionnelles</h3>
+<p>Ces propriétés spécifient <strong>ce que le programme est censé calculer</strong>.</p>
+<p>Exemple : <code>qsort(T)</code> doit retourner un tableau <code>T'</code> qui est une permutation triée de <code>T</code>.</p>
+</section>
+</section>
+<section id="spécifications-formelles" class="level2">
+<h2 class="anchored" data-anchor-id="spécifications-formelles">Spécifications formelles</h2>
+<p>Les spécifications peuvent être exprimées de diverses manières :</p>
+<ol type="1">
+<li><strong>Langage naturel</strong> : Descriptions écrites, souvent ambiguës</li>
+<li><strong>Annotations dans le programme</strong> : Commentaires dans le code</li>
+<li><strong>Assertions</strong> : Constructions de programmation défensive qui détectent les erreurs à l’exécution</li>
+<li><strong>Tests unitaires</strong> : Spécifications par exemples</li>
+<li><strong>Spécifications formelles</strong> : Prédicats logiques avec une signification mathématique précise</li>
+</ol>
+<p>Exemple de spécification formelle pour un tableau trié :</p>
+<p><span class="math display">\[
+\forall i \in \{0, \dots, n-2\}, t[i] \leq t[i+1]
+\]</span></p>
+</section>
+<section id="le-problème-de-la-vérification" class="level2">
+<h2 class="anchored" data-anchor-id="le-problème-de-la-vérification">Le problème de la vérification</h2>
+<p>Nous voulons déterminer si un programme satisfait ses spécifications. Ceci peut être visualisé comme :</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Système informatique / Programme] -- modélisation --&gt; B[Modèle formel du programme]
+    C[Spécifications] -- modélisation --&gt; D[Spécification formelle]
+    B --&gt; E[Correct ?]
+    D --&gt; E
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Définition</strong> : Un programme <strong>satisfait</strong> (ou vérifie) une spécification, noté <code>programme |= spécification</code>, si pour toutes les exécutions possibles, le comportement du programme est conforme à la spécification.</p>
+</section>
+<section id="méthodes-de-vérification" class="level2">
+<h2 class="anchored" data-anchor-id="méthodes-de-vérification">Méthodes de vérification</h2>
+<p>Plusieurs approches existent pour répondre à la question de la correction :</p>
+<section id="raisonnement-déductif-deductive-reasoning" class="level3">
+<h3 class="anchored" data-anchor-id="raisonnement-déductif-deductive-reasoning">Raisonnement déductif (Deductive Reasoning)</h3>
+<p>Utilise la logique mathématique pour prouver qu’un programme satisfait sa spécification. La <strong>logique de Hoare</strong> en est un exemple fondamental.</p>
+</section>
+<section id="interprétation-abstraite-abstract-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interprétation-abstraite-abstract-interpretation">Interprétation abstraite (Abstract Interpretation)</h3>
+<p>Technique qui calcule une <strong>sur-approximation</strong> des comportements possibles du programme. Si la sur-approximation satisfait la propriété, alors le programme aussi.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    P[Programme] --&gt; M[Modèle comme automate]
+    M --&gt; O[Outil calcule un sur-ensemble des états atteignables]
+    O --&gt; V[Vérifie la propriété]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="model-checking" class="level3">
+<h3 class="anchored" data-anchor-id="model-checking">Model Checking</h3>
+<p>Vérifie automatiquement qu’un modèle fini d’un système satisfait une propriété formelle. Calcule l’<strong>ensemble exact</strong> des états atteignables (dans les limites de calculabilité).</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    P[Programme/Système] -- modélisation --&gt; O[Outil]
+    S[Spécification] -- modélisation --&gt; O
+    O --&gt; Exact[Calcule l'ensemble exact des états atteignables]
+    Exact --&gt; V[Vérification de la propriété]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="preuve-assistée-assisted-proof" class="level3">
+<h3 class="anchored" data-anchor-id="preuve-assistée-assisted-proof">Preuve assistée (Assisted Proof)</h3>
+<p>Combine l’assistance humaine avec la vérification automatique. L’utilisateur guide la preuve, et la machine vérifie chaque étape.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    P[Programme] -- modélisation --&gt; A[Modèle formel]
+    S[Spécification] -- modélisation --&gt; B[Prédicat formel]
+    A --&gt; PR[Prouveur]
+    B --&gt; PR
+    PR --&gt; Prouvé[Preuve vérifiée]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="partie-2-raisonnement-déductif-et-logique-de-hoare" class="level1">
+<h1>Partie 2 : Raisonnement déductif et logique de Hoare</h1>
+<section id="introduction-à-la-logique-de-hoare" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-à-la-logique-de-hoare">Introduction à la logique de Hoare</h2>
+<p>La <strong>logique de Hoare</strong> (due à C.A.R. Hoare, 1969) est un système formel pour raisonner sur la correction des programmes. Elle permet de dériver mathématiquement qu’un programme satisfait sa spécification.</p>
+<p><strong>Idée centrale</strong> : Associer à chaque instruction du programme comment elle transforme les propriétés des variables.</p>
+</section>
+<section id="sémantique-opérationnelle" class="level2">
+<h2 class="anchored" data-anchor-id="sémantique-opérationnelle">Sémantique opérationnelle</h2>
+<p>Avant d’introduire la logique de Hoare, nous devons définir formellement la signification des programmes. La <strong>sémantique opérationnelle</strong> décrit comment l’état de la mémoire évolue lors de l’exécution.</p>
+<section id="définitions-formelles" class="level3">
+<h3 class="anchored" data-anchor-id="définitions-formelles">Définitions formelles</h3>
+<p><strong>État mémoire</strong> : Noté <span class="math inline">\(\mu\)</span>, c’est une fonction qui associe à chaque variable sa valeur.</p>
+<p><span class="math display">\[
+\mu : Var \longrightarrow \mathbb{Z} \cup \{tt, ff\}
+\]</span></p>
+<p>où <span class="math inline">\(Var\)</span> est l’ensemble des variables du programme, <span class="math inline">\(\mathbb{Z}\)</span> les entiers, et <span class="math inline">\(\{tt, ff\}\)</span> les booléens.</p>
+<p><strong>Mise à jour de l’état</strong> : <span class="math inline">\(\mu[x \leftarrow c]\)</span> dénote l’état obtenu en modifiant <span class="math inline">\(\mu\)</span> pour que <span class="math inline">\(x\)</span> vaille <span class="math inline">\(c\)</span>, les autres variables restant inchangées.</p>
+<p><strong>Évaluation d’expression</strong> : <span class="math inline">\(Val(e, \mu)\)</span> retourne la valeur de l’expression <span class="math inline">\(e\)</span> dans l’état <span class="math inline">\(\mu\)</span>.</p>
+<p><strong>Exécution d’instruction</strong> : <span class="math inline">\(Mem(c, \mu)\)</span> retourne le nouvel état mémoire après exécution de l’instruction <span class="math inline">\(c\)</span> depuis l’état <span class="math inline">\(\mu\)</span>.</p>
+<p>Exemple : <span class="math inline">\(Mem(y := 0, \mu) = \mu[y \leftarrow 0]\)</span></p>
+</section>
+</section>
+<section id="triplets-de-hoare-et-correction-partielle" class="level2">
+<h2 class="anchored" data-anchor-id="triplets-de-hoare-et-correction-partielle">Triplets de Hoare et correction partielle</h2>
+<section id="définition-des-triplets" class="level3">
+<h3 class="anchored" data-anchor-id="définition-des-triplets">Définition des triplets</h3>
+<p>Un <strong>triplet de Hoare</strong> a la forme <span class="math inline">\(\{P\}\ c\ \{Q\}\)</span> où :</p>
+<ul>
+<li><span class="math inline">\(P\)</span> est une <strong>précondition</strong> (prédicat logique sur les variables avant exécution)</li>
+<li><span class="math inline">\(c\)</span> est une instruction ou séquence d’instructions</li>
+<li><span class="math inline">\(Q\)</span> est une <strong>postcondition</strong> (prédicat logique sur les variables après exécution)</li>
+</ul>
+<p><strong>Signification</strong> : Si l’état mémoire satisfait <span class="math inline">\(P\)</span> avant d’exécuter <span class="math inline">\(c\)</span>, et si l’exécution de <span class="math inline">\(c\)</span> termine, alors l’état mémoire résultant satisfera <span class="math inline">\(Q\)</span>.</p>
+</section>
+<section id="validité-dun-triplet" class="level3">
+<h3 class="anchored" data-anchor-id="validité-dun-triplet">Validité d’un triplet</h3>
+<p>Un triplet <span class="math inline">\(\{P\}\ c\ \{Q\}\)</span> est <strong>valide</strong> si et seulement si :</p>
+<p><span class="math display">\[
+\forall \mu, \mu \models P \Longrightarrow Mem(c, \mu) \text{ est défini et } Mem(c, \mu) \models Q
+\]</span></p>
+<p>où <span class="math inline">\(\mu \models P\)</span> signifie “<span class="math inline">\(\mu\)</span> satisfait le prédicat <span class="math inline">\(P\)</span>”.</p>
+</section>
+<section id="correction-partielle" class="level3">
+<h3 class="anchored" data-anchor-id="correction-partielle">Correction partielle</h3>
+<p>La définition ci-dessus suppose que <span class="math inline">\(Mem(c, \mu)\)</span> est défini, c’est-à-dire que l’exécution de <span class="math inline">\(c\)</span> <strong>termine</strong>. Un triplet valide garantit donc que <strong>si</strong> le programme termine, alors la postcondition est satisfaite. C’est ce qu’on appelle la <strong>correction partielle</strong>.</p>
+<p><strong>Remarque importante</strong> : Le triplet <span class="math inline">\(\{false\}\ c\ \{Q\}\)</span> est toujours valide (car la prémisse est toujours fausse). On dit qu’il est <strong>vacuously true</strong>.</p>
+</section>
+</section>
+<section id="calcul-de-la-plus-faible-précondition-wp" class="level2">
+<h2 class="anchored" data-anchor-id="calcul-de-la-plus-faible-précondition-wp">Calcul de la plus faible précondition (WP)</h2>
+<p>Le principe du <strong>Weakest Precondition</strong> (WP) est de calculer, pour une instruction <span class="math inline">\(c\)</span> et une postcondition <span class="math inline">\(Q\)</span>, la condition la plus faible sur l’état initial qui garantit qu’après exécution de <span class="math inline">\(c\)</span>, <span class="math inline">\(Q\)</span> sera vraie.</p>
+<section id="définition-récursive-de-wp" class="level3">
+<h3 class="anchored" data-anchor-id="définition-récursive-de-wp">Définition récursive de WP</h3>
+<p>Pour les instructions de base :</p>
+<ol type="1">
+<li><p><strong>Affectation</strong> : <span class="math inline">\(WP(x := t, Q) = Q[x \leftarrow t]\)</span> où <span class="math inline">\(Q[x \leftarrow t]\)</span> est <span class="math inline">\(Q\)</span> dans laquelle chaque occurrence libre de <span class="math inline">\(x\)</span> est remplacée par <span class="math inline">\(t\)</span>.</p></li>
+<li><p><strong>Séquence</strong> : <span class="math inline">\(WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))\)</span></p></li>
+<li><p><strong>Conditionnelle</strong> : <span class="math display">\[
+WP(\text{if } b \text{ then } c_1 \text{ else } c_2, Q) = (b \Rightarrow WP(c_1, Q)) \wedge (\neg b \Rightarrow WP(c_2, Q))
+\]</span></p></li>
+</ol>
+</section>
+<section id="théorème-fondamental-pour-les-programmes-sans-boucle" class="level3">
+<h3 class="anchored" data-anchor-id="théorème-fondamental-pour-les-programmes-sans-boucle">Théorème fondamental pour les programmes sans boucle</h3>
+<p>Pour un programme <span class="math inline">\(c\)</span> sans boucle ni appel de fonction, et pour des formules <span class="math inline">\(P\)</span> et <span class="math inline">\(Q\)</span> :</p>
+<p><span class="math display">\[
+\{P\}\ c\ \{Q\} \text{ est valide } \Longleftrightarrow P \Rightarrow WP(c, Q) \text{ est valide}
+\]</span></p>
+<p>Autrement dit, <span class="math inline">\(P\)</span> doit impliquer la plus faible précondition de <span class="math inline">\(c\)</span> pour <span class="math inline">\(Q\)</span>.</p>
+</section>
+</section>
+<section id="traitement-des-boucles-invariants" class="level2">
+<h2 class="anchored" data-anchor-id="traitement-des-boucles-invariants">Traitement des boucles : invariants</h2>
+<p>Pour les boucles, le calcul de <span class="math inline">\(WP\)</span> n’est pas directement possible (cela résoudrait le problème de l’arrêt, qui est indécidable). L’utilisateur doit fournir un <strong>invariant de boucle</strong>.</p>
+<section id="définition-dun-invariant" class="level3">
+<h3 class="anchored" data-anchor-id="définition-dun-invariant">Définition d’un invariant</h3>
+<p>Soit la boucle : <code>while b do c done</code></p>
+<p>Un prédicat <span class="math inline">\(I\)</span> est un <strong>invariant</strong> de cette boucle si et seulement si :</p>
+<p><span class="math display">\[
+\{I \wedge b\}\ c\ \{I\} \text{ est un triplet valide}
+\]</span></p>
+<p><strong>Intuition</strong> : Si <span class="math inline">\(I\)</span> est vrai avant d’entrer dans le corps de la boucle, et que la condition de boucle <span class="math inline">\(b\)</span> est vraie, alors après exécution du corps, <span class="math inline">\(I\)</span> reste vrai.</p>
+</section>
+<section id="wp-avec-invariant-pour-une-boucle" class="level3">
+<h3 class="anchored" data-anchor-id="wp-avec-invariant-pour-une-boucle">WP avec invariant pour une boucle</h3>
+<p>Avec un invariant <span class="math inline">\(I\)</span> fourni pour la boucle <code>while b do c done</code>, on définit :</p>
+<p><span class="math display">\[
+WP(\text{while } b \text{ do } c \text{ done}, Q) = I
+\]</span></p>
+<p>à condition que :</p>
+<ol type="1">
+<li><span class="math inline">\(I\)</span> soit un invariant : <span class="math inline">\(\{I \wedge b\}\ c\ \{I\}\)</span> valide</li>
+<li>En sortie de boucle, <span class="math inline">\(I\)</span> et la négation de la condition impliquent <span class="math inline">\(Q\)</span> : <span class="math inline">\(I \wedge \neg b \Rightarrow Q\)</span></li>
+</ol>
+<p><strong>Exemple pratique</strong> : Fonction <code>add(a, b)</code> avec précondition <span class="math inline">\(b \geq 0\)</span> et postcondition <span class="math inline">\(res = a + b\)</span></p>
+<pre><code>add(a, b) =
+  res := a;
+  aux := b;
+  while aux &gt; 0 do
+    res := res + 1;
+    aux := aux - 1;
+  done;
+  res</code></pre>
+<p><strong>Invariant proposé</strong> : <span class="math inline">\(I = (res + aux = a + b) \wedge (aux \geq 0)\)</span></p>
+<p>Nous devons vérifier :</p>
+<ol type="1">
+<li><span class="math inline">\(\{I \wedge aux &gt; 0\}\ res := res + 1; aux := aux - 1\ \{I\}\)</span></li>
+<li><span class="math inline">\(I \wedge \neg (aux &gt; 0) \Rightarrow res = a + b\)</span></li>
+</ol>
+<p>Le calcul de <span class="math inline">\(WP\)</span> pour le corps de la boucle donne :</p>
+<p><span class="math display">\[
+WP(res := res + 1; aux := aux - 1, I) = I[aux \leftarrow aux - 1][res \leftarrow res + 1]
+\]</span></p>
+<p>Ce qui se simplifie en <span class="math inline">\((res + 1) + (aux - 1) = a + b \wedge aux - 1 \geq 0\)</span>, équivalent à <span class="math inline">\(res + aux = a + b \wedge aux \geq 1\)</span>.</p>
+<p>Or <span class="math inline">\(I \wedge aux &gt; 0\)</span> implique <span class="math inline">\(res + aux = a + b \wedge aux \geq 0 \wedge aux &gt; 0\)</span>, donc <span class="math inline">\(aux \geq 1\)</span>, ce qui implique bien <span class="math inline">\(WP(...)\)</span>.</p>
+<p>Pour la condition de sortie : <span class="math inline">\(I \wedge \neg (aux &gt; 0)\)</span> implique <span class="math inline">\(res + aux = a + b \wedge aux \geq 0 \wedge aux \leq 0\)</span>, donc <span class="math inline">\(aux = 0\)</span>, d’où <span class="math inline">\(res = a + b\)</span>.</p>
+<p>Ainsi, <span class="math inline">\(I\)</span> est bien un invariant valide.</p>
+</section>
+</section>
+<section id="traitement-des-appels-de-fonction" class="level2">
+<h2 class="anchored" data-anchor-id="traitement-des-appels-de-fonction">Traitement des appels de fonction</h2>
+<section id="contrat-de-fonction" class="level3">
+<h3 class="anchored" data-anchor-id="contrat-de-fonction">Contrat de fonction</h3>
+<p>Une fonction <span class="math inline">\(f\)</span> peut être associée à un <strong>contrat</strong> <span class="math inline">\(\{\phi\}\ f\ \{\psi\}\)</span> où :</p>
+<ul>
+<li><span class="math inline">\(\phi\)</span> sont les préconditions sur les paramètres</li>
+<li><span class="math inline">\(\psi\)</span> sont les postconditions reliant les paramètres et la valeur de retour</li>
+</ul>
+</section>
+<section id="wp-pour-un-appel-de-fonction" class="level3">
+<h3 class="anchored" data-anchor-id="wp-pour-un-appel-de-fonction">WP pour un appel de fonction</h3>
+<p>Pour un appel <code>a := f(b)</code> dans un contexte où <span class="math inline">\(f\)</span> a pour contrat <span class="math inline">\(\{\phi\}\ f\ \{\psi\}\)</span>, on a :</p>
+<p><span class="math display">\[
+WP(a := f(b), Q) = \phi[x \leftarrow b] \wedge \forall v, (\psi[x \leftarrow b, res \leftarrow v] \Rightarrow Q[a \leftarrow v])
+\]</span></p>
+<p>où <span class="math inline">\(x\)</span> est le paramètre formel de <span class="math inline">\(f\)</span>, <span class="math inline">\(res\)</span> sa valeur de retour, et <span class="math inline">\(v\)</span> une variable fraîche.</p>
+<p>En pratique, on utilise souvent une version simplifiée :</p>
+<p><span class="math display">\[
+WP(a := f(b), Q) = \phi[x \leftarrow b] \wedge (\psi[x \leftarrow b, res \leftarrow f(b)] \Rightarrow Q[a \leftarrow f(b)])
+\]</span></p>
+<p><strong>Exemple</strong> : Fonction récursive <code>sum(n)</code> qui calcule <span class="math inline">\(\sum_{i=1}^n i\)</span></p>
+<pre><code>sum(n) =
+  requires { n &gt;= 0 }
+  ensures { res = Σ_{i=1}^n i }
+  if n = 0 then
+    res := 0
+  else
+    res := n + sum(n - 1)
+  endif;
+  res</code></pre>
+<p>Pour vérifier le contrat, nous devons calculer <span class="math inline">\(WP\)</span> du corps avec la postcondition.</p>
+<p>Soit <span class="math inline">\(\phi(n) = n \geq 0\)</span> et <span class="math inline">\(\psi(n, res) = res = \sum_{i=1}^n i\)</span>.</p>
+<p>Pour le cas <code>n = 0</code> : <span class="math inline">\(WP(res := 0, \psi) = (0 = \sum_{i=1}^0 i)\)</span> qui est vrai car <span class="math inline">\(\sum_{i=1}^0 i = 0\)</span>.</p>
+<p>Pour le cas <code>n ≠ 0</code> : <span class="math inline">\(WP(res := n + sum(n-1), \psi)\)</span></p>
+<p>Cela devient : <span class="math inline">\(\phi(n-1)\)</span> (précondition de l’appel) et <span class="math inline">\(\psi(n-1, sum(n-1)) \Rightarrow \psi(n, n + sum(n-1))\)</span>.</p>
+<p>Ce qui donne : <span class="math inline">\((n-1 \geq 0) \wedge (sum(n-1) = \sum_{i=1}^{n-1} i) \Rightarrow (n + sum(n-1) = \sum_{i=1}^n i)\)</span>.</p>
+<p>Puisque <span class="math inline">\(\sum_{i=1}^n i = n + \sum_{i=1}^{n-1} i\)</span>, l’implication est vraie.</p>
+<p>La vérification complète nécessite aussi de montrer que <span class="math inline">\(n \geq 0 \Rightarrow n-1 \geq 0\)</span> lorsque <span class="math inline">\(n \neq 0\)</span>, ce qui est le cas.</p>
+</section>
+</section>
+<section id="correction-totale-variant" class="level2">
+<h2 class="anchored" data-anchor-id="correction-totale-variant">Correction totale (variant)</h2>
+<p>La correction partielle ne garantit pas la <strong>terminaison</strong>. Pour obtenir la <strong>correction totale</strong>, nous devons ajouter un <strong>variant</strong>.</p>
+<section id="définition-du-variant" class="level3">
+<h3 class="anchored" data-anchor-id="définition-du-variant">Définition du variant</h3>
+<p>Un <strong>variant</strong> est une expression entière <span class="math inline">\(V\)</span> sur les variables du programme telle que :</p>
+<ol type="1">
+<li><span class="math inline">\(V \geq 0\)</span> avant chaque itération de boucle ou chaque appel récursif</li>
+<li><span class="math inline">\(V\)</span> décroît strictement à chaque itération/appel</li>
+</ol>
+<p><strong>Pour les boucles</strong> : Pour <code>while b do c done</code> avec invariant <span class="math inline">\(I\)</span>, on exige l’existence d’un variant <span class="math inline">\(V\)</span> tel que :</p>
+<ul>
+<li><span class="math inline">\(I \wedge b \Rightarrow V \geq 0\)</span></li>
+<li><span class="math inline">\(\{I \wedge b \wedge V = v_0\}\ c\ \{V &lt; v_0\}\)</span> (où <span class="math inline">\(v_0\)</span> est une variable logique)</li>
+</ul>
+<p><strong>Pour les appels récursifs</strong> : Pour une fonction <span class="math inline">\(f(x)\)</span> avec précondition <span class="math inline">\(\phi(x)\)</span>, on exige un variant <span class="math inline">\(V(x)\)</span> tel que :</p>
+<ul>
+<li><span class="math inline">\(\phi(x) \Rightarrow V(x) \geq 0\)</span></li>
+<li>Pour tout appel <span class="math inline">\(f(y)\)</span> dans le corps de <span class="math inline">\(f\)</span>, <span class="math inline">\(\phi(x) \Rightarrow V(y) &lt; V(x)\)</span></li>
+</ul>
+<p><strong>Exemple</strong> : Pour la fonction <code>sum(n)</code>, le variant peut être <span class="math inline">\(n\)</span> lui-même.</p>
+<p>Nous avons : <span class="math inline">\(n \geq 0 \Rightarrow n \geq 0\)</span> (évident) Et pour l’appel récursif <code>sum(n-1)</code> : <span class="math inline">\(n \geq 0 \wedge n \neq 0 \Rightarrow n-1 &lt; n\)</span> (vrai)</p>
+<p>Ainsi, la terminaison est garantie.</p>
+</section>
+</section>
+<section id="théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique" class="level2">
+<h2 class="anchored" data-anchor-id="théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique">Théorème de correspondance entre sémantique opérationnelle et axiomatique</h2>
+<p>Ce théorème fondamental établit l’équivalence entre la définition opérationnelle de la validité d’un triplet de Hoare et sa caractérisation par <span class="math inline">\(WP\)</span>.</p>
+<section id="énoncé-du-théorème" class="level3">
+<h3 class="anchored" data-anchor-id="énoncé-du-théorème">Énoncé du théorème</h3>
+<p>Pour tout programme <span class="math inline">\(c\)</span> (avec ou sans boucles, avec traitement par invariants et variants) et pour toutes formules <span class="math inline">\(P\)</span> et <span class="math inline">\(Q\)</span> :</p>
+<p><span class="math display">\[
+\{P\}\ c\ \{Q\} \text{ est valide (selon la sémantique opérationnelle)} \Longleftrightarrow P \Rightarrow WP(c, Q) \text{ est valide}
+\]</span></p>
+<p>où <span class="math inline">\(WP\)</span> est étendu aux boucles avec invariants comme décrit précédemment.</p>
+</section>
+<section id="idée-de-la-preuve" class="level3">
+<h3 class="anchored" data-anchor-id="idée-de-la-preuve">Idée de la preuve</h3>
+<p>La preuve procède par <strong>induction structurelle</strong> sur le programme <span class="math inline">\(c\)</span>. Nous présentons les cas clés :</p>
+<section id="cas-de-laffectation" class="level4">
+<h4 class="anchored" data-anchor-id="cas-de-laffectation">Cas de l’affectation</h4>
+<p>Pour <span class="math inline">\(c = x := t\)</span>, nous devons montrer :</p>
+<p><span class="math display">\[
+\{P\}\ x := t\ \{Q\} \text{ valide } \Longleftrightarrow P \Rightarrow Q[x \leftarrow t] \text{ valide}
+\]</span></p>
+<p><strong>Preuve</strong> : Par définition opérationnelle, <span class="math inline">\(\{P\}\ x := t\ \{Q\}\)</span> est valide ssi pour tout <span class="math inline">\(\mu\)</span>, si <span class="math inline">\(\mu \models P\)</span>, alors <span class="math inline">\(Mem(x:=t, \mu) = \mu[x \leftarrow val(t,\mu)] \models Q\)</span>.</p>
+<p>Or, par une propriété sémantique fondamentale : <span class="math inline">\(\mu \models Q[x \leftarrow t]\)</span> ssi <span class="math inline">\(\mu[x \leftarrow val(t,\mu)] \models Q\)</span>.</p>
+<p>Donc la condition équivaut à : si <span class="math inline">\(\mu \models P\)</span>, alors <span class="math inline">\(\mu \models Q[x \leftarrow t]\)</span>, c’est-à-dire <span class="math inline">\(P \Rightarrow Q[x \leftarrow t]\)</span>.</p>
+</section>
+<section id="cas-de-la-séquence" class="level4">
+<h4 class="anchored" data-anchor-id="cas-de-la-séquence">Cas de la séquence</h4>
+<p>Pour <span class="math inline">\(c = c_1; c_2\)</span>, en supposant l’hypothèse d’induction pour <span class="math inline">\(c_1\)</span> et <span class="math inline">\(c_2\)</span> :</p>
+<p><span class="math inline">\(\{P\}\ c_1; c_2\ \{Q\}\)</span> valide<br>
+ssi il existe <span class="math inline">\(R\)</span> tel que <span class="math inline">\(\{P\}\ c_1\ \{R\}\)</span> et <span class="math inline">\(\{R\}\ c_2\ \{Q\}\)</span> valides<br>
+ssi (par IH) <span class="math inline">\(P \Rightarrow WP(c_1, R)\)</span> et <span class="math inline">\(R \Rightarrow WP(c_2, Q)\)</span><br>
+ssi <span class="math inline">\(P \Rightarrow WP(c_1, R)\)</span> et <span class="math inline">\(R \Rightarrow WP(c_2, Q)\)</span> pour un certain <span class="math inline">\(R\)</span></p>
+<p>Or <span class="math inline">\(WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))\)</span> est la plus faible telle <span class="math inline">\(R\)</span>.</p>
+<p>Donc cela équivaut à <span class="math inline">\(P \Rightarrow WP(c_1, WP(c_2, Q)) = WP(c_1; c_2, Q)\)</span>.</p>
+</section>
+<section id="cas-de-la-boucle" class="level4">
+<h4 class="anchored" data-anchor-id="cas-de-la-boucle">Cas de la boucle</h4>
+<p>Pour <span class="math inline">\(c = \text{while } b \text{ do } c' \text{ done}\)</span> avec invariant <span class="math inline">\(I\)</span> :</p>
+<p>La validité opérationnelle de <span class="math inline">\(\{P\}\ c\ \{Q\}\)</span> requiert que pour tout <span class="math inline">\(\mu\)</span> avec <span class="math inline">\(\mu \models P\)</span>, l’exécution de la boucle termine dans un état <span class="math inline">\(\mu'\)</span> tel que <span class="math inline">\(\mu' \models Q\)</span>.</p>
+<p>Par induction sur le nombre d’itérations et en utilisant le fait que <span class="math inline">\(I\)</span> est préservé par chaque itération, on montre que cela équivaut à :</p>
+<ol type="1">
+<li><span class="math inline">\(P \Rightarrow I\)</span> (l’invariant est vrai initialement)</li>
+<li><span class="math inline">\(I \wedge b \Rightarrow WP(c', I)\)</span> (l’invariant est préservé)</li>
+<li><span class="math inline">\(I \wedge \neg b \Rightarrow Q\)</span> (la postcondition est vérifiée en sortie)</li>
+</ol>
+<p>Ce qui est exactement la définition de <span class="math inline">\(P \Rightarrow WP(c, Q)\)</span> pour une boucle, où <span class="math inline">\(WP(c, Q) = I\)</span> sous les conditions 2 et 3.</p>
+<p>Ainsi, les deux définitions coïncident, établissant la correspondance entre sémantique opérationnelle et axiomatique à travers le calcul de <span class="math inline">\(WP\)</span>.</p>
+<hr>
+<p>Ce cours a présenté les fondements de la modélisation et vérification de logiciels, en se concentrant particulièrement sur le raisonnement déductif et la logique de Hoare. Ces techniques formelles permettent d’établir rigoureusement la correction des programmes, complétant ainsi les méthodes empiriques comme les tests.</p>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

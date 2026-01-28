@@ -1,0 +1,174 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Redirection…",
+    "section": "",
+    "text": "Si vous n’êtes pas redirigés automatiquement,\ncliquez ici pour aller au Cours."
+  },
+  {
+    "objectID": "ch1.html",
+    "href": "ch1.html",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "",
+    "text": "La question centrale de ce domaine est : mon système informatique, programme ou logiciel est-il correct ?\nCette préoccupation est cruciale à toutes les échelles :\n\nSystèmes larges : Internet, systèmes distribués\nSystèmes embarqués : IoT, systèmes critiques, automatisation\n\nLa vérification porte sur plusieurs aspects fondamentaux :\n\nAlgorithmes → leur implémentation sous forme de programmes\nTypes de données → représentation et manipulation correctes\nProtocoles → communication et coordination entre composants",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#introduction",
+    "href": "ch1.html#introduction",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "",
+    "text": "La question centrale de ce domaine est : mon système informatique, programme ou logiciel est-il correct ?\nCette préoccupation est cruciale à toutes les échelles :\n\nSystèmes larges : Internet, systèmes distribués\nSystèmes embarqués : IoT, systèmes critiques, automatisation\n\nLa vérification porte sur plusieurs aspects fondamentaux :\n\nAlgorithmes → leur implémentation sous forme de programmes\nTypes de données → représentation et manipulation correctes\nProtocoles → communication et coordination entre composants",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#programme-et-spécifications",
+    "href": "ch1.html#programme-et-spécifications",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Programme et spécifications",
+    "text": "Programme et spécifications\n\nDéfinition d’un programme\nUn programme est initialement une séquence de caractères qui doit respecter les règles syntaxiques vérifiées par un compilateur.\nAttention : Un compilateur ne vérifie que la syntaxe, pas la correction sémantique !\nDe cette séquence de caractères, nous construisons un modèle du programme – une abstraction mathématique qui représente la sémantique (la signification) du programme.\nSémantique : Signification des constructions syntaxiques. Exemple : x++ a pour sémantique “x est incrémenté de 1”.\nLes modèles formels sont des objets mathématiques qui permettent de raisonner sur le comportement des programmes de manière systématique et, dans une certaine mesure, automatisée. Ceci est particulièrement utile pour les systèmes complexes où l’intuition peut faire défaut.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#propriétés-fonctionnelles-et-non-fonctionnelles",
+    "href": "ch1.html#propriétés-fonctionnelles-et-non-fonctionnelles",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Propriétés fonctionnelles et non fonctionnelles",
+    "text": "Propriétés fonctionnelles et non fonctionnelles\n\nPropriétés non fonctionnelles\nCes propriétés concernent la qualité de service plutôt que le calcul spécifique :\n\nTemps d’exécution, performance\nErgonomie, utilisabilité\nPropriétés de sécurité\nConsommation de ressources (mémoire, énergie)\n\n\n\nPropriétés fonctionnelles\nCes propriétés spécifient ce que le programme est censé calculer.\nExemple : qsort(T) doit retourner un tableau T' qui est une permutation triée de T.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#spécifications-formelles",
+    "href": "ch1.html#spécifications-formelles",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Spécifications formelles",
+    "text": "Spécifications formelles\nLes spécifications peuvent être exprimées de diverses manières :\n\nLangage naturel : Descriptions écrites, souvent ambiguës\nAnnotations dans le programme : Commentaires dans le code\nAssertions : Constructions de programmation défensive qui détectent les erreurs à l’exécution\nTests unitaires : Spécifications par exemples\nSpécifications formelles : Prédicats logiques avec une signification mathématique précise\n\nExemple de spécification formelle pour un tableau trié :\n\\[\n\\forall i \\in \\{0, \\dots, n-2\\}, t[i] \\leq t[i+1]\n\\]",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#le-problème-de-la-vérification",
+    "href": "ch1.html#le-problème-de-la-vérification",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Le problème de la vérification",
+    "text": "Le problème de la vérification\nNous voulons déterminer si un programme satisfait ses spécifications. Ceci peut être visualisé comme :\n\n\n\n\n\ngraph TD\n    A[Système informatique / Programme] -- modélisation --&gt; B[Modèle formel du programme]\n    C[Spécifications] -- modélisation --&gt; D[Spécification formelle]\n    B --&gt; E[Correct ?]\n    D --&gt; E\n\n\n\n\n\n\nDéfinition : Un programme satisfait (ou vérifie) une spécification, noté programme |= spécification, si pour toutes les exécutions possibles, le comportement du programme est conforme à la spécification.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#méthodes-de-vérification",
+    "href": "ch1.html#méthodes-de-vérification",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Méthodes de vérification",
+    "text": "Méthodes de vérification\nPlusieurs approches existent pour répondre à la question de la correction :\n\nRaisonnement déductif (Deductive Reasoning)\nUtilise la logique mathématique pour prouver qu’un programme satisfait sa spécification. La logique de Hoare en est un exemple fondamental.\n\n\nInterprétation abstraite (Abstract Interpretation)\nTechnique qui calcule une sur-approximation des comportements possibles du programme. Si la sur-approximation satisfait la propriété, alors le programme aussi.\n\n\n\n\n\ngraph LR\n    P[Programme] --&gt; M[Modèle comme automate]\n    M --&gt; O[Outil calcule un sur-ensemble des états atteignables]\n    O --&gt; V[Vérifie la propriété]\n\n\n\n\n\n\n\n\nModel Checking\nVérifie automatiquement qu’un modèle fini d’un système satisfait une propriété formelle. Calcule l’ensemble exact des états atteignables (dans les limites de calculabilité).\n\n\n\n\n\ngraph TD\n    P[Programme/Système] -- modélisation --&gt; O[Outil]\n    S[Spécification] -- modélisation --&gt; O\n    O --&gt; Exact[Calcule l'ensemble exact des états atteignables]\n    Exact --&gt; V[Vérification de la propriété]\n\n\n\n\n\n\n\n\nPreuve assistée (Assisted Proof)\nCombine l’assistance humaine avec la vérification automatique. L’utilisateur guide la preuve, et la machine vérifie chaque étape.\n\n\n\n\n\ngraph TD\n    P[Programme] -- modélisation --&gt; A[Modèle formel]\n    S[Spécification] -- modélisation --&gt; B[Prédicat formel]\n    A --&gt; PR[Prouveur]\n    B --&gt; PR\n    PR --&gt; Prouvé[Preuve vérifiée]",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#introduction-à-la-logique-de-hoare",
+    "href": "ch1.html#introduction-à-la-logique-de-hoare",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Introduction à la logique de Hoare",
+    "text": "Introduction à la logique de Hoare\nLa logique de Hoare (due à C.A.R. Hoare, 1969) est un système formel pour raisonner sur la correction des programmes. Elle permet de dériver mathématiquement qu’un programme satisfait sa spécification.\nIdée centrale : Associer à chaque instruction du programme comment elle transforme les propriétés des variables.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#sémantique-opérationnelle",
+    "href": "ch1.html#sémantique-opérationnelle",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Sémantique opérationnelle",
+    "text": "Sémantique opérationnelle\nAvant d’introduire la logique de Hoare, nous devons définir formellement la signification des programmes. La sémantique opérationnelle décrit comment l’état de la mémoire évolue lors de l’exécution.\n\nDéfinitions formelles\nÉtat mémoire : Noté \\(\\mu\\), c’est une fonction qui associe à chaque variable sa valeur.\n\\[\n\\mu : Var \\longrightarrow \\mathbb{Z} \\cup \\{tt, ff\\}\n\\]\noù \\(Var\\) est l’ensemble des variables du programme, \\(\\mathbb{Z}\\) les entiers, et \\(\\{tt, ff\\}\\) les booléens.\nMise à jour de l’état : \\(\\mu[x \\leftarrow c]\\) dénote l’état obtenu en modifiant \\(\\mu\\) pour que \\(x\\) vaille \\(c\\), les autres variables restant inchangées.\nÉvaluation d’expression : \\(Val(e, \\mu)\\) retourne la valeur de l’expression \\(e\\) dans l’état \\(\\mu\\).\nExécution d’instruction : \\(Mem(c, \\mu)\\) retourne le nouvel état mémoire après exécution de l’instruction \\(c\\) depuis l’état \\(\\mu\\).\nExemple : \\(Mem(y := 0, \\mu) = \\mu[y \\leftarrow 0]\\)",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#triplets-de-hoare-et-correction-partielle",
+    "href": "ch1.html#triplets-de-hoare-et-correction-partielle",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Triplets de Hoare et correction partielle",
+    "text": "Triplets de Hoare et correction partielle\n\nDéfinition des triplets\nUn triplet de Hoare a la forme \\(\\{P\\}\\ c\\ \\{Q\\}\\) où :\n\n\\(P\\) est une précondition (prédicat logique sur les variables avant exécution)\n\\(c\\) est une instruction ou séquence d’instructions\n\\(Q\\) est une postcondition (prédicat logique sur les variables après exécution)\n\nSignification : Si l’état mémoire satisfait \\(P\\) avant d’exécuter \\(c\\), et si l’exécution de \\(c\\) termine, alors l’état mémoire résultant satisfera \\(Q\\).\n\n\nValidité d’un triplet\nUn triplet \\(\\{P\\}\\ c\\ \\{Q\\}\\) est valide si et seulement si :\n\\[\n\\forall \\mu, \\mu \\models P \\Longrightarrow Mem(c, \\mu) \\text{ est défini et } Mem(c, \\mu) \\models Q\n\\]\noù \\(\\mu \\models P\\) signifie “\\(\\mu\\) satisfait le prédicat \\(P\\)”.\n\n\nCorrection partielle\nLa définition ci-dessus suppose que \\(Mem(c, \\mu)\\) est défini, c’est-à-dire que l’exécution de \\(c\\) termine. Un triplet valide garantit donc que si le programme termine, alors la postcondition est satisfaite. C’est ce qu’on appelle la correction partielle.\nRemarque importante : Le triplet \\(\\{false\\}\\ c\\ \\{Q\\}\\) est toujours valide (car la prémisse est toujours fausse). On dit qu’il est vacuously true.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#calcul-de-la-plus-faible-précondition-wp",
+    "href": "ch1.html#calcul-de-la-plus-faible-précondition-wp",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Calcul de la plus faible précondition (WP)",
+    "text": "Calcul de la plus faible précondition (WP)\nLe principe du Weakest Precondition (WP) est de calculer, pour une instruction \\(c\\) et une postcondition \\(Q\\), la condition la plus faible sur l’état initial qui garantit qu’après exécution de \\(c\\), \\(Q\\) sera vraie.\n\nDéfinition récursive de WP\nPour les instructions de base :\n\nAffectation : \\(WP(x := t, Q) = Q[x \\leftarrow t]\\) où \\(Q[x \\leftarrow t]\\) est \\(Q\\) dans laquelle chaque occurrence libre de \\(x\\) est remplacée par \\(t\\).\nSéquence : \\(WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))\\)\nConditionnelle : \\[\nWP(\\text{if } b \\text{ then } c_1 \\text{ else } c_2, Q) = (b \\Rightarrow WP(c_1, Q)) \\wedge (\\neg b \\Rightarrow WP(c_2, Q))\n\\]\n\n\n\nThéorème fondamental pour les programmes sans boucle\nPour un programme \\(c\\) sans boucle ni appel de fonction, et pour des formules \\(P\\) et \\(Q\\) :\n\\[\n\\{P\\}\\ c\\ \\{Q\\} \\text{ est valide } \\Longleftrightarrow P \\Rightarrow WP(c, Q) \\text{ est valide}\n\\]\nAutrement dit, \\(P\\) doit impliquer la plus faible précondition de \\(c\\) pour \\(Q\\).",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#traitement-des-boucles-invariants",
+    "href": "ch1.html#traitement-des-boucles-invariants",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Traitement des boucles : invariants",
+    "text": "Traitement des boucles : invariants\nPour les boucles, le calcul de \\(WP\\) n’est pas directement possible (cela résoudrait le problème de l’arrêt, qui est indécidable). L’utilisateur doit fournir un invariant de boucle.\n\nDéfinition d’un invariant\nSoit la boucle : while b do c done\nUn prédicat \\(I\\) est un invariant de cette boucle si et seulement si :\n\\[\n\\{I \\wedge b\\}\\ c\\ \\{I\\} \\text{ est un triplet valide}\n\\]\nIntuition : Si \\(I\\) est vrai avant d’entrer dans le corps de la boucle, et que la condition de boucle \\(b\\) est vraie, alors après exécution du corps, \\(I\\) reste vrai.\n\n\nWP avec invariant pour une boucle\nAvec un invariant \\(I\\) fourni pour la boucle while b do c done, on définit :\n\\[\nWP(\\text{while } b \\text{ do } c \\text{ done}, Q) = I\n\\]\nà condition que :\n\n\\(I\\) soit un invariant : \\(\\{I \\wedge b\\}\\ c\\ \\{I\\}\\) valide\nEn sortie de boucle, \\(I\\) et la négation de la condition impliquent \\(Q\\) : \\(I \\wedge \\neg b \\Rightarrow Q\\)\n\nExemple pratique : Fonction add(a, b) avec précondition \\(b \\geq 0\\) et postcondition \\(res = a + b\\)\nadd(a, b) =\n  res := a;\n  aux := b;\n  while aux &gt; 0 do\n    res := res + 1;\n    aux := aux - 1;\n  done;\n  res\nInvariant proposé : \\(I = (res + aux = a + b) \\wedge (aux \\geq 0)\\)\nNous devons vérifier :\n\n\\(\\{I \\wedge aux &gt; 0\\}\\ res := res + 1; aux := aux - 1\\ \\{I\\}\\)\n\\(I \\wedge \\neg (aux &gt; 0) \\Rightarrow res = a + b\\)\n\nLe calcul de \\(WP\\) pour le corps de la boucle donne :\n\\[\nWP(res := res + 1; aux := aux - 1, I) = I[aux \\leftarrow aux - 1][res \\leftarrow res + 1]\n\\]\nCe qui se simplifie en \\((res + 1) + (aux - 1) = a + b \\wedge aux - 1 \\geq 0\\), équivalent à \\(res + aux = a + b \\wedge aux \\geq 1\\).\nOr \\(I \\wedge aux &gt; 0\\) implique \\(res + aux = a + b \\wedge aux \\geq 0 \\wedge aux &gt; 0\\), donc \\(aux \\geq 1\\), ce qui implique bien \\(WP(...)\\).\nPour la condition de sortie : \\(I \\wedge \\neg (aux &gt; 0)\\) implique \\(res + aux = a + b \\wedge aux \\geq 0 \\wedge aux \\leq 0\\), donc \\(aux = 0\\), d’où \\(res = a + b\\).\nAinsi, \\(I\\) est bien un invariant valide.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#traitement-des-appels-de-fonction",
+    "href": "ch1.html#traitement-des-appels-de-fonction",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Traitement des appels de fonction",
+    "text": "Traitement des appels de fonction\n\nContrat de fonction\nUne fonction \\(f\\) peut être associée à un contrat \\(\\{\\phi\\}\\ f\\ \\{\\psi\\}\\) où :\n\n\\(\\phi\\) sont les préconditions sur les paramètres\n\\(\\psi\\) sont les postconditions reliant les paramètres et la valeur de retour\n\n\n\nWP pour un appel de fonction\nPour un appel a := f(b) dans un contexte où \\(f\\) a pour contrat \\(\\{\\phi\\}\\ f\\ \\{\\psi\\}\\), on a :\n\\[\nWP(a := f(b), Q) = \\phi[x \\leftarrow b] \\wedge \\forall v, (\\psi[x \\leftarrow b, res \\leftarrow v] \\Rightarrow Q[a \\leftarrow v])\n\\]\noù \\(x\\) est le paramètre formel de \\(f\\), \\(res\\) sa valeur de retour, et \\(v\\) une variable fraîche.\nEn pratique, on utilise souvent une version simplifiée :\n\\[\nWP(a := f(b), Q) = \\phi[x \\leftarrow b] \\wedge (\\psi[x \\leftarrow b, res \\leftarrow f(b)] \\Rightarrow Q[a \\leftarrow f(b)])\n\\]\nExemple : Fonction récursive sum(n) qui calcule \\(\\sum_{i=1}^n i\\)\nsum(n) =\n  requires { n &gt;= 0 }\n  ensures { res = Σ_{i=1}^n i }\n  if n = 0 then\n    res := 0\n  else\n    res := n + sum(n - 1)\n  endif;\n  res\nPour vérifier le contrat, nous devons calculer \\(WP\\) du corps avec la postcondition.\nSoit \\(\\phi(n) = n \\geq 0\\) et \\(\\psi(n, res) = res = \\sum_{i=1}^n i\\).\nPour le cas n = 0 : \\(WP(res := 0, \\psi) = (0 = \\sum_{i=1}^0 i)\\) qui est vrai car \\(\\sum_{i=1}^0 i = 0\\).\nPour le cas n ≠ 0 : \\(WP(res := n + sum(n-1), \\psi)\\)\nCela devient : \\(\\phi(n-1)\\) (précondition de l’appel) et \\(\\psi(n-1, sum(n-1)) \\Rightarrow \\psi(n, n + sum(n-1))\\).\nCe qui donne : \\((n-1 \\geq 0) \\wedge (sum(n-1) = \\sum_{i=1}^{n-1} i) \\Rightarrow (n + sum(n-1) = \\sum_{i=1}^n i)\\).\nPuisque \\(\\sum_{i=1}^n i = n + \\sum_{i=1}^{n-1} i\\), l’implication est vraie.\nLa vérification complète nécessite aussi de montrer que \\(n \\geq 0 \\Rightarrow n-1 \\geq 0\\) lorsque \\(n \\neq 0\\), ce qui est le cas.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#correction-totale-variant",
+    "href": "ch1.html#correction-totale-variant",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Correction totale (variant)",
+    "text": "Correction totale (variant)\nLa correction partielle ne garantit pas la terminaison. Pour obtenir la correction totale, nous devons ajouter un variant.\n\nDéfinition du variant\nUn variant est une expression entière \\(V\\) sur les variables du programme telle que :\n\n\\(V \\geq 0\\) avant chaque itération de boucle ou chaque appel récursif\n\\(V\\) décroît strictement à chaque itération/appel\n\nPour les boucles : Pour while b do c done avec invariant \\(I\\), on exige l’existence d’un variant \\(V\\) tel que :\n\n\\(I \\wedge b \\Rightarrow V \\geq 0\\)\n\\(\\{I \\wedge b \\wedge V = v_0\\}\\ c\\ \\{V &lt; v_0\\}\\) (où \\(v_0\\) est une variable logique)\n\nPour les appels récursifs : Pour une fonction \\(f(x)\\) avec précondition \\(\\phi(x)\\), on exige un variant \\(V(x)\\) tel que :\n\n\\(\\phi(x) \\Rightarrow V(x) \\geq 0\\)\nPour tout appel \\(f(y)\\) dans le corps de \\(f\\), \\(\\phi(x) \\Rightarrow V(y) &lt; V(x)\\)\n\nExemple : Pour la fonction sum(n), le variant peut être \\(n\\) lui-même.\nNous avons : \\(n \\geq 0 \\Rightarrow n \\geq 0\\) (évident) Et pour l’appel récursif sum(n-1) : \\(n \\geq 0 \\wedge n \\neq 0 \\Rightarrow n-1 &lt; n\\) (vrai)\nAinsi, la terminaison est garantie.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  },
+  {
+    "objectID": "ch1.html#théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique",
+    "href": "ch1.html#théorème-de-correspondance-entre-sémantique-opérationnelle-et-axiomatique",
+    "title": "Modélisation et Vérification de Logiciels",
+    "section": "Théorème de correspondance entre sémantique opérationnelle et axiomatique",
+    "text": "Théorème de correspondance entre sémantique opérationnelle et axiomatique\nCe théorème fondamental établit l’équivalence entre la définition opérationnelle de la validité d’un triplet de Hoare et sa caractérisation par \\(WP\\).\n\nÉnoncé du théorème\nPour tout programme \\(c\\) (avec ou sans boucles, avec traitement par invariants et variants) et pour toutes formules \\(P\\) et \\(Q\\) :\n\\[\n\\{P\\}\\ c\\ \\{Q\\} \\text{ est valide (selon la sémantique opérationnelle)} \\Longleftrightarrow P \\Rightarrow WP(c, Q) \\text{ est valide}\n\\]\noù \\(WP\\) est étendu aux boucles avec invariants comme décrit précédemment.\n\n\nIdée de la preuve\nLa preuve procède par induction structurelle sur le programme \\(c\\). Nous présentons les cas clés :\n\nCas de l’affectation\nPour \\(c = x := t\\), nous devons montrer :\n\\[\n\\{P\\}\\ x := t\\ \\{Q\\} \\text{ valide } \\Longleftrightarrow P \\Rightarrow Q[x \\leftarrow t] \\text{ valide}\n\\]\nPreuve : Par définition opérationnelle, \\(\\{P\\}\\ x := t\\ \\{Q\\}\\) est valide ssi pour tout \\(\\mu\\), si \\(\\mu \\models P\\), alors \\(Mem(x:=t, \\mu) = \\mu[x \\leftarrow val(t,\\mu)] \\models Q\\).\nOr, par une propriété sémantique fondamentale : \\(\\mu \\models Q[x \\leftarrow t]\\) ssi \\(\\mu[x \\leftarrow val(t,\\mu)] \\models Q\\).\nDonc la condition équivaut à : si \\(\\mu \\models P\\), alors \\(\\mu \\models Q[x \\leftarrow t]\\), c’est-à-dire \\(P \\Rightarrow Q[x \\leftarrow t]\\).\n\n\nCas de la séquence\nPour \\(c = c_1; c_2\\), en supposant l’hypothèse d’induction pour \\(c_1\\) et \\(c_2\\) :\n\\(\\{P\\}\\ c_1; c_2\\ \\{Q\\}\\) valide\nssi il existe \\(R\\) tel que \\(\\{P\\}\\ c_1\\ \\{R\\}\\) et \\(\\{R\\}\\ c_2\\ \\{Q\\}\\) valides\nssi (par IH) \\(P \\Rightarrow WP(c_1, R)\\) et \\(R \\Rightarrow WP(c_2, Q)\\)\nssi \\(P \\Rightarrow WP(c_1, R)\\) et \\(R \\Rightarrow WP(c_2, Q)\\) pour un certain \\(R\\)\nOr \\(WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))\\) est la plus faible telle \\(R\\).\nDonc cela équivaut à \\(P \\Rightarrow WP(c_1, WP(c_2, Q)) = WP(c_1; c_2, Q)\\).\n\n\nCas de la boucle\nPour \\(c = \\text{while } b \\text{ do } c' \\text{ done}\\) avec invariant \\(I\\) :\nLa validité opérationnelle de \\(\\{P\\}\\ c\\ \\{Q\\}\\) requiert que pour tout \\(\\mu\\) avec \\(\\mu \\models P\\), l’exécution de la boucle termine dans un état \\(\\mu'\\) tel que \\(\\mu' \\models Q\\).\nPar induction sur le nombre d’itérations et en utilisant le fait que \\(I\\) est préservé par chaque itération, on montre que cela équivaut à :\n\n\\(P \\Rightarrow I\\) (l’invariant est vrai initialement)\n\\(I \\wedge b \\Rightarrow WP(c', I)\\) (l’invariant est préservé)\n\\(I \\wedge \\neg b \\Rightarrow Q\\) (la postcondition est vérifiée en sortie)\n\nCe qui est exactement la définition de \\(P \\Rightarrow WP(c, Q)\\) pour une boucle, où \\(WP(c, Q) = I\\) sous les conditions 2 et 3.\nAinsi, les deux définitions coïncident, établissant la correspondance entre sémantique opérationnelle et axiomatique à travers le calcul de \\(WP\\).\n\nCe cours a présenté les fondements de la modélisation et vérification de logiciels, en se concentrant particulièrement sur le raisonnement déductif et la logique de Hoare. Ces techniques formelles permettent d’établir rigoureusement la correction des programmes, complétant ainsi les méthodes empiriques comme les tests.",
+    "crumbs": [
+      "Cours",
+      "Modélisation et Vérification de Logiciels"
+    ]
+  }
+]

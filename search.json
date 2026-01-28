@@ -1,0 +1,174 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Redirecting…",
+    "section": "",
+    "text": "If you are not redirected automatically,\nclick here to go to Course."
+  },
+  {
+    "objectID": "ch1.html",
+    "href": "ch1.html",
+    "title": "Software Modeling and Verification",
+    "section": "",
+    "text": "The central question in this field is: is my computing system, program, or software correct?\nThis concern is critical at all scales:\n\nLarge-scale systems: Internet, distributed systems\nEmbedded systems: IoT, critical systems, automation\n\nVerification addresses several fundamental aspects:\n\nAlgorithms → their implementation as programs\nData types → correct representation and manipulation\nProtocols → communication and coordination between components",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#introduction",
+    "href": "ch1.html#introduction",
+    "title": "Software Modeling and Verification",
+    "section": "",
+    "text": "The central question in this field is: is my computing system, program, or software correct?\nThis concern is critical at all scales:\n\nLarge-scale systems: Internet, distributed systems\nEmbedded systems: IoT, critical systems, automation\n\nVerification addresses several fundamental aspects:\n\nAlgorithms → their implementation as programs\nData types → correct representation and manipulation\nProtocols → communication and coordination between components",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#program-and-specifications",
+    "href": "ch1.html#program-and-specifications",
+    "title": "Software Modeling and Verification",
+    "section": "Program and specifications",
+    "text": "Program and specifications\n\nDefinition of a program\nA program is initially a sequence of characters that must follow syntactic rules checked by a compiler.\nCaution: A compiler only checks syntax, not semantic correctness!\nFrom this sequence of characters, we build a program model – a mathematical abstraction that represents the program’s semantics (its meaning).\nSemantics: Meaning of syntactic constructs. Example: x++ has the semantics “x is incremented by 1”.\nFormal models are mathematical objects that allow reasoning about program behavior in a systematic and, to some extent, automated way. This is particularly useful for complex systems where intuition may fail.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#functional-and-non-functional-properties",
+    "href": "ch1.html#functional-and-non-functional-properties",
+    "title": "Software Modeling and Verification",
+    "section": "Functional and non-functional properties",
+    "text": "Functional and non-functional properties\n\nNon-functional properties\nThese properties concern quality of service rather than specific computation:\n\nExecution time, performance\nErgonomics, usability\nSecurity properties\nResource consumption (memory, energy)\n\n\n\nFunctional properties\nThese properties specify what the program is supposed to compute.\nExample: qsort(T) must return an array T' that is a sorted permutation of T.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#formal-specifications",
+    "href": "ch1.html#formal-specifications",
+    "title": "Software Modeling and Verification",
+    "section": "Formal specifications",
+    "text": "Formal specifications\nSpecifications can be expressed in various ways:\n\nNatural language: Written descriptions, often ambiguous\nProgram annotations: Comments in the code\nAssertions: Defensive programming constructs that detect errors at runtime\nUnit tests: Specifications by examples\nFormal specifications: Logical predicates with precise mathematical meaning\n\nExample of a formal specification for a sorted array:\n\\[\n\\forall i \\in \\{0, \\dots, n-2\\}, t[i] \\leq t[i+1]\n\\]",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#the-verification-problem",
+    "href": "ch1.html#the-verification-problem",
+    "title": "Software Modeling and Verification",
+    "section": "The verification problem",
+    "text": "The verification problem\nWe want to determine if a program satisfies its specifications. This can be visualized as:\n\n\n\n\n\ngraph TD\n    A[Computing system / Program] -- modeling --&gt; B[Formal model of the program]\n    C[Specifications] -- modeling --&gt; D[Formal specification]\n    B --&gt; E[Correct?]\n    D --&gt; E\n\n\n\n\n\n\nDefinition: A program satisfies (or verifies) a specification, denoted program |= specification, if for all possible executions, the program’s behavior conforms to the specification.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#verification-methods",
+    "href": "ch1.html#verification-methods",
+    "title": "Software Modeling and Verification",
+    "section": "Verification methods",
+    "text": "Verification methods\nSeveral approaches exist to answer the correctness question:\n\nDeductive Reasoning\nUses mathematical logic to prove that a program satisfies its specification. Hoare logic is a fundamental example.\n\n\nAbstract Interpretation\nA technique that computes a over-approximation of the program’s possible behaviors. If the over-approximation satisfies the property, then the program does too.\n\n\n\n\n\ngraph LR\n    P[Program] --&gt; M[Model as an automaton]\n    M --&gt; O[Tool computes a superset of reachable states]\n    O --&gt; V[Verifies the property]\n\n\n\n\n\n\n\n\nModel Checking\nAutomatically checks that a finite model of a system satisfies a formal property. Computes the exact set of reachable states (within computability limits).\n\n\n\n\n\ngraph TD\n    P[Program/System] -- modeling --&gt; O[Tool]\n    S[Specification] -- modeling --&gt; O\n    O --&gt; Exact[Computes the exact set of reachable states]\n    Exact --&gt; V[Property verification]\n\n\n\n\n\n\n\n\nAssisted Proof\nCombines human assistance with automatic verification. The user guides the proof, and the machine verifies each step.\n\n\n\n\n\ngraph TD\n    P[Program] -- modeling --&gt; A[Formal model]\n    S[Specification] -- modeling --&gt; B[Formal predicate]\n    A --&gt; PR[Prover]\n    B --&gt; PR\n    PR --&gt; Proven[Proof verified]",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#introduction-to-hoare-logic",
+    "href": "ch1.html#introduction-to-hoare-logic",
+    "title": "Software Modeling and Verification",
+    "section": "Introduction to Hoare logic",
+    "text": "Introduction to Hoare logic\nHoare logic (due to C.A.R. Hoare, 1969) is a formal system for reasoning about program correctness. It allows mathematically deriving that a program satisfies its specification.\nCentral idea: Associate with each program instruction how it transforms the properties of variables.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#operational-semantics",
+    "href": "ch1.html#operational-semantics",
+    "title": "Software Modeling and Verification",
+    "section": "Operational semantics",
+    "text": "Operational semantics\nBefore introducing Hoare logic, we must formally define the meaning of programs. Operational semantics describes how the memory state evolves during execution.\n\nFormal definitions\nMemory state: Denoted \\(\\mu\\), it is a function that associates each variable with its value.\n\\[\n\\mu : Var \\longrightarrow \\mathbb{Z} \\cup \\{tt, ff\\}\n\\]\nwhere \\(Var\\) is the set of program variables, \\(\\mathbb{Z}\\) the integers, and \\(\\{tt, ff\\}\\) the booleans.\nState update: \\(\\mu[x \\leftarrow c]\\) denotes the state obtained by modifying \\(\\mu\\) so that \\(x\\) equals \\(c\\), with other variables unchanged.\nExpression evaluation: \\(Val(e, \\mu)\\) returns the value of expression \\(e\\) in state \\(\\mu\\).\nInstruction execution: \\(Mem(c, \\mu)\\) returns the new memory state after executing instruction \\(c\\) from state \\(\\mu\\).\nExample: \\(Mem(y := 0, \\mu) = \\mu[y \\leftarrow 0]\\)",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#hoare-triples-and-partial-correctness",
+    "href": "ch1.html#hoare-triples-and-partial-correctness",
+    "title": "Software Modeling and Verification",
+    "section": "Hoare triples and partial correctness",
+    "text": "Hoare triples and partial correctness\n\nDefinition of triples\nA Hoare triple has the form \\(\\{P\\}\\ c\\ \\{Q\\}\\) where:\n\n\\(P\\) is a precondition (logical predicate on variables before execution)\n\\(c\\) is an instruction or sequence of instructions\n\\(Q\\) is a postcondition (logical predicate on variables after execution)\n\nMeaning: If the memory state satisfies \\(P\\) before executing \\(c\\), and if the execution of \\(c\\) terminates, then the resulting memory state will satisfy \\(Q\\).\n\n\nValidity of a triple\nA triple \\(\\{P\\}\\ c\\ \\{Q\\}\\) is valid if and only if:\n\\[\n\\forall \\mu, \\mu \\models P \\Longrightarrow Mem(c, \\mu) \\text{ is defined and } Mem(c, \\mu) \\models Q\n\\]\nwhere \\(\\mu \\models P\\) means “\\(\\mu\\) satisfies predicate \\(P\\)”.\n\n\nPartial correctness\nThe above definition assumes that \\(Mem(c, \\mu)\\) is defined, meaning that the execution of \\(c\\) terminates. A valid triple therefore guarantees that if the program terminates, then the postcondition is satisfied. This is called partial correctness.\nImportant note: The triple \\(\\{false\\}\\ c\\ \\{Q\\}\\) is always valid (because the premise is always false). It is said to be vacuously true.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#weakest-precondition-wp-calculation",
+    "href": "ch1.html#weakest-precondition-wp-calculation",
+    "title": "Software Modeling and Verification",
+    "section": "Weakest precondition (WP) calculation",
+    "text": "Weakest precondition (WP) calculation\nThe Weakest Precondition (WP) principle is to calculate, for an instruction \\(c\\) and a postcondition \\(Q\\), the weakest condition on the initial state that guarantees that after executing \\(c\\), \\(Q\\) will be true.\n\nRecursive definition of WP\nFor basic instructions:\n\nAssignment: \\(WP(x := t, Q) = Q[x \\leftarrow t]\\) where \\(Q[x \\leftarrow t]\\) is \\(Q\\) in which each free occurrence of \\(x\\) is replaced by \\(t\\).\nSequence: \\(WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))\\)\nConditional: \\[\nWP(\\text{if } b \\text{ then } c_1 \\text{ else } c_2, Q) = (b \\Rightarrow WP(c_1, Q)) \\wedge (\\neg b \\Rightarrow WP(c_2, Q))\n\\]\n\n\n\nFundamental theorem for loop-free programs\nFor a program \\(c\\) without loops or function calls, and for formulas \\(P\\) and \\(Q\\):\n\\[\n\\{P\\}\\ c\\ \\{Q\\} \\text{ is valid } \\Longleftrightarrow P \\Rightarrow WP(c, Q) \\text{ is valid}\n\\]\nIn other words, \\(P\\) must imply the weakest precondition of \\(c\\) for \\(Q\\).",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#loop-handling-invariants",
+    "href": "ch1.html#loop-handling-invariants",
+    "title": "Software Modeling and Verification",
+    "section": "Loop handling: invariants",
+    "text": "Loop handling: invariants\nFor loops, \\(WP\\) calculation is not directly possible (this would solve the halting problem, which is undecidable). The user must provide a loop invariant.\n\nDefinition of an invariant\nConsider the loop: while b do c done\nA predicate \\(I\\) is an invariant of this loop if and only if:\n\\[\n\\{I \\wedge b\\}\\ c\\ \\{I\\} \\text{ is a valid triple}\n\\]\nIntuition: If \\(I\\) is true before entering the loop body, and the loop condition \\(b\\) is true, then after executing the body, \\(I\\) remains true.\n\n\nWP with invariant for a loop\nGiven an invariant \\(I\\) for the loop while b do c done, we define:\n\\[\nWP(\\text{while } b \\text{ do } c \\text{ done}, Q) = I\n\\]\nprovided that:\n\n\\(I\\) is an invariant: \\(\\{I \\wedge b\\}\\ c\\ \\{I\\}\\) valid\nUpon loop exit, \\(I\\) and the negation of the condition imply \\(Q\\): \\(I \\wedge \\neg b \\Rightarrow Q\\)\n\nPractical example: Function add(a, b) with precondition \\(b \\geq 0\\) and postcondition \\(res = a + b\\)\nadd(a, b) =\n  res := a;\n  aux := b;\n  while aux &gt; 0 do\n    res := res + 1;\n    aux := aux - 1;\n  done;\n  res\nProposed invariant: \\(I = (res + aux = a + b) \\wedge (aux \\geq 0)\\)\nWe need to verify:\n\n\\(\\{I \\wedge aux &gt; 0\\}\\ res := res + 1; aux := aux - 1\\ \\{I\\}\\)\n\\(I \\wedge \\neg (aux &gt; 0) \\Rightarrow res = a + b\\)\n\nThe \\(WP\\) calculation for the loop body gives:\n\\[\nWP(res := res + 1; aux := aux - 1, I) = I[aux \\leftarrow aux - 1][res \\leftarrow res + 1]\n\\]\nWhich simplifies to \\((res + 1) + (aux - 1) = a + b \\wedge aux - 1 \\geq 0\\), equivalent to \\(res + aux = a + b \\wedge aux \\geq 1\\).\nNow \\(I \\wedge aux &gt; 0\\) implies \\(res + aux = a + b \\wedge aux \\geq 0 \\wedge aux &gt; 0\\), so \\(aux \\geq 1\\), which indeed implies \\(WP(...)\\).\nFor the exit condition: \\(I \\wedge \\neg (aux &gt; 0)\\) implies \\(res + aux = a + b \\wedge aux \\geq 0 \\wedge aux \\leq 0\\), so \\(aux = 0\\), hence \\(res = a + b\\).\nThus, \\(I\\) is indeed a valid invariant.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#function-call-handling",
+    "href": "ch1.html#function-call-handling",
+    "title": "Software Modeling and Verification",
+    "section": "Function call handling",
+    "text": "Function call handling\n\nFunction contract\nA function \\(f\\) can be associated with a contract \\(\\{\\phi\\}\\ f\\ \\{\\psi\\}\\) where:\n\n\\(\\phi\\) are the preconditions on parameters\n\\(\\psi\\) are the postconditions linking parameters and the return value\n\n\n\nWP for a function call\nFor a call a := f(b) in a context where \\(f\\) has the contract \\(\\{\\phi\\}\\ f\\ \\{\\psi\\}\\), we have:\n\\[\nWP(a := f(b), Q) = \\phi[x \\leftarrow b] \\wedge \\forall v, (\\psi[x \\leftarrow b, res \\leftarrow v] \\Rightarrow Q[a \\leftarrow v])\n\\]\nwhere \\(x\\) is \\(f\\)’s formal parameter, \\(res\\) its return value, and \\(v\\) a fresh variable.\nIn practice, a simplified version is often used:\n\\[\nWP(a := f(b), Q) = \\phi[x \\leftarrow b] \\wedge (\\psi[x \\leftarrow b, res \\leftarrow f(b)] \\Rightarrow Q[a \\leftarrow f(b)])\n\\]\nExample: Recursive function sum(n) that computes \\(\\sum_{i=1}^n i\\)\nsum(n) =\n  requires { n &gt;= 0 }\n  ensures { res = Σ_{i=1}^n i }\n  if n = 0 then\n    res := 0\n  else\n    res := n + sum(n - 1)\n  endif;\n  res\nTo verify the contract, we need to compute \\(WP\\) of the body with the postcondition.\nLet \\(\\phi(n) = n \\geq 0\\) and \\(\\psi(n, res) = res = \\sum_{i=1}^n i\\).\nFor the case n = 0: \\(WP(res := 0, \\psi) = (0 = \\sum_{i=1}^0 i)\\) which is true since \\(\\sum_{i=1}^0 i = 0\\).\nFor the case n ≠ 0: \\(WP(res := n + sum(n-1), \\psi)\\)\nThis becomes: \\(\\phi(n-1)\\) (precondition of the call) and \\(\\psi(n-1, sum(n-1)) \\Rightarrow \\psi(n, n + sum(n-1))\\).\nWhich gives: \\((n-1 \\geq 0) \\wedge (sum(n-1) = \\sum_{i=1}^{n-1} i) \\Rightarrow (n + sum(n-1) = \\sum_{i=1}^n i)\\).\nSince \\(\\sum_{i=1}^n i = n + \\sum_{i=1}^{n-1} i\\), the implication is true.\nComplete verification also requires showing that \\(n \\geq 0 \\Rightarrow n-1 \\geq 0\\) when \\(n \\neq 0\\), which is the case.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#total-correctness-variant",
+    "href": "ch1.html#total-correctness-variant",
+    "title": "Software Modeling and Verification",
+    "section": "Total correctness (variant)",
+    "text": "Total correctness (variant)\nPartial correctness does not guarantee termination. To obtain total correctness, we must add a variant.\n\nDefinition of a variant\nA variant is an integer expression \\(V\\) over program variables such that:\n\n\\(V \\geq 0\\) before each loop iteration or recursive call\n\\(V\\) strictly decreases at each iteration/call\n\nFor loops: For while b do c done with invariant \\(I\\), we require the existence of a variant \\(V\\) such that:\n\n\\(I \\wedge b \\Rightarrow V \\geq 0\\)\n\\(\\{I \\wedge b \\wedge V = v_0\\}\\ c\\ \\{V &lt; v_0\\}\\) (where \\(v_0\\) is a logical variable)\n\nFor recursive calls: For a function \\(f(x)\\) with precondition \\(\\phi(x)\\), we require a variant \\(V(x)\\) such that:\n\n\\(\\phi(x) \\Rightarrow V(x) \\geq 0\\)\nFor any call \\(f(y)\\) in \\(f\\)’s body, \\(\\phi(x) \\Rightarrow V(y) &lt; V(x)\\)\n\nExample: For the function sum(n), the variant can be \\(n\\) itself.\nWe have: \\(n \\geq 0 \\Rightarrow n \\geq 0\\) (obvious) And for the recursive call sum(n-1): \\(n \\geq 0 \\wedge n \\neq 0 \\Rightarrow n-1 &lt; n\\) (true)\nThus, termination is guaranteed.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  },
+  {
+    "objectID": "ch1.html#correspondence-theorem-between-operational-and-axiomatic-semantics",
+    "href": "ch1.html#correspondence-theorem-between-operational-and-axiomatic-semantics",
+    "title": "Software Modeling and Verification",
+    "section": "Correspondence theorem between operational and axiomatic semantics",
+    "text": "Correspondence theorem between operational and axiomatic semantics\nThis fundamental theorem establishes the equivalence between the operational definition of a Hoare triple’s validity and its characterization by \\(WP\\).\n\nStatement of the theorem\nFor any program \\(c\\) (with or without loops, with invariant and variant handling) and for all formulas \\(P\\) and \\(Q\\):\n\\[\n\\{P\\}\\ c\\ \\{Q\\} \\text{ is valid (according to operational semantics)} \\Longleftrightarrow P \\Rightarrow WP(c, Q) \\text{ is valid}\n\\]\nwhere \\(WP\\) is extended to loops with invariants as described earlier.\n\n\nProof idea\nThe proof proceeds by structural induction on the program \\(c\\). We present the key cases:\n\nAssignment case\nFor \\(c = x := t\\), we must show:\n\\[\n\\{P\\}\\ x := t\\ \\{Q\\} \\text{ valid } \\Longleftrightarrow P \\Rightarrow Q[x \\leftarrow t] \\text{ valid}\n\\]\nProof: By operational definition, \\(\\{P\\}\\ x := t\\ \\{Q\\}\\) is valid iff for all \\(\\mu\\), if \\(\\mu \\models P\\), then \\(Mem(x:=t, \\mu) = \\mu[x \\leftarrow val(t,\\mu)] \\models Q\\).\nNow, by a fundamental semantic property: \\(\\mu \\models Q[x \\leftarrow t]\\) iff \\(\\mu[x \\leftarrow val(t,\\mu)] \\models Q\\).\nSo the condition is equivalent to: if \\(\\mu \\models P\\), then \\(\\mu \\models Q[x \\leftarrow t]\\), i.e., \\(P \\Rightarrow Q[x \\leftarrow t]\\).\n\n\nSequence case\nFor \\(c = c_1; c_2\\), assuming the induction hypothesis for \\(c_1\\) and \\(c_2\\):\n\\(\\{P\\}\\ c_1; c_2\\ \\{Q\\}\\) valid\niff there exists \\(R\\) such that \\(\\{P\\}\\ c_1\\ \\{R\\}\\) and \\(\\{R\\}\\ c_2\\ \\{Q\\}\\) valid\niff (by IH) \\(P \\Rightarrow WP(c_1, R)\\) and \\(R \\Rightarrow WP(c_2, Q)\\)\niff \\(P \\Rightarrow WP(c_1, R)\\) and \\(R \\Rightarrow WP(c_2, Q)\\) for some \\(R\\)\nNow \\(WP(c_1; c_2, Q) = WP(c_1, WP(c_2, Q))\\) is the weakest such \\(R\\).\nTherefore, this is equivalent to \\(P \\Rightarrow WP(c_1, WP(c_2, Q)) = WP(c_1; c_2, Q)\\).\n\n\nLoop case\nFor \\(c = \\text{while } b \\text{ do } c' \\text{ done}\\) with invariant \\(I\\):\nThe operational validity of \\(\\{P\\}\\ c\\ \\{Q\\}\\) requires that for all \\(\\mu\\) with \\(\\mu \\models P\\), the loop execution terminates in a state \\(\\mu'\\) such that \\(\\mu' \\models Q\\).\nBy induction on the number of iterations and using the fact that \\(I\\) is preserved by each iteration, we show that this is equivalent to:\n\n\\(P \\Rightarrow I\\) (the invariant is initially true)\n\\(I \\wedge b \\Rightarrow WP(c', I)\\) (the invariant is preserved)\n\\(I \\wedge \\neg b \\Rightarrow Q\\) (the postcondition is satisfied upon exit)\n\nThis is exactly the definition of \\(P \\Rightarrow WP(c, Q)\\) for a loop, where \\(WP(c, Q) = I\\) under conditions 2 and 3.\nThus, the two definitions coincide, establishing the correspondence between operational and axiomatic semantics through \\(WP\\) calculation.\n\nThis course has presented the foundations of software modeling and verification, focusing particularly on deductive reasoning and Hoare logic. These formal techniques allow rigorously establishing program correctness, thus complementing empirical methods like testing.",
+    "crumbs": [
+      "Course",
+      "Software Modeling and Verification"
+    ]
+  }
+]
