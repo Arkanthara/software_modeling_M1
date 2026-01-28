@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ch2 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-langage" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Langage</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-langage">    
+        <li>
+    <a class="dropdown-item" href="./../index.html">
+ <span class="dropdown-text">Anglais</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">Français</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Cours</a></li><li class="breadcrumb-item"><a href="./ch2.html">SMT Solving</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modélisation et Vérification de Logiciels</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">SMT Solving</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#smt-solving" id="toc-smt-solving" class="nav-link active" data-scroll-target="#smt-solving">SMT Solving</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#sat-solving" id="toc-sat-solving" class="nav-link" data-scroll-target="#sat-solving">SAT-Solving</a>
+  <ul class="collapse">
+  <li><a href="#le-problème-sat" id="toc-le-problème-sat" class="nav-link" data-scroll-target="#le-problème-sat">Le problème SAT</a></li>
+  <li><a href="#satisfaction-dune-formule-pl" id="toc-satisfaction-dune-formule-pl" class="nav-link" data-scroll-target="#satisfaction-dune-formule-pl">Satisfaction d’une formule PL</a></li>
+  <li><a href="#le-problème-sat-1" id="toc-le-problème-sat-1" class="nav-link" data-scroll-target="#le-problème-sat-1">Le problème SAT</a></li>
+  <li><a href="#une-méthode-ancienne-transformation-en-cnf" id="toc-une-méthode-ancienne-transformation-en-cnf" class="nav-link" data-scroll-target="#une-méthode-ancienne-transformation-en-cnf">Une méthode ancienne : transformation en CNF</a></li>
+  <li><a href="#algorithme-dpll-1962" id="toc-algorithme-dpll-1962" class="nav-link" data-scroll-target="#algorithme-dpll-1962">Algorithme DPLL (1962)</a></li>
+  <li><a href="#améliorations-modernes-cdcl-1996-1999" id="toc-améliorations-modernes-cdcl-1996-1999" class="nav-link" data-scroll-target="#améliorations-modernes-cdcl-1996-1999">Améliorations modernes : CDCL (1996-1999)</a></li>
+  </ul></li>
+  <li><a href="#logique-du-premier-ordre-et-théories" id="toc-logique-du-premier-ordre-et-théories" class="nav-link" data-scroll-target="#logique-du-premier-ordre-et-théories">Logique du premier ordre et théories</a>
+  <ul class="collapse">
+  <li><a href="#syntaxe-fol" id="toc-syntaxe-fol" class="nav-link" data-scroll-target="#syntaxe-fol">Syntaxe FOL</a></li>
+  <li><a href="#théories" id="toc-théories" class="nav-link" data-scroll-target="#théories">Théories</a></li>
+  </ul></li>
+  <li><a href="#smt-solving-combiner-sat-et-théories" id="toc-smt-solving-combiner-sat-et-théories" class="nav-link" data-scroll-target="#smt-solving-combiner-sat-et-théories">SMT Solving : combiner SAT et théories</a>
+  <ul class="collapse">
+  <li><a href="#algorithme-dpllt" id="toc-algorithme-dpllt" class="nav-link" data-scroll-target="#algorithme-dpllt">Algorithme DPLL(T)</a></li>
+  <li><a href="#exemple-complet-avec-la-théorie-euf" id="toc-exemple-complet-avec-la-théorie-euf" class="nav-link" data-scroll-target="#exemple-complet-avec-la-théorie-euf">Exemple complet avec la théorie EUF</a></li>
+  </ul></li>
+  <li><a href="#formules-fol-avec-quantificateurs" id="toc-formules-fol-avec-quantificateurs" class="nav-link" data-scroll-target="#formules-fol-avec-quantificateurs">Formules FOL avec quantificateurs</a>
+  <ul class="collapse">
+  <li><a href="#définitions" id="toc-définitions" class="nav-link" data-scroll-target="#définitions">Définitions</a></li>
+  <li><a href="#théorème-de-herbrand-1930" id="toc-théorème-de-herbrand-1930" class="nav-link" data-scroll-target="#théorème-de-herbrand-1930">Théorème de Herbrand (1930)</a></li>
+  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple">Exemple</a></li>
+  <li><a href="#transformation-en-formule-universelle-close" id="toc-transformation-en-formule-universelle-close" class="nav-link" data-scroll-target="#transformation-en-formule-universelle-close">Transformation en formule universelle close</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="ch2.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Cours</a></li><li class="breadcrumb-item"><a href="./ch2.html">SMT Solving</a></li></ol></nav></header>
+
+
+
+
+
+<section id="smt-solving" class="level1">
+<h1>SMT Solving</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>SMT (Satisfiability Modulo Theories) étend le problème SAT à des formules logiques incluant des théories spécifiques (arithmétique, tableaux, etc.). Par exemple, la formule :</p>
+<p><span class="math display">\[ n &gt; 0 \implies n - 1 \leq n \]</span></p>
+<p>Ou encore, dans un contexte de vérification de programme :</p>
+<p><span class="math display">\[ \neg(aux &gt; 0) \land (res + aux = a + b) \land aux \geq 0 \]</span></p>
+<p>Des outils comme Why3 génèrent de telles formules (via le calcul des plus faibles préconditions, WP) et délèguent leur vérification à un solveur SMT.</p>
+<p>Par exemple, pour une postcondition <span class="math inline">\(P(a, b)\)</span> :</p>
+<p><span class="math display">\[ \underbrace{b \geq 0 \Longrightarrow a + b = a + b \land b \geq 0}_{P(a, b)} \]</span></p>
+<p>On cherche à prouver : <span class="math inline">\(\forall a, b, P(a, b)\)</span>.</p>
+<p>Nous allons explorer :</p>
+<ul>
+<li>Les mécanismes de base des solveurs SMT.</li>
+<li>Leur intégration dans des outils comme Why3.</li>
+</ul>
+</section>
+<section id="sat-solving" class="level2">
+<h2 class="anchored" data-anchor-id="sat-solving">SAT-Solving</h2>
+<section id="le-problème-sat" class="level3">
+<h3 class="anchored" data-anchor-id="le-problème-sat">Le problème SAT</h3>
+<p>La logique propositionnelle manipule des variables booléennes : <span class="math inline">\(Var = \{p, q, ...\}\)</span>, pouvant être <span class="math inline">\(true\)</span> ou <span class="math inline">\(false\)</span>, et des connecteurs logiques : <span class="math inline">\(\land, \lor, \implies, \neg\)</span>.</p>
+<p>Une formule PL est définie par la grammaire :</p>
+<ul>
+<li><span class="math inline">\(F \longmapsto P\)</span> (variable)</li>
+<li><span class="math inline">\(F \longmapsto \neg F\)</span></li>
+<li><span class="math inline">\(F \longmapsto F \land F \mid F \lor F \mid F \Longrightarrow F\)</span></li>
+</ul>
+<p><strong>Note</strong> : L’implication est associative à droite : <span class="math inline">\(p \Longrightarrow q \Longrightarrow t \Longleftrightarrow p \Longrightarrow (q \Longrightarrow t)\)</span>.</p>
+</section>
+<section id="satisfaction-dune-formule-pl" class="level3">
+<h3 class="anchored" data-anchor-id="satisfaction-dune-formule-pl">Satisfaction d’une formule PL</h3>
+<p>Une <strong>interprétation</strong> <span class="math inline">\(I\)</span> est une fonction <span class="math inline">\(I : Var \to \{true, false\}\)</span>.</p>
+<p>On étend <span class="math inline">\(I\)</span> à toute formule PL récursivement :</p>
+<ul>
+<li>Si <span class="math inline">\(f = p \in Var\)</span>, alors <span class="math inline">\(I(f) = I(p)\)</span>.</li>
+<li>Si <span class="math inline">\(f = \neg f'\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi <span class="math inline">\(I(f') = false\)</span>.</li>
+<li>Si <span class="math inline">\(f = f_1 \lor f_2\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi <span class="math inline">\(I(f_1) = true\)</span> ou <span class="math inline">\(I(f_2) = true\)</span>.</li>
+<li>Si <span class="math inline">\(f = f_1 \land f_2\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi <span class="math inline">\(I(f_1) = true\)</span> et <span class="math inline">\(I(f_2) = true\)</span>.</li>
+<li>Si <span class="math inline">\(f = f_1 \Longrightarrow f_2\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi si <span class="math inline">\(I(f_1) = true\)</span> alors <span class="math inline">\(I(f_2) = true\)</span> (sinon <span class="math inline">\(true\)</span> si <span class="math inline">\(I(f_1)=false\)</span>).</li>
+</ul>
+<p>On dit que :</p>
+<ul>
+<li><span class="math inline">\(I\)</span> <strong>satisfait</strong> <span class="math inline">\(f\)</span> (noté <span class="math inline">\(I \models f\)</span>) ssi <span class="math inline">\(I(f) = true\)</span>.</li>
+<li><span class="math inline">\(f\)</span> est <strong>satisfiable</strong> ssi <span class="math inline">\(\exists I, I \models f\)</span>.</li>
+<li><span class="math inline">\(f\)</span> est <strong>valide</strong> (une tautologie) ssi <span class="math inline">\(\forall I, I \models f\)</span>.</li>
+</ul>
+<p>Pour prouver qu’une formule <span class="math inline">\(g\)</span> est valide, on peut utiliser une <strong>preuve par réfutation</strong> : montrer que <span class="math inline">\(\neg g\)</span> est insatisfiable. Souvent, <span class="math inline">\(g\)</span> est de la forme <span class="math inline">\(hypothèse \implies conclusion\)</span>, donc <span class="math inline">\(\neg g = hypothèse \land \neg conclusion\)</span>.</p>
+</section>
+<section id="le-problème-sat-1" class="level3">
+<h3 class="anchored" data-anchor-id="le-problème-sat-1">Le problème SAT</h3>
+<p>Étant donnée une formule PL <span class="math inline">\(f\)</span>, le problème SAT consiste à décider si <span class="math inline">\(f\)</span> est satisfiable.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[Formule f] --&gt; B[SAT Solver]
+    B --&gt; C[Réponse: Oui]
+    B --&gt; D[Réponse: Non]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>Il y a <span class="math inline">\(2^n\)</span> interprétations possibles pour <span class="math inline">\(n\)</span> variables.</li>
+<li>Le problème est <strong>décidable</strong> (il existe des algorithmes) mais <strong>NP-complet</strong>, donc aucun algorithme efficace (polynomial) n’est connu en général.</li>
+<li>En pratique, les solveurs peuvent échouer par manque de ressources (temps, mémoire).</li>
+</ul>
+</section>
+<section id="une-méthode-ancienne-transformation-en-cnf" class="level3">
+<h3 class="anchored" data-anchor-id="une-méthode-ancienne-transformation-en-cnf">Une méthode ancienne : transformation en CNF</h3>
+<p>Une <strong>forme normale conjonctive (CNF)</strong> est une conjonction de clauses, où chaque clause est une disjonction de littéraux (une variable ou sa négation).</p>
+<p><strong>Définition : Formule CNF équivalente</strong></p>
+<p>Une formule est en CNF si elle est de la forme :</p>
+<p><span class="math display">\[ C_1 \land C_2 \land \cdots \land C_n \]</span></p>
+<p>où chaque clause <span class="math inline">\(C_i\)</span> est de la forme :</p>
+<p><span class="math display">\[ l_{i1} \lor l_{i2} \lor \cdots \lor l_{im} \]</span></p>
+<p>et chaque littéral <span class="math inline">\(l_{ij}\)</span> est soit une variable <span class="math inline">\(p \in Var\)</span>, soit sa négation <span class="math inline">\(\neg p\)</span>.</p>
+<p><strong>Exemple</strong> : <span class="math inline">\((p \lor \neg q) \land (r \lor s) \land \neg p\)</span></p>
+<p>On admet que pour toute formule PL <span class="math inline">\(f\)</span>, il existe une formule PL en CNF qui lui est logiquement équivalente. On peut donc restreindre le problème SAT aux formules CNF.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[f] --&gt; B[Transformation en CNF]
+    B --&gt; C[CNF équivalente]
+    C --&gt; D[SAT Solver]
+    D --&gt; E[Oui]
+    D --&gt; F[Non]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Remarques importantes</strong> :</p>
+<ul>
+<li>Simplification : une clause contenant à la fois un littéral et sa négation (ex: <span class="math inline">\(a \lor \neg a \lor ...\)</span>) est toujours vraie et peut être supprimée.</li>
+<li><strong>Clause unitaire</strong> : une clause contenant un seul littéral (ex: <span class="math inline">\(a\)</span>) force la valeur de cette variable. Si <span class="math inline">\(P \land a \land Q\)</span> est vraie, alors <span class="math inline">\(a = true\)</span> et on peut simplifier en résolvant <span class="math inline">\(P \land Q\)</span>.</li>
+</ul>
+</section>
+<section id="algorithme-dpll-1962" class="level3">
+<h3 class="anchored" data-anchor-id="algorithme-dpll-1962">Algorithme DPLL (1962)</h3>
+<p>Soit <span class="math inline">\(P\)</span> une formule PL en CNF. Pour un littéral <span class="math inline">\(x\)</span> (variable ou sa négation), on note <span class="math inline">\(P[x]\)</span> la formule obtenue en imposant <span class="math inline">\(x = true\)</span> et en simplifiant.</p>
+<p>Les règles de simplification sont :</p>
+<ul>
+<li>Si <span class="math inline">\(x\)</span> apparaît dans une clause, cette clause est supprimée (car satisfaite).</li>
+<li>Si <span class="math inline">\(\neg x\)</span> apparaît dans une clause, on retire <span class="math inline">\(\neg x\)</span> de cette clause.</li>
+<li>Si une clause devient vide, elle est équivalente à <span class="math inline">\(false\)</span>.</li>
+<li>Si une clause unitaire <span class="math inline">\(\neg x\)</span> reste, alors <span class="math inline">\(x\)</span> doit être <span class="math inline">\(false\)</span>, donc <span class="math inline">\(P[x] = false\)</span>.</li>
+</ul>
+<p><strong>Algorithme DPLL(P)</strong> :</p>
+<pre><code>Si P = true, retourner true.
+Si P = false, retourner false.
+Si P contient une clause unitaire x, retourner DPLL(P[x]).
+Choisir une variable x dans P.
+Retourner DPLL(P[x]) ou DPLL(P[¬x]).</code></pre>
+<p><strong>Terminaison</strong> : Le variant est le nombre de variables (diminue de 1 à chaque appel).</p>
+<p><strong>Correction</strong> : Retourne true ssi <span class="math inline">\(P\)</span> est satisfiable.</p>
+<p><strong>Exemple</strong> :</p>
+<p><span class="math display">\[ P = (p \lor q \lor r) \land (\neg q \lor r) \land \neg r \land (\neg p \lor q \lor r) \]</span></p>
+<ul>
+<li>DPLL(P) :
+<ul>
+<li><span class="math inline">\(P[\neg r] = (p \lor q) \land \neg q \land (\neg p \lor q)\)</span></li>
+<li><span class="math inline">\(P[\neg r, \neg q] = p \land \neg p\)</span></li>
+<li><span class="math inline">\(P[\neg r, \neg q, p] = false\)</span></li>
+</ul></li>
+<li>Donc <span class="math inline">\(P\)</span> est <strong>insatisfiable</strong>.</li>
+</ul>
+<p>Si DPLL retourne true, on peut reconstruire un modèle (une affectation des variables) en suivant les choix.</p>
+</section>
+<section id="améliorations-modernes-cdcl-1996-1999" class="level3">
+<h3 class="anchored" data-anchor-id="améliorations-modernes-cdcl-1996-1999">Améliorations modernes : CDCL (1996-1999)</h3>
+<p>L’algorithme <strong>Conflict-Driven Clause Learning (CDCL)</strong> étend DPLL avec :</p>
+<ul>
+<li>L’apprentissage de clauses à partir des conflits.</li>
+<li>Le retour arrière non-chronologique.</li>
+<li>Une heuristique de décision.</li>
+</ul>
+<p>Cela permet de traiter des problèmes avec des centaines de milliers de variables et des millions de clauses.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Décision] --&gt; B{Propagation unitaire}
+    B --&gt; C{Conflit ?}
+    C --&gt;|Non| D[Toutes les variables assignées ?]
+    D --&gt;|Non| A
+    D --&gt;|Oui| E[SAT]
+    C --&gt;|Oui| F[Analyse du conflit]
+    F --&gt; G[Apprentissage d'une clause]
+    G --&gt; H[Retour arrière]
+    H --&gt; A
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="logique-du-premier-ordre-et-théories" class="level2">
+<h2 class="anchored" data-anchor-id="logique-du-premier-ordre-et-théories">Logique du premier ordre et théories</h2>
+<p>Revenons à l’exemple initial :</p>
+<p><span class="math display">\[ a \geq 0 \land b \geq 0 \Longrightarrow a + b \geq b + c \]</span></p>
+<p>Ici, les variables (<span class="math inline">\(a, b, c\)</span>) sont des entiers, et on utilise des fonctions (<span class="math inline">\(+\)</span>) et des prédicats (<span class="math inline">\(\geq\)</span>). C’est une <strong>formule de la logique du premier ordre (FOL)</strong>.</p>
+<section id="syntaxe-fol" class="level3">
+<h3 class="anchored" data-anchor-id="syntaxe-fol">Syntaxe FOL</h3>
+<ul>
+<li><strong>Variables</strong> : <span class="math inline">\(Var = \{a, b, c, ...\}\)</span>.</li>
+<li><strong>Domaine</strong> <span class="math inline">\(D\)</span> : un ensemble de valeurs (ex: <span class="math inline">\(\mathbb{Z}\)</span>).</li>
+<li><strong>Fonctions</strong> : <span class="math inline">\(\mathbf{F} = \{f: D^k \to D\}\)</span> (inclut les constantes, <span class="math inline">\(k=0\)</span>).</li>
+<li><strong>Prédicats</strong> : <span class="math inline">\(\mathbf{P} = \{P: D^k \to \{true, false\}\}\)</span>.</li>
+</ul>
+<p><strong>Termes</strong> :</p>
+<ul>
+<li>Une variable est un terme.</li>
+<li>Si <span class="math inline">\(t_1, ..., t_k\)</span> sont des termes et <span class="math inline">\(f \in \mathbf{F}\)</span> d’arité <span class="math inline">\(k\)</span>, alors <span class="math inline">\(f(t_1, ..., t_k)\)</span> est un terme.</li>
+</ul>
+<p><strong>Atomes</strong> :</p>
+<ul>
+<li><span class="math inline">\(true\)</span> et <span class="math inline">\(false\)</span> sont des atomes.</li>
+<li>Si <span class="math inline">\(t_1, ..., t_k\)</span> sont des termes et <span class="math inline">\(p \in \mathbf{P}\)</span> d’arité <span class="math inline">\(k\)</span>, alors <span class="math inline">\(p(t_1, ..., t_k)\)</span> est un atome.</li>
+</ul>
+<p><strong>Formules</strong> :</p>
+<ul>
+<li>Un atome est une formule.</li>
+<li>Si <span class="math inline">\(f_1, f_2\)</span> sont des formules, alors <span class="math inline">\(\neg f_1\)</span>, <span class="math inline">\(f_1 \land f_2\)</span>, <span class="math inline">\(f_1 \lor f_2\)</span>, <span class="math inline">\(f_1 \Longrightarrow f_2\)</span> sont des formules.</li>
+<li>Si <span class="math inline">\(f\)</span> est une formule et <span class="math inline">\(x\)</span> une variable, alors <span class="math inline">\(\exists x f\)</span> et <span class="math inline">\(\forall x f\)</span> sont des formules.</li>
+</ul>
+</section>
+<section id="théories" class="level3">
+<h3 class="anchored" data-anchor-id="théories">Théories</h3>
+<p>Une <strong>théorie</strong> <span class="math inline">\(\mathbf{T}\)</span> est un ensemble de formules FOL qui axiomatise un domaine particulier (ex: les entiers, les tableaux). Une formule <span class="math inline">\(f\)</span> est <strong>T-valide</strong> si elle est conséquence de <span class="math inline">\(\mathbf{T}\)</span>, i.e., pour toute interprétation <span class="math inline">\(I\)</span> qui satisfait <span class="math inline">\(\mathbf{T}\)</span> (<span class="math inline">\(I \models \mathbf{T}\)</span>), on a <span class="math inline">\(I \models f\)</span>.</p>
+<section id="exemple-théorie-des-entiers-arithmétique-linéaire" class="level4">
+<h4 class="anchored" data-anchor-id="exemple-théorie-des-entiers-arithmétique-linéaire">Exemple : Théorie des entiers (Arithmétique linéaire)</h4>
+<ul>
+<li>Fonctions : <span class="math inline">\(+\)</span>, <span class="math inline">\(-\)</span>, constantes.</li>
+<li>Prédicats : <span class="math inline">\(\geq\)</span>, <span class="math inline">\(\leq\)</span>, <span class="math inline">\(=\)</span>.</li>
+<li>Axiomes : propriétés de l’addition, de l’ordre, etc.</li>
+</ul>
+</section>
+<section id="exemple-théorie-des-tableaux" class="level4">
+<h4 class="anchored" data-anchor-id="exemple-théorie-des-tableaux">Exemple : Théorie des tableaux</h4>
+<ul>
+<li>Domaines : indices, valeurs, tableaux.</li>
+<li>Fonctions : <span class="math inline">\(select(a, i)\)</span> (lire <span class="math inline">\(a[i]\)</span>), <span class="math inline">\(store(a, i, v)\)</span> (écrire <span class="math inline">\(v\)</span> en <span class="math inline">\(i\)</span>).</li>
+<li>Axiomes : <span class="math inline">\(\forall a, i, v, select(store(a, i, v), i) = v\)</span>.</li>
+</ul>
+</section>
+<section id="exemple-égalité-avec-fonctions-non-interprétées-euf" class="level4">
+<h4 class="anchored" data-anchor-id="exemple-égalité-avec-fonctions-non-interprétées-euf">Exemple : Égalité avec fonctions non interprétées (EUF)</h4>
+<ul>
+<li>Prédicat : <span class="math inline">\(\approx\)</span> (égalité).</li>
+<li>Axiomes d’équivalence : réflexivité, symétrie, transitivité.</li>
+<li><strong>Congruence</strong> : pour toute fonction <span class="math inline">\(f\)</span> et prédicat <span class="math inline">\(p\)</span> :
+<ul>
+<li><span class="math inline">\(\forall x, y, x \approx y \Longrightarrow f(x) \approx f(y)\)</span></li>
+<li><span class="math inline">\(\forall x_1, y_1, x_2, y_2, x_1 \approx y_1 \land x_2 \approx y_2 \Longrightarrow f(x_1, x_2) \approx f(y_1, y_2)\)</span></li>
+<li><span class="math inline">\(\forall x, y, x \approx y \Longrightarrow (p(x) \Longleftrightarrow p(y))\)</span></li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="smt-solving-combiner-sat-et-théories" class="level2">
+<h2 class="anchored" data-anchor-id="smt-solving-combiner-sat-et-théories">SMT Solving : combiner SAT et théories</h2>
+<p>L’idée principale : utiliser un solveur SAT pour la structure logique propositionnelle, et des solveurs spécialisés pour les théories.</p>
+<section id="algorithme-dpllt" class="level3">
+<h3 class="anchored" data-anchor-id="algorithme-dpllt">Algorithme DPLL(T)</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Formule f FOL sans quantificateurs, théorie T] --&gt; B["Abstraction propositionnelle A(f)"]
+    B --&gt; C[Solveur SAT]
+    C --&gt; D{SAT ?}
+    D --&gt;|Non| E[f est T-insatisfiable]
+    D --&gt;|Oui| F[Modèle propositionnel M]
+    F --&gt; G["Concrétisation : M_T = A⁻¹(M)"]
+    G --&gt; H[Solveur de théorie T]
+    H --&gt; I{M_T T-satisfiable ?}
+    I --&gt;|Oui| J[f est T-satisfiable, modèle : M_T]
+    I --&gt;|Non| K[Apprendre clause de refus ¬M]
+    K --&gt; B
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Abstraction propositionnelle</strong> <span class="math inline">\(A(f)\)</span> : on remplace chaque atome de <span class="math inline">\(f\)</span> par une nouvelle variable propositionnelle.</p>
+<p><strong>Exemple</strong> : <span class="math display">\[ f = (a + b \leq c \land a &gt; 0 \Longrightarrow b + c &lt; a) \lor a \leq 0 \]</span></p>
+<ul>
+<li><span class="math inline">\(p_1 \leftrightarrow a + b \leq c\)</span></li>
+<li><span class="math inline">\(p_2 \leftrightarrow a &gt; 0\)</span></li>
+<li><span class="math inline">\(p_3 \leftrightarrow b + c &lt; a\)</span></li>
+<li><span class="math inline">\(A(f) = (p_1 \land p_2 \Longrightarrow p_3) \lor \neg p_2\)</span></li>
+</ul>
+<p>Si le solveur SAT trouve un modèle <span class="math inline">\(M\)</span> (affectation des <span class="math inline">\(p_i\)</span>), on le <strong>concrétise</strong> en <span class="math inline">\(M_T = A^{-1}(M)\)</span> (on remplace les <span class="math inline">\(p_i\)</span> par les atomes correspondants). On vérifie si <span class="math inline">\(M_T\)</span> est T-satisfiable à l’aide du solveur de théorie.</p>
+<ul>
+<li>Si oui, <span class="math inline">\(M_T\)</span> est un modèle de <span class="math inline">\(f\)</span>.</li>
+<li>Si non, on ajoute une <strong>clause de refus</strong> <span class="math inline">\(\neg M\)</span> (la négation de l’affectation des <span class="math inline">\(p_i\)</span>) à <span class="math inline">\(A(f)\)</span> pour éviter le même modèle incorrect, et on itère.</li>
+</ul>
+</section>
+<section id="exemple-complet-avec-la-théorie-euf" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-complet-avec-la-théorie-euf">Exemple complet avec la théorie EUF</h3>
+<p>Soit la formule <span class="math inline">\(P\)</span> : <span class="math display">\[ g(a) = c \land (f(g(a)) \neq f(c) \lor g(a) = d) \land c \neq d \]</span></p>
+<p>Abstraction propositionnelle :</p>
+<ul>
+<li><span class="math inline">\(p_1 \leftrightarrow g(a) = c\)</span></li>
+<li><span class="math inline">\(p_2 \leftrightarrow f(g(a)) = f(c)\)</span></li>
+<li><span class="math inline">\(p_3 \leftrightarrow g(a) = d\)</span></li>
+<li><span class="math inline">\(p_4 \leftrightarrow c = d\)</span></li>
+<li><span class="math inline">\(A(P) = p_1 \land (\neg p_2 \lor p_3) \land \neg p_4\)</span></li>
+</ul>
+<p>Le solveur SAT peut trouver le modèle <span class="math inline">\(M = p_1 \land \neg p_2 \land \neg p_4\)</span>.</p>
+<p>Concrétisation : <span class="math inline">\(M_T = g(a) = c \land f(g(a)) \neq f(c) \land c \neq d\)</span>.</p>
+<p>Le solveur EUF détecte que <span class="math inline">\(g(a) = c\)</span> implique <span class="math inline">\(f(g(a)) = f(c)\)</span> (congruence). Donc <span class="math inline">\(M_T\)</span> est EUF-insatisfiable.</p>
+<p>On ajoute la clause de refus : <span class="math inline">\(\neg M = \neg p_1 \lor p_2 \lor p_4\)</span>.</p>
+<p>La nouvelle formule SAT est : <span class="math inline">\(p_1 \land (\neg p_2 \lor p_3) \land \neg p_4 \land (\neg p_1 \lor p_2 \lor p_4)\)</span>.</p>
+<p>Le solveur SAT peut maintenant trouver un autre modèle, jusqu’à ce qu’une solution T-satisfiable soit trouvée ou que la formule SAT devienne insatisfiable (ce qui prouve que <span class="math inline">\(P\)</span> est T-insatisfiable).</p>
+</section>
+</section>
+<section id="formules-fol-avec-quantificateurs" class="level2">
+<h2 class="anchored" data-anchor-id="formules-fol-avec-quantificateurs">Formules FOL avec quantificateurs</h2>
+<section id="définitions" class="level3">
+<h3 class="anchored" data-anchor-id="définitions">Définitions</h3>
+<ul>
+<li><strong>Formule universelle</strong> : de la forme <span class="math inline">\(\forall x_1, ..., x_k \phi\)</span>, où <span class="math inline">\(\phi\)</span> est sans quantificateur.</li>
+<li><strong>Formule close</strong> : toute variable est liée par un quantificateur.</li>
+<li><strong>Instance close</strong> : pour une formule sans quantificateur <span class="math inline">\(\phi\)</span>, une instance close est obtenue par une substitution <span class="math inline">\(\theta\)</span> qui remplace chaque variable par un terme clos (sans variable libre). On note <span class="math inline">\(\theta(\phi)\)</span>.</li>
+</ul>
+</section>
+<section id="théorème-de-herbrand-1930" class="level3">
+<h3 class="anchored" data-anchor-id="théorème-de-herbrand-1930">Théorème de Herbrand (1930)</h3>
+<p>Un ensemble de formules FOL sans quantificateur est insatisfiable <strong>ssi</strong> il existe un ensemble fini d’instances closes qui est insatisfiable.</p>
+<p>Cela permet de réduire l’insatisfiabilité d’une formule universelle close à l’insatisfiabilité d’un ensemble fini de formules propositionnelles (en instanciant les variables par des termes du domaine).</p>
+<p><strong>Algorithme semi-décidable</strong> (TestSat) :</p>
+<pre><code>F := {ϕ}
+tant que F est satisfiable faire
+   choisir une substitution θ telle que θ(ϕ) soit une instance close
+   F := F ∪ {θ(ϕ)}
+fin tant que
+retourner "ϕ est insatisfiable"</code></pre>
+<p>Si <span class="math inline">\(\phi\)</span> est satisfiable, la boucle peut ne jamais terminer. Des techniques d’<strong>instanciation guidée</strong> (trigger, E-matching) sont utilisées en pratique.</p>
+</section>
+<section id="exemple" class="level3">
+<h3 class="anchored" data-anchor-id="exemple">Exemple</h3>
+<p>Considérons le syllogisme :</p>
+<ul>
+<li>Tous les humains sont mortels.</li>
+<li>Tous les Grecs sont humains.</li>
+<li>Donc tous les Grecs sont mortels.</li>
+</ul>
+<p>Formellement, on veut prouver que la formule suivante est valide :</p>
+<p><span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \implies (\forall x, G(x) \implies M(x)) \]</span></p>
+<p>Par réfutation, on considère sa négation :</p>
+<p><span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \land (\exists x, G(x) \land \neg M(x)) \]</span></p>
+<p>On la transforme en formule universelle close (étape par étape) :</p>
+<ol type="1">
+<li><p><strong>Skolémisation</strong> : remplacer <span class="math inline">\(\exists x\)</span> par une constante fraîche <span class="math inline">\(s\)</span>. <span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \land (G(s) \land \neg M(s)) \]</span></p></li>
+<li><p><strong>Mettre sous forme prénexe</strong> (tous les quantificateurs au début) : <span class="math display">\[ \forall x, y, (H(x) \implies M(x)) \land (G(y) \implies H(y)) \land G(s) \land \neg M(s) \]</span></p></li>
+<li><p><strong>Forme sans quantificateur interne</strong> (on peut supprimer les quantificateurs universels pour l’instant, car on va instancier) : <span class="math display">\[ \phi = (H(x) \implies M(x)) \land (G(y) \implies H(y)) \land G(s) \land \neg M(s) \]</span></p></li>
+</ol>
+<p>Maintenant, on applique Herbrand. L’univers de Herbrand est constitué de la constante <span class="math inline">\(s\)</span>. On prend l’instance close en remplaçant <span class="math inline">\(x\)</span> et <span class="math inline">\(y\)</span> par <span class="math inline">\(s\)</span> :</p>
+<p><span class="math display">\[ \theta(\phi) = (H(s) \implies M(s)) \land (G(s) \implies H(s)) \land G(s) \land \neg M(s) \]</span></p>
+<p>Cette formule propositionnelle est-elle satisfiable ?</p>
+<ul>
+<li>De <span class="math inline">\(G(s)\)</span> et <span class="math inline">\(G(s) \implies H(s)\)</span>, on déduit <span class="math inline">\(H(s)\)</span>.</li>
+<li>De <span class="math inline">\(H(s)\)</span> et <span class="math inline">\(H(s) \implies M(s)\)</span>, on déduit <span class="math inline">\(M(s)\)</span>.</li>
+<li>Mais on a <span class="math inline">\(\neg M(s)\)</span>. Contradiction.</li>
+</ul>
+<p>Donc <span class="math inline">\(\theta(\phi)\)</span> est insatisfiable, ce qui prouve que la formule originale est valide.</p>
+</section>
+<section id="transformation-en-formule-universelle-close" class="level3">
+<h3 class="anchored" data-anchor-id="transformation-en-formule-universelle-close">Transformation en formule universelle close</h3>
+<p>Pour appliquer Herbrand, on doit souvent transformer une formule FOL arbitraire en une formule universelle close qui préserve l’insatisfiabilité.</p>
+<p><strong>Procédure</strong> :</p>
+<ol type="1">
+<li>Éliminer <span class="math inline">\(\implies\)</span> et <span class="math inline">\(\iff\)</span> en utilisant <span class="math inline">\(\neg, \land, \lor\)</span>.</li>
+<li>Renommer les variables pour que chaque quantificateur lie une variable fraîche.</li>
+<li><strong>Skolémisation</strong> : remplacer chaque variable existentielle <span class="math inline">\(\exists y\)</span> par un terme <span class="math inline">\(f(x_1, ..., x_k)\)</span> où <span class="math inline">\(f\)</span> est un nouveau symbole de fonction (une constante si <span class="math inline">\(k=0\)</span>) et <span class="math inline">\(x_1, ..., x_k\)</span> sont les variables universelles qui englobent <span class="math inline">\(\exists y\)</span>.</li>
+<li>Déplacer tous les quantificateurs universels en tête (forme prénexe).</li>
+</ol>
+<p><strong>Exemple de skolémisation</strong> :</p>
+<ul>
+<li><span class="math inline">\(\forall x, \exists y, P(x, y)\)</span> devient <span class="math inline">\(\forall x, P(x, f(x))\)</span> (avec <span class="math inline">\(f\)</span> frais).</li>
+<li><span class="math inline">\(\exists y, Q(y)\)</span> devient <span class="math inline">\(Q(c)\)</span> (avec <span class="math inline">\(c\)</span> frais).</li>
+<li><span class="math inline">\(\forall x, y, \exists z, R(x, y, z)\)</span> devient <span class="math inline">\(\forall x, y, R(x, y, g(x, y))\)</span> (avec <span class="math inline">\(g\)</span> frais).</li>
+</ul>
+<p>Cette transformation préserve l’insatisfiabilité, ce qui suffit pour une preuve par réfutation.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Les solveurs SMT combinent la puissance des solveurs SAT modernes (CDCL) avec des procédures de décision pour diverses théories (EUF, arithmétique, tableaux, etc.).</p>
+<p>Pour les formules avec quantificateurs, des techniques d’instanciation basées sur le théorème de Herbrand sont utilisées, souvent guidées par des triggers et l’E-matching.</p>
+<p>Ces méthodes sont au cœur des outils de vérification déductive comme Why3, qui génèrent des obligations de preuve déchargées sur des solveurs SMT.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
