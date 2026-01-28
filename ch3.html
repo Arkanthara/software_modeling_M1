@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ch3 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-language" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Language</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-language">    
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">English</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./fr/index.html">
+ <span class="dropdown-text">French</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Course</a></li><li class="breadcrumb-item"><a href="./ch3.html">Abstract Interpretation</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Course</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software Modeling and Verification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMT Solving</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Abstract Interpretation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#abstract-interpretation" id="toc-abstract-interpretation" class="nav-link active" data-scroll-target="#abstract-interpretation">Abstract Interpretation</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#program-correctness-problem" id="toc-program-correctness-problem" class="nav-link" data-scroll-target="#program-correctness-problem">Program Correctness Problem</a></li>
+  <li><a href="#the-importance-of-semantics-an-example" id="toc-the-importance-of-semantics-an-example" class="nav-link" data-scroll-target="#the-importance-of-semantics-an-example">The Importance of Semantics: An Example</a></li>
+  <li><a href="#undecidability-and-approximation" id="toc-undecidability-and-approximation" class="nav-link" data-scroll-target="#undecidability-and-approximation">Undecidability and Approximation</a></li>
+  </ul></li>
+  <li><a href="#collecting-semantics" id="toc-collecting-semantics" class="nav-link" data-scroll-target="#collecting-semantics">Collecting Semantics</a>
+  <ul class="collapse">
+  <li><a href="#general-principle" id="toc-general-principle" class="nav-link" data-scroll-target="#general-principle">General Principle</a></li>
+  <li><a href="#language-studied" id="toc-language-studied" class="nav-link" data-scroll-target="#language-studied">Language Studied</a></li>
+  <li><a href="#control-flow-graph-cfg" id="toc-control-flow-graph-cfg" class="nav-link" data-scroll-target="#control-flow-graph-cfg">Control Flow Graph (CFG)</a></li>
+  <li><a href="#definition-of-collecting-semantics" id="toc-definition-of-collecting-semantics" class="nav-link" data-scroll-target="#definition-of-collecting-semantics">Definition of Collecting Semantics</a></li>
+  <li><a href="#fixed-point-equation" id="toc-fixed-point-equation" class="nav-link" data-scroll-target="#fixed-point-equation">Fixed Point Equation</a></li>
+  </ul></li>
+  <li><a href="#fixed-point-theory" id="toc-fixed-point-theory" class="nav-link" data-scroll-target="#fixed-point-theory">Fixed Point Theory</a>
+  <ul class="collapse">
+  <li><a href="#fundamental-definitions" id="toc-fundamental-definitions" class="nav-link" data-scroll-target="#fundamental-definitions">Fundamental Definitions</a></li>
+  <li><a href="#upper-and-lower-bounds" id="toc-upper-and-lower-bounds" class="nav-link" data-scroll-target="#upper-and-lower-bounds">Upper and Lower Bounds</a></li>
+  <li><a href="#examples-of-lattices" id="toc-examples-of-lattices" class="nav-link" data-scroll-target="#examples-of-lattices">Examples of Lattices</a></li>
+  <li><a href="#monotonic-and-scott-continuous-functions" id="toc-monotonic-and-scott-continuous-functions" class="nav-link" data-scroll-target="#monotonic-and-scott-continuous-functions">Monotonic and Scott-Continuous Functions</a></li>
+  <li><a href="#fundamental-theorems" id="toc-fundamental-theorems" class="nav-link" data-scroll-target="#fundamental-theorems">Fundamental Theorems</a></li>
+  <li><a href="#fixed-point-calculation-algorithm" id="toc-fixed-point-calculation-algorithm" class="nav-link" data-scroll-target="#fixed-point-calculation-algorithm">Fixed Point Calculation Algorithm</a></li>
+  <li><a href="#product-of-lattices" id="toc-product-of-lattices" class="nav-link" data-scroll-target="#product-of-lattices">Product of Lattices</a></li>
+  </ul></li>
+  <li><a href="#galois-connection" id="toc-galois-connection" class="nav-link" data-scroll-target="#galois-connection">Galois Connection</a>
+  <ul class="collapse">
+  <li><a href="#safety-and-liveness-properties" id="toc-safety-and-liveness-properties" class="nav-link" data-scroll-target="#safety-and-liveness-properties">Safety and Liveness Properties</a></li>
+  <li><a href="#safety-observer" id="toc-safety-observer" class="nav-link" data-scroll-target="#safety-observer">Safety Observer</a></li>
+  <li><a href="#undecidability-problem" id="toc-undecidability-problem" class="nav-link" data-scroll-target="#undecidability-problem">Undecidability Problem</a></li>
+  <li><a href="#analysis-method" id="toc-analysis-method" class="nav-link" data-scroll-target="#analysis-method">Analysis Method</a></li>
+  <li><a href="#definition-of-galois-connection" id="toc-definition-of-galois-connection" class="nav-link" data-scroll-target="#definition-of-galois-connection">Definition of Galois Connection</a></li>
+  <li><a href="#application-to-abstract-interpretation" id="toc-application-to-abstract-interpretation" class="nav-link" data-scroll-target="#application-to-abstract-interpretation">Application to Abstract Interpretation</a></li>
+  <li><a href="#correctness-of-abstract-analysis" id="toc-correctness-of-abstract-analysis" class="nav-link" data-scroll-target="#correctness-of-abstract-analysis">Correctness of Abstract Analysis</a></li>
+  </ul></li>
+  <li><a href="#complete-analysis-example" id="toc-complete-analysis-example" class="nav-link" data-scroll-target="#complete-analysis-example">Complete Analysis Example</a>
+  <ul class="collapse">
+  <li><a href="#example-program" id="toc-example-program" class="nav-link" data-scroll-target="#example-program">Example Program</a></li>
+  <li><a href="#cfg-construction" id="toc-cfg-construction" class="nav-link" data-scroll-target="#cfg-construction">CFG Construction</a></li>
+  <li><a href="#collecting-semantics-equations" id="toc-collecting-semantics-equations" class="nav-link" data-scroll-target="#collecting-semantics-equations">Collecting Semantics Equations</a></li>
+  <li><a href="#iterative-calculation" id="toc-iterative-calculation" class="nav-link" data-scroll-target="#iterative-calculation">Iterative Calculation</a></li>
+  <li><a href="#analysis-with-safety-property" id="toc-analysis-with-safety-property" class="nav-link" data-scroll-target="#analysis-with-safety-property">Analysis with Safety Property</a></li>
+  </ul></li>
+  <li><a href="#comparison-of-verification-methods" id="toc-comparison-of-verification-methods" class="nav-link" data-scroll-target="#comparison-of-verification-methods">Comparison of Verification Methods</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="ch3.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Course</a></li><li class="breadcrumb-item"><a href="./ch3.html">Abstract Interpretation</a></li></ol></nav></header>
+
+
+
+
+
+<section id="abstract-interpretation" class="level1">
+<h1>Abstract Interpretation</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Abstract interpretation is a formal method for analyzing the properties of computer programs. It is based on the idea of approximating program semantics in a conservative manner.</p>
+<section id="program-correctness-problem" class="level3">
+<h3 class="anchored" data-anchor-id="program-correctness-problem">Program Correctness Problem</h3>
+<p>Several approaches exist:</p>
+<ul>
+<li><strong>Hoare Logic</strong> (axiomatic semantics)
+<ul>
+<li>Deductive reasoning</li>
+<li>SMT solvers (Satisfiability Modulo Theories)</li>
+</ul></li>
+<li><strong>Abstract Interpretation</strong></li>
+</ul>
+<p>The goal is to determine whether a program satisfies certain safety properties.</p>
+</section>
+<section id="the-importance-of-semantics-an-example" class="level3">
+<h3 class="anchored" data-anchor-id="the-importance-of-semantics-an-example">The Importance of Semantics: An Example</h3>
+<p>To illustrate how the exact semantics of a language influences execution, let’s compare two equivalent programs in C and Ada.</p>
+<p><strong>C Program:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i<span class="op">,</span> a<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> a<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  a<span class="op">--;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  printf<span class="op">(</span><span class="st">"i = </span><span class="sc">%d</span><span class="st">"</span><span class="op">,</span> i<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>Result:</em> <code>i = 0</code>, <code>i = 1</code>, <code>i = 2</code></p>
+<p><strong>Ada Program:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode ada code-with-copy"><code class="sourceCode ada"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A<span class="op">:</span> <span class="dt">integer</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">begin</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  a <span class="op">:=</span> <span class="dv">5</span>;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">for</span> I <span class="kw">in</span> <span class="dv">0</span><span class="op">..</span>A <span class="kw">loop</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    A <span class="op">:=</span> A <span class="op">-</span> <span class="dv">1</span>;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Put<span class="op">(</span><span class="st">"i="</span><span class="op">)</span>; Put<span class="op">(</span>I<span class="op">)</span>;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end loop</span>;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>Result:</em> <code>i = 0</code>, <code>i = 1</code>, <code>i = 2</code>, <code>i = 3</code>, <code>i = 4</code>, <code>i = 5</code></p>
+<p><strong>Explanation:</strong> In Ada, the upper bound of the <code>for</code> loop is evaluated only once before entering the loop (copy of the value of <code>A</code>), whereas in C the condition <code>i &lt; a</code> is reevaluated at each iteration with the current value of <code>a</code>.</p>
+<section id="modeling-with-automata" class="level4">
+<h4 class="anchored" data-anchor-id="modeling-with-automata">Modeling with Automata</h4>
+<p>We can represent the control flow of these programs using automata. Here is the automaton corresponding to the C program:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Entry] --&gt; B[a = 5]
+    B --&gt; C[i = 0]
+    C --&gt; D{cond: i &lt; a}
+    D -- Yes --&gt; E[a--]
+    E --&gt; F[i++]
+    F --&gt; D
+    D -- No --&gt; G[Exit]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>For the Ada program, the automaton would be different because the value of <code>A</code> in the condition is fixed before the loop.</p>
+</section>
+</section>
+<section id="undecidability-and-approximation" class="level3">
+<h3 class="anchored" data-anchor-id="undecidability-and-approximation">Undecidability and Approximation</h3>
+<p>Consider the following Java example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> a<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> a<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// blablabla</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The Java compiler will refuse to compile this code or issue a serious warning: <em>“Variable ‘a’ might not have been initialized”</em>.</p>
+<p><strong>Problem:</strong> Detecting uninitialized variables is an <strong>undecidable</strong> (non-computable) problem.</p>
+<p>The compiler therefore gives an <strong>approximation</strong> – more precisely an <strong>over-approximation</strong>.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    P[All programs] --&gt; A[Programs with uninitialized variables]
+    P --&gt; B[Programs rejected by compiler]
+    A --&gt; B
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>The set of rejected programs is <strong>larger</strong> than the set of truly problematic programs. This is a <strong>conservative approximation</strong>:</p>
+<ul>
+<li>If the program is <strong>not rejected</strong>, we are sure it does <strong>not</strong> have an uninitialized variable problem.</li>
+<li>If it is rejected, we do <strong>not know</strong> whether it actually has a problem (false positive possible).</li>
+</ul>
+</section>
+</section>
+<section id="collecting-semantics" class="level2">
+<h2 class="anchored" data-anchor-id="collecting-semantics">Collecting Semantics</h2>
+<section id="general-principle" class="level3">
+<h3 class="anchored" data-anchor-id="general-principle">General Principle</h3>
+<p>The analysis must be <strong>conservative</strong>: it computes a conservative approximation (abstraction) such that the answer is safe.</p>
+<ul>
+<li>If the analysis does <strong>not reject</strong> the program → its correctness is <strong>guaranteed</strong></li>
+<li>If the analysis <strong>rejects</strong> the program → answer “maybe” (there may be an error or not)</li>
+</ul>
+</section>
+<section id="language-studied" class="level3">
+<h3 class="anchored" data-anchor-id="language-studied">Language Studied</h3>
+<p>The language used in this chapter is the same as in the first chapter:</p>
+<ul>
+<li>Integer and boolean expressions</li>
+<li>Instructions: <code>if</code>, <code>while</code>, assignments</li>
+<li><strong>Prohibition</strong> of function calls (recursive or not)</li>
+</ul>
+</section>
+<section id="control-flow-graph-cfg" class="level3">
+<h3 class="anchored" data-anchor-id="control-flow-graph-cfg">Control Flow Graph (CFG)</h3>
+<p>Let <span class="math inline">\(P\)</span> be a program. A <strong>control flow graph</strong> for <span class="math inline">\(P\)</span> is an interpreted automaton <span class="math inline">\((S, T, s_0, Var)\)</span> where:</p>
+<ul>
+<li><span class="math inline">\(S\)</span>: finite set of states</li>
+<li><span class="math inline">\(s_0 \in S\)</span>: initial state</li>
+<li><span class="math inline">\(Var\)</span>: set of variables used in <span class="math inline">\(P\)</span></li>
+<li><span class="math inline">\(T \subseteq S \times (A(Var) \cup B(Var)) \times S\)</span>: set of transitions
+<ul>
+<li><span class="math inline">\(A(Var)\)</span>: set of assignments <span class="math inline">\(x := expr\)</span> where <span class="math inline">\(x \in Var\)</span> and <span class="math inline">\(expr\)</span> is an expression over <span class="math inline">\(Var\)</span></li>
+<li><span class="math inline">\(B(Var)\)</span>: set of conditions (boolean expressions over <span class="math inline">\(Var\)</span>)</li>
+</ul></li>
+</ul>
+<p>Construction of a CFG is done recursively on each instruction of <span class="math inline">\(P\)</span>.</p>
+</section>
+<section id="definition-of-collecting-semantics" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-collecting-semantics">Definition of Collecting Semantics</h3>
+<p><strong>Collecting semantics</strong> (Floyd-Hoare) associates with each state (control point) of the CFG the set of all values that variables can take during execution.</p>
+<p>Let <span class="math inline">\(\alpha\)</span> be a control point. We denote <span class="math inline">\(V(\alpha)\)</span> this set:</p>
+<ul>
+<li>For a variable <span class="math inline">\(x\)</span>, <span class="math inline">\(V(\alpha)(x)\)</span> is the set of possible values that <span class="math inline">\(x\)</span> can take at point <span class="math inline">\(\alpha\)</span></li>
+</ul>
+<section id="calculation-rules" class="level4">
+<h4 class="anchored" data-anchor-id="calculation-rules">Calculation Rules</h4>
+<ol type="1">
+<li><p><strong>Assignment transition</strong> <span class="math inline">\(x := expr\)</span> from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span>: <span class="math display">\[
+V(B) = V(A)[x := expr]
+\]</span> where <span class="math inline">\(V(B)\)</span> takes all values from <span class="math inline">\(V(A)\)</span> except for <span class="math inline">\(V(B)(x)\)</span> which takes the values obtained by evaluating <span class="math inline">\(expr\)</span> on <span class="math inline">\(V(A)\)</span>.</p></li>
+<li><p><strong>Condition transition</strong> <span class="math inline">\(cond \in B(Var)\)</span> from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span>: <span class="math display">\[
+V(B) = V(A) \cap [cond]
+\]</span> where <span class="math inline">\(V(B)\)</span> takes all values from <span class="math inline">\(V(A)\)</span> that satisfy condition <span class="math inline">\(cond\)</span>.</p></li>
+<li><p><strong>Confluence</strong> (multiple transitions to <span class="math inline">\(C\)</span>):</p>
+<ul>
+<li>If we have transitions from <span class="math inline">\(A\)</span> to <span class="math inline">\(C\)</span> and from <span class="math inline">\(B\)</span> to <span class="math inline">\(C\)</span></li>
+<li>First compute the effects: <span class="math inline">\(V'(A)\)</span> and <span class="math inline">\(V'(B)\)</span></li>
+<li>Then: <span class="math inline">\(V(C) = V'(A) \cup V'(B)\)</span></li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="fixed-point-equation" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-point-equation">Fixed Point Equation</h3>
+<p>Programs with loops create cycles in the CFG. Considering <span class="math inline">\(V\)</span> as a vector <span class="math inline">\((V(A), V(B), \ldots)\)</span>, we obtain an equation where <span class="math inline">\(V\)</span> depends on itself:</p>
+<p><span class="math display">\[
+V = \Psi(V)
+\]</span></p>
+<p>where <span class="math inline">\(\Psi\)</span> is the function derived from the control flow graph of <span class="math inline">\(P\)</span>.</p>
+<p>This is a <strong>fixed point equation</strong>: the solution <span class="math inline">\(V\)</span> of collecting semantics is a solution of <span class="math inline">\(X = \Psi(X)\)</span>.</p>
+</section>
+</section>
+<section id="fixed-point-theory" class="level2">
+<h2 class="anchored" data-anchor-id="fixed-point-theory">Fixed Point Theory</h2>
+<section id="fundamental-definitions" class="level3">
+<h3 class="anchored" data-anchor-id="fundamental-definitions">Fundamental Definitions</h3>
+<p><strong>Partially ordered set (poset)</strong>: <span class="math inline">\((X, \leq)\)</span> where <span class="math inline">\(\leq\)</span> is a reflexive, antisymmetric, and transitive relation.</p>
+<p><strong>Lattice</strong>: poset <span class="math inline">\((X, \leq)\)</span> such that for any pair <span class="math inline">\(A, B \in X\)</span>:</p>
+<ul>
+<li>The infimum <span class="math inline">\(\inf(A, B)\)</span> exists in <span class="math inline">\(X\)</span></li>
+<li>The supremum <span class="math inline">\(\sup(A, B)\)</span> exists in <span class="math inline">\(X\)</span></li>
+</ul>
+<p><strong>Complete lattice</strong>: lattice <span class="math inline">\((X, \leq)\)</span> such that every subset of <span class="math inline">\(X\)</span> has an infimum and a supremum in <span class="math inline">\(X\)</span>.</p>
+<p><strong>Note</strong>: Every finite non-empty lattice is complete. Only infinite lattices can be incomplete.</p>
+</section>
+<section id="upper-and-lower-bounds" class="level3">
+<h3 class="anchored" data-anchor-id="upper-and-lower-bounds">Upper and Lower Bounds</h3>
+<p>Let <span class="math inline">\((X, \leq)\)</span> be a poset, <span class="math inline">\(Y \subseteq X\)</span>:</p>
+<ul>
+<li><strong>Upper bound</strong> of <span class="math inline">\(Y\)</span>: <span class="math inline">\(u \in X\)</span> such that <span class="math inline">\(\forall y \in Y, y \leq u\)</span></li>
+<li><strong>Lower bound</strong> of <span class="math inline">\(Y\)</span>: <span class="math inline">\(l \in X\)</span> such that <span class="math inline">\(\forall y \in Y, l \leq y\)</span></li>
+<li><strong>Supremum</strong> <span class="math inline">\(\sup Y\)</span>: least upper bound of <span class="math inline">\(Y\)</span></li>
+<li><strong>Infimum</strong> <span class="math inline">\(\inf Y\)</span>: greatest lower bound of <span class="math inline">\(Y\)</span></li>
+</ul>
+</section>
+<section id="examples-of-lattices" class="level3">
+<h3 class="anchored" data-anchor-id="examples-of-lattices">Examples of Lattices</h3>
+<ol type="1">
+<li><p><span class="math inline">\((\mathbb{Z}, \leq)\)</span>: lattice but <strong>not complete</strong></p></li>
+<li><p><span class="math inline">\((\mathcal{P}(\mathbb{Z}), \subseteq)\)</span>: <strong>complete</strong> lattice</p>
+<ul>
+<li><span class="math inline">\(\inf(A, B) = A \cap B\)</span></li>
+<li><span class="math inline">\(\sup(A, B) = A \cup B\)</span></li>
+<li><span class="math inline">\(\sup Y = \bigcup_{S \in Y} S\)</span></li>
+<li><span class="math inline">\(\inf Y = \bigcap_{S \in Y} S\)</span></li>
+</ul></li>
+<li><p><strong>Intervals</strong>: <span class="math display">\[
+\mathcal{I} = \{[a, b] \mid a, b \in \mathbb{Z}, a \leq b\} \cup \{(-\infty, a] \mid a \in \mathbb{Z}\} \cup \{[a, +\infty) \mid a \in \mathbb{Z}\} \cup \{\bot, (-\infty, +\infty)\}
+\]</span> with an order representing “precision” (see exercises): complete lattice.</p></li>
+<li><p><strong>Signs</strong>: <span class="math display">\[
+\mathcal{S} = \{&lt;0, \leq 0, &gt;0, \geq 0, =0, \neq 0, \bot, \top\}
+\]</span> with an order representing precision: complete lattice.</p></li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    T["⊤ (everything)"] --&gt; A["≤ 0"]
+    T --&gt; B["≥ 0"]
+    T --&gt; C["≠ 0"]
+    A --&gt; D["&lt; 0"]
+    A --&gt; E["= 0"]
+    B --&gt; E
+    B --&gt; F["&gt; 0"]
+    D --&gt; G["⊥ (nothing)"]
+    E --&gt; G
+    F --&gt; G
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="monotonic-and-scott-continuous-functions" class="level3">
+<h3 class="anchored" data-anchor-id="monotonic-and-scott-continuous-functions">Monotonic and Scott-Continuous Functions</h3>
+<p><strong>Monotonic function</strong>: Let <span class="math inline">\((E, \leq)\)</span> and <span class="math inline">\((F, \leq)\)</span> be two lattices. <span class="math inline">\(f: E \to F\)</span> is <strong>monotonic</strong> (non-decreasing) iff:</p>
+<p><span class="math display">\[
+\forall x, y \in E, x \leq y \Rightarrow f(x) \leq f(y)
+\]</span></p>
+<p><strong>Scott-continuous function</strong>: Let <span class="math inline">\((E, \leq)\)</span> and <span class="math inline">\((F, \leq)\)</span> be two complete lattices. <span class="math inline">\(f: E \to F\)</span> is <strong>Scott-continuous</strong> iff for any non-decreasing sequence <span class="math inline">\(U_0 \leq U_1 \leq \ldots \leq U_n \leq \ldots\)</span> in <span class="math inline">\(E\)</span>:</p>
+<p><span class="math display">\[
+\sup\{f(U_n), n \geq 0\} = f(\sup\{U_n, n \geq 0\})
+\]</span></p>
+<p><strong>Properties</strong>:</p>
+<ul>
+<li>If <span class="math inline">\(f\)</span> is continuous, then <span class="math inline">\(f\)</span> is monotonic</li>
+<li>Composition preserves monotonicity</li>
+<li>Composition preserves Scott-continuity</li>
+</ul>
+</section>
+<section id="fundamental-theorems" class="level3">
+<h3 class="anchored" data-anchor-id="fundamental-theorems">Fundamental Theorems</h3>
+<section id="knaster-tarski-theorem" class="level4">
+<h4 class="anchored" data-anchor-id="knaster-tarski-theorem">Knaster-Tarski Theorem</h4>
+<p>Let <span class="math inline">\((E, \leq)\)</span> be a complete lattice. Let <span class="math inline">\(f: E \to E\)</span> be a monotonic function.</p>
+<p>The set of fixed points of <span class="math inline">\(f\)</span>, <span class="math inline">\(FP = \{x \in E \mid f(x) = x\}\)</span>, is a complete lattice. In particular, <span class="math inline">\(f\)</span> has a <strong>least fixed-point</strong> and a <strong>greatest fixed-point</strong>.</p>
+</section>
+<section id="kleene-theorem" class="level4">
+<h4 class="anchored" data-anchor-id="kleene-theorem">Kleene Theorem</h4>
+<p>Let <span class="math inline">\((E, \leq)\)</span> be a complete lattice. Let <span class="math inline">\(f: E \to E\)</span> be a Scott-continuous function.</p>
+<p>The least fixed point of <span class="math inline">\(f\)</span> is equal to:</p>
+<p><span class="math display">\[
+\text{lfp}(f) = \sup\{f^n(\bot), n \geq 0\}
+\]</span></p>
+<p>where <span class="math inline">\(\bot = \inf E\)</span> and <span class="math inline">\(f^n\)</span> is defined inductively by:</p>
+<ul>
+<li><span class="math inline">\(f^0(x) = x\)</span></li>
+<li><span class="math inline">\(f^{n+1}(x) = f(f^n(x))\)</span></li>
+</ul>
+<p><strong>Property</strong>: Let <span class="math inline">\((E, \leq)\)</span> and <span class="math inline">\((F, \leq)\)</span> be two complete lattices. Let <span class="math inline">\(f, g: E \to F\)</span> be two continuous functions such that <span class="math inline">\(\forall x \in E, f(x) \leq g(x)\)</span>. Then:</p>
+<p><span class="math display">\[
+\text{lfp}(f) \leq \text{lfp}(g)
+\]</span></p>
+</section>
+</section>
+<section id="fixed-point-calculation-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-point-calculation-algorithm">Fixed Point Calculation Algorithm</h3>
+<p>Kleene’s theorem provides an algorithm to approximate the least fixed point:</p>
+<pre><code>X := ⊥
+repeat
+  X' := f(X)
+until X' = X
+return X</code></pre>
+<p><strong>Caution</strong>: If the lattice is infinite, this algorithm may not terminate.</p>
+</section>
+<section id="product-of-lattices" class="level3">
+<h3 class="anchored" data-anchor-id="product-of-lattices">Product of Lattices</h3>
+<p><strong>Lemma</strong>: Let <span class="math inline">\((E, \leq)\)</span> and <span class="math inline">\((F, \leq)\)</span> be two complete lattices. We define the order on <span class="math inline">\(E \times F\)</span> by:</p>
+<p><span class="math display">\[
+\forall (a, b), (c, d) \in E \times F, (a, b) \leq (c, d) \text{ iff } a \leq c \text{ and } b \leq d
+\]</span></p>
+<p>Then <span class="math inline">\((E \times F, \leq)\)</span> is a complete lattice.</p>
+<p><strong>Application</strong>: For a program with <span class="math inline">\(\#v\)</span> variables and <span class="math inline">\(\#cp\)</span> control points, the equation <span class="math inline">\(X = \Psi(X)\)</span> is expressed on the lattice <span class="math inline">\(\mathcal{I}^{\#v \times \#cp}\)</span> (if we use intervals).</p>
+</section>
+</section>
+<section id="galois-connection" class="level2">
+<h2 class="anchored" data-anchor-id="galois-connection">Galois Connection</h2>
+<section id="safety-and-liveness-properties" class="level3">
+<h3 class="anchored" data-anchor-id="safety-and-liveness-properties">Safety and Liveness Properties</h3>
+<p>Program specifications can be divided into two types:</p>
+<ul>
+<li><strong>Safety</strong>: “Nothing bad will ever happen”
+<ul>
+<li>Violated in finite time</li>
+<li>Example: no division by zero</li>
+</ul></li>
+<li><strong>Liveness</strong>: “Something good will eventually happen”
+<ul>
+<li>Example: termination</li>
+</ul></li>
+</ul>
+<p>We focus on <strong>safety properties</strong>.</p>
+</section>
+<section id="safety-observer" class="level3">
+<h3 class="anchored" data-anchor-id="safety-observer">Safety Observer</h3>
+<p>A safety property can be expressed using an <strong>observer</strong> (automaton) that:</p>
+<ul>
+<li>Reads program values</li>
+<li>Moves to an ERROR state when the property is violated</li>
+</ul>
+<p>We can transform the CFG so that the safety property is satisfied iff the ERROR state is unreachable.</p>
+</section>
+<section id="undecidability-problem" class="level3">
+<h3 class="anchored" data-anchor-id="undecidability-problem">Undecidability Problem</h3>
+<p>Reachability of a control point is <strong>not decidable</strong> in general. We therefore use collecting semantics on an abstract domain to obtain a conservative answer.</p>
+<p><strong>Conservative analysis</strong>:</p>
+<ul>
+<li>Answer “OK” (no error) → <strong>guarantee</strong> of correctness</li>
+<li>Answer “I don’t know” → possible error (or not)</li>
+</ul>
+</section>
+<section id="analysis-method" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-method">Analysis Method</h3>
+<ol type="1">
+<li><strong>Choose an abstract domain</strong> (signs, intervals, …)</li>
+<li><strong>Express the safety property as an observer</strong></li>
+<li><strong>Transform the program and observer</strong> into a CFG with ERROR state</li>
+<li><strong>Express as fixed point equations</strong></li>
+<li><strong>Calculate (try) the least fixed point</strong>
+<ul>
+<li>If the ERROR state is reached (value <span class="math inline">\(\neq \bot\)</span>) → “I don’t know”</li>
+<li>If a fixed point is reached without ERROR → “OK”</li>
+<li>(This step may not terminate)</li>
+</ul></li>
+</ol>
+</section>
+<section id="definition-of-galois-connection" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-galois-connection">Definition of Galois Connection</h3>
+<p>A <strong>Galois connection</strong> between:</p>
+<ul>
+<li>A concrete complete lattice <span class="math inline">\((E, \leq)\)</span></li>
+<li>An abstract complete lattice <span class="math inline">\((F, \preceq)\)</span></li>
+</ul>
+<p>is a pair of functions <span class="math inline">\(\alpha: E \to F\)</span> (abstraction) and <span class="math inline">\(\gamma: F \to E\)</span> (concretization) such that:</p>
+<p><span class="math display">\[
+\forall x \in E, \forall y \in F, \alpha(x) \preceq y \iff x \leq \gamma(y)
+\]</span></p>
+<section id="properties" class="level4">
+<h4 class="anchored" data-anchor-id="properties">Properties</h4>
+<ol type="1">
+<li><span class="math inline">\(\gamma \circ \alpha\)</span> is <strong>extensive</strong>: <span class="math inline">\(\forall x \in E, x \leq \gamma(\alpha(x))\)</span></li>
+<li><span class="math inline">\(\alpha \circ \gamma\)</span> is <strong>intensive</strong>: <span class="math inline">\(\forall y \in F, \alpha(\gamma(y)) \preceq y\)</span></li>
+<li><span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span> are monotonic</li>
+<li><span class="math inline">\(\alpha\)</span> is Scott-continuous</li>
+</ol>
+</section>
+</section>
+<section id="application-to-abstract-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="application-to-abstract-interpretation">Application to Abstract Interpretation</h3>
+<p>In our context:</p>
+<ul>
+<li><strong>Concrete lattice</strong>: <span class="math inline">\(\mathbb{Z}^{\#v}\)</span> (values of variables)</li>
+<li><strong>Abstract lattice</strong>: <span class="math inline">\(\mathcal{I}^{\#v}\)</span> (intervals)</li>
+<li><strong>Abstraction <span class="math inline">\(\alpha\)</span></strong>: transforms sets of values into intervals</li>
+<li><strong>Concretization <span class="math inline">\(\gamma\)</span></strong>: transforms intervals into sets of values</li>
+</ul>
+<p>Collecting semantics is expressed on the concrete side: <span class="math inline">\(V = \Psi(V)\)</span></p>
+<p>Fixed point calculation is done on the abstract side: <span class="math inline">\(W = \Psi_{\text{abst}}(W)\)</span></p>
+<p>We can take: <span class="math display">\[
+\Psi_{\text{abst}} = \alpha \circ \Psi \circ \gamma
+\]</span></p>
+<p>Provided that <span class="math inline">\(\Psi\)</span> and <span class="math inline">\(\gamma\)</span> are continuous.</p>
+</section>
+<section id="correctness-of-abstract-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="correctness-of-abstract-analysis">Correctness of Abstract Analysis</h3>
+<p>By calculating <span class="math inline">\(\text{lfp}(\Psi_{\text{abst}})\)</span>, we obtain an <strong>over-approximation</strong>, hence a conservative answer. We can prove that:</p>
+<p><span class="math display">\[
+\gamma(\text{lfp}(\Psi_{\text{abst}})) \geq \text{lfp}(\Psi)
+\]</span></p>
+<p>Sometimes, we use an even more abstract function <span class="math inline">\(\xi\)</span> such that <span class="math inline">\(\forall y \in F, \Psi_{\text{abst}}(y) \leq \xi(y)\)</span> to accelerate calculation and ensure termination. In this case too, we obtain an over-approximation:</p>
+<p><span class="math display">\[
+\gamma(\text{lfp}(\xi)) \geq \text{lfp}(\Psi)
+\]</span></p>
+</section>
+</section>
+<section id="complete-analysis-example" class="level2">
+<h2 class="anchored" data-anchor-id="complete-analysis-example">Complete Analysis Example</h2>
+<section id="example-program" class="level3">
+<h3 class="anchored" data-anchor-id="example-program">Example Program</h3>
+<p>Consider the simple program:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="op">-</span><span class="dv">3</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> a <span class="op">&lt;</span> <span class="dv">10</span> do</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  a <span class="op">=</span> a <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>done</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="cfg-construction" class="level3">
+<h3 class="anchored" data-anchor-id="cfg-construction">CFG Construction</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A[Entry] --&gt;|a := -3| B
+    B --&gt; C{a &lt; 10 ?}
+    C -- Yes --&gt; D[a := a + 1]
+    D --&gt; C
+    C -- No --&gt; E[Exit]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="collecting-semantics-equations" class="level3">
+<h3 class="anchored" data-anchor-id="collecting-semantics-equations">Collecting Semantics Equations</h3>
+<p>On the signs domain <span class="math inline">\(\mathcal{S}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(V(A) = \top\)</span></li>
+<li><span class="math inline">\(V(B) = V(A)[a := -3] \cup V(D)[a := a + 1]\)</span></li>
+<li><span class="math inline">\(V(C) = V(B) \cap [a &lt; 10]\)</span></li>
+<li><span class="math inline">\(V(D) = V(B) \cap [a \geq 10]\)</span></li>
+</ul>
+<p>We look for <span class="math inline">\(V = \phi(V)\)</span> where <span class="math inline">\(V \in \mathcal{S}^4\)</span>.</p>
+</section>
+<section id="iterative-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="iterative-calculation">Iterative Calculation</h3>
+<ol type="1">
+<li>Initialization: <span class="math inline">\(V^0 = (\bot, \bot, \bot, \bot)\)</span></li>
+<li>Iteration 1: <span class="math inline">\(V^1 = \phi(V^0)\)</span>
+<ul>
+<li><span class="math inline">\(V^1(A) = \top\)</span></li>
+<li><span class="math inline">\(V^1(B) = \top[a := -3] \cup \bot[a := a + 1] = \{a = -3\} \cup \bot = \{a = -3\}\)</span></li>
+<li><span class="math inline">\(V^1(C) = \{a = -3\} \cap [a &lt; 10] = \{a = -3\}\)</span></li>
+<li><span class="math inline">\(V^1(D) = \{a = -3\} \cap [a \geq 10] = \bot\)</span></li>
+</ul></li>
+<li>Iteration 2: <span class="math inline">\(V^2 = \phi(V^1)\)</span>
+<ul>
+<li>Continue until convergence…</li>
+</ul></li>
+</ol>
+</section>
+<section id="analysis-with-safety-property" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-with-safety-property">Analysis with Safety Property</h3>
+<p>Suppose we want to verify that <span class="math inline">\(a\)</span> never becomes positive. We add an observer that moves to ERROR if <span class="math inline">\(a &gt; 0\)</span>.</p>
+<p>The abstract analysis will determine whether the ERROR state is reachable.</p>
+</section>
+</section>
+<section id="comparison-of-verification-methods" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-of-verification-methods">Comparison of Verification Methods</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 27%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>System</th>
+<th>Property</th>
+<th>Technique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Hoare Logic</strong></td>
+<td>Program</td>
+<td>Pre/post-conditions</td>
+<td>Deductive proofs</td>
+</tr>
+<tr class="even">
+<td><strong>SMT Solving</strong></td>
+<td>Logical formula</td>
+<td>Formula to verify</td>
+<td>Automatic solvers</td>
+</tr>
+<tr class="odd">
+<td><strong>Abstract Interpretation</strong></td>
+<td>Program</td>
+<td>Safety property (observer)</td>
+<td>Fixed point on abstract domain</td>
+</tr>
+<tr class="even">
+<td><strong>Model Checking</strong></td>
+<td>Finite automaton</td>
+<td>Temporal logic (LTL, CTL)</td>
+<td>State exploration</td>
+</tr>
+</tbody>
+</table>
+<p>For abstract interpretation, we verify that the set of system traces is included in the set of property traces:</p>
+<p><span class="math display">\[
+\text{Tr}(\text{System}) \subseteq \text{Tr}(\text{Property})
+\]</span></p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Abstract interpretation is a powerful method for static analysis of programs. It allows verifying safety properties in a conservative manner, with formal guarantees thanks to the theory of complete lattices and Galois connections.</p>
+<p>Key points to remember:</p>
+<ol type="1">
+<li>The analysis is <strong>conservative</strong> (safe but not complete)</li>
+<li>It relies on <strong>collecting semantics</strong> and <strong>fixed point equations</strong></li>
+<li><strong>Lattice theory</strong> and <strong>Galois connections</strong> provide the mathematical foundation</li>
+<li>The choice of <strong>abstract domain</strong> influences the precision and efficiency of the analysis</li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
