@@ -1,0 +1,52 @@
+on:
+  workflow_dispatch:
+  push:
+    branches: course
+
+name: Quarto Publish
+
+jobs:
+  build-deploy:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+          chromium: true
+
+      - name: Render French project
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: exam/fr
+          to: html
+
+      - name: Render English project
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: exam/en
+          to: html
+
+      - name: Render French project pdf
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: exam/fr
+          to: pdf
+
+      - name: Render English project pdf
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: exam/en
+          to: pdf
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: exam/_site
+          publish_branch: gh-pages
