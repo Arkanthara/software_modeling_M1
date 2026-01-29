@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>s3 – Software Modeling and Verification</title>
+<title>s4 – Software Modeling and Verification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -313,7 +313,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s3.html">Série 3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s4.html">Série 4 : Faible Précondition avec Boucles et Vérification</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -391,13 +391,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s3.html" class="sidebar-item-text sidebar-link active">
+  <a href="./s3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Série 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s4.html" class="sidebar-item-text sidebar-link">
+  <a href="./s4.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Série 4 : Faible Précondition avec Boucles et Vérification</span></a>
   </div>
 </li>
@@ -425,322 +425,145 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#série-3" id="toc-série-3" class="nav-link active" data-scroll-target="#série-3">Série 3</a>
+  <li><a href="#série-4-faible-précondition-avec-boucles-et-vérification" id="toc-série-4-faible-précondition-avec-boucles-et-vérification" class="nav-link active" data-scroll-target="#série-4-faible-précondition-avec-boucles-et-vérification">Série 4 : Faible Précondition avec Boucles et Vérification</a>
   <ul class="collapse">
   <li><a href="#méthodes" id="toc-méthodes" class="nav-link" data-scroll-target="#méthodes">Méthodes</a>
   <ul class="collapse">
-  <li><a href="#calcul-de-la-plus-faible-précondition-wp" id="toc-calcul-de-la-plus-faible-précondition-wp" class="nav-link" data-scroll-target="#calcul-de-la-plus-faible-précondition-wp">Calcul de la plus faible précondition (WP)</a></li>
-  <li><a href="#vérification-des-triples-de-hoare" id="toc-vérification-des-triples-de-hoare" class="nav-link" data-scroll-target="#vérification-des-triples-de-hoare">Vérification des triples de Hoare</a></li>
-  <li><a href="#preuves-structurelles-sur-les-wp" id="toc-preuves-structurelles-sur-les-wp" class="nav-link" data-scroll-target="#preuves-structurelles-sur-les-wp">Preuves structurelles sur les WP</a></li>
-  <li><a href="#manipulations-logiques" id="toc-manipulations-logiques" class="nav-link" data-scroll-target="#manipulations-logiques">Manipulations logiques</a></li>
+  <li><a href="#weakest-precondition-wp-calculus" id="toc-weakest-precondition-wp-calculus" class="nav-link" data-scroll-target="#weakest-precondition-wp-calculus">Weakest Precondition (WP) Calculus</a></li>
+  <li><a href="#trouver-et-prouver-des-invariants-de-boucle" id="toc-trouver-et-prouver-des-invariants-de-boucle" class="nav-link" data-scroll-target="#trouver-et-prouver-des-invariants-de-boucle">Trouver et Prouver des Invariants de Boucle</a></li>
+  <li><a href="#prouver-la-terminaison-avec-des-variants" id="toc-prouver-la-terminaison-avec-des-variants" class="nav-link" data-scroll-target="#prouver-la-terminaison-avec-des-variants">Prouver la Terminaison avec des Variants</a></li>
+  <li><a href="#vérification-formelle-avec-why3" id="toc-vérification-formelle-avec-why3" class="nav-link" data-scroll-target="#vérification-formelle-avec-why3">Vérification Formelle avec Why3</a></li>
   </ul></li>
   <li><a href="#rappel" id="toc-rappel" class="nav-link" data-scroll-target="#rappel">Rappel</a></li>
   <li><a href="#exemples-illustratifs" id="toc-exemples-illustratifs" class="nav-link" data-scroll-target="#exemples-illustratifs">Exemples Illustratifs</a>
   <ul class="collapse">
-  <li><a href="#exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2" id="toc-exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2" class="nav-link" data-scroll-target="#exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2">Exemple 1 : Calcul de WP pour une conditionnelle (Méthodes 1 et 2)</a></li>
-  <li><a href="#exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5" id="toc-exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5" class="nav-link" data-scroll-target="#exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5">Exemple 2 : Vérification de validité d’un triple de Hoare (Méthodes 4 et 5)</a></li>
-  <li><a href="#exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4" id="toc-exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4" class="nav-link" data-scroll-target="#exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4">Exemple 3 : Prise en compte de la division par zéro (Méthodes 3 et 4)</a></li>
-  <li><a href="#exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6" id="toc-exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6" class="nav-link" data-scroll-target="#exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6">Exemple 4 : Preuve d’une propriété sur WP par induction (Méthode 6)</a></li>
+  <li><a href="#exemple-1-calcul-de-wp-et-invariant-pour-stupidadd" id="toc-exemple-1-calcul-de-wp-et-invariant-pour-stupidadd" class="nav-link" data-scroll-target="#exemple-1-calcul-de-wp-et-invariant-pour-stupidadd">Exemple 1 : Calcul de WP et Invariant pour <code>stupidadd</code></a></li>
+  <li><a href="#exemple-2-variant-de-terminaison-pour-eucliddiv" id="toc-exemple-2-variant-de-terminaison-pour-eucliddiv" class="nav-link" data-scroll-target="#exemple-2-variant-de-terminaison-pour-eucliddiv">Exemple 2 : Variant de Terminaison pour <code>eucliddiv</code></a></li>
   </ul></li>
   <li><a href="#synthèse" id="toc-synthèse" class="nav-link" data-scroll-target="#synthèse">Synthèse</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s3.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s4.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s4.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s3.html">Série 3</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s4.html">Série 4 : Faible Précondition avec Boucles et Vérification</a></li></ol></nav></header>
 
 
 
 
 
-<section id="série-3" class="level1">
-<h1>Série 3</h1>
+<section id="série-4-faible-précondition-avec-boucles-et-vérification" class="level1">
+<h1>Série 4 : Faible Précondition avec Boucles et Vérification</h1>
 <section id="méthodes" class="level2">
 <h2 class="anchored" data-anchor-id="méthodes">Méthodes</h2>
-<section id="calcul-de-la-plus-faible-précondition-wp" class="level3">
-<h3 class="anchored" data-anchor-id="calcul-de-la-plus-faible-précondition-wp">Calcul de la plus faible précondition (WP)</h3>
+<section id="weakest-precondition-wp-calculus" class="level3">
+<h3 class="anchored" data-anchor-id="weakest-precondition-wp-calculus">Weakest Precondition (WP) Calculus</h3>
+<p>Méthode de raisonnement à rebours pour vérifier la correction partielle d’un programme. On calcule la condition la plus faible sur l’état initial qui garantit qu’après l’exécution du programme, la postcondition est satisfaite.</p>
 <ul>
-<li><p><strong>Méthode 1 : WP pour l’affectation</strong><br>
-Pour une affectation <code>x := e</code>, on substitue la variable <code>x</code> par l’expression <code>e</code> dans la postcondition <span class="math inline">\(\psi\)</span> :<br>
-<span class="math display">\[ \mathrm{WP}(x := e, \psi) = \psi[x \leftarrow e] \]</span></p></li>
-<li><p><strong>Méthode 2 : WP pour la conditionnelle</strong><br>
-Pour une instruction <code>if B then c_1 else c_2</code>, on combine les WP des deux branches, conditionnées par <code>B</code> et <code>¬B</code> :<br>
-<span class="math display">\[ \mathrm{WP}(\text{if } B \text{ then } c_1 \text{ else } c_2, \psi) = (B \Rightarrow \mathrm{WP}(c_1, \psi)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, \psi)) \]</span></p></li>
-<li><p><strong>Méthode 3 : Prise en compte des conditions de sûreté</strong><br>
-Lorsque le programme contient une opération partielle (ex. division), il faut ajouter explicitement les conditions de validité (ex. dénominateur non nul) dans la WP.</p></li>
-</ul>
-</section>
-<section id="vérification-des-triples-de-hoare" class="level3">
-<h3 class="anchored" data-anchor-id="vérification-des-triples-de-hoare">Vérification des triples de Hoare</h3>
-<ul>
-<li><p><strong>Méthode 4 : Validité via l’implication logique</strong><br>
-Un triple <span class="math inline">\(\{P\}\ c\ \{Q\}\)</span> est valide si et seulement si la précondition <span class="math inline">\(P\)</span> implique la WP du programme <span class="math inline">\(c\)</span> pour la postcondition <span class="math inline">\(Q\)</span> :<br>
-<span class="math display">\[ \{P\}\ c\ \{Q\} \text{ est valide } \quad \text{ssi} \quad P \Rightarrow \mathrm{WP}(c, Q) \ \text{est vrai}. \]</span><br>
-On doit aussi vérifier toutes les conditions de sûreté (ex. non-division par zéro).</p></li>
-<li><p><strong>Méthode 5 : Raffinement par précondition additionnelle</strong><br>
-Si la WP calculée n’est pas automatiquement vérifiée, on peut proposer une précondition <span class="math inline">\(P\)</span> plus forte qui rende l’implication valide.</p></li>
-</ul>
-</section>
-<section id="preuves-structurelles-sur-les-wp" class="level3">
-<h3 class="anchored" data-anchor-id="preuves-structurelles-sur-les-wp">Preuves structurelles sur les WP</h3>
-<ul>
-<li><p><strong>Méthode 6 : Induction structurelle sur les programmes</strong></p>
-<p>Pour démontrer une propriété sur <span class="math inline">\(\mathrm{WP}\)</span> pour tout programme, on procède par induction sur la structure du programme :</p>
+<li><p><strong>WP pour l’affectation :</strong> <span class="math inline">\(WP(x := e, Q) = Q[x \leftarrow e]\)</span></p></li>
+<li><p><strong>WP pour la séquence :</strong> <span class="math inline">\(WP(S1; S2, Q) = WP(S1, WP(S2, Q))\)</span></p></li>
+<li><p><strong>WP pour la boucle <code>while</code> :</strong> C’est le point le plus complexe. Pour une boucle <code>while B do S done</code> avec un invariant <span class="math inline">\(I\)</span>, on a : <span class="math display">\[WP(\text{while } B \text{ do } S \text{ done}, Q) = I \land \forall \vec{v}, ((B \land I) \Rightarrow WP(S, I)) \land ((\neg B \land I) \Rightarrow Q)\]</span> où <span class="math inline">\(\vec{v}\)</span> sont les variables modifiées dans la boucle. En pratique, la preuve se décompose en trois obligations :</p>
 <ol type="1">
-<li><strong>Cas de base</strong> : instructions élémentaires (affectation).<br>
-</li>
-<li><strong>Étapes d’induction</strong> : composition séquentielle, conditionnelle, boucle.</li>
+<li><strong>Initialisation :</strong> La précondition implique l’invariant.</li>
+<li><strong>Préservation :</strong> Si l’invariant et la condition de boucle sont vrais avant le corps, alors l’invariant reste vrai après.</li>
+<li><strong>Postcondition :</strong> Si l’invariant est vrai et la condition de boucle est fausse, alors la postcondition est vraie.</li>
 </ol></li>
 </ul>
 </section>
-<section id="manipulations-logiques" class="level3">
-<h3 class="anchored" data-anchor-id="manipulations-logiques">Manipulations logiques</h3>
+<section id="trouver-et-prouver-des-invariants-de-boucle" class="level3">
+<h3 class="anchored" data-anchor-id="trouver-et-prouver-des-invariants-de-boucle">Trouver et Prouver des Invariants de Boucle</h3>
+<p>Un invariant <span class="math inline">\(I\)</span> est une propriété qui est vraie avant la première itération, préservée par chaque itération, et donc vraie à la sortie de la boucle.</p>
 <ul>
-<li><strong>Méthode 7 : Transformations logiques courantes</strong>
-<ul>
-<li>Élimination de l’implication : <span class="math inline">\(A \Rightarrow B \equiv \neg A \lor B\)</span><br>
-</li>
-<li>Lois de De Morgan : <span class="math inline">\(\neg (A \land B) \equiv \neg A \lor \neg B\)</span>, <span class="math inline">\(\neg (A \lor B) \equiv \neg A \land \neg B\)</span><br>
-</li>
-<li>Distributivité : <span class="math inline">\(A \land (B \lor C) \equiv (A \land B) \lor (A \land C)\)</span></li>
-</ul></li>
+<li><strong>Stratégie :</strong> L’invariant relie souvent les variables mutables aux variables initiales (notées <code>a0</code>, <code>b0</code>) ou exprime une relation qui doit être maintenue (ex : <code>a + b = constante</code>).</li>
+<li><strong>Vérification :</strong> On prouve la condition de préservation sous forme d’un triplet de Hoare : <span class="math inline">\(\{B \land I\} S \{I\}\)</span>.</li>
 </ul>
-<hr>
+</section>
+<section id="prouver-la-terminaison-avec-des-variants" class="level3">
+<h3 class="anchored" data-anchor-id="prouver-la-terminaison-avec-des-variants">Prouver la Terminaison avec des Variants</h3>
+<p>Une variante <span class="math inline">\(V\)</span> est une expression à valeurs entières (ou dans un ensemble bien-fondé) qui :</p>
+<ol type="1">
+<li><strong>Est minorée :</strong> Typiquement <span class="math inline">\(V \geq 0\)</span> lorsque la condition de boucle <span class="math inline">\(B\)</span> est vraie.</li>
+<li><strong>Décroît strictement :</strong> À chaque itération, sa valeur diminue.</li>
+</ol>
+<p>Cela garantit que le nombre d’itérations est fini.</p>
+<ul>
+<li><strong>Stratégie :</strong> Choisir une expression qui mesure clairement les “pas” restants (ex : une variable de décrémentation).</li>
+</ul>
+</section>
+<section id="vérification-formelle-avec-why3" class="level3">
+<h3 class="anchored" data-anchor-id="vérification-formelle-avec-why3">Vérification Formelle avec Why3</h3>
+<p>Why3 est un outil de vérification déductive de programmes.</p>
+<ul>
+<li><strong>Encodage :</strong> Traduire le code, les spécifications (pré/postconditions), les invariants et les variants dans le langage de Why3.</li>
+<li><strong>Génération d’obligations de preuve :</strong> Why3 génère automatiquement les formules logiques correspondant aux conditions de correction partielle et de terminaison.</li>
+<li><strong>Preuve :</strong> Ces obligations peuvent être déchargées automatiquement par des solveurs (SMT) ou manuellement par des prouveurs interactifs.</li>
+</ul>
 </section>
 </section>
 <section id="rappel" class="level2">
 <h2 class="anchored" data-anchor-id="rappel">Rappel</h2>
-<ol type="1">
-<li><p><strong>Règles WP</strong></p>
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(x := e, \psi) = \psi[x \leftarrow e]\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(\text{if } B \text{ then } c_1 \text{ else } c_2, \psi) = (B \Rightarrow \mathrm{WP}(c_1, \psi)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, \psi))\)</span></li>
-</ul></li>
-<li><p><strong>Validité d’un triple de Hoare</strong><br>
-<span class="math display">\[ \{P\}\ c\ \{Q\} \text{ valide } \iff P \Rightarrow \mathrm{WP}(c, Q) \]</span></p></li>
-<li><p><strong>Conditions de sûreté</strong><br>
-Pour toute division <code>a/b</code>, ajouter la condition <span class="math inline">\(b \neq 0\)</span> à la WP.</p></li>
-<li><p><strong>Lois logiques utiles</strong></p>
-<ul>
-<li>Implication : <span class="math inline">\(A \Rightarrow B \equiv \neg A \lor B\)</span><br>
-</li>
-<li>Distributivité de <span class="math inline">\(\land\)</span> sur <span class="math inline">\(\lor\)</span> et vice versa<br>
-</li>
-<li>Équivalence : <span class="math inline">\((A \Rightarrow (B \land C)) \equiv (A \Rightarrow B) \land (A \Rightarrow C)\)</span></li>
-</ul></li>
-<li><p><strong>Induction structurelle</strong></p>
-<ul>
-<li>Base : vérifier la propriété pour les instructions simples.<br>
-</li>
-<li>Induction : supposer la propriété pour les sous-programmes, la prouver pour les compositions.</li>
-</ul></li>
-</ol>
-<hr>
+<li><strong>Logique de Hoare :</strong> <span class="math inline">\(\{P\} C \{Q\}\)</span> signifie : si <span class="math inline">\(P\)</span> est vrai avant l’exécution de <span class="math inline">\(C\)</span>, et si <span class="math inline">\(C\)</span> termine, alors <span class="math inline">\(Q\)</span> est vrai après.</li>
+<li><strong>Règle de la boucle <code>while</code> :</strong> <span class="math display">\[
+\frac{\{I \land B\} S \{I\}}{\{I\} \text{ while } B \text{ do } S \text{ done } \{\neg B \land I\}}
+\]</span></li>
+<li><strong>Terminaison :</strong> Un variant <span class="math inline">\(V\)</span> assure la terminaison si <span class="math inline">\(\{I \land B \land V = K\} S \{V &lt; K\}\)</span> pour un <span class="math inline">\(K\)</span> (et <span class="math inline">\(V \geq 0\)</span> sous <span class="math inline">\(I \land B\)</span>).</li>
+<li><strong>Loi de l’affectation :</strong> Pour prouver <span class="math inline">\(\{P\} x := e \{Q\}\)</span>, il suffit que <span class="math inline">\(P \Rightarrow Q[x \leftarrow e]\)</span>.</li>
+</ul>
 </section>
 <section id="exemples-illustratifs" class="level2">
 <h2 class="anchored" data-anchor-id="exemples-illustratifs">Exemples Illustratifs</h2>
-<section id="exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2">Exemple 1 : Calcul de WP pour une conditionnelle (Méthodes 1 et 2)</h3>
-<p><strong>Contexte</strong> : Calculer <span class="math inline">\(\mathrm{WP}(f, \psi_1)\)</span> pour le programme<br>
-<span class="math display">\[ f(a,b) = \text{if } (a &gt; 2) \text{ then } res := a \text{ else } res := b \text{ endif} \]</span><br>
-avec <span class="math inline">\(\psi_1 : res \geq 0\)</span>.</p>
-<p><strong>Application</strong> :</p>
+<section id="exemple-1-calcul-de-wp-et-invariant-pour-stupidadd" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-1-calcul-de-wp-et-invariant-pour-stupidadd">Exemple 1 : Calcul de WP et Invariant pour <code>stupidadd</code></h3>
+<p><strong>Contexte :</strong></p>
+<p>Fonction <code>stupidadd(a, b)</code> qui ajoute <code>b</code> à <code>a</code> par incrémentations et décrémentations.</p>
+<pre><code>stupidadd(a,b) = while (b &gt; 0) do a := a + 1; b := b - 1 done; return a</code></pre>
+<p>Spécification : <span class="math inline">\(\{b \geq 0\} \text{ stupidadd } \{res = a_0 + b_0\}\)</span>.</p>
+<p><strong>Application :</strong></p>
 <ol type="1">
-<li>Appliquer la règle de la conditionnelle :<br>
-<span class="math display">\[ \mathrm{WP}(f, \psi_1) = (a &gt; 2 \Rightarrow \mathrm{WP}(res := a, \psi_1)) \land (\neg (a &gt; 2) \Rightarrow \mathrm{WP}(res := b, \psi_1)) \]</span><br>
-</li>
-<li>Calculer les WP des affectations (Méthode 1) :
+<li><strong>Choix de l’invariant <code>I1</code> :</strong> <span class="math inline">\(I_1 \equiv (b \geq 0) \land (a + b = a_0 + b_0)\)</span>.
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(res := a, \psi_1) = \psi_1[res \leftarrow a] = a \geq 0\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(res := b, \psi_1) = \psi_1[res \leftarrow b] = b \geq 0\)</span><br>
-</li>
+<li>Il exprime que la somme totale reste constante et que <code>b</code> n’est jamais négatif pendant la boucle.</li>
 </ul></li>
-<li>Combiner :<br>
-<span class="math display">\[ \mathrm{WP}(f, \psi_1) = (a &gt; 2 \Rightarrow a \geq 0) \land (\neg (a &gt; 2) \Rightarrow b \geq 0) \]</span><br>
-soit <span class="math display">\[ (a &gt; 2 \Rightarrow a \geq 0) \land (a \leq 2 \Rightarrow b \geq 0). \]</span></li>
+<li><strong>Preuve de l’invariant :</strong>
+<ul>
+<li><p><strong>Initialisation :</strong> Avant la boucle, <code>a = a0</code>, <code>b = b0</code>. Donc <code>b0 ≥ 0 ⇒ b ≥ 0</code> et <code>a + b = a0 + b0</code>. La précondition garantit <code>b0 ≥ 0</code>.</p></li>
+<li><p><strong>Préservation :</strong> On doit montrer <span class="math inline">\(\{b&gt;0 \land I_1\} a:=a+1; b:=b-1 \{I_1\}\)</span>. Calculons la WP pour le corps de la boucle par rapport à <code>I1</code> : <span class="math display">\[WP(a:=a+1; b:=b-1, I_1) = WP(a:=a+1, WP(b:=b-1, I_1))\]</span> <span class="math display">\[WP(b:=b-1, (b \geq 0) \land (a + b = a_0 + b_0)) = ((b-1) \geq 0) \land (a + (b-1) = a_0 + b_0)\]</span> <span class="math display">\[WP(a:=a+1, (b-1 \geq 0) \land (a + b - 1 = a_0 + b_0)) = (b-1 \geq 0) \land ((a+1) + b - 1 = a_0 + b_0)\]</span> Ce qui se simplifie en : <span class="math inline">\((b \geq 1) \land (a + b = a_0 + b_0)\)</span>.</p>
+<p>La précondition du corps est <span class="math inline">\(b&gt;0 \land I_1 \equiv (b&gt;0) \land (b \geq 0) \land (a + b = a_0 + b_0)\)</span>.</p>
+<p>Il est évident que <span class="math inline">\((b&gt;0) \land (a + b = a_0 + b_0) \Rightarrow (b \geq 1) \land (a + b = a_0 + b_0)\)</span>.</p>
+<p>La condition de préservation est donc vérifiée.</p></li>
+</ul></li>
+<li><strong>Postcondition :</strong> En sortie de boucle, <span class="math inline">\(\neg B \land I_1\)</span>, i.e., <span class="math inline">\(b \leq 0 \land b \geq 0 \land a + b = a_0 + b_0\)</span>. Cela implique <span class="math inline">\(b = 0\)</span> et donc <span class="math inline">\(a = a_0 + b_0\)</span>. La fonction retourne <code>a</code>, donc <span class="math inline">\(res = a_0 + b_0\)</span>.</li>
 </ol>
-<hr>
 </section>
-<section id="exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5">Exemple 2 : Vérification de validité d’un triple de Hoare (Méthodes 4 et 5)</h3>
-<p><strong>Contexte</strong> : Vérifier si <span class="math inline">\(\{P_2\}\ f\ \{\psi_2\}\)</span> est valide, avec <span class="math inline">\(P_2 := \mathbf{T}\)</span> (vrai) et <span class="math inline">\(\psi_2 : res \geq 42\)</span>.</p>
-<p><strong>Application</strong> :</p>
-<ol type="1">
-<li>On a déjà calculé :<br>
-<span class="math display">\[ \mathrm{WP}(f, \psi_2) = (a &gt; 2 \Rightarrow a \geq 42) \land (\neg (a &gt; 2) \Rightarrow b \geq 42) \]</span><br>
-</li>
-<li>Pour la validité, il faut <span class="math inline">\(P_2 \Rightarrow \mathrm{WP}(f, \psi_2)\)</span>, c’est-à-dire que <span class="math inline">\(\mathrm{WP}(f, \psi_2)\)</span> soit vraie pour tout <span class="math inline">\(a,b\)</span>.<br>
-</li>
-<li>Or, si <span class="math inline">\(a=3\)</span> (donc <span class="math inline">\(a&gt;2\)</span> vrai), on doit avoir <span class="math inline">\(a \geq 42\)</span>, ce qui est faux. Donc l’implication n’est pas vraie pour toutes les valeurs.<br>
-</li>
-<li><strong>Conclusion</strong> : Le triple n’est pas valide. Il est toutefois <em>satisfiable</em> (ex. avec <span class="math inline">\(a=42, b=42\)</span>).</li>
-</ol>
-<hr>
-</section>
-<section id="exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4">Exemple 3 : Prise en compte de la division par zéro (Méthodes 3 et 4)</h3>
-<p><strong>Contexte</strong> : Calculer <span class="math inline">\(\mathrm{WP}(g, \psi_3)\)</span> pour<br>
-<span class="math display">\[ g(a,b) = \text{if } (a \geq b) \text{ then } res := a/b \text{ else } res := b/a \text{ endif} \]</span><br>
-avec <span class="math inline">\(\psi_3 : res \geq 1\)</span>.</p>
-<p><strong>Application</strong> :</p>
-<ol type="1">
-<li>Appliquer la règle de la conditionnelle :<br>
-<span class="math display">\[ \mathrm{WP}(g, \psi_3) = (a \geq b \Rightarrow \mathrm{WP}(res := a/b, \psi_3)) \land (a &lt; b \Rightarrow \mathrm{WP}(res := b/a, \psi_3)) \]</span><br>
-</li>
-<li>Pour chaque affectation avec division, ajouter la condition de non-nullité du dénominateur (Méthode 3) :
+<section id="exemple-2-variant-de-terminaison-pour-eucliddiv" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-2-variant-de-terminaison-pour-eucliddiv">Exemple 2 : Variant de Terminaison pour <code>eucliddiv</code></h3>
+<p><strong>Contexte :</strong></p>
+<p>Fonction calculant le quotient de la division euclidienne de <code>a</code> par <code>b</code>.</p>
+<pre><code>eucliddiv(a,b) = quot := 0; rest := a; while (rest &gt;= b) do rest := rest - b; quot := quot + 1 done; return quot</code></pre>
+<p>Spécification : <span class="math inline">\(\{a \geq 0 \land b &gt; 0\} \text{ eucliddiv } \{a = b * quot + rest \land 0 \leq rest &lt; b\}\)</span>. L’invariant est donné : <span class="math inline">\(I_2 \equiv (rest \geq 0) \land (a = b * quot + rest)\)</span>.</p>
+<p><strong>Application :</strong></p>
+<p>Pour prouver la terminaison de la boucle <code>while (rest &gt;= b) do ...</code>, on définit un <strong>variant</strong>.</p>
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(res := a/b, \psi_3) = (a/b \geq 1) \land (b \neq 0)\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(res := b/a, \psi_3) = (b/a \geq 1) \land (a \neq 0)\)</span><br>
-</li>
-</ul></li>
-<li>Donc :<br>
-<span class="math display">\[ \mathrm{WP}(g, \psi_3) = (a \geq b \Rightarrow (a/b \geq 1 \land b \neq 0)) \land (a &lt; b \Rightarrow (b/a \geq 1 \land a \neq 0)) \]</span><br>
-soit, en séparant les conditions de division :<br>
-<span class="math display">\[ (a \geq b \Rightarrow a/b \geq 1) \land (a &lt; b \Rightarrow b/a \geq 1) \land (a \geq b \Rightarrow b \neq 0) \land (a &lt; b \Rightarrow a \neq 0). \]</span></li>
-</ol>
-<hr>
-</section>
-<section id="exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6">Exemple 4 : Preuve d’une propriété sur WP par induction (Méthode 6)</h3>
-<p><strong>Contexte</strong> : Prouver que pour tout programme <span class="math inline">\(c\)</span> et formules <span class="math inline">\(P\)</span>, <span class="math inline">\(Q\)</span>,<br>
-<span class="math display">\[ \mathrm{WP}(c, P \land Q) = \mathrm{WP}(c, P) \land \mathrm{WP}(c, Q). \]</span></p>
-<p><strong>Application</strong> (esquisse de preuve par induction structurelle) :</p>
-<ol type="1">
-<li><strong>Cas de base</strong> : <span class="math inline">\(c\)</span> est une affectation <span class="math inline">\(x := e\)</span>.
+<li><strong>Choix du variant :</strong> <span class="math inline">\(V = rest\)</span>.
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(x:=e, P \land Q) = (P \land Q)[x \leftarrow e] = P[x \leftarrow e] \land Q[x \leftarrow e]\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(x:=e, P) \land \mathrm{WP}(x:=e, Q) = P[x \leftarrow e] \land Q[x \leftarrow e]\)</span><br>
-→ Égalité vérifiée.</li>
+<li>Sous l’invariant <span class="math inline">\(I_2\)</span> et la condition de boucle <span class="math inline">\(rest \geq b\)</span>, on a <span class="math inline">\(rest \geq 0\)</span>.</li>
 </ul></li>
-<li><strong>Cas conditionnel</strong> : <span class="math inline">\(c = \text{if } B \text{ then } c_1 \text{ else } c_2\)</span>.
-<ul>
-<li>Par hypothèse d’induction, <span class="math inline">\(\mathrm{WP}(c_1, P \land Q) = \mathrm{WP}(c_1, P) \land \mathrm{WP}(c_1, Q)\)</span> (idem pour <span class="math inline">\(c_2\)</span>).<br>
-</li>
-<li>Alors :<br>
-<span class="math display">\[ \begin{aligned} \mathrm{WP}(c, P \land Q) &amp;= (B \Rightarrow \mathrm{WP}(c_1, P \land Q)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, P \land Q)) \\ &amp;= (B \Rightarrow (\mathrm{WP}(c_1, P) \land \mathrm{WP}(c_1, Q))) \land (\neg B \Rightarrow (\mathrm{WP}(c_2, P) \land \mathrm{WP}(c_2, Q))) \\ &amp;= (B \Rightarrow \mathrm{WP}(c_1, P)) \land (B \Rightarrow \mathrm{WP}(c_1, Q)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, P)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, Q)) \\ &amp;= \mathrm{WP}(c, P) \land \mathrm{WP}(c, Q) \end{aligned} \]</span><br>
-→ La propriété est préservée.</li>
-</ul></li>
-<li><strong>Autres cas</strong> (séquence, boucle) se traitent de manière similaire.</li>
-</ol>
-<hr>
+<li><strong>Preuve de décroissance :</strong> On doit montrer qu’après une itération, <code>rest</code> a strictement diminué. Le corps de la boucle fait <code>rest := rest - b</code>. Sous la condition <span class="math inline">\(rest \geq b &gt; 0\)</span>, on a <span class="math inline">\(rest - b &lt; rest\)</span>. Donc, la valeur du variant <span class="math inline">\(V\)</span> diminue strictement à chaque itération.</li>
+<li><strong>Conclusion sur la terminaison :</strong> Puisque <code>rest</code> est un entier naturel qui décroît strictement à chaque itération et est minoré (par 0 d’après l’invariant), la boucle ne peut pas s’exécuter indéfiniment. Le programme termine.</li>
+</ul>
 </section>
 </section>
 <section id="synthèse" class="level2">
 <h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
-<p>Les exercices mettent en œuvre les techniques fondamentales de la vérification déductive :</p>
-<ul>
-<li>Le calcul de la <strong>plus faible précondition</strong> permet de transformer un problème de vérification de programme en un problème logique.<br>
-</li>
-<li>La <strong>validité d’un triple de Hoare</strong> se ramène à une implication logique, pouvant nécessiter l’ajout de <strong>conditions de sûreté</strong> (ex. non-division par zéro).<br>
-</li>
-<li>Des <strong>preuves par induction structurelle</strong> sur la syntaxe des programmes permettent d’établir des propriétés génériques des WP.<br>
-</li>
-<li>Ces méthodes sont à la base des outils de vérification formelle comme Why3, où les WP sont générées et vérifiées automatiquement.</li>
-</ul>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<svg width="672" height="480" viewbox="0.00 0.00 866.55 125.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 121)">
-<title>G</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-121 862.55,-121 862.55,4 -4,4"></polygon>
-<!-- Programme c -->
-<g id="node1" class="node">
-<title>Programme c</title>
-<polygon fill="none" stroke="black" points="91.05,-52 -0.02,-52 -0.02,-16 91.05,-16 91.05,-52"></polygon>
-<text text-anchor="middle" x="45.52" y="-29.8" font-family="Times,serif" font-size="14.00">Programme c</text>
-</g>
-<!-- Calcul WP -->
-<g id="node2" class="node">
-<title>Calcul WP</title>
-<polygon fill="none" stroke="black" points="293.93,-52 216.84,-52 216.84,-16 293.93,-16 293.93,-52"></polygon>
-<text text-anchor="middle" x="255.38" y="-29.8" font-family="Times,serif" font-size="14.00">Calcul WP</text>
-</g>
-<!-- Programme c&#45;&gt;Calcul WP -->
-<g id="edge1" class="edge">
-<title>Programme c-&gt;Calcul WP</title>
-<path fill="none" stroke="black" d="M91.11,-34C125.06,-34 171.7,-34 206.45,-34"></path>
-<polygon fill="black" stroke="black" points="206.82,-37.5 216.82,-34 206.82,-30.5 206.82,-37.5"></polygon>
-<text text-anchor="middle" x="153.95" y="-38.2" font-family="Times,serif" font-size="14.00">postcondition Q</text>
-</g>
-<!-- Formule logique -->
-<g id="node3" class="node">
-<title>Formule logique</title>
-<polygon fill="none" stroke="black" points="495.39,-90 386.52,-90 386.52,-54 495.39,-54 495.39,-90"></polygon>
-<text text-anchor="middle" x="440.95" y="-67.8" font-family="Times,serif" font-size="14.00">Formule logique</text>
-</g>
-<!-- Calcul WP&#45;&gt;Formule logique -->
-<g id="edge2" class="edge">
-<title>Calcul WP-&gt;Formule logique</title>
-<path fill="none" stroke="black" d="M293.97,-43C299.96,-44.38 306.1,-45.75 311.91,-47 332.84,-51.49 355.78,-56.08 376.38,-60.07"></path>
-<polygon fill="black" stroke="black" points="375.8,-63.52 386.28,-61.98 377.13,-56.65 375.8,-63.52"></polygon>
-</g>
-<!-- Conditions de sûreté -->
-<g id="node7" class="node">
-<title>Conditions de sûreté</title>
-<polygon fill="none" stroke="black" points="506.84,-36 375.07,-36 375.07,0 506.84,0 506.84,-36"></polygon>
-<text text-anchor="middle" x="440.95" y="-13.8" font-family="Times,serif" font-size="14.00">Conditions de sûreté</text>
-</g>
-<!-- Calcul WP&#45;&gt;Conditions de sûreté -->
-<g id="edge6" class="edge">
-<title>Calcul WP-&gt;Conditions de sûreté</title>
-<path fill="none" stroke="black" d="M293.98,-30.72C314.44,-28.94 340.51,-26.67 364.94,-24.54"></path>
-<polygon fill="black" stroke="black" points="365.26,-28.02 374.92,-23.67 364.65,-21.05 365.26,-28.02"></polygon>
-<text text-anchor="middle" x="334.46" y="-33.2" font-family="Times,serif" font-size="14.00">ex: b≠0</text>
-</g>
-<!-- Vérification -->
-<g id="node4" class="node">
-<title>Vérification</title>
-<polygon fill="none" stroke="black" points="702.96,-90 618.12,-90 618.12,-54 702.96,-54 702.96,-90"></polygon>
-<text text-anchor="middle" x="660.54" y="-67.8" font-family="Times,serif" font-size="14.00">Vérification</text>
-</g>
-<!-- Formule logique&#45;&gt;Vérification -->
-<g id="edge3" class="edge">
-<title>Formule logique-&gt;Vérification</title>
-<path fill="none" stroke="black" d="M495.46,-72C529.78,-72 574.11,-72 608.03,-72"></path>
-<polygon fill="black" stroke="black" points="608.2,-75.5 618.2,-72 608.2,-68.5 608.2,-75.5"></polygon>
-<text text-anchor="middle" x="562.61" y="-76.2" font-family="Times,serif" font-size="14.00">P ⇒ WP(c,Q)</text>
-</g>
-<!-- Triple valide -->
-<g id="node5" class="node">
-<title>Triple valide</title>
-<polygon fill="none" stroke="black" points="853.06,-117 765.24,-117 765.24,-81 853.06,-81 853.06,-117"></polygon>
-<text text-anchor="middle" x="809.15" y="-94.8" font-family="Times,serif" font-size="14.00">Triple valide</text>
-</g>
-<!-- Vérification&#45;&gt;Triple valide -->
-<g id="edge4" class="edge">
-<title>Vérification-&gt;Triple valide</title>
-<path fill="none" stroke="black" d="M702.77,-79.59C719.05,-82.59 737.97,-86.08 755.24,-89.26"></path>
-<polygon fill="black" stroke="black" points="754.72,-92.72 765.19,-91.09 755.99,-85.83 754.72,-92.72"></polygon>
-<text text-anchor="middle" x="731.25" y="-90.2" font-family="Times,serif" font-size="14.00">oui</text>
-</g>
-<!-- Triple invalide -->
-<g id="node6" class="node">
-<title>Triple invalide</title>
-<polygon fill="none" stroke="black" points="858.45,-63 759.85,-63 759.85,-27 858.45,-27 858.45,-63"></polygon>
-<text text-anchor="middle" x="809.15" y="-40.8" font-family="Times,serif" font-size="14.00">Triple invalide</text>
-</g>
-<!-- Vérification&#45;&gt;Triple invalide -->
-<g id="edge5" class="edge">
-<title>Vérification-&gt;Triple invalide</title>
-<path fill="none" stroke="black" d="M702.77,-64.41C717.29,-61.73 733.9,-58.67 749.58,-55.79"></path>
-<polygon fill="black" stroke="black" points="750.51,-59.17 759.71,-53.92 749.24,-52.29 750.51,-59.17"></polygon>
-<text text-anchor="middle" x="731.25" y="-65.2" font-family="Times,serif" font-size="14.00">non</text>
-</g>
-</g>
-</svg>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<p>Cette série met en lumière les éléments centraux de la vérification de programmes impératifs avec boucles :</p>
+<ol type="1">
+<li>Le <strong>calcul de la plus faible précondition</strong> fournit un cadre systématique pour la correction partielle.</li>
+<li>La découverte d’un <strong>invariant de boucle pertinent</strong> est l’étape créative clé, capturant l’essence de l’algorithme.</li>
+<li>La preuve de <strong>terminaison</strong> s’appuie sur la construction d’un <strong>variant</strong>, une mesure entière strictement décroissante et minorée.</li>
+<li>L’outil <strong>Why3</strong> permet d’automatiser la génération et la décharge des preuves correspondant à ces raisonnements.</li>
+</ol>
+<p>La maîtrise de ces concepts est fondamentale pour spécifier et prouver rigoureusement la correction de programmes séquentiels.</p>
 
 
 </section>
