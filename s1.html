@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ch2 – Software Modeling and Verification</title>
+<title>s1 – Software Modeling and Verification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -316,7 +316,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Course</a></li><li class="breadcrumb-item"><a href="./ch2.html">SMT Solving</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercises</a></li><li class="breadcrumb-item"><a href="./s1.html">Serie 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -338,13 +338,13 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Course</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch1.html" class="sidebar-item-text sidebar-link">
@@ -353,7 +353,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch2.html" class="sidebar-item-text sidebar-link active">
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SMT Solving</span></a>
   </div>
 </li>
@@ -373,16 +373,16 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Exercises</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s1.html" class="sidebar-item-text sidebar-link">
+  <a href="./s1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Serie 1</span></a>
   </div>
 </li>
@@ -410,348 +410,310 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#smt-solving" id="toc-smt-solving" class="nav-link active" data-scroll-target="#smt-solving">SMT Solving</a>
+  <li><a href="#serie-1" id="toc-serie-1" class="nav-link active" data-scroll-target="#serie-1">Serie 1</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#sat-solving" id="toc-sat-solving" class="nav-link" data-scroll-target="#sat-solving">SAT-Solving</a>
+  <li><a href="#part-1-resolution-methods" id="toc-part-1-resolution-methods" class="nav-link" data-scroll-target="#part-1-resolution-methods">Part 1: Resolution Methods</a>
   <ul class="collapse">
-  <li><a href="#the-sat-problem" id="toc-the-sat-problem" class="nav-link" data-scroll-target="#the-sat-problem">The SAT Problem</a></li>
-  <li><a href="#satisfying-a-pl-formula" id="toc-satisfying-a-pl-formula" class="nav-link" data-scroll-target="#satisfying-a-pl-formula">Satisfying a PL Formula</a></li>
-  <li><a href="#the-sat-problem-1" id="toc-the-sat-problem-1" class="nav-link" data-scroll-target="#the-sat-problem-1">The SAT Problem</a></li>
-  <li><a href="#an-old-method-transformation-to-cnf" id="toc-an-old-method-transformation-to-cnf" class="nav-link" data-scroll-target="#an-old-method-transformation-to-cnf">An Old Method: Transformation to CNF</a></li>
-  <li><a href="#dpll-algorithm-1962" id="toc-dpll-algorithm-1962" class="nav-link" data-scroll-target="#dpll-algorithm-1962">DPLL Algorithm (1962)</a></li>
-  <li><a href="#modern-improvements-cdcl-1996-1999" id="toc-modern-improvements-cdcl-1996-1999" class="nav-link" data-scroll-target="#modern-improvements-cdcl-1996-1999">Modern Improvements: CDCL (1996-1999)</a></li>
+  <li><a href="#methods-for-tautologies-and-validity" id="toc-methods-for-tautologies-and-validity" class="nav-link" data-scroll-target="#methods-for-tautologies-and-validity">Methods for Tautologies and Validity</a></li>
+  <li><a href="#methods-for-first-order-logic" id="toc-methods-for-first-order-logic" class="nav-link" data-scroll-target="#methods-for-first-order-logic">Methods for First-Order Logic</a></li>
+  <li><a href="#methods-for-satisfaction-problems" id="toc-methods-for-satisfaction-problems" class="nav-link" data-scroll-target="#methods-for-satisfaction-problems">Methods for Satisfaction Problems</a></li>
   </ul></li>
-  <li><a href="#first-order-logic-and-theories" id="toc-first-order-logic-and-theories" class="nav-link" data-scroll-target="#first-order-logic-and-theories">First-Order Logic and Theories</a>
+  <li><a href="#review-of-fundamental-logical-laws" id="toc-review-of-fundamental-logical-laws" class="nav-link" data-scroll-target="#review-of-fundamental-logical-laws">Review of Fundamental Logical Laws</a>
   <ul class="collapse">
-  <li><a href="#fol-syntax" id="toc-fol-syntax" class="nav-link" data-scroll-target="#fol-syntax">FOL Syntax</a></li>
-  <li><a href="#theories" id="toc-theories" class="nav-link" data-scroll-target="#theories">Theories</a></li>
+  <li><a href="#implication-laws" id="toc-implication-laws" class="nav-link" data-scroll-target="#implication-laws">Implication Laws</a></li>
+  <li><a href="#de-morgans-laws" id="toc-de-morgans-laws" class="nav-link" data-scroll-target="#de-morgans-laws">De Morgan’s Laws</a></li>
+  <li><a href="#distributive-laws" id="toc-distributive-laws" class="nav-link" data-scroll-target="#distributive-laws">Distributive Laws</a></li>
+  <li><a href="#associativity-and-commutativity-laws" id="toc-associativity-and-commutativity-laws" class="nav-link" data-scroll-target="#associativity-and-commutativity-laws">Associativity and Commutativity Laws</a></li>
+  <li><a href="#identity-and-complement-laws" id="toc-identity-and-complement-laws" class="nav-link" data-scroll-target="#identity-and-complement-laws">Identity and Complement Laws</a></li>
   </ul></li>
-  <li><a href="#smt-solving-combining-sat-and-theories" id="toc-smt-solving-combining-sat-and-theories" class="nav-link" data-scroll-target="#smt-solving-combining-sat-and-theories">SMT Solving: Combining SAT and Theories</a>
+  <li><a href="#part-2-illustrative-examples" id="toc-part-2-illustrative-examples" class="nav-link" data-scroll-target="#part-2-illustrative-examples">Part 2: Illustrative Examples</a>
   <ul class="collapse">
-  <li><a href="#dpllt-algorithm" id="toc-dpllt-algorithm" class="nav-link" data-scroll-target="#dpllt-algorithm">DPLL(T) Algorithm</a></li>
-  <li><a href="#complete-example-with-euf-theory" id="toc-complete-example-with-euf-theory" class="nav-link" data-scroll-target="#complete-example-with-euf-theory">Complete Example with EUF Theory</a></li>
+  <li><a href="#example-1-transformation-by-rewriting-modus-ponens" id="toc-example-1-transformation-by-rewriting-modus-ponens" class="nav-link" data-scroll-target="#example-1-transformation-by-rewriting-modus-ponens">Example 1: Transformation by Rewriting (Modus Ponens)</a></li>
+  <li><a href="#example-2-counterexample-search" id="toc-example-2-counterexample-search" class="nav-link" data-scroll-target="#example-2-counterexample-search">Example 2: Counterexample Search</a></li>
+  <li><a href="#example-3-formalization-in-first-order-logic" id="toc-example-3-formalization-in-first-order-logic" class="nav-link" data-scroll-target="#example-3-formalization-in-first-order-logic">Example 3: Formalization in First-Order Logic</a></li>
+  <li><a href="#example-4-modeling-uniqueness-constraints" id="toc-example-4-modeling-uniqueness-constraints" class="nav-link" data-scroll-target="#example-4-modeling-uniqueness-constraints">Example 4: Modeling Uniqueness Constraints</a></li>
+  <li><a href="#example-5-systematic-reasoning-box-problem" id="toc-example-5-systematic-reasoning-box-problem" class="nav-link" data-scroll-target="#example-5-systematic-reasoning-box-problem">Example 5: Systematic Reasoning (Box Problem)</a></li>
+  <li><a href="#example-6-conjunctive-normal-form" id="toc-example-6-conjunctive-normal-form" class="nav-link" data-scroll-target="#example-6-conjunctive-normal-form">Example 6: Conjunctive Normal Form</a></li>
+  <li><a href="#methods-diagram" id="toc-methods-diagram" class="nav-link" data-scroll-target="#methods-diagram">Methods Diagram</a></li>
   </ul></li>
-  <li><a href="#fol-formulas-with-quantifiers" id="toc-fol-formulas-with-quantifiers" class="nav-link" data-scroll-target="#fol-formulas-with-quantifiers">FOL Formulas with Quantifiers</a>
-  <ul class="collapse">
-  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions">Definitions</a></li>
-  <li><a href="#herbrands-theorem-1930" id="toc-herbrands-theorem-1930" class="nav-link" data-scroll-target="#herbrands-theorem-1930">Herbrand’s Theorem (1930)</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
-  <li><a href="#transformation-to-closed-universal-formula" id="toc-transformation-to-closed-universal-formula" class="nav-link" data-scroll-target="#transformation-to-closed-universal-formula">Transformation to Closed Universal Formula</a></li>
-  </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#synthesis" id="toc-synthesis" class="nav-link" data-scroll-target="#synthesis">Synthesis</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="ch2.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s1.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s1.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Course</a></li><li class="breadcrumb-item"><a href="./ch2.html">SMT Solving</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercises</a></li><li class="breadcrumb-item"><a href="./s1.html">Serie 1</a></li></ol></nav></header>
 
 
 
 
 
-<section id="smt-solving" class="level1">
-<h1>SMT Solving</h1>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>SMT (Satisfiability Modulo Theories) extends the SAT problem to logical formulas including specific theories (arithmetic, arrays, etc.). For example, the formula:</p>
-<p><span class="math display">\[ n &gt; 0 \implies n - 1 \leq n \]</span></p>
-<p>Or, in a program verification context:</p>
-<p><span class="math display">\[ \neg(aux &gt; 0) \land (res + aux = a + b) \land aux \geq 0 \]</span></p>
-<p>Tools like Why3 generate such formulas (via weakest precondition calculation, WP) and delegate their verification to an SMT solver.</p>
-<p>For example, for a postcondition <span class="math inline">\(P(a, b)\)</span>:</p>
-<p><span class="math display">\[ \underbrace{b \geq 0 \Longrightarrow a + b = a + b \land b \geq 0}_{P(a, b)} \]</span></p>
-<p>We want to prove: <span class="math inline">\(\forall a, b, P(a, b)\)</span>.</p>
-<p>We will explore: - The basic mechanisms of SMT solvers. - Their integration into tools like Why3.</p>
+<section id="serie-1" class="level1">
+<h1>Serie 1</h1>
+<section id="part-1-resolution-methods" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-resolution-methods">Part 1: Resolution Methods</h2>
+<section id="methods-for-tautologies-and-validity" class="level3">
+<h3 class="anchored" data-anchor-id="methods-for-tautologies-and-validity">Methods for Tautologies and Validity</h3>
+<section id="complete-truth-table" class="level4">
+<h4 class="anchored" data-anchor-id="complete-truth-table">1. <strong>Complete Truth Table</strong></h4>
+<p>Exhaustive method that evaluates all possible variable combinations to determine if a formula is always true.</p>
 </section>
-<section id="sat-solving" class="level2">
-<h2 class="anchored" data-anchor-id="sat-solving">SAT-Solving</h2>
-<section id="the-sat-problem" class="level3">
-<h3 class="anchored" data-anchor-id="the-sat-problem">The SAT Problem</h3>
-<p>Propositional logic manipulates boolean variables: <span class="math inline">\(Var = \{p, q, ...\}\)</span>, which can be <span class="math inline">\(true\)</span> or <span class="math inline">\(false\)</span>, and logical connectives: <span class="math inline">\(\land, \lor, \implies, \neg\)</span>.</p>
-<p>A PL formula is defined by the grammar: - <span class="math inline">\(F \longmapsto P\)</span> (variable) - <span class="math inline">\(F \longmapsto \neg F\)</span> - <span class="math inline">\(F \longmapsto F \land F \mid F \lor F \mid F \Longrightarrow F\)</span></p>
-<p><strong>Note</strong>: Implication is right-associative: <span class="math inline">\(p \Longrightarrow q \Longrightarrow t \Longleftrightarrow p \Longrightarrow (q \Longrightarrow t)\)</span>.</p>
+<section id="transformation-by-rewriting" class="level4">
+<h4 class="anchored" data-anchor-id="transformation-by-rewriting">2. <strong>Transformation by Rewriting</strong></h4>
+<p>Systematic use of logical laws to simplify or transform formulas until an obvious form is obtained.</p>
 </section>
-<section id="satisfying-a-pl-formula" class="level3">
-<h3 class="anchored" data-anchor-id="satisfying-a-pl-formula">Satisfying a PL Formula</h3>
-<p>An <strong>interpretation</strong> <span class="math inline">\(I\)</span> is a function <span class="math inline">\(I : Var \to \{true, false\}\)</span>.</p>
-<p>We extend <span class="math inline">\(I\)</span> to any PL formula recursively: - If <span class="math inline">\(f = p \in Var\)</span>, then <span class="math inline">\(I(f) = I(p)\)</span>. - If <span class="math inline">\(f = \neg f'\)</span>, then <span class="math inline">\(I(f) = true\)</span> iff <span class="math inline">\(I(f') = false\)</span>. - If <span class="math inline">\(f = f_1 \lor f_2\)</span>, then <span class="math inline">\(I(f) = true\)</span> iff <span class="math inline">\(I(f_1) = true\)</span> or <span class="math inline">\(I(f_2) = true\)</span>. - If <span class="math inline">\(f = f_1 \land f_2\)</span>, then <span class="math inline">\(I(f) = true\)</span> iff <span class="math inline">\(I(f_1) = true\)</span> and <span class="math inline">\(I(f_2) = true\)</span>. - If <span class="math inline">\(f = f_1 \Longrightarrow f_2\)</span>, then <span class="math inline">\(I(f) = true\)</span> iff if <span class="math inline">\(I(f_1) = true\)</span> then <span class="math inline">\(I(f_2) = true\)</span> (otherwise <span class="math inline">\(true\)</span> if <span class="math inline">\(I(f_1)=false\)</span>).</p>
-<p>We say: - <span class="math inline">\(I\)</span> <strong>satisfies</strong> <span class="math inline">\(f\)</span> (denoted <span class="math inline">\(I \models f\)</span>) iff <span class="math inline">\(I(f) = true\)</span>. - <span class="math inline">\(f\)</span> is <strong>satisfiable</strong> iff <span class="math inline">\(\exists I, I \models f\)</span>. - <span class="math inline">\(f\)</span> is <strong>valid</strong> (a tautology) iff <span class="math inline">\(\forall I, I \models f\)</span>.</p>
-<p>To prove that a formula <span class="math inline">\(g\)</span> is valid, we can use <strong>proof by refutation</strong>: show that <span class="math inline">\(\neg g\)</span> is unsatisfiable. Often, <span class="math inline">\(g\)</span> has the form <span class="math inline">\(hypothesis \implies conclusion\)</span>, so <span class="math inline">\(\neg g = hypothesis \land \neg conclusion\)</span>.</p>
+<section id="counterexample-search" class="level4">
+<h4 class="anchored" data-anchor-id="counterexample-search">3. <strong>Counterexample Search</strong></h4>
+<p>To prove that a formula is <strong>not</strong> a tautology, search for a variable assignment that makes the formula false.</p>
 </section>
-<section id="the-sat-problem-1" class="level3">
-<h3 class="anchored" data-anchor-id="the-sat-problem-1">The SAT Problem</h3>
-<p>Given a PL formula <span class="math inline">\(f\)</span>, the SAT problem is to decide if <span class="math inline">\(f\)</span> is satisfiable.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    A[Formula f] --&gt; B[SAT Solver]
-    B --&gt; C[Answer: Yes]
-    B --&gt; D[Answer: No]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<section id="conjunctive-normal-form-cnf" class="level4">
+<h4 class="anchored" data-anchor-id="conjunctive-normal-form-cnf">4. <strong>Conjunctive Normal Form (CNF)</strong></h4>
+<p>Transformation of a formula into a conjunction of disjunctions of literals, allowing easy validity checking.</p>
+</section>
+<section id="case-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="case-analysis">5. <strong>Case Analysis</strong></h4>
+<p>Systematic examination of all possible scenarios for a variable or subformula.</p>
+</section>
+</section>
+<section id="methods-for-first-order-logic" class="level3">
+<h3 class="anchored" data-anchor-id="methods-for-first-order-logic">Methods for First-Order Logic</h3>
+<section id="identification-of-predicates-and-constants" class="level4">
+<h4 class="anchored" data-anchor-id="identification-of-predicates-and-constants">6. <strong>Identification of Predicates and Constants</strong></h4>
+<p>Precise definition of predicates, functions, and constants needed to model a natural language statement.</p>
+</section>
+<section id="guided-translation-by-logical-structure" class="level4">
+<h4 class="anchored" data-anchor-id="guided-translation-by-logical-structure">7. <strong>Guided Translation by Logical Structure</strong></h4>
+<p>Use of logical connectives (<span class="math inline">\(\forall\)</span>, <span class="math inline">\(\exists\)</span>, <span class="math inline">\(\Rightarrow\)</span>, <span class="math inline">\(\wedge\)</span>, <span class="math inline">\(\vee\)</span>, <span class="math inline">\(\neg\)</span>) to reflect the structure of the statement.</p>
+</section>
+<section id="quantifier-management" class="level4">
+<h4 class="anchored" data-anchor-id="quantifier-management">8. <strong>Quantifier Management</strong></h4>
+<p>Correct placement of quantifiers to capture variable scope.</p>
+</section>
+<section id="modeling-uniqueness-constraints" class="level4">
+<h4 class="anchored" data-anchor-id="modeling-uniqueness-constraints">9. <strong>Modeling Uniqueness Constraints</strong></h4>
+<p>Use of quantifier combinations and equality to express uniqueness.</p>
+</section>
+</section>
+<section id="methods-for-satisfaction-problems" class="level3">
+<h3 class="anchored" data-anchor-id="methods-for-satisfaction-problems">Methods for Satisfaction Problems</h3>
+<section id="propositional-formalization" class="level4">
+<h4 class="anchored" data-anchor-id="propositional-formalization">10. <strong>Propositional Formalization</strong></h4>
+<p>Transformation of a concrete problem into propositional variables and logical constraints.</p>
+</section>
+<section id="satisfiability-by-systematic-reasoning" class="level4">
+<h4 class="anchored" data-anchor-id="satisfiability-by-systematic-reasoning">11. <strong>Satisfiability by Systematic Reasoning</strong></h4>
+<p>Examination of constraints and search for consistent assignments by eliminating impossible cases.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="review-of-fundamental-logical-laws" class="level2">
+<h2 class="anchored" data-anchor-id="review-of-fundamental-logical-laws">Review of Fundamental Logical Laws</h2>
+<section id="implication-laws" class="level3">
+<h3 class="anchored" data-anchor-id="implication-laws">Implication Laws</h3>
 <ul>
-<li>There are <span class="math inline">\(2^n\)</span> possible interpretations for <span class="math inline">\(n\)</span> variables.</li>
-<li>The problem is <strong>decidable</strong> (algorithms exist) but <strong>NP-complete</strong>, so no efficient (polynomial) algorithm is known in general.</li>
-<li>In practice, solvers can fail due to resource constraints (time, memory).</li>
+<li><strong>Implication elimination</strong>: <span class="math inline">\(p \Rightarrow q \equiv \neg p \vee q\)</span></li>
+<li><strong>Contrapositive</strong>: <span class="math inline">\(p \Rightarrow q \equiv \neg q \Rightarrow \neg p\)</span></li>
+<li><strong>Negation of implication</strong>: <span class="math inline">\(\neg(p \Rightarrow q) \equiv p \wedge \neg q\)</span></li>
 </ul>
 </section>
-<section id="an-old-method-transformation-to-cnf" class="level3">
-<h3 class="anchored" data-anchor-id="an-old-method-transformation-to-cnf">An Old Method: Transformation to CNF</h3>
-<p>A <strong>conjunctive normal form (CNF)</strong> is a conjunction of clauses, where each clause is a disjunction of literals (a variable or its negation).</p>
-<p><strong>Definition: Equivalent CNF Formula</strong></p>
-<p>A formula is in CNF if it has the form:</p>
-<p><span class="math display">\[ C_1 \land C_2 \land \cdots \land C_n \]</span></p>
-<p>where each clause <span class="math inline">\(C_i\)</span> has the form:</p>
-<p><span class="math display">\[ l_{i1} \lor l_{i2} \lor \cdots \lor l_{im} \]</span></p>
-<p>and each literal <span class="math inline">\(l_{ij}\)</span> is either a variable <span class="math inline">\(p \in Var\)</span>, or its negation <span class="math inline">\(\neg p\)</span>.</p>
-<p><strong>Example</strong>: <span class="math inline">\((p \lor \neg q) \land (r \lor s) \land \neg p\)</span></p>
-<p>We accept that for any PL formula <span class="math inline">\(f\)</span>, there exists a PL formula in CNF that is logically equivalent. Therefore, we can restrict the SAT problem to CNF formulas.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    A[f] --&gt; B[Transformation to CNF]
-    B --&gt; C[Equivalent CNF]
-    C --&gt; D[SAT Solver]
-    D --&gt; E[Yes]
-    D --&gt; F[No]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p><strong>Important remarks</strong>: - Simplification: a clause containing both a literal and its negation (e.g., <span class="math inline">\(a \lor \neg a \lor ...\)</span>) is always true and can be removed. - <strong>Unit clause</strong>: a clause containing a single literal (e.g., <span class="math inline">\(a\)</span>) forces the value of that variable. If <span class="math inline">\(P \land a \land Q\)</span> is true, then <span class="math inline">\(a = true\)</span> and we can simplify by resolving <span class="math inline">\(P \land Q\)</span>.</p>
-</section>
-<section id="dpll-algorithm-1962" class="level3">
-<h3 class="anchored" data-anchor-id="dpll-algorithm-1962">DPLL Algorithm (1962)</h3>
-<p>Let <span class="math inline">\(P\)</span> be a PL formula in CNF. For a literal <span class="math inline">\(x\)</span> (variable or its negation), we denote <span class="math inline">\(P[x]\)</span> the formula obtained by imposing <span class="math inline">\(x = true\)</span> and simplifying.</p>
-<p>The simplification rules are: - If <span class="math inline">\(x\)</span> appears in a clause, that clause is removed (since satisfied). - If <span class="math inline">\(\neg x\)</span> appears in a clause, we remove <span class="math inline">\(\neg x\)</span> from that clause. - If a clause becomes empty, it is equivalent to <span class="math inline">\(false\)</span>. - If a unit clause <span class="math inline">\(\neg x\)</span> remains, then <span class="math inline">\(x\)</span> must be <span class="math inline">\(false\)</span>, so <span class="math inline">\(P[x] = false\)</span>.</p>
-<p><strong>DPLL(P) Algorithm</strong>:</p>
-<pre><code>If P = true, return true.
-If P = false, return false.
-If P contains a unit clause x, return DPLL(P[x]).
-Choose a variable x in P.
-Return DPLL(P[x]) or DPLL(P[¬x]).</code></pre>
-<p><strong>Termination</strong>: The variant is the number of variables (decreases by 1 each call).</p>
-<p><strong>Correctness</strong>: Returns true iff <span class="math inline">\(P\)</span> is satisfiable.</p>
-<p><strong>Example</strong>:</p>
-<p><span class="math display">\[ P = (p \lor q \lor r) \land (\neg q \lor r) \land \neg r \land (\neg p \lor q \lor r) \]</span></p>
+<section id="de-morgans-laws" class="level3">
+<h3 class="anchored" data-anchor-id="de-morgans-laws">De Morgan’s Laws</h3>
 <ul>
-<li>DPLL(P):
-<ul>
-<li><span class="math inline">\(P[\neg r] = (p \lor q) \land \neg q \land (\neg p \lor q)\)</span></li>
-<li><span class="math inline">\(P[\neg r, \neg q] = p \land \neg p\)</span></li>
-<li><span class="math inline">\(P[\neg r, \neg q, p] = false\)</span></li>
-</ul></li>
-<li>Therefore <span class="math inline">\(P\)</span> is <strong>unsatisfiable</strong>.</li>
-</ul>
-<p>If DPLL returns true, we can reconstruct a model (an assignment of variables) by following the choices.</p>
-</section>
-<section id="modern-improvements-cdcl-1996-1999" class="level3">
-<h3 class="anchored" data-anchor-id="modern-improvements-cdcl-1996-1999">Modern Improvements: CDCL (1996-1999)</h3>
-<p>The <strong>Conflict-Driven Clause Learning (CDCL)</strong> algorithm extends DPLL with: - Learning clauses from conflicts. - Non-chronological backtracking. - A decision heuristic.</p>
-<p>This allows handling problems with hundreds of thousands of variables and millions of clauses.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-    A[Decision] --&gt; B{Unit Propagation}
-    B --&gt; C{Conflict?}
-    C --&gt;|No| D[All variables assigned?]
-    D --&gt;|No| A
-    D --&gt;|Yes| E[SAT]
-    C --&gt;|Yes| F[Conflict Analysis]
-    F --&gt; G[Clause Learning]
-    G --&gt; H[Backtrack]
-    H --&gt; A
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="first-order-logic-and-theories" class="level2">
-<h2 class="anchored" data-anchor-id="first-order-logic-and-theories">First-Order Logic and Theories</h2>
-<p>Let’s return to the initial example:</p>
-<p><span class="math display">\[ a \geq 0 \land b \geq 0 \Longrightarrow a + b \geq b + c \]</span></p>
-<p>Here, the variables (<span class="math inline">\(a, b, c\)</span>) are integers, and we use functions (<span class="math inline">\(+\)</span>) and predicates (<span class="math inline">\(\geq\)</span>). This is a <strong>first-order logic (FOL) formula</strong>.</p>
-<section id="fol-syntax" class="level3">
-<h3 class="anchored" data-anchor-id="fol-syntax">FOL Syntax</h3>
-<ul>
-<li><strong>Variables</strong>: <span class="math inline">\(Var = \{a, b, c, ...\}\)</span>.</li>
-<li><strong>Domain</strong> <span class="math inline">\(D\)</span>: a set of values (e.g., <span class="math inline">\(\mathbb{Z}\)</span>).</li>
-<li><strong>Functions</strong>: <span class="math inline">\(\mathbf{F} = \{f: D^k \to D\}\)</span> (includes constants, <span class="math inline">\(k=0\)</span>).</li>
-<li><strong>Predicates</strong>: <span class="math inline">\(\mathbf{P} = \{P: D^k \to \{true, false\}\}\)</span>.</li>
-</ul>
-<p><strong>Terms</strong>: - A variable is a term. - If <span class="math inline">\(t_1, ..., t_k\)</span> are terms and <span class="math inline">\(f \in \mathbf{F}\)</span> with arity <span class="math inline">\(k\)</span>, then <span class="math inline">\(f(t_1, ..., t_k)\)</span> is a term.</p>
-<p><strong>Atoms</strong>: - <span class="math inline">\(true\)</span> and <span class="math inline">\(false\)</span> are atoms. - If <span class="math inline">\(t_1, ..., t_k\)</span> are terms and <span class="math inline">\(p \in \mathbf{P}\)</span> with arity <span class="math inline">\(k\)</span>, then <span class="math inline">\(p(t_1, ..., t_k)\)</span> is an atom.</p>
-<p><strong>Formulas</strong>: - An atom is a formula. - If <span class="math inline">\(f_1, f_2\)</span> are formulas, then <span class="math inline">\(\neg f_1\)</span>, <span class="math inline">\(f_1 \land f_2\)</span>, <span class="math inline">\(f_1 \lor f_2\)</span>, <span class="math inline">\(f_1 \Longrightarrow f_2\)</span> are formulas. - If <span class="math inline">\(f\)</span> is a formula and <span class="math inline">\(x\)</span> a variable, then <span class="math inline">\(\exists x f\)</span> and <span class="math inline">\(\forall x f\)</span> are formulas.</p>
-</section>
-<section id="theories" class="level3">
-<h3 class="anchored" data-anchor-id="theories">Theories</h3>
-<p>A <strong>theory</strong> <span class="math inline">\(\mathbf{T}\)</span> is a set of FOL formulas that axiomatizes a particular domain (e.g., integers, arrays). A formula <span class="math inline">\(f\)</span> is <strong>T-valid</strong> if it is a consequence of <span class="math inline">\(\mathbf{T}\)</span>, i.e., for any interpretation <span class="math inline">\(I\)</span> that satisfies <span class="math inline">\(\mathbf{T}\)</span> (<span class="math inline">\(I \models \mathbf{T}\)</span>), we have <span class="math inline">\(I \models f\)</span>.</p>
-<section id="example-integer-theory-linear-arithmetic" class="level4">
-<h4 class="anchored" data-anchor-id="example-integer-theory-linear-arithmetic">Example: Integer Theory (Linear Arithmetic)</h4>
-<ul>
-<li>Functions: <span class="math inline">\(+\)</span>, <span class="math inline">\(-\)</span>, constants.</li>
-<li>Predicates: <span class="math inline">\(\geq\)</span>, <span class="math inline">\(\leq\)</span>, <span class="math inline">\(=\)</span>.</li>
-<li>Axioms: properties of addition, order, etc.</li>
+<li><span class="math inline">\(\neg(p \wedge q) \equiv \neg p \vee \neg q\)</span></li>
+<li><span class="math inline">\(\neg(p \vee q) \equiv \neg p \wedge \neg q\)</span></li>
 </ul>
 </section>
-<section id="example-array-theory" class="level4">
-<h4 class="anchored" data-anchor-id="example-array-theory">Example: Array Theory</h4>
+<section id="distributive-laws" class="level3">
+<h3 class="anchored" data-anchor-id="distributive-laws">Distributive Laws</h3>
 <ul>
-<li>Domains: indices, values, arrays.</li>
-<li>Functions: <span class="math inline">\(select(a, i)\)</span> (read <span class="math inline">\(a[i]\)</span>), <span class="math inline">\(store(a, i, v)\)</span> (write <span class="math inline">\(v\)</span> at <span class="math inline">\(i\)</span>).</li>
-<li>Axioms: <span class="math inline">\(\forall a, i, v, select(store(a, i, v), i) = v\)</span>.</li>
+<li><span class="math inline">\(p \vee (q \wedge r) \equiv (p \vee q) \wedge (p \vee r)\)</span></li>
+<li><span class="math inline">\(p \wedge (q \vee r) \equiv (p \wedge q) \vee (p \wedge r)\)</span></li>
 </ul>
 </section>
-<section id="example-equality-with-uninterpreted-functions-euf" class="level4">
-<h4 class="anchored" data-anchor-id="example-equality-with-uninterpreted-functions-euf">Example: Equality with Uninterpreted Functions (EUF)</h4>
+<section id="associativity-and-commutativity-laws" class="level3">
+<h3 class="anchored" data-anchor-id="associativity-and-commutativity-laws">Associativity and Commutativity Laws</h3>
 <ul>
-<li>Predicate: <span class="math inline">\(\approx\)</span> (equality).</li>
-<li>Equivalence axioms: reflexivity, symmetry, transitivity.</li>
-<li><strong>Congruence</strong>: for any function <span class="math inline">\(f\)</span> and predicate <span class="math inline">\(p\)</span>:
-<ul>
-<li><span class="math inline">\(\forall x, y, x \approx y \Longrightarrow f(x) \approx f(y)\)</span></li>
-<li><span class="math inline">\(\forall x_1, y_1, x_2, y_2, x_1 \approx y_1 \land x_2 \approx y_2 \Longrightarrow f(x_1, x_2) \approx f(y_1, y_2)\)</span></li>
-<li><span class="math inline">\(\forall x, y, x \approx y \Longrightarrow (p(x) \Longleftrightarrow p(y))\)</span></li>
-</ul></li>
+<li><span class="math inline">\((p \wedge q) \wedge r \equiv p \wedge (q \wedge r)\)</span></li>
+<li><span class="math inline">\((p \vee q) \vee r \equiv p \vee (q \vee r)\)</span></li>
+<li><span class="math inline">\(p \wedge q \equiv q \wedge p\)</span></li>
+<li><span class="math inline">\(p \vee q \equiv q \vee p\)</span></li>
 </ul>
 </section>
-</section>
-</section>
-<section id="smt-solving-combining-sat-and-theories" class="level2">
-<h2 class="anchored" data-anchor-id="smt-solving-combining-sat-and-theories">SMT Solving: Combining SAT and Theories</h2>
-<p>The main idea: use a SAT solver for the propositional logical structure, and specialized solvers for the theories.</p>
-<section id="dpllt-algorithm" class="level3">
-<h3 class="anchored" data-anchor-id="dpllt-algorithm">DPLL(T) Algorithm</h3>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-    A[Quantifier-free FOL formula f, theory T] --&gt; B["Propositional Abstraction A(f)"]
-    B --&gt; C[SAT Solver]
-    C --&gt; D{SAT?}
-    D --&gt;|No| E[f is T-unsatisfiable]
-    D --&gt;|Yes| F[Propositional Model M]
-    F --&gt; G["Concretization: M_T = A⁻¹(M)"]
-    G --&gt; H[Theory T Solver]
-    H --&gt; I{M_T T-satisfiable?}
-    I --&gt;|Yes| J[f is T-satisfiable, model: M_T]
-    I --&gt;|No| K[Learn Refutation Clause ¬M]
-    K --&gt; B
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p><strong>Propositional Abstraction</strong> <span class="math inline">\(A(f)\)</span>: we replace each atom of <span class="math inline">\(f\)</span> with a new propositional variable.</p>
-<p><strong>Example</strong>: <span class="math display">\[ f = (a + b \leq c \land a &gt; 0 \Longrightarrow b + c &lt; a) \lor a \leq 0 \]</span></p>
+<section id="identity-and-complement-laws" class="level3">
+<h3 class="anchored" data-anchor-id="identity-and-complement-laws">Identity and Complement Laws</h3>
 <ul>
-<li><span class="math inline">\(p_1 \leftrightarrow a + b \leq c\)</span></li>
-<li><span class="math inline">\(p_2 \leftrightarrow a &gt; 0\)</span></li>
-<li><span class="math inline">\(p_3 \leftrightarrow b + c &lt; a\)</span></li>
-<li><span class="math inline">\(A(f) = (p_1 \land p_2 \Longrightarrow p_3) \lor \neg p_2\)</span></li>
+<li><span class="math inline">\(p \vee \text{False} \equiv p\)</span></li>
+<li><span class="math inline">\(p \wedge \text{True} \equiv p\)</span></li>
+<li><span class="math inline">\(p \vee \neg p \equiv \text{True}\)</span></li>
+<li><span class="math inline">\(p \wedge \neg p \equiv \text{False}\)</span></li>
 </ul>
-<p>If the SAT solver finds a model <span class="math inline">\(M\)</span> (assignment of the <span class="math inline">\(p_i\)</span>), we <strong>concretize</strong> it to <span class="math inline">\(M_T = A^{-1}(M)\)</span> (we replace the <span class="math inline">\(p_i\)</span> with the corresponding atoms). We check if <span class="math inline">\(M_T\)</span> is T-satisfiable using the theory solver.</p>
+<hr>
+</section>
+</section>
+<section id="part-2-illustrative-examples" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-illustrative-examples">Part 2: Illustrative Examples</h2>
+<section id="example-1-transformation-by-rewriting-modus-ponens" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-transformation-by-rewriting-modus-ponens">Example 1: Transformation by Rewriting (Modus Ponens)</h3>
+<p><strong>Formula</strong>: <span class="math inline">\((p \wedge (p \Rightarrow q)) \Rightarrow q\)</span></p>
+<p><strong>Application of methods</strong>:</p>
 <ul>
-<li>If yes, <span class="math inline">\(M_T\)</span> is a model of <span class="math inline">\(f\)</span>.</li>
-<li>If no, we add a <strong>refutation clause</strong> <span class="math inline">\(\neg M\)</span> (the negation of the assignment of the <span class="math inline">\(p_i\)</span>) to <span class="math inline">\(A(f)\)</span> to avoid the same incorrect model, and we iterate.</li>
+<li>Use of implication elimination</li>
+<li>Application of De Morgan’s laws</li>
+<li>Use of distributivity</li>
+<li>Simplification by complement laws</li>
 </ul>
+<p><strong>Demonstration</strong>: <span class="math display">\[
+\begin{aligned}
+&amp; (p \wedge (p \Rightarrow q)) \Rightarrow q \\
+\equiv\ &amp; \neg(p \wedge (p \Rightarrow q)) \vee q \quad \text{(elimination of } \Rightarrow) \\
+\equiv\ &amp; \neg(p \wedge (\neg p \vee q)) \vee q \quad \text{(elimination of } \Rightarrow) \\
+\equiv\ &amp; (\neg p \vee \neg(\neg p \vee q)) \vee q \quad \text{(De Morgan)} \\
+\equiv\ &amp; (\neg p \vee (p \wedge \neg q)) \vee q \quad \text{(De Morgan)} \\
+\equiv\ &amp; ((\neg p \vee p) \wedge (\neg p \vee \neg q)) \vee q \quad \text{(distributivity)} \\
+\equiv\ &amp; (\text{True} \wedge (\neg p \vee \neg q)) \vee q \quad \text{(complement)} \\
+\equiv\ &amp; (\neg p \vee \neg q) \vee q \\
+\equiv\ &amp; \neg p \vee (\neg q \vee q) \\
+\equiv\ &amp; \neg p \vee \text{True} \\
+\equiv\ &amp; \text{True}
+\end{aligned}
+\]</span></p>
+<hr>
 </section>
-<section id="complete-example-with-euf-theory" class="level3">
-<h3 class="anchored" data-anchor-id="complete-example-with-euf-theory">Complete Example with EUF Theory</h3>
-<p>Consider the formula <span class="math inline">\(P\)</span>: <span class="math display">\[ g(a) = c \land (f(g(a)) \neq f(c) \lor g(a) = d) \land c \neq d \]</span></p>
-<p>Propositional abstraction:</p>
+<section id="example-2-counterexample-search" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-counterexample-search">Example 2: Counterexample Search</h3>
+<p><strong>Formula</strong>: <span class="math inline">\((q \vee r \Rightarrow p \wedge \neg s) \wedge (s \vee p \Rightarrow (\neg r \Rightarrow q)) \Rightarrow \neg (s \vee r)\)</span></p>
+<p><strong>Application of methods</strong>:</p>
 <ul>
-<li><span class="math inline">\(p_1 \leftrightarrow g(a) = c\)</span></li>
-<li><span class="math inline">\(p_2 \leftrightarrow f(g(a)) = f(c)\)</span></li>
-<li><span class="math inline">\(p_3 \leftrightarrow g(a) = d\)</span></li>
-<li><span class="math inline">\(p_4 \leftrightarrow c = d\)</span></li>
-<li><span class="math inline">\(A(P) = p_1 \land (\neg p_2 \lor p_3) \land \neg p_4\)</span></li>
+<li>Analysis of implication structure</li>
+<li>Search for assignment making premise true and conclusion false</li>
+<li>Consistency verification</li>
 </ul>
-<p>The SAT solver may find the model <span class="math inline">\(M = p_1 \land \neg p_2 \land \neg p_4\)</span>.</p>
-<p>Concretization: <span class="math inline">\(M_T = g(a) = c \land f(g(a)) \neq f(c) \land c \neq d\)</span>.</p>
-<p>The EUF solver detects that <span class="math inline">\(g(a) = c\)</span> implies <span class="math inline">\(f(g(a)) = f(c)\)</span> (congruence). Therefore <span class="math inline">\(M_T\)</span> is EUF-unsatisfiable.</p>
-<p>We add the refutation clause: <span class="math inline">\(\neg M = \neg p_1 \lor p_2 \lor p_4\)</span>.</p>
-<p>The new SAT formula is: <span class="math inline">\(p_1 \land (\neg p_2 \lor p_3) \land \neg p_4 \land (\neg p_1 \lor p_2 \lor p_4)\)</span>.</p>
-<p>The SAT solver can now find another model, until a T-satisfiable solution is found or the SAT formula becomes unsatisfiable (which proves that <span class="math inline">\(P\)</span> is T-unsatisfiable).</p>
-</section>
-</section>
-<section id="fol-formulas-with-quantifiers" class="level2">
-<h2 class="anchored" data-anchor-id="fol-formulas-with-quantifiers">FOL Formulas with Quantifiers</h2>
-<section id="definitions" class="level3">
-<h3 class="anchored" data-anchor-id="definitions">Definitions</h3>
-<ul>
-<li><strong>Universal formula</strong>: of the form <span class="math inline">\(\forall x_1, ..., x_k \phi\)</span>, where <span class="math inline">\(\phi\)</span> is quantifier-free.</li>
-<li><strong>Closed formula</strong>: every variable is bound by a quantifier.</li>
-<li><strong>Closed instance</strong>: for a quantifier-free formula <span class="math inline">\(\phi\)</span>, a closed instance is obtained by a substitution <span class="math inline">\(\theta\)</span> that replaces each variable with a closed term (without free variables). We denote <span class="math inline">\(\theta(\phi)\)</span>.</li>
-</ul>
-</section>
-<section id="herbrands-theorem-1930" class="level3">
-<h3 class="anchored" data-anchor-id="herbrands-theorem-1930">Herbrand’s Theorem (1930)</h3>
-<p>A set of quantifier-free FOL formulas is unsatisfiable <strong>iff</strong> there exists a finite set of closed instances that is unsatisfiable.</p>
-<p>This reduces the unsatisfiability of a closed universal formula to the unsatisfiability of a finite set of propositional formulas (by instantiating variables with terms from the domain).</p>
-<p><strong>Semi-decidable algorithm</strong> (TestSat):</p>
-<pre><code>F := {ϕ}
-while F is satisfiable do
-   choose a substitution θ such that θ(ϕ) is a closed instance
-   F := F ∪ {θ(ϕ)}
-end while
-return "ϕ is unsatisfiable"</code></pre>
-<p>If <span class="math inline">\(\phi\)</span> is satisfiable, the loop may never terminate. <strong>Guided instantiation</strong> techniques (trigger, E-matching) are used in practice.</p>
-</section>
-<section id="example" class="level3">
-<h3 class="anchored" data-anchor-id="example">Example</h3>
-<p>Consider the syllogism: - All humans are mortal. - All Greeks are human. - Therefore, all Greeks are mortal.</p>
-<p>Formally, we want to prove that the following formula is valid:</p>
-<p><span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \implies (\forall x, G(x) \implies M(x)) \]</span></p>
-<p>By refutation, we consider its negation:</p>
-<p><span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \land (\exists x, G(x) \land \neg M(x)) \]</span></p>
-<p>We transform it into a closed universal formula (step by step):</p>
+<p><strong>Demonstration</strong>:</p>
 <ol type="1">
-<li><p><strong>Skolemization</strong>: replace <span class="math inline">\(\exists x\)</span> with a fresh constant <span class="math inline">\(s\)</span>. <span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \land (G(s) \land \neg M(s)) \]</span></p></li>
-<li><p><strong>Put in prenex form</strong> (all quantifiers at the beginning): <span class="math display">\[ \forall x, y, (H(x) \implies M(x)) \land (G(y) \implies H(y)) \land G(s) \land \neg M(s) \]</span></p></li>
-<li><p><strong>Form without internal quantifiers</strong> (we can remove universal quantifiers for now, since we will instantiate): <span class="math display">\[ \phi = (H(x) \implies M(x)) \land (G(y) \implies H(y)) \land G(s) \land \neg M(s) \]</span></p></li>
+<li><p><strong>For the conclusion to be false</strong>: <span class="math inline">\(\neg(s \vee r)\)</span> must be false, so <span class="math inline">\(s \vee r\)</span> must be true. Choice: <span class="math inline">\(s = \text{False}\)</span>, <span class="math inline">\(r = \text{True}\)</span></p></li>
+<li><p><strong>For the premise to be true</strong>:</p>
+<ul>
+<li><p>First part: <span class="math inline">\(q \vee r \Rightarrow p \wedge \neg s\)</span> With <span class="math inline">\(r = \text{True}\)</span>, <span class="math inline">\(q \vee r\)</span> is true. For the implication to be true, <span class="math inline">\(p \wedge \neg s\)</span> must be true. With <span class="math inline">\(s = \text{False}\)</span>, <span class="math inline">\(\neg s\)</span> is true, so <span class="math inline">\(p\)</span> must be true.</p></li>
+<li><p>Second part: <span class="math inline">\(s \vee p \Rightarrow (\neg r \Rightarrow q)\)</span> With <span class="math inline">\(p = \text{True}\)</span>, <span class="math inline">\(s \vee p\)</span> is true. <span class="math inline">\(\neg r\)</span> is false (since <span class="math inline">\(r\)</span> is true), so <span class="math inline">\(\neg r \Rightarrow q\)</span> is true (false premise).</p></li>
+</ul></li>
+<li><p><strong>Found assignment</strong>: <span class="math inline">\(p = \text{True}\)</span>, <span class="math inline">\(q\)</span> arbitrary, <span class="math inline">\(r = \text{True}\)</span>, <span class="math inline">\(s = \text{False}\)</span> This assignment makes the premise true and the conclusion false, so the formula is not a tautology.</p></li>
 </ol>
-<p>Now, we apply Herbrand. The Herbrand universe consists of the constant <span class="math inline">\(s\)</span>. We take the closed instance by replacing <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with <span class="math inline">\(s\)</span>:</p>
-<p><span class="math display">\[ \theta(\phi) = (H(s) \implies M(s)) \land (G(s) \implies H(s)) \land G(s) \land \neg M(s) \]</span></p>
-<p>Is this propositional formula satisfiable? - From <span class="math inline">\(G(s)\)</span> and <span class="math inline">\(G(s) \implies H(s)\)</span>, we deduce <span class="math inline">\(H(s)\)</span>. - From <span class="math inline">\(H(s)\)</span> and <span class="math inline">\(H(s) \implies M(s)\)</span>, we deduce <span class="math inline">\(M(s)\)</span>. - But we have <span class="math inline">\(\neg M(s)\)</span>. Contradiction.</p>
-<p>Therefore <span class="math inline">\(\theta(\phi)\)</span> is unsatisfiable, which proves that the original formula is valid.</p>
+<hr>
 </section>
-<section id="transformation-to-closed-universal-formula" class="level3">
-<h3 class="anchored" data-anchor-id="transformation-to-closed-universal-formula">Transformation to Closed Universal Formula</h3>
-<p>To apply Herbrand, we often need to transform an arbitrary FOL formula into a closed universal formula that preserves unsatisfiability.</p>
-<p><strong>Procedure</strong>: 1. Eliminate <span class="math inline">\(\implies\)</span> and <span class="math inline">\(\iff\)</span> using <span class="math inline">\(\neg, \land, \lor\)</span>. 2. Rename variables so that each quantifier binds a fresh variable. 3. <strong>Skolemization</strong>: replace each existential variable <span class="math inline">\(\exists y\)</span> with a term <span class="math inline">\(f(x_1, ..., x_k)\)</span> where <span class="math inline">\(f\)</span> is a new function symbol (a constant if <span class="math inline">\(k=0\)</span>) and <span class="math inline">\(x_1, ..., x_k\)</span> are the universal variables enclosing <span class="math inline">\(\exists y\)</span>. 4. Move all universal quantifiers to the front (prenex form).</p>
-<p><strong>Example of skolemization</strong>: - <span class="math inline">\(\forall x, \exists y, P(x, y)\)</span> becomes <span class="math inline">\(\forall x, P(x, f(x))\)</span> (with <span class="math inline">\(f\)</span> fresh). - <span class="math inline">\(\exists y, Q(y)\)</span> becomes <span class="math inline">\(Q(c)\)</span> (with <span class="math inline">\(c\)</span> fresh). - <span class="math inline">\(\forall x, y, \exists z, R(x, y, z)\)</span> becomes <span class="math inline">\(\forall x, y, R(x, y, g(x, y))\)</span> (with <span class="math inline">\(g\)</span> fresh).</p>
-<p>This transformation preserves unsatisfiability, which is sufficient for proof by refutation.</p>
+<section id="example-3-formalization-in-first-order-logic" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-formalization-in-first-order-logic">Example 3: Formalization in First-Order Logic</h3>
+<p><strong>Statement</strong>: “Every person who works in computer science has written at least one program”</p>
+<p><strong>Application of methods</strong>:</p>
+<ul>
+<li>Identification of predicates: <span class="math inline">\(\text{CS}(x)\)</span>, <span class="math inline">\(\text{P}(y)\)</span>, <span class="math inline">\(W(x,y)\)</span></li>
+<li>Analysis of structure: “for all x, if CS(x) then there exists y such that…”</li>
+<li>Guided translation by logical structure</li>
+</ul>
+<p><strong>Formalization</strong>: <span class="math display">\[\forall x\ \big(\text{CS}(x) \Rightarrow \exists y\ (\text{P}(y) \wedge W(x,y))\big)\]</span></p>
+<hr>
+</section>
+<section id="example-4-modeling-uniqueness-constraints" class="level3">
+<h3 class="anchored" data-anchor-id="example-4-modeling-uniqueness-constraints">Example 4: Modeling Uniqueness Constraints</h3>
+<p><strong>Statement</strong>: “Each program was written by a unique person who works in computer science”</p>
+<p><strong>Application of methods</strong>:</p>
+<ul>
+<li>Expression of existence: <span class="math inline">\(\exists y\)</span></li>
+<li>Expression of uniqueness: <span class="math inline">\(\forall z\ ((\text{CS}(z) \wedge W(z,x)) \Rightarrow z = y)\)</span></li>
+<li>Combination with conjunction</li>
+</ul>
+<p><strong>Formalization</strong>: <span class="math display">\[\forall x\ \big(\text{P}(x) \Rightarrow \exists y\ (\text{CS}(y) \wedge W(y,x) \wedge \forall z\ ((\text{CS}(z) \wedge W(z,x)) \Rightarrow z = y))\big)\]</span></p>
+<hr>
+</section>
+<section id="example-5-systematic-reasoning-box-problem" class="level3">
+<h3 class="anchored" data-anchor-id="example-5-systematic-reasoning-box-problem">Example 5: Systematic Reasoning (Box Problem)</h3>
+<p><strong>Problem</strong>: Find which box contains the treasure with contradictory statements</p>
+<p><strong>Application of methods</strong>:</p>
+<ol type="1">
+<li><strong>Propositional formalization</strong>:
+<ul>
+<li>Variables <span class="math inline">\(T_i\)</span>: treasure in box i</li>
+<li>Variables <span class="math inline">\(B_i\)</span>: statement on box i is true</li>
+</ul></li>
+<li><strong>Constraint translation</strong>:
+<ul>
+<li><span class="math inline">\(B_1 \Leftrightarrow \neg T_1\)</span></li>
+<li><span class="math inline">\(B_2 \Leftrightarrow \neg T_2\)</span></li>
+<li><span class="math inline">\(B_3 \Leftrightarrow T_1\)</span></li>
+<li>Exactly one <span class="math inline">\(B_i\)</span> true</li>
+<li>Exactly one <span class="math inline">\(T_i\)</span> true</li>
+</ul></li>
+<li><strong>Case analysis</strong>:
+<ul>
+<li>Case 1: <span class="math inline">\(T_1\)</span> true → contradiction with <span class="math inline">\(B_2\)</span></li>
+<li>Case 2: <span class="math inline">\(T_3\)</span> true → contradiction with uniqueness of <span class="math inline">\(B_i\)</span></li>
+<li>Case 3: <span class="math inline">\(T_2\)</span> true → all constraints satisfied</li>
+</ul></li>
+</ol>
+<p><strong>Conclusion</strong>: The treasure is in <span class="math inline">\(B_2\)</span>.</p>
+<hr>
+</section>
+<section id="example-6-conjunctive-normal-form" class="level3">
+<h3 class="anchored" data-anchor-id="example-6-conjunctive-normal-form">Example 6: Conjunctive Normal Form</h3>
+<p><strong>Formula</strong>: <span class="math inline">\((\neg q \Rightarrow \neg p) \Rightarrow ((\neg q \Rightarrow p) \Rightarrow q)\)</span></p>
+<p><strong>Application of methods</strong>:</p>
+<ul>
+<li>Transformation to CNF</li>
+<li>Observation that each clause contains a literal and its negation</li>
+<li>Validity conclusion</li>
+</ul>
+<p><strong>Demonstration</strong> (excerpt):</p>
+<p>After transformations, we obtain a CNF where each clause is of the form <span class="math inline">\((p \vee q \vee \neg q)\)</span> or similar, therefore always true.</p>
+<hr>
+</section>
+<section id="methods-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="methods-diagram">Methods Diagram</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A[Logical problem] --&gt; B{Problem type}
+    
+    B --&gt; C[Tautology/Validity]
+    B --&gt; D[First-order logic]
+    B --&gt; E[Satisfiability]
+    
+    C --&gt; C1[Truth table]
+    C --&gt; C2[Transformation&lt;br&gt;by rewriting]
+    C --&gt; C3[Counterexample&lt;br&gt;search]
+    C --&gt; C4[Normal form]
+    
+    D --&gt; D1[Identification&lt;br&gt;of predicates]
+    D --&gt; D2[Guided translation]
+    D --&gt; D3[Quantifier&lt;br&gt;management]
+    
+    E --&gt; E1[Propositional&lt;br&gt;formalization]
+    E --&gt; E2[Systematic&lt;br&gt;reasoning]
+    E --&gt; E3[Case analysis]
+    
+    C2 --&gt; F[Use of logical laws&lt;br&gt;De Morgan, distributivity, etc.]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
 </section>
 </section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>SMT solvers combine the power of modern SAT solvers (CDCL) with decision procedures for various theories (EUF, arithmetic, arrays, etc.).</p>
-<p>For formulas with quantifiers, instantiation techniques based on Herbrand’s theorem are used, often guided by triggers and E-matching.</p>
-<p>These methods are at the core of deductive verification tools like Why3, which generate proof obligations discharged to SMT solvers.</p>
+<section id="synthesis" class="level2">
+<h2 class="anchored" data-anchor-id="synthesis">Synthesis</h2>
+<p>The presented methods cover the main aspects of problem solving in propositional and first-order logic. Mastering these methods, combined with a good knowledge of fundamental logical laws, allows addressing a wide variety of problems in software modeling and verification.</p>
+<p><strong>Key points</strong>:</p>
+<ol type="1">
+<li>Always start by understanding the logical structure of the problem</li>
+<li>Choose the method adapted to the problem type (validation, modeling, satisfaction)</li>
+<li>Systematically apply logical laws in transformations</li>
+<li>Verify the consistency of found solutions</li>
+<li>Clearly document each step of the reasoning</li>
+</ol>
 
 
 </section>

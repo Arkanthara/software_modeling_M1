@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Redirecting… – Software Modeling and Verification</title>
+<title>s1 – Software Modeling and Verification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,7 +72,39 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -256,19 +288,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-language" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-langage" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-globe" role="img">
 </i> 
- <span class="menu-text">Language</span>
+ <span class="menu-text">Langage</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-language">    
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-langage">    
         <li>
-    <a class="dropdown-item" href="./index.html">
- <span class="dropdown-text">English</span></a>
+    <a class="dropdown-item" href="./../index.html">
+ <span class="dropdown-text">Anglais</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./fr/index.html">
- <span class="dropdown-text">French</span></a>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">Français</span></a>
   </li>  
     </ul>
   </li>
@@ -284,7 +316,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Redirecting…</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s1.html">Série 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -307,7 +339,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">Course</span></a>
+ <span class="menu-text">Cours</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -316,7 +348,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Software Modeling and Verification</span></a>
+ <span class="menu-text">Modélisation et Vérification de Logiciels</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -328,7 +360,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Abstract Interpretation</span></a>
+ <span class="menu-text">Interprétation Abstraite</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -341,29 +373,29 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Exercises</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Serie 1</span></a>
+  <a href="./s1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Série 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./s2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Serie 2</span></a>
+ <span class="menu-text">Série 2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./s3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Series 3</span></a>
+ <span class="menu-text">Série 3</span></a>
   </div>
 </li>
       </ul>
@@ -374,36 +406,318 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="index.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#série-1" id="toc-série-1" class="nav-link active" data-scroll-target="#série-1">Série 1</a>
+  <ul class="collapse">
+  <li><a href="#partie-1-méthodes-de-résolution" id="toc-partie-1-méthodes-de-résolution" class="nav-link" data-scroll-target="#partie-1-méthodes-de-résolution">Partie 1 : Méthodes de Résolution</a>
+  <ul class="collapse">
+  <li><a href="#méthodes-pour-les-tautologies-et-validité" id="toc-méthodes-pour-les-tautologies-et-validité" class="nav-link" data-scroll-target="#méthodes-pour-les-tautologies-et-validité">Méthodes pour les Tautologies et Validité</a></li>
+  <li><a href="#méthodes-pour-la-logique-du-premier-ordre" id="toc-méthodes-pour-la-logique-du-premier-ordre" class="nav-link" data-scroll-target="#méthodes-pour-la-logique-du-premier-ordre">Méthodes pour la Logique du Premier Ordre</a></li>
+  <li><a href="#méthodes-pour-les-problèmes-de-satisfaction" id="toc-méthodes-pour-les-problèmes-de-satisfaction" class="nav-link" data-scroll-target="#méthodes-pour-les-problèmes-de-satisfaction">Méthodes pour les Problèmes de Satisfaction</a></li>
+  </ul></li>
+  <li><a href="#rappel-des-lois-logiques-fondamentales" id="toc-rappel-des-lois-logiques-fondamentales" class="nav-link" data-scroll-target="#rappel-des-lois-logiques-fondamentales">Rappel des Lois Logiques Fondamentales</a>
+  <ul class="collapse">
+  <li><a href="#lois-de-limplication" id="toc-lois-de-limplication" class="nav-link" data-scroll-target="#lois-de-limplication">Lois de l’Implication</a></li>
+  <li><a href="#lois-de-de-morgan" id="toc-lois-de-de-morgan" class="nav-link" data-scroll-target="#lois-de-de-morgan">Lois de De Morgan</a></li>
+  <li><a href="#lois-distributives" id="toc-lois-distributives" class="nav-link" data-scroll-target="#lois-distributives">Lois Distributives</a></li>
+  <li><a href="#lois-dassociativité-et-commutativité" id="toc-lois-dassociativité-et-commutativité" class="nav-link" data-scroll-target="#lois-dassociativité-et-commutativité">Lois d’Associativité et Commutativité</a></li>
+  <li><a href="#lois-didentité-et-complément" id="toc-lois-didentité-et-complément" class="nav-link" data-scroll-target="#lois-didentité-et-complément">Lois d’Identité et Complément</a></li>
+  </ul></li>
+  <li><a href="#partie-2-exemples-illustratifs" id="toc-partie-2-exemples-illustratifs" class="nav-link" data-scroll-target="#partie-2-exemples-illustratifs">Partie 2 : Exemples Illustratifs</a>
+  <ul class="collapse">
+  <li><a href="#exemple-1-transformation-par-réécriture-modus-ponens" id="toc-exemple-1-transformation-par-réécriture-modus-ponens" class="nav-link" data-scroll-target="#exemple-1-transformation-par-réécriture-modus-ponens">Exemple 1 : Transformation par Réécriture (Modus Ponens)</a></li>
+  <li><a href="#exemple-2-recherche-de-contre-exemple" id="toc-exemple-2-recherche-de-contre-exemple" class="nav-link" data-scroll-target="#exemple-2-recherche-de-contre-exemple">Exemple 2 : Recherche de Contre-Exemple</a></li>
+  <li><a href="#exemple-3-formalisation-en-logique-du-premier-ordre" id="toc-exemple-3-formalisation-en-logique-du-premier-ordre" class="nav-link" data-scroll-target="#exemple-3-formalisation-en-logique-du-premier-ordre">Exemple 3 : Formalisation en Logique du Premier Ordre</a></li>
+  <li><a href="#exemple-4-modélisation-de-contraintes-dunicité" id="toc-exemple-4-modélisation-de-contraintes-dunicité" class="nav-link" data-scroll-target="#exemple-4-modélisation-de-contraintes-dunicité">Exemple 4 : Modélisation de Contraintes d’Unicité</a></li>
+  <li><a href="#exemple-5-raisonnement-systématique-problème-des-boîtes" id="toc-exemple-5-raisonnement-systématique-problème-des-boîtes" class="nav-link" data-scroll-target="#exemple-5-raisonnement-systématique-problème-des-boîtes">Exemple 5 : Raisonnement Systématique (Problème des Boîtes)</a></li>
+  <li><a href="#exemple-6-forme-normale-conjonctive" id="toc-exemple-6-forme-normale-conjonctive" class="nav-link" data-scroll-target="#exemple-6-forme-normale-conjonctive">Exemple 6 : Forme Normale Conjonctive</a></li>
+  <li><a href="#diagramme-des-méthodes" id="toc-diagramme-des-méthodes" class="nav-link" data-scroll-target="#diagramme-des-méthodes">Diagramme des Méthodes</a></li>
+  </ul></li>
+  <li><a href="#synthèse" id="toc-synthèse" class="nav-link" data-scroll-target="#synthèse">Synthèse</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s1.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s1.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s1.html">Série 1</a></li></ol></nav></header>
 
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Redirecting…</h1>
+
+
+
+<section id="série-1" class="level1">
+<h1>Série 1</h1>
+<section id="partie-1-méthodes-de-résolution" class="level2">
+<h2 class="anchored" data-anchor-id="partie-1-méthodes-de-résolution">Partie 1 : Méthodes de Résolution</h2>
+<section id="méthodes-pour-les-tautologies-et-validité" class="level3">
+<h3 class="anchored" data-anchor-id="méthodes-pour-les-tautologies-et-validité">Méthodes pour les Tautologies et Validité</h3>
+<section id="table-de-vérité-complète" class="level4">
+<h4 class="anchored" data-anchor-id="table-de-vérité-complète">1. <strong>Table de vérité complète</strong></h4>
+<p>Méthode exhaustive qui évalue toutes les combinaisons possibles des variables pour déterminer si une formule est toujours vraie.</p>
+</section>
+<section id="transformation-par-réécriture" class="level4">
+<h4 class="anchored" data-anchor-id="transformation-par-réécriture">2. <strong>Transformation par réécriture</strong></h4>
+<p>Utilisation systématique des lois logiques pour simplifier ou transformer les formules jusqu’à obtenir une forme évidente.</p>
+</section>
+<section id="recherche-de-contre-exemple" class="level4">
+<h4 class="anchored" data-anchor-id="recherche-de-contre-exemple">3. <strong>Recherche de contre-exemple</strong></h4>
+<p>Pour prouver qu’une formule n’est <strong>pas</strong> une tautologie, on cherche une assignation des variables qui rend la formule fausse.</p>
+</section>
+<section id="forme-normale-conjonctive-cnf" class="level4">
+<h4 class="anchored" data-anchor-id="forme-normale-conjonctive-cnf">4. <strong>Forme normale conjonctive (CNF)</strong></h4>
+<p>Transformation d’une formule en conjonction de disjonctions de littéraux, permettant de vérifier facilement la validité.</p>
+</section>
+<section id="analyse-par-cas" class="level4">
+<h4 class="anchored" data-anchor-id="analyse-par-cas">5. <strong>Analyse par cas</strong></h4>
+<p>Examen systématique de tous les scénarios possibles pour une variable ou une sous-formule.</p>
+</section>
+</section>
+<section id="méthodes-pour-la-logique-du-premier-ordre" class="level3">
+<h3 class="anchored" data-anchor-id="méthodes-pour-la-logique-du-premier-ordre">Méthodes pour la Logique du Premier Ordre</h3>
+<section id="identification-des-prédicats-et-constantes" class="level4">
+<h4 class="anchored" data-anchor-id="identification-des-prédicats-et-constantes">6. <strong>Identification des prédicats et constantes</strong></h4>
+<p>Définition précise des prédicats, fonctions et constantes nécessaires pour modéliser un énoncé en langage naturel.</p>
+</section>
+<section id="traduction-guidée-par-la-structure-logique" class="level4">
+<h4 class="anchored" data-anchor-id="traduction-guidée-par-la-structure-logique">7. <strong>Traduction guidée par la structure logique</strong></h4>
+<p>Utilisation des connecteurs logiques (<span class="math inline">\(\forall\)</span>, <span class="math inline">\(\exists\)</span>, <span class="math inline">\(\Rightarrow\)</span>, <span class="math inline">\(\wedge\)</span>, <span class="math inline">\(\vee\)</span>, <span class="math inline">\(\neg\)</span>) pour refléter la structure de l’énoncé.</p>
+</section>
+<section id="gestion-des-quantificateurs" class="level4">
+<h4 class="anchored" data-anchor-id="gestion-des-quantificateurs">8. <strong>Gestion des quantificateurs</strong></h4>
+<p>Placement correct des quantificateurs pour capturer la portée des variables.</p>
+</section>
+<section id="modélisation-de-contraintes-dunicité" class="level4">
+<h4 class="anchored" data-anchor-id="modélisation-de-contraintes-dunicité">9. <strong>Modélisation de contraintes d’unicité</strong></h4>
+<p>Utilisation de combinaisons de quantificateurs et d’égalité pour exprimer l’unicité.</p>
+</section>
+</section>
+<section id="méthodes-pour-les-problèmes-de-satisfaction" class="level3">
+<h3 class="anchored" data-anchor-id="méthodes-pour-les-problèmes-de-satisfaction">Méthodes pour les Problèmes de Satisfaction</h3>
+<section id="formalisation-propositionnelle" class="level4">
+<h4 class="anchored" data-anchor-id="formalisation-propositionnelle">10. <strong>Formalisation propositionnelle</strong></h4>
+<p>Transformation d’un problème concret en variables propositionnelles et contraintes logiques.</p>
+</section>
+<section id="satisfiabilité-par-raisonnement-systématique" class="level4">
+<h4 class="anchored" data-anchor-id="satisfiabilité-par-raisonnement-systématique">11. <strong>Satisfiabilité par raisonnement systématique</strong></h4>
+<p>Examen des contraintes et recherche d’assignations cohérentes par élimination des cas impossibles.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="rappel-des-lois-logiques-fondamentales" class="level2">
+<h2 class="anchored" data-anchor-id="rappel-des-lois-logiques-fondamentales">Rappel des Lois Logiques Fondamentales</h2>
+<section id="lois-de-limplication" class="level3">
+<h3 class="anchored" data-anchor-id="lois-de-limplication">Lois de l’Implication</h3>
+<ul>
+<li><strong>Élimination de l’implication</strong> : <span class="math inline">\(p \Rightarrow q \equiv \neg p \vee q\)</span></li>
+<li><strong>Contraposée</strong> : <span class="math inline">\(p \Rightarrow q \equiv \neg q \Rightarrow \neg p\)</span></li>
+<li><strong>Négation d’une implication</strong> : <span class="math inline">\(\neg(p \Rightarrow q) \equiv p \wedge \neg q\)</span></li>
+</ul>
+</section>
+<section id="lois-de-de-morgan" class="level3">
+<h3 class="anchored" data-anchor-id="lois-de-de-morgan">Lois de De Morgan</h3>
+<ul>
+<li><span class="math inline">\(\neg(p \wedge q) \equiv \neg p \vee \neg q\)</span></li>
+<li><span class="math inline">\(\neg(p \vee q) \equiv \neg p \wedge \neg q\)</span></li>
+</ul>
+</section>
+<section id="lois-distributives" class="level3">
+<h3 class="anchored" data-anchor-id="lois-distributives">Lois Distributives</h3>
+<ul>
+<li><span class="math inline">\(p \vee (q \wedge r) \equiv (p \vee q) \wedge (p \vee r)\)</span></li>
+<li><span class="math inline">\(p \wedge (q \vee r) \equiv (p \wedge q) \vee (p \wedge r)\)</span></li>
+</ul>
+</section>
+<section id="lois-dassociativité-et-commutativité" class="level3">
+<h3 class="anchored" data-anchor-id="lois-dassociativité-et-commutativité">Lois d’Associativité et Commutativité</h3>
+<ul>
+<li><span class="math inline">\((p \wedge q) \wedge r \equiv p \wedge (q \wedge r)\)</span></li>
+<li><span class="math inline">\((p \vee q) \vee r \equiv p \vee (q \vee r)\)</span></li>
+<li><span class="math inline">\(p \wedge q \equiv q \wedge p\)</span></li>
+<li><span class="math inline">\(p \vee q \equiv q \vee p\)</span></li>
+</ul>
+</section>
+<section id="lois-didentité-et-complément" class="level3">
+<h3 class="anchored" data-anchor-id="lois-didentité-et-complément">Lois d’Identité et Complément</h3>
+<ul>
+<li><span class="math inline">\(p \vee \text{False} \equiv p\)</span></li>
+<li><span class="math inline">\(p \wedge \text{True} \equiv p\)</span></li>
+<li><span class="math inline">\(p \vee \neg p \equiv \text{True}\)</span></li>
+<li><span class="math inline">\(p \wedge \neg p \equiv \text{False}\)</span></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="partie-2-exemples-illustratifs" class="level2">
+<h2 class="anchored" data-anchor-id="partie-2-exemples-illustratifs">Partie 2 : Exemples Illustratifs</h2>
+<section id="exemple-1-transformation-par-réécriture-modus-ponens" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-1-transformation-par-réécriture-modus-ponens">Exemple 1 : Transformation par Réécriture (Modus Ponens)</h3>
+<p><strong>Formule</strong> : <span class="math inline">\((p \wedge (p \Rightarrow q)) \Rightarrow q\)</span></p>
+<p><strong>Application des méthodes</strong> :</p>
+<ul>
+<li>Utilisation de l’élimination de l’implication</li>
+<li>Application de De Morgan</li>
+<li>Utilisation de la distributivité</li>
+<li>Simplification par les lois du complément</li>
+</ul>
+<p><strong>Démonstration</strong> : <span class="math display">\[
+\begin{aligned}
+&amp; (p \wedge (p \Rightarrow q)) \Rightarrow q \\
+\equiv\ &amp; \neg(p \wedge (p \Rightarrow q)) \vee q \quad \text{(élimination de } \Rightarrow) \\
+\equiv\ &amp; \neg(p \wedge (\neg p \vee q)) \vee q \quad \text{(élimination de } \Rightarrow) \\
+\equiv\ &amp; (\neg p \vee \neg(\neg p \vee q)) \vee q \quad \text{(De Morgan)} \\
+\equiv\ &amp; (\neg p \vee (p \wedge \neg q)) \vee q \quad \text{(De Morgan)} \\
+\equiv\ &amp; ((\neg p \vee p) \wedge (\neg p \vee \neg q)) \vee q \quad \text{(distributivité)} \\
+\equiv\ &amp; (\text{True} \wedge (\neg p \vee \neg q)) \vee q \quad \text{(complément)} \\
+\equiv\ &amp; (\neg p \vee \neg q) \vee q \\
+\equiv\ &amp; \neg p \vee (\neg q \vee q) \\
+\equiv\ &amp; \neg p \vee \text{True} \\
+\equiv\ &amp; \text{True}
+\end{aligned}
+\]</span></p>
+<hr>
+</section>
+<section id="exemple-2-recherche-de-contre-exemple" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-2-recherche-de-contre-exemple">Exemple 2 : Recherche de Contre-Exemple</h3>
+<p><strong>Formule</strong> : <span class="math inline">\((q \vee r \Rightarrow p \wedge \neg s) \wedge (s \vee p \Rightarrow (\neg r \Rightarrow q)) \Rightarrow \neg (s \vee r)\)</span></p>
+<p><strong>Application des méthodes</strong> :</p>
+<ul>
+<li>Analyse de la structure d’implication</li>
+<li>Recherche d’assignation rendant prémisse vraie et conclusion fausse</li>
+<li>Vérification de cohérence</li>
+</ul>
+<p><strong>Démonstration</strong> :</p>
+<ol type="1">
+<li><p><strong>Pour que la conclusion soit fausse</strong> : <span class="math inline">\(\neg(s \vee r)\)</span> doit être fausse, donc <span class="math inline">\(s \vee r\)</span> doit être vraie. Choix : <span class="math inline">\(s = \text{False}\)</span>, <span class="math inline">\(r = \text{True}\)</span></p></li>
+<li><p><strong>Pour que la prémisse soit vraie</strong> :</p>
+<ul>
+<li><p>Première partie : <span class="math inline">\(q \vee r \Rightarrow p \wedge \neg s\)</span> Avec <span class="math inline">\(r = \text{True}\)</span>, <span class="math inline">\(q \vee r\)</span> est vraie. Pour que l’implication soit vraie, <span class="math inline">\(p \wedge \neg s\)</span> doit être vraie. Avec <span class="math inline">\(s = \text{False}\)</span>, <span class="math inline">\(\neg s\)</span> est vraie, donc <span class="math inline">\(p\)</span> doit être vraie.</p></li>
+<li><p>Deuxième partie : <span class="math inline">\(s \vee p \Rightarrow (\neg r \Rightarrow q)\)</span> Avec <span class="math inline">\(p = \text{True}\)</span>, <span class="math inline">\(s \vee p\)</span> est vraie. <span class="math inline">\(\neg r\)</span> est faux (car <span class="math inline">\(r\)</span> vrai), donc <span class="math inline">\(\neg r \Rightarrow q\)</span> est vraie (prémisse fausse).</p></li>
+</ul></li>
+<li><p><strong>Assignation trouvée</strong> : <span class="math inline">\(p = \text{True}\)</span>, <span class="math inline">\(q\)</span> quelconque, <span class="math inline">\(r = \text{True}\)</span>, <span class="math inline">\(s = \text{False}\)</span> Cette assignation rend la prémisse vraie et la conclusion fausse, donc la formule n’est pas une tautologie.</p></li>
+</ol>
+<hr>
+</section>
+<section id="exemple-3-formalisation-en-logique-du-premier-ordre" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-3-formalisation-en-logique-du-premier-ordre">Exemple 3 : Formalisation en Logique du Premier Ordre</h3>
+<p><strong>Énoncé</strong> : “Toute personne qui travaille en informatique a écrit au moins un programme”</p>
+<p><strong>Application des méthodes</strong> :</p>
+<ul>
+<li>Identification des prédicats : <span class="math inline">\(\text{CS}(x)\)</span>, <span class="math inline">\(\text{P}(y)\)</span>, <span class="math inline">\(W(x,y)\)</span></li>
+<li>Analyse de la structure : “pour tout x, si CS(x) alors il existe y tel que…”</li>
+<li>Traduction guidée par la structure logique</li>
+</ul>
+<p><strong>Formalisation</strong> : <span class="math display">\[\forall x\ \big(\text{CS}(x) \Rightarrow \exists y\ (\text{P}(y) \wedge W(x,y))\big)\]</span></p>
+<hr>
+</section>
+<section id="exemple-4-modélisation-de-contraintes-dunicité" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-4-modélisation-de-contraintes-dunicité">Exemple 4 : Modélisation de Contraintes d’Unicité</h3>
+<p><strong>Énoncé</strong> : “Chaque programme a été écrit par une unique personne qui travaille en informatique”</p>
+<p><strong>Application des méthodes</strong> :</p>
+<ul>
+<li>Expression de l’existence : <span class="math inline">\(\exists y\)</span></li>
+<li>Expression de l’unicité : <span class="math inline">\(\forall z\ ((\text{CS}(z) \wedge W(z,x)) \Rightarrow z = y)\)</span></li>
+<li>Combinaison avec conjonction</li>
+</ul>
+<p><strong>Formalisation</strong> : <span class="math display">\[\forall x\ \big(\text{P}(x) \Rightarrow \exists y\ (\text{CS}(y) \wedge W(y,x) \wedge \forall z\ ((\text{CS}(z) \wedge W(z,x)) \Rightarrow z = y))\big)\]</span></p>
+<hr>
+</section>
+<section id="exemple-5-raisonnement-systématique-problème-des-boîtes" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-5-raisonnement-systématique-problème-des-boîtes">Exemple 5 : Raisonnement Systématique (Problème des Boîtes)</h3>
+<p><strong>Problème</strong> : Trouver quelle boîte contient le trésor avec les affirmations contradictoires</p>
+<p><strong>Application des méthodes</strong> :</p>
+<ol type="1">
+<li><strong>Formalisation propositionnelle</strong> :
+<ul>
+<li>Variables <span class="math inline">\(T_i\)</span> : trésor dans la boîte i</li>
+<li>Variables <span class="math inline">\(B_i\)</span> : affirmation sur la boîte i est vraie</li>
+</ul></li>
+<li><strong>Traduction des contraintes</strong> :
+<ul>
+<li><span class="math inline">\(B_1 \Leftrightarrow \neg T_1\)</span></li>
+<li><span class="math inline">\(B_2 \Leftrightarrow \neg T_2\)</span></li>
+<li><span class="math inline">\(B_3 \Leftrightarrow T_1\)</span></li>
+<li>Exactement une <span class="math inline">\(B_i\)</span> vraie</li>
+<li>Exactement une <span class="math inline">\(T_i\)</span> vraie</li>
+</ul></li>
+<li><strong>Analyse par cas</strong> :
+<ul>
+<li>Cas 1 : <span class="math inline">\(T_1\)</span> vraie → contradiction avec <span class="math inline">\(B_2\)</span></li>
+<li>Cas 2 : <span class="math inline">\(T_3\)</span> vraie → contradiction avec unicité des <span class="math inline">\(B_i\)</span></li>
+<li>Cas 3 : <span class="math inline">\(T_2\)</span> vraie → toutes les contraintes satisfaites</li>
+</ul></li>
+</ol>
+<p><strong>Conclusion</strong> : Le trésor est dans <span class="math inline">\(B_2\)</span>.</p>
+<hr>
+</section>
+<section id="exemple-6-forme-normale-conjonctive" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-6-forme-normale-conjonctive">Exemple 6 : Forme Normale Conjonctive</h3>
+<p><strong>Formule</strong> : <span class="math inline">\((\neg q \Rightarrow \neg p) \Rightarrow ((\neg q \Rightarrow p) \Rightarrow q)\)</span></p>
+<p><strong>Application des méthodes</strong> :</p>
+<ul>
+<li>Transformation en CNF</li>
+<li>Observation que chaque clause contient un littéral et sa négation</li>
+<li>Conclusion de validité</li>
+</ul>
+<p><strong>Démonstration</strong> (extrait) :</p>
+<p>Après transformations, on obtient une CNF où chaque clause est de la forme <span class="math inline">\((p \vee q \vee \neg q)\)</span> ou similaire, donc toujours vraie.</p>
+<hr>
+</section>
+<section id="diagramme-des-méthodes" class="level3">
+<h3 class="anchored" data-anchor-id="diagramme-des-méthodes">Diagramme des Méthodes</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A[Problème logique] --&gt; B{Type de problème}
+    
+    B --&gt; C[Tautologie/Validité]
+    B --&gt; D[Logique du 1er ordre]
+    B --&gt; E[Satisfiabilité]
+    
+    C --&gt; C1[Table de vérité]
+    C --&gt; C2[Transformation&lt;br&gt;par réécriture]
+    C --&gt; C3[Recherche de&lt;br&gt;contre-exemple]
+    C --&gt; C4[Forme normale]
+    
+    D --&gt; D1[Identification&lt;br&gt;des prédicats]
+    D --&gt; D2[Traduction guidée]
+    D --&gt; D3[Gestion des&lt;br&gt;quantificateurs]
+    
+    E --&gt; E1[Formalisation&lt;br&gt;propositionnelle]
+    E --&gt; E2[Raisonnement&lt;br&gt;systématique]
+    E --&gt; E3[Analyse par cas]
+    
+    C2 --&gt; F[Utilisation des lois logiques&lt;br&gt;De Morgan, distributivité, etc.]
+</pre>
 </div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="synthèse" class="level2">
+<h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
+<p>Les méthodes présentées couvrent les principaux aspects de la résolution de problèmes en logique propositionnelle et du premier ordre. La maîtrise de ces méthodes, combinée à une bonne connaissance des lois logiques fondamentales, permet d’aborder une large variété de problèmes en modélisation et vérification de logiciels.</p>
+<p><strong>Points clés</strong> :</p>
+<ol type="1">
+<li>Toujours commencer par comprendre la structure logique du problème</li>
+<li>Choisir la méthode adaptée au type de problème (validation, modélisation, satisfaction)</li>
+<li>Appliquer systématiquement les lois logiques dans les transformations</li>
+<li>Vérifier la cohérence des solutions trouvées</li>
+<li>Documenter clairement chaque étape du raisonnement</li>
+</ol>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<meta http-equiv="refresh" content="0; url=ch1.html">
-<p>If you are not redirected automatically,<br>
-<a href="ch1.html">click here to go to Course</a>.</p>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

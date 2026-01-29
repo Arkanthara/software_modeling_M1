@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Redirecting… – Software Modeling and Verification</title>
+<title>s2 – Software Modeling and Verification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -284,7 +284,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Redirecting…</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercises</a></li><li class="breadcrumb-item"><a href="./s2.html">Serie 2</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -341,13 +341,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Exercises</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./s1.html" class="sidebar-item-text sidebar-link">
@@ -356,7 +356,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s2.html" class="sidebar-item-text sidebar-link">
+  <a href="./s2.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Serie 2</span></a>
   </div>
 </li>
@@ -374,36 +374,162 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="index.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#serie-2" id="toc-serie-2" class="nav-link active" data-scroll-target="#serie-2">Serie 2</a>
+  <ul class="collapse">
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#method-1-syntax-analysis" id="toc-method-1-syntax-analysis" class="nav-link" data-scroll-target="#method-1-syntax-analysis">Method 1: Syntax Analysis</a></li>
+  <li><a href="#method-2-operational-semantics" id="toc-method-2-operational-semantics" class="nav-link" data-scroll-target="#method-2-operational-semantics">Method 2: Operational Semantics</a></li>
+  <li><a href="#method-3-formal-specification-with-first-order-logic-fol" id="toc-method-3-formal-specification-with-first-order-logic-fol" class="nav-link" data-scroll-target="#method-3-formal-specification-with-first-order-logic-fol">Method 3: Formal Specification with First-Order Logic (FOL)</a></li>
+  <li><a href="#method-4-data-structure-modeling-arrays" id="toc-method-4-data-structure-modeling-arrays" class="nav-link" data-scroll-target="#method-4-data-structure-modeling-arrays">Method 4: Data Structure Modeling (Arrays)</a></li>
+  </ul></li>
+  <li><a href="#reminder" id="toc-reminder" class="nav-link" data-scroll-target="#reminder">Reminder</a></li>
+  <li><a href="#illustrative-examples" id="toc-illustrative-examples" class="nav-link" data-scroll-target="#illustrative-examples">Illustrative Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-syntax-and-contextual-analysis" id="toc-example-1-syntax-and-contextual-analysis" class="nav-link" data-scroll-target="#example-1-syntax-and-contextual-analysis">Example 1: Syntax and Contextual Analysis</a></li>
+  <li><a href="#example-2-operational-semantics-with-valuation-and-memory" id="toc-example-2-operational-semantics-with-valuation-and-memory" class="nav-link" data-scroll-target="#example-2-operational-semantics-with-valuation-and-memory">Example 2: Operational Semantics with Valuation and Memory</a></li>
+  <li><a href="#example-3-fol-specification-and-array-modeling" id="toc-example-3-fol-specification-and-array-modeling" class="nav-link" data-scroll-target="#example-3-fol-specification-and-array-modeling">Example 3: FOL Specification and Array Modeling</a></li>
+  </ul></li>
+  <li><a href="#synthesis" id="toc-synthesis" class="nav-link" data-scroll-target="#synthesis">Synthesis</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s2.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Redirecting…</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercises</a></li><li class="breadcrumb-item"><a href="./s2.html">Serie 2</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
+<section id="serie-2" class="level1">
+<h1>Serie 2</h1>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="method-1-syntax-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="method-1-syntax-analysis">Method 1: Syntax Analysis</h3>
+<ul>
+<li><strong>Context-free grammar (CFG) verification</strong>: identification of basic language structure errors (parentheses, punctuation, keywords, token order).</li>
+<li><strong>Contextual verification</strong>: identification of errors that depend on context (undeclared variables, incompatible types, scope rules).</li>
+</ul>
+</section>
+<section id="method-2-operational-semantics" class="level3">
+<h3 class="anchored" data-anchor-id="method-2-operational-semantics">Method 2: Operational Semantics</h3>
+<ul>
+<li><strong>Evaluation by transition rules</strong>: use of valuation functions (<code>Val</code>) and memory (<code>Mem</code>) to describe step-by-step program execution.</li>
+<li><strong>Expression evaluation</strong>: calculation of an expression’s value in a given memory state.</li>
+<li><strong>Memory update</strong>: modification of the memory state during assignment or other actions.</li>
+</ul>
+</section>
+<section id="method-3-formal-specification-with-first-order-logic-fol" class="level3">
+<h3 class="anchored" data-anchor-id="method-3-formal-specification-with-first-order-logic-fol">Method 3: Formal Specification with First-Order Logic (FOL)</h3>
+<ul>
+<li><strong>Preconditions</strong>: conditions on inputs that must be true before execution.</li>
+<li><strong>Postconditions</strong>: conditions on outputs/memory that must be true after execution.</li>
+<li><strong>Formalization of properties</strong>: use of quantifiers, logical and arithmetic operators to express invariants, goals.</li>
+</ul>
+</section>
+<section id="method-4-data-structure-modeling-arrays" class="level3">
+<h3 class="anchored" data-anchor-id="method-4-data-structure-modeling-arrays">Method 4: Data Structure Modeling (Arrays)</h3>
+<ul>
+<li><strong>Array representation</strong>: use of <code>a.length</code> and <code>a[i]</code> to manipulate arrays.</li>
+<li><strong>Array traversal</strong>: iteration over indices with <code>while</code> or <code>for</code> loops.</li>
+<li><strong>Transformation specification</strong>: informal description then formalization in FOL.</li>
+</ul>
+</section>
+</section>
+<section id="reminder" class="level2">
+<h2 class="anchored" data-anchor-id="reminder">Reminder</h2>
+<ul>
+<li><strong>Syntax/semantics distinction</strong>: syntax concerns form, semantics concerns meaning.</li>
+<li><strong>Operational semantics</strong>:
+<ul>
+<li><code>Val(e, μ)</code> gives the value of expression <code>e</code> in memory state <code>μ</code></li>
+<li><code>Mem(P, μ)</code> gives the memory state after executing program <code>P</code> from <code>μ</code>.</li>
+</ul></li>
+<li><strong>Logic laws</strong>:
+<ul>
+<li>Implication elimination: <code>(P ⇒ Q) ≡ (¬P ∨ Q)</code></li>
+<li>Distributivity: <code>P ∨ (Q ∧ R) ≡ (P ∨ Q) ∧ (P ∨ R)</code>, etc.</li>
+<li>De Morgan: <code>¬(P ∧ Q) ≡ ¬P ∨ ¬Q</code>, <code>¬(P ∨ Q) ≡ ¬P ∧ ¬Q</code></li>
+</ul></li>
+<li><strong>Preconditions/postconditions</strong>: partial correctness (if the precondition is true and the program terminates, then the postcondition is true); termination must be treated separately.</li>
+<li><strong>Loop invariants</strong>: property that remains true before and after each iteration, used to prove loop correctness.</li>
+</ul>
+</section>
+<section id="illustrative-examples" class="level2">
+<h2 class="anchored" data-anchor-id="illustrative-examples">Illustrative Examples</h2>
+<section id="example-1-syntax-and-contextual-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-syntax-and-contextual-analysis">Example 1: Syntax and Contextual Analysis</h3>
+<p><strong>Context:</strong> Exercise 1 – error detection in a <code>remainder</code> program.</p>
+<p><strong>Application:</strong></p>
+<ul>
+<li><p>The given program is:</p>
+<pre><code>remainder(a,b) = aux := b; while (res &gt;= aux) res := res - aux; done res;</code></pre></li>
+<li><p><strong>Context-free grammar error</strong>: the semicolon after <code>res := res - aux</code> is incorrect according to the described syntax (probably a misplaced instruction separator). Moreover, the <code>while</code> loop should have a delimited instruction block (e.g., with <code>do ... done</code>), but here a <code>do</code> is likely missing after the condition.</p></li>
+<li><p><strong>Contextual error</strong>: the variable <code>res</code> is used but was never declared or initialized. Similarly, <code>aux</code> is declared but <code>res</code> is not. This violates a contextual rule (every variable must be declared before use).</p></li>
+</ul>
+</section>
+<section id="example-2-operational-semantics-with-valuation-and-memory" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-operational-semantics-with-valuation-and-memory">Example 2: Operational Semantics with Valuation and Memory</h3>
+<p><strong>Context:</strong> Exercise 2 – evaluation of <code>abs(a,b)</code> in state <code>μ = {a ← 3, b ← 9}</code>.</p>
+<p><strong>Application:</strong></p>
+<ul>
+<li><p>We assume that <code>abs(a,b)</code> is defined as:</p>
+<pre><code>abs(a,b) = res := 0; if (a &lt; b) then res := b - a else res := a - b endif; res</code></pre></li>
+<li><p>Step by step:</p>
+<ol type="1">
+<li><code>Val(abs(3,9), μ) = Val(abs program; res, μ)</code></li>
+<li>We evaluate the program: <code>Mem(abs program, μ)</code></li>
+<li><code>Mem(res := 0, μ) = μ[res ← Val(0, μ)] = μ' = {a ← 3, b ← 9, res ← 0}</code></li>
+<li>We evaluate the <code>if</code>: <code>Val(a &lt; b, μ') = (Val(a, μ') &lt; Val(b, μ')) = (3 &lt; 9) = T</code></li>
+<li>So we execute <code>res := b - a</code>: <code>Mem(res := b - a, μ') = μ'[res ← Val(b - a, μ')] = μ'' = {a ← 3, b ← 9, res ← 6}</code></li>
+<li>Then, we evaluate <code>res</code> in <code>μ''</code>: <code>Val(res, μ'') = 6</code></li>
+</ol></li>
+<li><p>Thus, <code>Val(abs(3,9), μ) = 6</code>.</p></li>
+</ul>
+</section>
+<section id="example-3-fol-specification-and-array-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-fol-specification-and-array-modeling">Example 3: FOL Specification and Array Modeling</h3>
+<p><strong>Context:</strong> Exercise 3 – function that fills <code>b</code> with the cumulative sums of <code>a</code>.</p>
+<p><strong>Application:</strong></p>
+<ol type="1">
+<li><p><strong>Informal implementation</strong>:</p>
+<pre><code>sum_prefix(a, b) = 
+  i := 0;
+  sum := 0;
+  while (i &lt; a.length) do
+    sum := sum + a[i];
+    b[i] := sum;
+    i := i + 1;
+  done</code></pre></li>
+<li><p><strong>Precondition</strong>: <code>a.length = b.length ∧ a.length &gt; 0</code></p></li>
+<li><p><strong>Postcondition</strong>: <code>∀j ∈ [0, a.length-1], b[j] = Σ_{k=0}^{j} a[k]</code> In FOL, we could write:</p>
+<pre><code>∀j (0 ≤ j ∧ j &lt; a.length ⇒ b[j] = sum_{k=0}^{j} a[k])</code></pre>
+<p>where <code>sum</code> is a metanotation for summation (in pure FOL, we use induction or a defined summation function).</p></li>
+<li><p><strong>Semantic evaluation</strong> for <code>μ = {a ← [0,3,5,6], b ← [0,0,0,0]}</code>:</p>
+<ul>
+<li>Initially <code>i=0</code>, <code>sum=0</code>.</li>
+<li>Iteration 1: <code>sum=0+0=0</code>, <code>b[0]=0</code>, <code>i=1</code></li>
+<li>Iteration 2: <code>sum=0+3=3</code>, <code>b[1]=3</code>, <code>i=2</code></li>
+<li>Iteration 3: <code>sum=3+5=8</code>, <code>b[2]=8</code>, <code>i=3</code></li>
+<li>Iteration 4: <code>sum=8+6=14</code>, <code>b[3]=14</code>, <code>i=4</code></li>
+<li>Final state: <code>μ' = {a ← [0,3,5,6], b ← [0,3,8,14], i ← 4, sum ← 14}</code></li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="synthesis" class="level2">
+<h2 class="anchored" data-anchor-id="synthesis">Synthesis</h2>
+<p>The exercises implement several key methods in software verification: syntax analysis (grammar and context), operational semantics (step-by-step evaluation with memory states), and formal modeling with first-order logic and data structures (arrays). Mastering these methods enables detecting errors, precisely specifying expected behavior, and reasoning about program execution.</p>
 
 
-<meta http-equiv="refresh" content="0; url=ch1.html">
-<p>If you are not redirected automatically,<br>
-<a href="ch1.html">click here to go to Course</a>.</p>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
