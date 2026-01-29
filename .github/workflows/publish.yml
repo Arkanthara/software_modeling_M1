@@ -24,24 +24,18 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
         with:
           path: exam/fr
-          to: html
+
 
       - name: Render English project
         uses: quarto-dev/quarto-actions/render@v2
         with:
           path: exam/en
-          to: html
+
 
       - name: Render French project pdf
         uses: quarto-dev/quarto-actions/render@v2
         with:
           path: exam/fr
-          to: pdf
-
-      - name: Render English project pdf
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: exam/en
           to: pdf
 
       - name: Deploy to GitHub Pages

@@ -1,0 +1,145 @@
+# Series 10: Abstract Interpretation II/III
+
+## Methods
+
+### Analysis of Order Structures
+* **Verification of lattice properties**: Determine if a given poset is a lattice, a complete lattice, or a semi-complete lattice by checking the existence of infimum and supremum for any pair (lattice) and for any subset (complete).
+* **Construction of order on abstract domains**: Define an order that captures the notion of "precision" between abstract elements (e.g., inclusion for intervals).
+* **Cartesian product of lattices**: Show that the product of two complete lattices, equipped with the product order, is itself a complete lattice.
+
+### Analysis of Functions on Lattices
+* **Monotonicity and Scott-continuity**: Prove that a function is monotonic and/or Scott-continuous. Scott-continuity guarantees preservation of suprema of increasing chains.
+* **Composition of continuous functions**: Show that the composition of two Scott-continuous functions is Scott-continuous.
+* **Fixed-point calculation**: Apply Kleene's theorem to compute the least fixed point (lfp) of a continuous function, often via iteration starting from $\perp$.
+* **Comparison of fixed points**: If $f(x) \leq g(x)$ for all $x$, then $\text{lfp}(f) \leq \text{lfp}(g)$.
+
+### Galois Connections
+* **Definition of functions $\alpha$ (abstraction) and $\gamma$ (concretization)** between a concrete domain and an abstract domain.
+* **Proof of fundamental properties**: Verify that $(\alpha, \gamma)$ indeed form a Galois connection, i.e., $\alpha(X) \subseteq i \Leftrightarrow X \subseteq \gamma(i)$.
+* **Derived properties**: Show that $\alpha$ and $\gamma$ are monotonic, that $x \leq \gamma(\alpha(x))$, and that $\alpha(\gamma(y)) \leq y$.
+
+### Abstract Interpretation of Programs
+* **Construction of the equation system**: From a CFG (Control Flow Graph), write the fixed-point equations for each program point.
+* **Iterative resolution**: Apply Kleene iteration on an abstract domain (e.g., sign lattice, interval lattice) until convergence.
+* **Condition handling**: Define the "filtering" operator ($\cap [condition]$) to refine information at a guard (e.g., $x \geq y$ in the interval domain).
+
+## Reminder
+
+* **Complete lattice**: Every subset has an infimum and a supremum.
+* **Scott-continuity**: $f(\sup_{i} u_i) = \sup_{i} f(u_i)$ for any increasing chain $(u_i)$.
+* **Kleene's theorem**: In a complete lattice, a Scott-continuous function has a least fixed point given by $\sup_{n \geq 0} f^n(\perp)$.
+* **Galois connection**: Pair $(\alpha: \mathcal{C} \to \mathcal{A}, \gamma: \mathcal{A} \to \mathcal{C})$ satisfying $\forall X \in \mathcal{C}, \forall i \in \mathcal{A}, \alpha(X) \subseteq i \Leftrightarrow X \subseteq \gamma(i)$.
+* **Product order**: $(a,b) \leq (c,d) \Leftrightarrow a \leq c \land b \leq d$. Infimum and supremum are computed componentwise.
+
+## Illustrative Examples
+
+### Example 1: Verification that a poset is a complete lattice
+
+**Context:** The exercise asks whether $(\mathbb{N}, \leq)$ is a (complete) lattice.
+
+**Application:**
+
+* It is a lattice because for any pair $\{a,b\}$, $\inf(a,b) = \min(a,b)$ and $\sup(a,b) = \max(a,b)$ exist in $\mathbb{N}$.
+* It is **not complete** because the subset $X = \mathbb{N}$ has no supremum in $\mathbb{N}$ ($\sup(\mathbb{N}) = +\infty \notin \mathbb{N}$).
+* It is a **semi-complete lattice** because every subset $A \subseteq \mathbb{N}$ has an infimum (its minimum).
+* However, $(\mathbb{N} \cup \{\infty\}, \leq)$ is a complete lattice.
+
+### Example 2: Definition of an order and inf/sup calculation on the interval domain
+
+**Context:** For the set of intervals $\mathcal{I}$, define an order representing loss of precision.
+
+**Application:**
+
+* Define the order by **reverse inclusion** of value sets: $(a,c) \leq (b,d) \Leftrightarrow [b,d] \supseteq [a,c] \Leftrightarrow (b \leq a \wedge c \leq d)$.
+* The infimum corresponds to the **intersection** of value sets:
+  $$\inf((a,c),(b,d)) = (\max(a,b), \min(c,d))$$
+  (which gives the smallest interval contained in both).
+* The supremum corresponds to the **union** (the smallest over-approximation):
+  $$\sup((a,c),(b,d)) = (\min(a,b), \max(c,d))$$
+* Prove that $(\mathcal{I}, \leq)$ is a complete lattice using this correspondence with set inclusion.
+
+### Example 3: Proof that a Scott-continuous function is monotonic
+
+**Context:** Let $f: E \to F$ be Scott-continuous, with $E, F$ complete lattices.
+
+**Application:**
+Let $x, y \in E$ such that $x \leq y$.
+
+1. Construct the increasing chain $(u_i)$: $u_0 = x$, and $u_i = y$ for all $i \geq 1$.
+2. By construction, $\sup_{i} u_i = y$.
+3. By Scott-continuity: $f(y) = f(\sup_i u_i) = \sup_i f(u_i)$.
+4. In particular, $f(u_0) = f(x) \leq \sup_i f(u_i) = f(y)$.
+5. Therefore $f(x) \leq f(y)$, which proves monotonicity.
+
+### Example 4: Construction of a Galois Connection between $\mathcal{P}(\mathbb{Z})$ and $\mathcal{I}$
+
+**Context:** Define $\alpha$ and $\gamma$ between the power set of $\mathbb{Z}$ (concrete) and the interval lattice $\mathcal{I}$ (abstract).
+
+**Application:**
+
+* **Abstraction function $\alpha$**:
+  $$\alpha: \mathcal{P}(\mathbb{Z}) \to \mathcal{I}, \quad \alpha(X) = [\inf X, \sup X]$$
+  (with $\inf \emptyset = +\infty$, $\sup \emptyset = -\infty$ by convention).
+* **Concretization function $\gamma$**:
+  $$\gamma: \mathcal{I} \to \mathcal{P}(\mathbb{Z}), \quad \gamma([a,b]) = \{z \in \mathbb{Z} \mid a \leq z \leq b\}$$
+* **Proof of the connection**: Must show $\forall X \subseteq \mathbb{Z}, \forall i \in \mathcal{I}$:
+  $$\alpha(X) \subseteq \mathcal{I} i \Leftrightarrow X \subseteq \gamma(i)$$
+  1. ($\Rightarrow$) If $[\inf X, \sup X] \subseteq i$, then every $x \in X$ satisfies $x \in \gamma(i)$.
+  2. ($\Leftarrow$) If $X \subseteq \gamma(i)$, then $\inf X \geq a$ and $\sup X \leq b$, so $[\inf X, \sup X] \subseteq [a,b] = i$.
+
+### Example 5: Program Analysis with the Interval Lattice
+
+**Context:** Analyze the following program with the interval domain:
+```
+y := 3; x := 4;
+while (x >= y) do x := x - 4; done;
+```
+
+**Application:**
+
+1. **CFG and equations**:
+   * Entry: $v_0 = (x: \top, y: \top)$
+   * $v_1 = (x: [4,4], y: [3,3])$ after assignments.
+   * Loop (point $v_2$): $v_2 = v_1 \sqcup F(v_2)$, where $F$ is the transfer function of the body.
+   * Loop body: $F((x,y)) = (x-4, y) \cap [x \geq y]$.
+
+2. **Kleene iteration**:
+   * $v_2^{(0)} = \perp = (x: \bot, y: \bot)$
+   * $v_2^{(1)} = v_1 \sqcup F(\perp) = (x:[4,4], y:[3,3])$
+   * Compute $F(v_2^{(1)})$: $(x: [4,4]-4, y:[3,3]) = (x:[0,0], y:[3,3])$. The condition $x \geq y$ becomes $[0,0] \geq [3,3]$ which is false, so the result is $\bot$.
+   * $v_2^{(2)} = v_1 \sqcup \bot = v_2^{(1)}$. Fixed point reached.
+
+3. **Result**: At loop exit, $x = [4,4]$ and $y = [3,3]$. The loop does not execute.
+
+```{dot}
+digraph méthodes {
+    rankdir=LR;
+    node [shape=box, style=rounded];
+
+    "Order Structures" -> "Complete Lattice";
+    "Order Structures" -> "Product Order";
+    "Functions" -> "Monotonicity";
+    "Functions" -> "Scott-Continuity";
+    "Functions" -> "Fixed Points (Kleene)";
+    "Galois Connection" -> "α (abstraction)";
+    "Galois Connection" -> "γ (concretization)";
+    "Program Interpretation" -> "CFG & Equations";
+    "Program Interpretation" -> "Iteration on Abstract Domain";
+    "Program Interpretation" -> "Condition Filtering";
+
+    "Complete Lattice" -> "Computation Domain";
+    "Product Order" -> "Multivariate Domains";
+    "Scott-Continuity" -> "Convergence Guarantee";
+    "Fixed Points (Kleene)" -> "System Solution";
+    "α/γ" -> "Abstraction Correctness";
+    "Iteration on Abstract Domain" -> "Static Analysis";
+}
+```
+
+## Synthesis
+
+This series highlights the mathematical foundations of abstract interpretation: **complete lattices** serve as computation domains, **Scott-continuity** ensures iteration convergence, and **Galois connections** guarantee abstraction correctness.
+
+The core method combines modeling a program by a **fixed-point equation system** and its iterative resolution on an abstract domain (signs, intervals).
+
+These techniques allow automatically inferring properties about programs (variable bounds, signs) without executing them.
