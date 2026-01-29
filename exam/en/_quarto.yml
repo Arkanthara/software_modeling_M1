@@ -22,6 +22,8 @@ website:
     contents:
       - section: "Course"
         contents: "ch*.qmd"
+      - section: "Exercises"
+        contents: "s*.qmd"
 
 format:
   html:

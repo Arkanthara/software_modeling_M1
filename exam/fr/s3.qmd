@@ -1,0 +1,158 @@
+# Série 3
+
+## Méthodes  
+
+### Calcul de la plus faible précondition (WP)  
+- **Méthode 1 : WP pour l’affectation**  
+  Pour une affectation `x := e`, on substitue la variable `x` par l’expression `e` dans la postcondition $\psi$ :  
+  $$ \mathrm{WP}(x := e, \psi) = \psi[x \leftarrow e] $$  
+
+- **Méthode 2 : WP pour la conditionnelle**  
+  Pour une instruction `if B then c_1 else c_2`, on combine les WP des deux branches, conditionnées par `B` et `¬B` :  
+  $$ \mathrm{WP}(\text{if } B \text{ then } c_1 \text{ else } c_2, \psi) = (B \Rightarrow \mathrm{WP}(c_1, \psi)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, \psi)) $$  
+
+- **Méthode 3 : Prise en compte des conditions de sûreté**  
+  Lorsque le programme contient une opération partielle (ex. division), il faut ajouter explicitement les conditions de validité (ex. dénominateur non nul) dans la WP.  
+
+### Vérification des triples de Hoare  
+- **Méthode 4 : Validité via l’implication logique**  
+  Un triple $\{P\}\ c\ \{Q\}$ est valide si et seulement si la précondition $P$ implique la WP du programme $c$ pour la postcondition $Q$ :  
+  $$ \{P\}\ c\ \{Q\} \text{ est valide } \quad \text{ssi} \quad P \Rightarrow \mathrm{WP}(c, Q) \ \text{est vrai}. $$  
+  On doit aussi vérifier toutes les conditions de sûreté (ex. non-division par zéro).  
+
+- **Méthode 5 : Raffinement par précondition additionnelle**  
+  Si la WP calculée n’est pas automatiquement vérifiée, on peut proposer une précondition $P$ plus forte qui rende l’implication valide.  
+
+### Preuves structurelles sur les WP  
+- **Méthode 6 : Induction structurelle sur les programmes**  
+
+  Pour démontrer une propriété sur $\mathrm{WP}$ pour tout programme, on procède par induction sur la structure du programme :  
+  
+  1. **Cas de base** : instructions élémentaires (affectation).  
+  2. **Étapes d’induction** : composition séquentielle, conditionnelle, boucle.  
+
+### Manipulations logiques  
+- **Méthode 7 : Transformations logiques courantes**  
+  - Élimination de l’implication : $A \Rightarrow B \equiv \neg A \lor B$  
+  - Lois de De Morgan : $\neg (A \land B) \equiv \neg A \lor \neg B$, $\neg (A \lor B) \equiv \neg A \land \neg B$  
+  - Distributivité : $A \land (B \lor C) \equiv (A \land B) \lor (A \land C)$  
+
+---
+
+## Rappel  
+
+1. **Règles WP**  
+   - $\mathrm{WP}(x := e, \psi) = \psi[x \leftarrow e]$  
+   - $\mathrm{WP}(\text{if } B \text{ then } c_1 \text{ else } c_2, \psi) = (B \Rightarrow \mathrm{WP}(c_1, \psi)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, \psi))$  
+
+2. **Validité d’un triple de Hoare**  
+   $$ \{P\}\ c\ \{Q\} \text{ valide } \iff P \Rightarrow \mathrm{WP}(c, Q) $$  
+
+3. **Conditions de sûreté**  
+   Pour toute division `a/b`, ajouter la condition $b \neq 0$ à la WP.  
+
+4. **Lois logiques utiles**  
+   - Implication : $A \Rightarrow B \equiv \neg A \lor B$  
+   - Distributivité de $\land$ sur $\lor$ et vice versa  
+   - Équivalence : $(A \Rightarrow (B \land C)) \equiv (A \Rightarrow B) \land (A \Rightarrow C)$  
+
+5. **Induction structurelle**  
+   - Base : vérifier la propriété pour les instructions simples.  
+   - Induction : supposer la propriété pour les sous-programmes, la prouver pour les compositions.  
+
+---
+
+## Exemples Illustratifs  
+
+### Exemple 1 : Calcul de WP pour une conditionnelle (Méthodes 1 et 2)  
+**Contexte** : Calculer $\mathrm{WP}(f, \psi_1)$ pour le programme  
+$$ f(a,b) = \text{if } (a > 2) \text{ then } res := a \text{ else } res := b \text{ endif} $$  
+avec $\psi_1 : res \geq 0$.  
+
+**Application** :  
+
+1. Appliquer la règle de la conditionnelle :  
+   $$ \mathrm{WP}(f, \psi_1) = (a > 2 \Rightarrow \mathrm{WP}(res := a, \psi_1)) \land (\neg (a > 2) \Rightarrow \mathrm{WP}(res := b, \psi_1)) $$  
+2. Calculer les WP des affectations (Méthode 1) :  
+   - $\mathrm{WP}(res := a, \psi_1) = \psi_1[res \leftarrow a] = a \geq 0$  
+   - $\mathrm{WP}(res := b, \psi_1) = \psi_1[res \leftarrow b] = b \geq 0$  
+3. Combiner :  
+   $$ \mathrm{WP}(f, \psi_1) = (a > 2 \Rightarrow a \geq 0) \land (\neg (a > 2) \Rightarrow b \geq 0) $$  
+   soit $$ (a > 2 \Rightarrow a \geq 0) \land (a \leq 2 \Rightarrow b \geq 0). $$  
+
+---
+
+### Exemple 2 : Vérification de validité d’un triple de Hoare (Méthodes 4 et 5)  
+**Contexte** : Vérifier si $\{P_2\}\ f\ \{\psi_2\}$ est valide, avec $P_2 := \mathbf{T}$ (vrai) et $\psi_2 : res \geq 42$.  
+
+**Application** :  
+
+1. On a déjà calculé :  
+   $$ \mathrm{WP}(f, \psi_2) = (a > 2 \Rightarrow a \geq 42) \land (\neg (a > 2) \Rightarrow b \geq 42) $$  
+2. Pour la validité, il faut $P_2 \Rightarrow \mathrm{WP}(f, \psi_2)$, c’est-à-dire que $\mathrm{WP}(f, \psi_2)$ soit vraie pour tout $a,b$.  
+3. Or, si $a=3$ (donc $a>2$ vrai), on doit avoir $a \geq 42$, ce qui est faux. Donc l’implication n’est pas vraie pour toutes les valeurs.  
+4. **Conclusion** : Le triple n’est pas valide. Il est toutefois *satisfiable* (ex. avec $a=42, b=42$).  
+
+---
+
+### Exemple 3 : Prise en compte de la division par zéro (Méthodes 3 et 4)  
+**Contexte** : Calculer $\mathrm{WP}(g, \psi_3)$ pour  
+$$ g(a,b) = \text{if } (a \geq b) \text{ then } res := a/b \text{ else } res := b/a \text{ endif} $$  
+avec $\psi_3 : res \geq 1$.  
+
+**Application** :  
+
+1. Appliquer la règle de la conditionnelle :  
+   $$ \mathrm{WP}(g, \psi_3) = (a \geq b \Rightarrow \mathrm{WP}(res := a/b, \psi_3)) \land (a < b \Rightarrow \mathrm{WP}(res := b/a, \psi_3)) $$  
+2. Pour chaque affectation avec division, ajouter la condition de non-nullité du dénominateur (Méthode 3) :  
+   - $\mathrm{WP}(res := a/b, \psi_3) = (a/b \geq 1) \land (b \neq 0)$  
+   - $\mathrm{WP}(res := b/a, \psi_3) = (b/a \geq 1) \land (a \neq 0)$  
+3. Donc :  
+   $$ \mathrm{WP}(g, \psi_3) = (a \geq b \Rightarrow (a/b \geq 1 \land b \neq 0)) \land (a < b \Rightarrow (b/a \geq 1 \land a \neq 0)) $$  
+   soit, en séparant les conditions de division :  
+   $$ (a \geq b \Rightarrow a/b \geq 1) \land (a < b \Rightarrow b/a \geq 1) \land (a \geq b \Rightarrow b \neq 0) \land (a < b \Rightarrow a \neq 0). $$  
+
+---
+
+### Exemple 4 : Preuve d’une propriété sur WP par induction (Méthode 6)  
+**Contexte** : Prouver que pour tout programme $c$ et formules $P$, $Q$,  
+$$ \mathrm{WP}(c, P \land Q) = \mathrm{WP}(c, P) \land \mathrm{WP}(c, Q). $$  
+
+**Application** (esquisse de preuve par induction structurelle) :
+
+1. **Cas de base** : $c$ est une affectation $x := e$.  
+   - $\mathrm{WP}(x:=e, P \land Q) = (P \land Q)[x \leftarrow e] = P[x \leftarrow e] \land Q[x \leftarrow e]$  
+   - $\mathrm{WP}(x:=e, P) \land \mathrm{WP}(x:=e, Q) = P[x \leftarrow e] \land Q[x \leftarrow e]$  
+   → Égalité vérifiée.  
+
+2. **Cas conditionnel** : $c = \text{if } B \text{ then } c_1 \text{ else } c_2$.  
+   - Par hypothèse d’induction, $\mathrm{WP}(c_1, P \land Q) = \mathrm{WP}(c_1, P) \land \mathrm{WP}(c_1, Q)$ (idem pour $c_2$).  
+   - Alors :  
+     $$ \begin{aligned} \mathrm{WP}(c, P \land Q) &= (B \Rightarrow \mathrm{WP}(c_1, P \land Q)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, P \land Q)) \\ &= (B \Rightarrow (\mathrm{WP}(c_1, P) \land \mathrm{WP}(c_1, Q))) \land (\neg B \Rightarrow (\mathrm{WP}(c_2, P) \land \mathrm{WP}(c_2, Q))) \\ &= (B \Rightarrow \mathrm{WP}(c_1, P)) \land (B \Rightarrow \mathrm{WP}(c_1, Q)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, P)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, Q)) \\ &= \mathrm{WP}(c, P) \land \mathrm{WP}(c, Q) \end{aligned} $$  
+   → La propriété est préservée.  
+
+3. **Autres cas** (séquence, boucle) se traitent de manière similaire.  
+
+---
+
+## Synthèse  
+
+Les exercices mettent en œuvre les techniques fondamentales de la vérification déductive :
+
+- Le calcul de la **plus faible précondition** permet de transformer un problème de vérification de programme en un problème logique.  
+- La **validité d’un triple de Hoare** se ramène à une implication logique, pouvant nécessiter l’ajout de **conditions de sûreté** (ex. non-division par zéro).  
+- Des **preuves par induction structurelle** sur la syntaxe des programmes permettent d’établir des propriétés génériques des WP.  
+- Ces méthodes sont à la base des outils de vérification formelle comme Why3, où les WP sont générées et vérifiées automatiquement.  
+
+```{dot}
+digraph G {
+  rankdir=LR;
+  node [shape=box];
+  "Programme c" -> "Calcul WP" [label="postcondition Q"];
+  "Calcul WP" -> "Formule logique";
+  "Formule logique" -> "Vérification" [label="P ⇒ WP(c,Q)"];
+  "Vérification" -> "Triple valide" [label="oui"];
+  "Vérification" -> "Triple invalide" [label="non"];
+  "Calcul WP" -> "Conditions de sûreté" [label="ex: b≠0"];
+}
+```
