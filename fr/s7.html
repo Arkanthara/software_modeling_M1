@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>s3 – Software Modeling and Verification</title>
+<title>s7 – Software Modeling and Verification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -313,7 +313,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s3.html">Série 3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s7.html">Série 7 : DPLL avec théories et théorie des tableaux</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -391,7 +391,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s3.html" class="sidebar-item-text sidebar-link active">
+  <a href="./s3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Série 3</span></a>
   </div>
 </li>
@@ -415,7 +415,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s7.html" class="sidebar-item-text sidebar-link">
+  <a href="./s7.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Série 7 : DPLL avec théories et théorie des tableaux</span></a>
   </div>
 </li>
@@ -443,322 +443,156 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#série-3" id="toc-série-3" class="nav-link active" data-scroll-target="#série-3">Série 3</a>
+  <li><a href="#série-7-dpll-avec-théories-et-théorie-des-tableaux" id="toc-série-7-dpll-avec-théories-et-théorie-des-tableaux" class="nav-link active" data-scroll-target="#série-7-dpll-avec-théories-et-théorie-des-tableaux">Série 7 : DPLL avec théories et théorie des tableaux</a>
   <ul class="collapse">
   <li><a href="#méthodes" id="toc-méthodes" class="nav-link" data-scroll-target="#méthodes">Méthodes</a>
   <ul class="collapse">
-  <li><a href="#calcul-de-la-plus-faible-précondition-wp" id="toc-calcul-de-la-plus-faible-précondition-wp" class="nav-link" data-scroll-target="#calcul-de-la-plus-faible-précondition-wp">Calcul de la plus faible précondition (WP)</a></li>
-  <li><a href="#vérification-des-triples-de-hoare" id="toc-vérification-des-triples-de-hoare" class="nav-link" data-scroll-target="#vérification-des-triples-de-hoare">Vérification des triples de Hoare</a></li>
-  <li><a href="#preuves-structurelles-sur-les-wp" id="toc-preuves-structurelles-sur-les-wp" class="nav-link" data-scroll-target="#preuves-structurelles-sur-les-wp">Preuves structurelles sur les WP</a></li>
-  <li><a href="#manipulations-logiques" id="toc-manipulations-logiques" class="nav-link" data-scroll-target="#manipulations-logiques">Manipulations logiques</a></li>
+  <li><a href="#dpllt" id="toc-dpllt" class="nav-link" data-scroll-target="#dpllt">DPLL(T)</a></li>
+  <li><a href="#théorie-des-entiers-linéaires" id="toc-théorie-des-entiers-linéaires" class="nav-link" data-scroll-target="#théorie-des-entiers-linéaires">Théorie des entiers linéaires</a></li>
+  <li><a href="#théorie-euf-equality-with-uninterpreted-functions" id="toc-théorie-euf-equality-with-uninterpreted-functions" class="nav-link" data-scroll-target="#théorie-euf-equality-with-uninterpreted-functions">Théorie EUF (Equality with Uninterpreted Functions)</a></li>
+  <li><a href="#théorie-des-tableaux" id="toc-théorie-des-tableaux" class="nav-link" data-scroll-target="#théorie-des-tableaux">Théorie des tableaux</a></li>
+  <li><a href="#formalisation-en-logique-du-premier-ordre" id="toc-formalisation-en-logique-du-premier-ordre" class="nav-link" data-scroll-target="#formalisation-en-logique-du-premier-ordre">Formalisation en logique du premier ordre</a></li>
+  <li><a href="#vérification-déquivalence-de-code" id="toc-vérification-déquivalence-de-code" class="nav-link" data-scroll-target="#vérification-déquivalence-de-code">Vérification d’équivalence de code</a></li>
   </ul></li>
   <li><a href="#rappel" id="toc-rappel" class="nav-link" data-scroll-target="#rappel">Rappel</a></li>
   <li><a href="#exemples-illustratifs" id="toc-exemples-illustratifs" class="nav-link" data-scroll-target="#exemples-illustratifs">Exemples Illustratifs</a>
   <ul class="collapse">
-  <li><a href="#exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2" id="toc-exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2" class="nav-link" data-scroll-target="#exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2">Exemple 1 : Calcul de WP pour une conditionnelle (Méthodes 1 et 2)</a></li>
-  <li><a href="#exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5" id="toc-exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5" class="nav-link" data-scroll-target="#exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5">Exemple 2 : Vérification de validité d’un triple de Hoare (Méthodes 4 et 5)</a></li>
-  <li><a href="#exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4" id="toc-exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4" class="nav-link" data-scroll-target="#exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4">Exemple 3 : Prise en compte de la division par zéro (Méthodes 3 et 4)</a></li>
-  <li><a href="#exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6" id="toc-exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6" class="nav-link" data-scroll-target="#exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6">Exemple 4 : Preuve d’une propriété sur WP par induction (Méthode 6)</a></li>
+  <li><a href="#exemple-1-dpll-avec-la-théorie-des-entiers" id="toc-exemple-1-dpll-avec-la-théorie-des-entiers" class="nav-link" data-scroll-target="#exemple-1-dpll-avec-la-théorie-des-entiers">Exemple 1 : DPLL avec la théorie des entiers</a></li>
+  <li><a href="#exemple-2-théorie-des-tableaux-et-équivalence-de-code" id="toc-exemple-2-théorie-des-tableaux-et-équivalence-de-code" class="nav-link" data-scroll-target="#exemple-2-théorie-des-tableaux-et-équivalence-de-code">Exemple 2 : Théorie des tableaux et équivalence de code</a></li>
   </ul></li>
   <li><a href="#synthèse" id="toc-synthèse" class="nav-link" data-scroll-target="#synthèse">Synthèse</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s3.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s7.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s7.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s3.html">Série 3</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s7.html">Série 7 : DPLL avec théories et théorie des tableaux</a></li></ol></nav></header>
 
 
 
 
 
-<section id="série-3" class="level1">
-<h1>Série 3</h1>
+<section id="série-7-dpll-avec-théories-et-théorie-des-tableaux" class="level1">
+<h1>Série 7 : DPLL avec théories et théorie des tableaux</h1>
 <section id="méthodes" class="level2">
 <h2 class="anchored" data-anchor-id="méthodes">Méthodes</h2>
-<section id="calcul-de-la-plus-faible-précondition-wp" class="level3">
-<h3 class="anchored" data-anchor-id="calcul-de-la-plus-faible-précondition-wp">Calcul de la plus faible précondition (WP)</h3>
+<section id="dpllt" class="level3">
+<h3 class="anchored" data-anchor-id="dpllt">DPLL(T)</h3>
+<p>Méthode de décision pour les formules du premier ordre combinant l’algorithme DPLL classique (pour la partie propositionnelle) avec un solveur de théorie (T) pour vérifier la cohérence des littéraux dans une théorie spécifique (ex : entiers, EUF, tableaux).<br>
+Sous‑catégories :</p>
 <ul>
-<li><p><strong>Méthode 1 : WP pour l’affectation</strong><br>
-Pour une affectation <code>x := e</code>, on substitue la variable <code>x</code> par l’expression <code>e</code> dans la postcondition <span class="math inline">\(\psi\)</span> :<br>
-<span class="math display">\[ \mathrm{WP}(x := e, \psi) = \psi[x \leftarrow e] \]</span></p></li>
-<li><p><strong>Méthode 2 : WP pour la conditionnelle</strong><br>
-Pour une instruction <code>if B then c_1 else c_2</code>, on combine les WP des deux branches, conditionnées par <code>B</code> et <code>¬B</code> :<br>
-<span class="math display">\[ \mathrm{WP}(\text{if } B \text{ then } c_1 \text{ else } c_2, \psi) = (B \Rightarrow \mathrm{WP}(c_1, \psi)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, \psi)) \]</span></p></li>
-<li><p><strong>Méthode 3 : Prise en compte des conditions de sûreté</strong><br>
-Lorsque le programme contient une opération partielle (ex. division), il faut ajouter explicitement les conditions de validité (ex. dénominateur non nul) dans la WP.</p></li>
+<li><strong>DPLL propositionnel</strong> : attribution de valeurs de vérité, propagation unitaire, backtrack.</li>
+<li><strong>Intégration théorie</strong> : le solveur de théorie valide ou invalide les affectations partielles en fonction des contraintes de la théorie.</li>
 </ul>
 </section>
-<section id="vérification-des-triples-de-hoare" class="level3">
-<h3 class="anchored" data-anchor-id="vérification-des-triples-de-hoare">Vérification des triples de Hoare</h3>
-<ul>
-<li><p><strong>Méthode 4 : Validité via l’implication logique</strong><br>
-Un triple <span class="math inline">\(\{P\}\ c\ \{Q\}\)</span> est valide si et seulement si la précondition <span class="math inline">\(P\)</span> implique la WP du programme <span class="math inline">\(c\)</span> pour la postcondition <span class="math inline">\(Q\)</span> :<br>
-<span class="math display">\[ \{P\}\ c\ \{Q\} \text{ est valide } \quad \text{ssi} \quad P \Rightarrow \mathrm{WP}(c, Q) \ \text{est vrai}. \]</span><br>
-On doit aussi vérifier toutes les conditions de sûreté (ex. non-division par zéro).</p></li>
-<li><p><strong>Méthode 5 : Raffinement par précondition additionnelle</strong><br>
-Si la WP calculée n’est pas automatiquement vérifiée, on peut proposer une précondition <span class="math inline">\(P\)</span> plus forte qui rende l’implication valide.</p></li>
-</ul>
+<section id="théorie-des-entiers-linéaires" class="level3">
+<h3 class="anchored" data-anchor-id="théorie-des-entiers-linéaires">Théorie des entiers linéaires</h3>
+<p>Théorie permettant de raisonner sur les inégalités et égalités linéaires entre variables entières. Utilisée ici pour interpréter des littéraux comme <span class="math inline">\(a+1 \leq b\)</span>.</p>
 </section>
-<section id="preuves-structurelles-sur-les-wp" class="level3">
-<h3 class="anchored" data-anchor-id="preuves-structurelles-sur-les-wp">Preuves structurelles sur les WP</h3>
-<ul>
-<li><p><strong>Méthode 6 : Induction structurelle sur les programmes</strong></p>
-<p>Pour démontrer une propriété sur <span class="math inline">\(\mathrm{WP}\)</span> pour tout programme, on procède par induction sur la structure du programme :</p>
+<section id="théorie-euf-equality-with-uninterpreted-functions" class="level3">
+<h3 class="anchored" data-anchor-id="théorie-euf-equality-with-uninterpreted-functions">Théorie EUF (Equality with Uninterpreted Functions)</h3>
+<p>Théorie de l’égalité étendue à des symboles fonctionnels non interprétés. Les axiomes sont la réflexivité, la symétrie, la transitivité et la congruence : si <span class="math inline">\(x=y\)</span> alors <span class="math inline">\(f(x)=f(y)\)</span>.</p>
+</section>
+<section id="théorie-des-tableaux" class="level3">
+<h3 class="anchored" data-anchor-id="théorie-des-tableaux">Théorie des tableaux</h3>
+<p>Théorie spécifique aux opérations de lecture (<code>select</code>) et écriture (<code>store</code>) sur des tableaux. Axiomes fondamentaux :</p>
 <ol type="1">
-<li><strong>Cas de base</strong> : instructions élémentaires (affectation).<br>
-</li>
-<li><strong>Étapes d’induction</strong> : composition séquentielle, conditionnelle, boucle.</li>
-</ol></li>
-</ul>
+<li>Lecture après écriture au même indice.</li>
+<li>Lecture après écriture à un indice différent.</li>
+<li>Extensionalité : deux tableaux égaux si tous leurs éléments sont égaux.</li>
+</ol>
 </section>
-<section id="manipulations-logiques" class="level3">
-<h3 class="anchored" data-anchor-id="manipulations-logiques">Manipulations logiques</h3>
-<ul>
-<li><strong>Méthode 7 : Transformations logiques courantes</strong>
-<ul>
-<li>Élimination de l’implication : <span class="math inline">\(A \Rightarrow B \equiv \neg A \lor B\)</span><br>
-</li>
-<li>Lois de De Morgan : <span class="math inline">\(\neg (A \land B) \equiv \neg A \lor \neg B\)</span>, <span class="math inline">\(\neg (A \lor B) \equiv \neg A \land \neg B\)</span><br>
-</li>
-<li>Distributivité : <span class="math inline">\(A \land (B \lor C) \equiv (A \land B) \lor (A \land C)\)</span></li>
-</ul></li>
-</ul>
-<hr>
+<section id="formalisation-en-logique-du-premier-ordre" class="level3">
+<h3 class="anchored" data-anchor-id="formalisation-en-logique-du-premier-ordre">Formalisation en logique du premier ordre</h3>
+<p>Traduction d’énoncés informels (propriétés de programmes, de structures de données) en formules quantifiées de la logique du premier ordre, utilisables ensuite par des solveurs automatisés.</p>
+</section>
+<section id="vérification-déquivalence-de-code" class="level3">
+<h3 class="anchored" data-anchor-id="vérification-déquivalence-de-code">Vérification d’équivalence de code</h3>
+<p>Comparaison de deux fragments de code en exprimant leur sémantique à l’aide d’une théorie (ex : tableaux) et recherche d’une condition logique garantissant l’égalité des résultats.</p>
 </section>
 </section>
 <section id="rappel" class="level2">
 <h2 class="anchored" data-anchor-id="rappel">Rappel</h2>
-<ol type="1">
-<li><p><strong>Règles WP</strong></p>
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(x := e, \psi) = \psi[x \leftarrow e]\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(\text{if } B \text{ then } c_1 \text{ else } c_2, \psi) = (B \Rightarrow \mathrm{WP}(c_1, \psi)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, \psi))\)</span></li>
-</ul></li>
-<li><p><strong>Validité d’un triple de Hoare</strong><br>
-<span class="math display">\[ \{P\}\ c\ \{Q\} \text{ valide } \iff P \Rightarrow \mathrm{WP}(c, Q) \]</span></p></li>
-<li><p><strong>Conditions de sûreté</strong><br>
-Pour toute division <code>a/b</code>, ajouter la condition <span class="math inline">\(b \neq 0\)</span> à la WP.</p></li>
-<li><p><strong>Lois logiques utiles</strong></p>
+<li><strong>Algorithme DPLL</strong> : recherche récursive d’un modèle pour une formule propositionnelle, avec propagation unitaire et backtrack.</li>
+<li><strong>Axiomes des tableaux</strong> :
 <ul>
-<li>Implication : <span class="math inline">\(A \Rightarrow B \equiv \neg A \lor B\)</span><br>
-</li>
-<li>Distributivité de <span class="math inline">\(\land\)</span> sur <span class="math inline">\(\lor\)</span> et vice versa<br>
-</li>
-<li>Équivalence : <span class="math inline">\((A \Rightarrow (B \land C)) \equiv (A \Rightarrow B) \land (A \Rightarrow C)\)</span></li>
+<li><span class="math inline">\(\forall a,i,e.\ \text{select}(\text{store}(a,i,e), i) = e\)</span></li>
+<li><span class="math inline">\(\forall a,i,j,e.\ i \neq j \Rightarrow \text{select}(\text{store}(a,i,e), j) = \text{select}(a,j)\)</span></li>
+<li><span class="math inline">\(\forall a,b.\ (\forall i.\ \text{select}(a,i)=\text{select}(b,i)) \Rightarrow a=b\)</span></li>
 </ul></li>
-<li><p><strong>Induction structurelle</strong></p>
-<ul>
-<li>Base : vérifier la propriété pour les instructions simples.<br>
-</li>
-<li>Induction : supposer la propriété pour les sous-programmes, la prouver pour les compositions.</li>
-</ul></li>
-</ol>
-<hr>
+<li><strong>Congruence en EUF</strong> : <span class="math inline">\(\forall x,y.\ x=y \Rightarrow f(x)=f(y)\)</span></li>
+<li><strong>Condition d’équivalence de deux stores successifs</strong> :<br>
+<span class="math inline">\(\text{store}(\text{store}(a,i,b),j,c) = \text{store}(\text{store}(a,j,c),i,b)\)</span> ssi <span class="math inline">\((i \neq j) \lor (i=j \land b=c)\)</span></li>
+</ul>
 </section>
 <section id="exemples-illustratifs" class="level2">
 <h2 class="anchored" data-anchor-id="exemples-illustratifs">Exemples Illustratifs</h2>
-<section id="exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-1-calcul-de-wp-pour-une-conditionnelle-méthodes-1-et-2">Exemple 1 : Calcul de WP pour une conditionnelle (Méthodes 1 et 2)</h3>
-<p><strong>Contexte</strong> : Calculer <span class="math inline">\(\mathrm{WP}(f, \psi_1)\)</span> pour le programme<br>
-<span class="math display">\[ f(a,b) = \text{if } (a &gt; 2) \text{ then } res := a \text{ else } res := b \text{ endif} \]</span><br>
-avec <span class="math inline">\(\psi_1 : res \geq 0\)</span>.</p>
-<p><strong>Application</strong> :</p>
+<section id="exemple-1-dpll-avec-la-théorie-des-entiers" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-1-dpll-avec-la-théorie-des-entiers">Exemple 1 : DPLL avec la théorie des entiers</h3>
+<p><strong>Contexte :</strong></p>
+<p>On a une formule <span class="math inline">\(\phi = (p \lor q) \land (\neg p \lor r) \land (s \lor t) \land (\neg r \lor s \lor u)\)</span>, où chaque variable propositionnelle est associée à une contrainte sur les entiers (ex : <span class="math inline">\(p\)</span> correspond à <span class="math inline">\(a+1 \leq b\)</span>). On cherche une affectation satisfaisant <span class="math inline">\(\phi\)</span> et les contraintes de la théorie.</p>
+<p><strong>Application :</strong></p>
 <ol type="1">
-<li>Appliquer la règle de la conditionnelle :<br>
-<span class="math display">\[ \mathrm{WP}(f, \psi_1) = (a &gt; 2 \Rightarrow \mathrm{WP}(res := a, \psi_1)) \land (\neg (a &gt; 2) \Rightarrow \mathrm{WP}(res := b, \psi_1)) \]</span><br>
-</li>
-<li>Calculer les WP des affectations (Méthode 1) :
+<li><p><strong>DPLL propositionnel</strong> : on part de l’affectation <span class="math inline">\(p \leftarrow \text{True}\)</span>.</p>
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(res := a, \psi_1) = \psi_1[res \leftarrow a] = a \geq 0\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(res := b, \psi_1) = \psi_1[res \leftarrow b] = b \geq 0\)</span><br>
-</li>
+<li><span class="math inline">\(\phi[p] = r \land (s \lor t) \land (\neg r \lor s \lor u)\)</span>.</li>
+<li>On choisit <span class="math inline">\(r \leftarrow \text{True}\)</span> : <span class="math inline">\(\phi[p,r] = (s \lor t) \land (s \lor u)\)</span>.</li>
+<li>On choisit <span class="math inline">\(s \leftarrow \text{True}\)</span> : <span class="math inline">\(\phi[p,r,s] = \text{True}\)</span>.</li>
+<li>Modèle propositionnel : <span class="math inline">\(I = \{p \leftarrow \text{True}, r \leftarrow \text{True}, s \leftarrow \text{True}\}\)</span>.</li>
 </ul></li>
-<li>Combiner :<br>
-<span class="math display">\[ \mathrm{WP}(f, \psi_1) = (a &gt; 2 \Rightarrow a \geq 0) \land (\neg (a &gt; 2) \Rightarrow b \geq 0) \]</span><br>
-soit <span class="math display">\[ (a &gt; 2 \Rightarrow a \geq 0) \land (a \leq 2 \Rightarrow b \geq 0). \]</span></li>
+<li><p><strong>Vérification théorie des entiers</strong> :</p>
+<p>Les contraintes correspondantes sont :</p>
+<ul>
+<li><span class="math inline">\(p : a+1 \leq b\)</span></li>
+<li><span class="math inline">\(r : a &gt; b+c\)</span></li>
+<li><span class="math inline">\(s : b &gt; 0\)</span></li>
+</ul>
+<p>On doit trouver des entiers <span class="math inline">\(a,b,c\)</span> satisfaisant ces trois inégalités.</p>
+<p>Choix : <span class="math inline">\(a=10,\ b=11,\ c=-2\)</span></p>
+<ul>
+<li><span class="math inline">\(10+1 \leq 11\)</span> vraie,</li>
+<li><span class="math inline">\(10 &gt; 11 + (-2)\)</span> soit <span class="math inline">\(10&gt;9\)</span> vraie,</li>
+<li><span class="math inline">\(11&gt;0\)</span> vraie.</li>
+</ul>
+<p>Donc le modèle est valide dans la théorie des entiers.</p></li>
 </ol>
-<hr>
 </section>
-<section id="exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-2-vérification-de-validité-dun-triple-de-hoare-méthodes-4-et-5">Exemple 2 : Vérification de validité d’un triple de Hoare (Méthodes 4 et 5)</h3>
-<p><strong>Contexte</strong> : Vérifier si <span class="math inline">\(\{P_2\}\ f\ \{\psi_2\}\)</span> est valide, avec <span class="math inline">\(P_2 := \mathbf{T}\)</span> (vrai) et <span class="math inline">\(\psi_2 : res \geq 42\)</span>.</p>
-<p><strong>Application</strong> :</p>
-<ol type="1">
-<li>On a déjà calculé :<br>
-<span class="math display">\[ \mathrm{WP}(f, \psi_2) = (a &gt; 2 \Rightarrow a \geq 42) \land (\neg (a &gt; 2) \Rightarrow b \geq 42) \]</span><br>
-</li>
-<li>Pour la validité, il faut <span class="math inline">\(P_2 \Rightarrow \mathrm{WP}(f, \psi_2)\)</span>, c’est-à-dire que <span class="math inline">\(\mathrm{WP}(f, \psi_2)\)</span> soit vraie pour tout <span class="math inline">\(a,b\)</span>.<br>
-</li>
-<li>Or, si <span class="math inline">\(a=3\)</span> (donc <span class="math inline">\(a&gt;2\)</span> vrai), on doit avoir <span class="math inline">\(a \geq 42\)</span>, ce qui est faux. Donc l’implication n’est pas vraie pour toutes les valeurs.<br>
-</li>
-<li><strong>Conclusion</strong> : Le triple n’est pas valide. Il est toutefois <em>satisfiable</em> (ex. avec <span class="math inline">\(a=42, b=42\)</span>).</li>
-</ol>
-<hr>
-</section>
-<section id="exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-3-prise-en-compte-de-la-division-par-zéro-méthodes-3-et-4">Exemple 3 : Prise en compte de la division par zéro (Méthodes 3 et 4)</h3>
-<p><strong>Contexte</strong> : Calculer <span class="math inline">\(\mathrm{WP}(g, \psi_3)\)</span> pour<br>
-<span class="math display">\[ g(a,b) = \text{if } (a \geq b) \text{ then } res := a/b \text{ else } res := b/a \text{ endif} \]</span><br>
-avec <span class="math inline">\(\psi_3 : res \geq 1\)</span>.</p>
-<p><strong>Application</strong> :</p>
-<ol type="1">
-<li>Appliquer la règle de la conditionnelle :<br>
-<span class="math display">\[ \mathrm{WP}(g, \psi_3) = (a \geq b \Rightarrow \mathrm{WP}(res := a/b, \psi_3)) \land (a &lt; b \Rightarrow \mathrm{WP}(res := b/a, \psi_3)) \]</span><br>
-</li>
-<li>Pour chaque affectation avec division, ajouter la condition de non-nullité du dénominateur (Méthode 3) :
+<section id="exemple-2-théorie-des-tableaux-et-équivalence-de-code" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-2-théorie-des-tableaux-et-équivalence-de-code">Exemple 2 : Théorie des tableaux et équivalence de code</h3>
+<p><strong>Contexte :</strong><br>
+On compare deux séquences d’écritures dans un tableau :</p>
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(res := a/b, \psi_3) = (a/b \geq 1) \land (b \neq 0)\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(res := b/a, \psi_3) = (b/a \geq 1) \land (a \neq 0)\)</span><br>
-</li>
-</ul></li>
-<li>Donc :<br>
-<span class="math display">\[ \mathrm{WP}(g, \psi_3) = (a \geq b \Rightarrow (a/b \geq 1 \land b \neq 0)) \land (a &lt; b \Rightarrow (b/a \geq 1 \land a \neq 0)) \]</span><br>
-soit, en séparant les conditions de division :<br>
-<span class="math display">\[ (a \geq b \Rightarrow a/b \geq 1) \land (a &lt; b \Rightarrow b/a \geq 1) \land (a \geq b \Rightarrow b \neq 0) \land (a &lt; b \Rightarrow a \neq 0). \]</span></li>
-</ol>
-<hr>
-</section>
-<section id="exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-4-preuve-dune-propriété-sur-wp-par-induction-méthode-6">Exemple 4 : Preuve d’une propriété sur WP par induction (Méthode 6)</h3>
-<p><strong>Contexte</strong> : Prouver que pour tout programme <span class="math inline">\(c\)</span> et formules <span class="math inline">\(P\)</span>, <span class="math inline">\(Q\)</span>,<br>
-<span class="math display">\[ \mathrm{WP}(c, P \land Q) = \mathrm{WP}(c, P) \land \mathrm{WP}(c, Q). \]</span></p>
-<p><strong>Application</strong> (esquisse de preuve par induction structurelle) :</p>
-<ol type="1">
-<li><strong>Cas de base</strong> : <span class="math inline">\(c\)</span> est une affectation <span class="math inline">\(x := e\)</span>.
+<li><code>array1 = store(store(a,i,b), j, c)</code></li>
+<li><code>array2 = store(store(a,j,c), i, b)</code></li>
+</ul>
+<p>On veut savoir quand <code>array1</code> égale <code>array2</code>.</p>
+<p><strong>Application :</strong> 1. <strong>Cas <span class="math inline">\(i \neq j\)</span></strong> :</p>
+<p>Les écritures sont à des indices distincts, l’ordre n’a pas d’importance. Les deux séquences produisent un tableau où :</p>
 <ul>
-<li><span class="math inline">\(\mathrm{WP}(x:=e, P \land Q) = (P \land Q)[x \leftarrow e] = P[x \leftarrow e] \land Q[x \leftarrow e]\)</span><br>
-</li>
-<li><span class="math inline">\(\mathrm{WP}(x:=e, P) \land \mathrm{WP}(x:=e, Q) = P[x \leftarrow e] \land Q[x \leftarrow e]\)</span><br>
-→ Égalité vérifiée.</li>
-</ul></li>
-<li><strong>Cas conditionnel</strong> : <span class="math inline">\(c = \text{if } B \text{ then } c_1 \text{ else } c_2\)</span>.
+<li>à l’indice <span class="math inline">\(i\)</span> : valeur <span class="math inline">\(b\)</span>,</li>
+<li>à l’indice <span class="math inline">\(j\)</span> : valeur <span class="math inline">\(c\)</span>,</li>
+<li>ailleurs identique à <span class="math inline">\(a\)</span>.</li>
+</ul>
+<p>Donc égalité.</p>
+<ol start="2" type="1">
+<li><p><strong>Cas <span class="math inline">\(i = j\)</span></strong> :<br>
+Les deux écritures sont au même indice. La dernière écriture écrase la première.</p>
 <ul>
-<li>Par hypothèse d’induction, <span class="math inline">\(\mathrm{WP}(c_1, P \land Q) = \mathrm{WP}(c_1, P) \land \mathrm{WP}(c_1, Q)\)</span> (idem pour <span class="math inline">\(c_2\)</span>).<br>
-</li>
-<li>Alors :<br>
-<span class="math display">\[ \begin{aligned} \mathrm{WP}(c, P \land Q) &amp;= (B \Rightarrow \mathrm{WP}(c_1, P \land Q)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, P \land Q)) \\ &amp;= (B \Rightarrow (\mathrm{WP}(c_1, P) \land \mathrm{WP}(c_1, Q))) \land (\neg B \Rightarrow (\mathrm{WP}(c_2, P) \land \mathrm{WP}(c_2, Q))) \\ &amp;= (B \Rightarrow \mathrm{WP}(c_1, P)) \land (B \Rightarrow \mathrm{WP}(c_1, Q)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, P)) \land (\neg B \Rightarrow \mathrm{WP}(c_2, Q)) \\ &amp;= \mathrm{WP}(c, P) \land \mathrm{WP}(c, Q) \end{aligned} \]</span><br>
-→ La propriété est préservée.</li>
-</ul></li>
-<li><strong>Autres cas</strong> (séquence, boucle) se traitent de manière similaire.</li>
+<li><code>array1</code> met d’abord <span class="math inline">\(b\)</span> puis <span class="math inline">\(c\)</span> : résultat final <span class="math inline">\(c\)</span> à l’indice <span class="math inline">\(i\)</span>.</li>
+<li><code>array2</code> met d’abord <span class="math inline">\(c\)</span> puis <span class="math inline">\(b\)</span> : résultat final <span class="math inline">\(b\)</span> à l’indice <span class="math inline">\(i\)</span>.</li>
+</ul>
+<p>Pour l’égalité, il faut <span class="math inline">\(b = c\)</span>.</p></li>
+<li><p><strong>Condition logique</strong> :<br>
+La condition d’équivalence est donc : <span class="math display">\[(i \neq j) \lor (i = j \land b = c)\]</span> Ce qui peut s’écrire en FOL avec la théorie des tableaux et l’égalité.</p></li>
+<li><p><strong>Vérification Why3</strong> :<br>
+On peut encoder cette condition comme une précondition dans Why3 pour vérifier que les deux tableaux sont égaux. Si la condition est respectée, le vérificateur affichera “green V”.</p></li>
 </ol>
-<hr>
 </section>
 </section>
 <section id="synthèse" class="level2">
 <h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
-<p>Les exercices mettent en œuvre les techniques fondamentales de la vérification déductive :</p>
-<ul>
-<li>Le calcul de la <strong>plus faible précondition</strong> permet de transformer un problème de vérification de programme en un problème logique.<br>
-</li>
-<li>La <strong>validité d’un triple de Hoare</strong> se ramène à une implication logique, pouvant nécessiter l’ajout de <strong>conditions de sûreté</strong> (ex. non-division par zéro).<br>
-</li>
-<li>Des <strong>preuves par induction structurelle</strong> sur la syntaxe des programmes permettent d’établir des propriétés génériques des WP.<br>
-</li>
-<li>Ces méthodes sont à la base des outils de vérification formelle comme Why3, où les WP sont générées et vérifiées automatiquement.</li>
-</ul>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<svg width="672" height="480" viewbox="0.00 0.00 866.55 125.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 121)">
-<title>G</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-121 862.55,-121 862.55,4 -4,4"></polygon>
-<!-- Programme c -->
-<g id="node1" class="node">
-<title>Programme c</title>
-<polygon fill="none" stroke="black" points="91.05,-52 -0.02,-52 -0.02,-16 91.05,-16 91.05,-52"></polygon>
-<text text-anchor="middle" x="45.52" y="-29.8" font-family="Times,serif" font-size="14.00">Programme c</text>
-</g>
-<!-- Calcul WP -->
-<g id="node2" class="node">
-<title>Calcul WP</title>
-<polygon fill="none" stroke="black" points="293.93,-52 216.84,-52 216.84,-16 293.93,-16 293.93,-52"></polygon>
-<text text-anchor="middle" x="255.38" y="-29.8" font-family="Times,serif" font-size="14.00">Calcul WP</text>
-</g>
-<!-- Programme c&#45;&gt;Calcul WP -->
-<g id="edge1" class="edge">
-<title>Programme c-&gt;Calcul WP</title>
-<path fill="none" stroke="black" d="M91.11,-34C125.06,-34 171.7,-34 206.45,-34"></path>
-<polygon fill="black" stroke="black" points="206.82,-37.5 216.82,-34 206.82,-30.5 206.82,-37.5"></polygon>
-<text text-anchor="middle" x="153.95" y="-38.2" font-family="Times,serif" font-size="14.00">postcondition Q</text>
-</g>
-<!-- Formule logique -->
-<g id="node3" class="node">
-<title>Formule logique</title>
-<polygon fill="none" stroke="black" points="495.39,-90 386.52,-90 386.52,-54 495.39,-54 495.39,-90"></polygon>
-<text text-anchor="middle" x="440.95" y="-67.8" font-family="Times,serif" font-size="14.00">Formule logique</text>
-</g>
-<!-- Calcul WP&#45;&gt;Formule logique -->
-<g id="edge2" class="edge">
-<title>Calcul WP-&gt;Formule logique</title>
-<path fill="none" stroke="black" d="M293.97,-43C299.96,-44.38 306.1,-45.75 311.91,-47 332.84,-51.49 355.78,-56.08 376.38,-60.07"></path>
-<polygon fill="black" stroke="black" points="375.8,-63.52 386.28,-61.98 377.13,-56.65 375.8,-63.52"></polygon>
-</g>
-<!-- Conditions de sûreté -->
-<g id="node7" class="node">
-<title>Conditions de sûreté</title>
-<polygon fill="none" stroke="black" points="506.84,-36 375.07,-36 375.07,0 506.84,0 506.84,-36"></polygon>
-<text text-anchor="middle" x="440.95" y="-13.8" font-family="Times,serif" font-size="14.00">Conditions de sûreté</text>
-</g>
-<!-- Calcul WP&#45;&gt;Conditions de sûreté -->
-<g id="edge6" class="edge">
-<title>Calcul WP-&gt;Conditions de sûreté</title>
-<path fill="none" stroke="black" d="M293.98,-30.72C314.44,-28.94 340.51,-26.67 364.94,-24.54"></path>
-<polygon fill="black" stroke="black" points="365.26,-28.02 374.92,-23.67 364.65,-21.05 365.26,-28.02"></polygon>
-<text text-anchor="middle" x="334.46" y="-33.2" font-family="Times,serif" font-size="14.00">ex: b≠0</text>
-</g>
-<!-- Vérification -->
-<g id="node4" class="node">
-<title>Vérification</title>
-<polygon fill="none" stroke="black" points="702.96,-90 618.12,-90 618.12,-54 702.96,-54 702.96,-90"></polygon>
-<text text-anchor="middle" x="660.54" y="-67.8" font-family="Times,serif" font-size="14.00">Vérification</text>
-</g>
-<!-- Formule logique&#45;&gt;Vérification -->
-<g id="edge3" class="edge">
-<title>Formule logique-&gt;Vérification</title>
-<path fill="none" stroke="black" d="M495.46,-72C529.78,-72 574.11,-72 608.03,-72"></path>
-<polygon fill="black" stroke="black" points="608.2,-75.5 618.2,-72 608.2,-68.5 608.2,-75.5"></polygon>
-<text text-anchor="middle" x="562.61" y="-76.2" font-family="Times,serif" font-size="14.00">P ⇒ WP(c,Q)</text>
-</g>
-<!-- Triple valide -->
-<g id="node5" class="node">
-<title>Triple valide</title>
-<polygon fill="none" stroke="black" points="853.06,-117 765.24,-117 765.24,-81 853.06,-81 853.06,-117"></polygon>
-<text text-anchor="middle" x="809.15" y="-94.8" font-family="Times,serif" font-size="14.00">Triple valide</text>
-</g>
-<!-- Vérification&#45;&gt;Triple valide -->
-<g id="edge4" class="edge">
-<title>Vérification-&gt;Triple valide</title>
-<path fill="none" stroke="black" d="M702.77,-79.59C719.05,-82.59 737.97,-86.08 755.24,-89.26"></path>
-<polygon fill="black" stroke="black" points="754.72,-92.72 765.19,-91.09 755.99,-85.83 754.72,-92.72"></polygon>
-<text text-anchor="middle" x="731.25" y="-90.2" font-family="Times,serif" font-size="14.00">oui</text>
-</g>
-<!-- Triple invalide -->
-<g id="node6" class="node">
-<title>Triple invalide</title>
-<polygon fill="none" stroke="black" points="858.45,-63 759.85,-63 759.85,-27 858.45,-27 858.45,-63"></polygon>
-<text text-anchor="middle" x="809.15" y="-40.8" font-family="Times,serif" font-size="14.00">Triple invalide</text>
-</g>
-<!-- Vérification&#45;&gt;Triple invalide -->
-<g id="edge5" class="edge">
-<title>Vérification-&gt;Triple invalide</title>
-<path fill="none" stroke="black" d="M702.77,-64.41C717.29,-61.73 733.9,-58.67 749.58,-55.79"></path>
-<polygon fill="black" stroke="black" points="750.51,-59.17 759.71,-53.92 749.24,-52.29 750.51,-59.17"></polygon>
-<text text-anchor="middle" x="731.25" y="-65.2" font-family="Times,serif" font-size="14.00">non</text>
-</g>
-</g>
-</svg>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<p>Cette série illustre l’utilisation combinée de méthodes de satisfaction logique (DPLL) avec des théories du premier ordre (entiers, EUF, tableaux) pour modéliser et vérifier des propriétés de programmes. La clé est de séparer la partie propositionnelle de la partie théorie, et d’utiliser des solveurs spécialisés pour chaque théorie. La formalisation en logique du premier ordre et l’utilisation d’outils comme Why3 permettent d’automatiser la vérification de conditions d’équivalence ou de validité.</p>
 
 
 </section>

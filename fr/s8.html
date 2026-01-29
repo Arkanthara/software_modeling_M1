@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ch2 – Software Modeling and Verification</title>
+<title>s8 – Software Modeling and Verification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,9 +72,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -316,7 +313,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Cours</a></li><li class="breadcrumb-item"><a href="./ch2.html">SMT Solving</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s8.html">Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -338,13 +335,13 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Cours</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch1.html" class="sidebar-item-text sidebar-link">
@@ -353,7 +350,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch2.html" class="sidebar-item-text sidebar-link active">
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SMT Solving</span></a>
   </div>
 </li>
@@ -373,13 +370,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Exercices</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./s1.html" class="sidebar-item-text sidebar-link">
@@ -424,7 +421,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./s8.html" class="sidebar-item-text sidebar-link">
+  <a href="./s8.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</span></a>
   </div>
 </li>
@@ -446,418 +443,208 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#smt-solving" id="toc-smt-solving" class="nav-link active" data-scroll-target="#smt-solving">SMT Solving</a>
+  <li><a href="#série-8-introduction-aux-quantificateurs-et-transformations-en-logique-du-premier-ordre" id="toc-série-8-introduction-aux-quantificateurs-et-transformations-en-logique-du-premier-ordre" class="nav-link active" data-scroll-target="#série-8-introduction-aux-quantificateurs-et-transformations-en-logique-du-premier-ordre">Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#sat-solving" id="toc-sat-solving" class="nav-link" data-scroll-target="#sat-solving">SAT-Solving</a>
+  <li><a href="#méthodes" id="toc-méthodes" class="nav-link" data-scroll-target="#méthodes">Méthodes</a>
   <ul class="collapse">
-  <li><a href="#le-problème-sat" id="toc-le-problème-sat" class="nav-link" data-scroll-target="#le-problème-sat">Le problème SAT</a></li>
-  <li><a href="#satisfaction-dune-formule-pl" id="toc-satisfaction-dune-formule-pl" class="nav-link" data-scroll-target="#satisfaction-dune-formule-pl">Satisfaction d’une formule PL</a></li>
-  <li><a href="#le-problème-sat-1" id="toc-le-problème-sat-1" class="nav-link" data-scroll-target="#le-problème-sat-1">Le problème SAT</a></li>
-  <li><a href="#une-méthode-ancienne-transformation-en-cnf" id="toc-une-méthode-ancienne-transformation-en-cnf" class="nav-link" data-scroll-target="#une-méthode-ancienne-transformation-en-cnf">Une méthode ancienne : transformation en CNF</a></li>
-  <li><a href="#algorithme-dpll-1962" id="toc-algorithme-dpll-1962" class="nav-link" data-scroll-target="#algorithme-dpll-1962">Algorithme DPLL (1962)</a></li>
-  <li><a href="#améliorations-modernes-cdcl-1996-1999" id="toc-améliorations-modernes-cdcl-1996-1999" class="nav-link" data-scroll-target="#améliorations-modernes-cdcl-1996-1999">Améliorations modernes : CDCL (1996-1999)</a></li>
+  <li><a href="#vérification-de-satisfiabilité-et-validité-en-logique-du-premier-ordre" id="toc-vérification-de-satisfiabilité-et-validité-en-logique-du-premier-ordre" class="nav-link" data-scroll-target="#vérification-de-satisfiabilité-et-validité-en-logique-du-premier-ordre">Vérification de satisfiabilité et validité en logique du premier ordre</a></li>
+  <li><a href="#élimination-des-connecteurs-et-transformation-en-forme-normale" id="toc-élimination-des-connecteurs-et-transformation-en-forme-normale" class="nav-link" data-scroll-target="#élimination-des-connecteurs-et-transformation-en-forme-normale">Élimination des connecteurs et transformation en forme normale</a></li>
+  <li><a href="#définition-inductive-des-variables-libres-fv" id="toc-définition-inductive-des-variables-libres-fv" class="nav-link" data-scroll-target="#définition-inductive-des-variables-libres-fv">Définition inductive des variables libres (FV)</a></li>
+  <li><a href="#substitutions-et-instances-fermées" id="toc-substitutions-et-instances-fermées" class="nav-link" data-scroll-target="#substitutions-et-instances-fermées">Substitutions et instances fermées</a></li>
+  <li><a href="#validité-des-clauses-sous-substitution" id="toc-validité-des-clauses-sous-substitution" class="nav-link" data-scroll-target="#validité-des-clauses-sous-substitution">Validité des clauses sous substitution</a></li>
   </ul></li>
-  <li><a href="#logique-du-premier-ordre-et-théories" id="toc-logique-du-premier-ordre-et-théories" class="nav-link" data-scroll-target="#logique-du-premier-ordre-et-théories">Logique du premier ordre et théories</a>
+  <li><a href="#rappel" id="toc-rappel" class="nav-link" data-scroll-target="#rappel">Rappel</a></li>
+  <li><a href="#exemples-illustratifs" id="toc-exemples-illustratifs" class="nav-link" data-scroll-target="#exemples-illustratifs">Exemples Illustratifs</a>
   <ul class="collapse">
-  <li><a href="#syntaxe-fol" id="toc-syntaxe-fol" class="nav-link" data-scroll-target="#syntaxe-fol">Syntaxe FOL</a></li>
-  <li><a href="#théories" id="toc-théories" class="nav-link" data-scroll-target="#théories">Théories</a></li>
+  <li><a href="#exemple-1-vérification-de-satisfiabilité-et-validité" id="toc-exemple-1-vérification-de-satisfiabilité-et-validité" class="nav-link" data-scroll-target="#exemple-1-vérification-de-satisfiabilité-et-validité">Exemple 1 : Vérification de satisfiabilité et validité</a></li>
+  <li><a href="#exemple-2-transformation-en-forme-universelle" id="toc-exemple-2-transformation-en-forme-universelle" class="nav-link" data-scroll-target="#exemple-2-transformation-en-forme-universelle">Exemple 2 : Transformation en forme universelle</a></li>
+  <li><a href="#exemple-3-définition-inductive-des-variables-libres-fv" id="toc-exemple-3-définition-inductive-des-variables-libres-fv" class="nav-link" data-scroll-target="#exemple-3-définition-inductive-des-variables-libres-fv">Exemple 3 : Définition inductive des variables libres (FV)</a></li>
+  <li><a href="#exemple-4-substitutions-pour-obtenir-des-instances-fermées" id="toc-exemple-4-substitutions-pour-obtenir-des-instances-fermées" class="nav-link" data-scroll-target="#exemple-4-substitutions-pour-obtenir-des-instances-fermées">Exemple 4 : Substitutions pour obtenir des instances fermées</a></li>
+  <li><a href="#exemple-5-validité-des-clauses-sous-substitution" id="toc-exemple-5-validité-des-clauses-sous-substitution" class="nav-link" data-scroll-target="#exemple-5-validité-des-clauses-sous-substitution">Exemple 5 : Validité des clauses sous substitution</a></li>
   </ul></li>
-  <li><a href="#smt-solving-combiner-sat-et-théories" id="toc-smt-solving-combiner-sat-et-théories" class="nav-link" data-scroll-target="#smt-solving-combiner-sat-et-théories">SMT Solving : combiner SAT et théories</a>
-  <ul class="collapse">
-  <li><a href="#algorithme-dpllt" id="toc-algorithme-dpllt" class="nav-link" data-scroll-target="#algorithme-dpllt">Algorithme DPLL(T)</a></li>
-  <li><a href="#exemple-complet-avec-la-théorie-euf" id="toc-exemple-complet-avec-la-théorie-euf" class="nav-link" data-scroll-target="#exemple-complet-avec-la-théorie-euf">Exemple complet avec la théorie EUF</a></li>
-  </ul></li>
-  <li><a href="#formules-fol-avec-quantificateurs" id="toc-formules-fol-avec-quantificateurs" class="nav-link" data-scroll-target="#formules-fol-avec-quantificateurs">Formules FOL avec quantificateurs</a>
-  <ul class="collapse">
-  <li><a href="#définitions" id="toc-définitions" class="nav-link" data-scroll-target="#définitions">Définitions</a></li>
-  <li><a href="#théorème-de-herbrand-1930" id="toc-théorème-de-herbrand-1930" class="nav-link" data-scroll-target="#théorème-de-herbrand-1930">Théorème de Herbrand (1930)</a></li>
-  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple">Exemple</a></li>
-  <li><a href="#transformation-en-formule-universelle-close" id="toc-transformation-en-formule-universelle-close" class="nav-link" data-scroll-target="#transformation-en-formule-universelle-close">Transformation en formule universelle close</a></li>
-  </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#synthèse" id="toc-synthèse" class="nav-link" data-scroll-target="#synthèse">Synthèse</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="ch2.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s8.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s8.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Cours</a></li><li class="breadcrumb-item"><a href="./ch2.html">SMT Solving</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s8.html">Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</a></li></ol></nav></header>
 
 
 
 
 
-<section id="smt-solving" class="level1">
-<h1>SMT Solving</h1>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>SMT (Satisfiability Modulo Theories) étend le problème SAT à des formules logiques incluant des théories spécifiques (arithmétique, tableaux, etc.). Par exemple, la formule :</p>
-<p><span class="math display">\[ n &gt; 0 \implies n - 1 \leq n \]</span></p>
-<p>Ou encore, dans un contexte de vérification de programme :</p>
-<p><span class="math display">\[ \neg(aux &gt; 0) \land (res + aux = a + b) \land aux \geq 0 \]</span></p>
-<p>Des outils comme Why3 génèrent de telles formules (via le calcul des plus faibles préconditions, WP) et délèguent leur vérification à un solveur SMT.</p>
-<p>Par exemple, pour une postcondition <span class="math inline">\(P(a, b)\)</span> :</p>
-<p><span class="math display">\[ \underbrace{b \geq 0 \Longrightarrow a + b = a + b \land b \geq 0}_{P(a, b)} \]</span></p>
-<p>On cherche à prouver : <span class="math inline">\(\forall a, b, P(a, b)\)</span>.</p>
-<p>Nous allons explorer :</p>
+<section id="série-8-introduction-aux-quantificateurs-et-transformations-en-logique-du-premier-ordre" class="level1">
+<h1>Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</h1>
+<section id="méthodes" class="level2">
+<h2 class="anchored" data-anchor-id="méthodes">Méthodes</h2>
+<section id="vérification-de-satisfiabilité-et-validité-en-logique-du-premier-ordre" class="level3">
+<h3 class="anchored" data-anchor-id="vérification-de-satisfiabilité-et-validité-en-logique-du-premier-ordre">Vérification de satisfiabilité et validité en logique du premier ordre</h3>
 <ul>
-<li>Les mécanismes de base des solveurs SMT.</li>
-<li>Leur intégration dans des outils comme Why3.</li>
+<li><strong>Satisfiabilité</strong> : Trouver une interprétation (domaine, fonctions, prédicats) qui rend la formule vraie.</li>
+<li><strong>Validité</strong> : Vérifier si la formule est vraie pour toutes les interprétations.</li>
+<li><strong>Contre-exemple</strong> : Pour montrer qu’une formule n’est pas valide, exhiber une interprétation qui la rend fausse.</li>
 </ul>
 </section>
-<section id="sat-solving" class="level2">
-<h2 class="anchored" data-anchor-id="sat-solving">SAT-Solving</h2>
-<section id="le-problème-sat" class="level3">
-<h3 class="anchored" data-anchor-id="le-problème-sat">Le problème SAT</h3>
-<p>La logique propositionnelle manipule des variables booléennes : <span class="math inline">\(Var = \{p, q, ...\}\)</span>, pouvant être <span class="math inline">\(true\)</span> ou <span class="math inline">\(false\)</span>, et des connecteurs logiques : <span class="math inline">\(\land, \lor, \implies, \neg\)</span>.</p>
-<p>Une formule PL est définie par la grammaire :</p>
+<section id="élimination-des-connecteurs-et-transformation-en-forme-normale" class="level3">
+<h3 class="anchored" data-anchor-id="élimination-des-connecteurs-et-transformation-en-forme-normale">Élimination des connecteurs et transformation en forme normale</h3>
 <ul>
-<li><span class="math inline">\(F \longmapsto P\)</span> (variable)</li>
-<li><span class="math inline">\(F \longmapsto \neg F\)</span></li>
-<li><span class="math inline">\(F \longmapsto F \land F \mid F \lor F \mid F \Longrightarrow F\)</span></li>
-</ul>
-<p><strong>Note</strong> : L’implication est associative à droite : <span class="math inline">\(p \Longrightarrow q \Longrightarrow t \Longleftrightarrow p \Longrightarrow (q \Longrightarrow t)\)</span>.</p>
-</section>
-<section id="satisfaction-dune-formule-pl" class="level3">
-<h3 class="anchored" data-anchor-id="satisfaction-dune-formule-pl">Satisfaction d’une formule PL</h3>
-<p>Une <strong>interprétation</strong> <span class="math inline">\(I\)</span> est une fonction <span class="math inline">\(I : Var \to \{true, false\}\)</span>.</p>
-<p>On étend <span class="math inline">\(I\)</span> à toute formule PL récursivement :</p>
-<ul>
-<li>Si <span class="math inline">\(f = p \in Var\)</span>, alors <span class="math inline">\(I(f) = I(p)\)</span>.</li>
-<li>Si <span class="math inline">\(f = \neg f'\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi <span class="math inline">\(I(f') = false\)</span>.</li>
-<li>Si <span class="math inline">\(f = f_1 \lor f_2\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi <span class="math inline">\(I(f_1) = true\)</span> ou <span class="math inline">\(I(f_2) = true\)</span>.</li>
-<li>Si <span class="math inline">\(f = f_1 \land f_2\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi <span class="math inline">\(I(f_1) = true\)</span> et <span class="math inline">\(I(f_2) = true\)</span>.</li>
-<li>Si <span class="math inline">\(f = f_1 \Longrightarrow f_2\)</span>, alors <span class="math inline">\(I(f) = true\)</span> ssi si <span class="math inline">\(I(f_1) = true\)</span> alors <span class="math inline">\(I(f_2) = true\)</span> (sinon <span class="math inline">\(true\)</span> si <span class="math inline">\(I(f_1)=false\)</span>).</li>
-</ul>
-<p>On dit que :</p>
-<ul>
-<li><span class="math inline">\(I\)</span> <strong>satisfait</strong> <span class="math inline">\(f\)</span> (noté <span class="math inline">\(I \models f\)</span>) ssi <span class="math inline">\(I(f) = true\)</span>.</li>
-<li><span class="math inline">\(f\)</span> est <strong>satisfiable</strong> ssi <span class="math inline">\(\exists I, I \models f\)</span>.</li>
-<li><span class="math inline">\(f\)</span> est <strong>valide</strong> (une tautologie) ssi <span class="math inline">\(\forall I, I \models f\)</span>.</li>
-</ul>
-<p>Pour prouver qu’une formule <span class="math inline">\(g\)</span> est valide, on peut utiliser une <strong>preuve par réfutation</strong> : montrer que <span class="math inline">\(\neg g\)</span> est insatisfiable. Souvent, <span class="math inline">\(g\)</span> est de la forme <span class="math inline">\(hypothèse \implies conclusion\)</span>, donc <span class="math inline">\(\neg g = hypothèse \land \neg conclusion\)</span>.</p>
-</section>
-<section id="le-problème-sat-1" class="level3">
-<h3 class="anchored" data-anchor-id="le-problème-sat-1">Le problème SAT</h3>
-<p>Étant donnée une formule PL <span class="math inline">\(f\)</span>, le problème SAT consiste à décider si <span class="math inline">\(f\)</span> est satisfiable.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    A[Formule f] --&gt; B[SAT Solver]
-    B --&gt; C[Réponse: Oui]
-    B --&gt; D[Réponse: Non]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<ul>
-<li>Il y a <span class="math inline">\(2^n\)</span> interprétations possibles pour <span class="math inline">\(n\)</span> variables.</li>
-<li>Le problème est <strong>décidable</strong> (il existe des algorithmes) mais <strong>NP-complet</strong>, donc aucun algorithme efficace (polynomial) n’est connu en général.</li>
-<li>En pratique, les solveurs peuvent échouer par manque de ressources (temps, mémoire).</li>
+<li><strong>Élimination de l’équivalence (<span class="math inline">\(\iff\)</span>)</strong> : Remplacer <span class="math inline">\(A \iff B\)</span> par <span class="math inline">\((A \Rightarrow B) \land (B \Rightarrow A)\)</span>.</li>
+<li><strong>Élimination de l’implication (<span class="math inline">\(\Rightarrow\)</span>)</strong> : Remplacer <span class="math inline">\(A \Rightarrow B\)</span> par <span class="math inline">\(\neg A \lor B\)</span>.</li>
+<li><strong>Mise sous forme prénexe</strong> : Déplacer tous les quantificateurs en tête de formule.</li>
+<li><strong>Skolemisation</strong> : Remplacer les variables existentielles par des fonctions de Skolem (ou constantes) pour éliminer les quantificateurs existentiels et obtenir une forme universelle (clauses).</li>
 </ul>
 </section>
-<section id="une-méthode-ancienne-transformation-en-cnf" class="level3">
-<h3 class="anchored" data-anchor-id="une-méthode-ancienne-transformation-en-cnf">Une méthode ancienne : transformation en CNF</h3>
-<p>Une <strong>forme normale conjonctive (CNF)</strong> est une conjonction de clauses, où chaque clause est une disjonction de littéraux (une variable ou sa négation).</p>
-<p><strong>Définition : Formule CNF équivalente</strong></p>
-<p>Une formule est en CNF si elle est de la forme :</p>
-<p><span class="math display">\[ C_1 \land C_2 \land \cdots \land C_n \]</span></p>
-<p>où chaque clause <span class="math inline">\(C_i\)</span> est de la forme :</p>
-<p><span class="math display">\[ l_{i1} \lor l_{i2} \lor \cdots \lor l_{im} \]</span></p>
-<p>et chaque littéral <span class="math inline">\(l_{ij}\)</span> est soit une variable <span class="math inline">\(p \in Var\)</span>, soit sa négation <span class="math inline">\(\neg p\)</span>.</p>
-<p><strong>Exemple</strong> : <span class="math inline">\((p \lor \neg q) \land (r \lor s) \land \neg p\)</span></p>
-<p>On admet que pour toute formule PL <span class="math inline">\(f\)</span>, il existe une formule PL en CNF qui lui est logiquement équivalente. On peut donc restreindre le problème SAT aux formules CNF.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    A[f] --&gt; B[Transformation en CNF]
-    B --&gt; C[CNF équivalente]
-    C --&gt; D[SAT Solver]
-    D --&gt; E[Oui]
-    D --&gt; F[Non]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p><strong>Remarques importantes</strong> :</p>
+<section id="définition-inductive-des-variables-libres-fv" class="level3">
+<h3 class="anchored" data-anchor-id="définition-inductive-des-variables-libres-fv">Définition inductive des variables libres (FV)</h3>
 <ul>
-<li>Simplification : une clause contenant à la fois un littéral et sa négation (ex: <span class="math inline">\(a \lor \neg a \lor ...\)</span>) est toujours vraie et peut être supprimée.</li>
-<li><strong>Clause unitaire</strong> : une clause contenant un seul littéral (ex: <span class="math inline">\(a\)</span>) force la valeur de cette variable. Si <span class="math inline">\(P \land a \land Q\)</span> est vraie, alors <span class="math inline">\(a = true\)</span> et on peut simplifier en résolvant <span class="math inline">\(P \land Q\)</span>.</li>
+<li><strong>Variables libres</strong> : Variables non quantifiées dans une formule.</li>
+<li><strong>Définition inductive</strong> : Par récurrence sur la structure des termes et des formules.</li>
 </ul>
 </section>
-<section id="algorithme-dpll-1962" class="level3">
-<h3 class="anchored" data-anchor-id="algorithme-dpll-1962">Algorithme DPLL (1962)</h3>
-<p>Soit <span class="math inline">\(P\)</span> une formule PL en CNF. Pour un littéral <span class="math inline">\(x\)</span> (variable ou sa négation), on note <span class="math inline">\(P[x]\)</span> la formule obtenue en imposant <span class="math inline">\(x = true\)</span> et en simplifiant.</p>
-<p>Les règles de simplification sont :</p>
+<section id="substitutions-et-instances-fermées" class="level3">
+<h3 class="anchored" data-anchor-id="substitutions-et-instances-fermées">Substitutions et instances fermées</h3>
 <ul>
-<li>Si <span class="math inline">\(x\)</span> apparaît dans une clause, cette clause est supprimée (car satisfaite).</li>
-<li>Si <span class="math inline">\(\neg x\)</span> apparaît dans une clause, on retire <span class="math inline">\(\neg x\)</span> de cette clause.</li>
-<li>Si une clause devient vide, elle est équivalente à <span class="math inline">\(false\)</span>.</li>
-<li>Si une clause unitaire <span class="math inline">\(\neg x\)</span> reste, alors <span class="math inline">\(x\)</span> doit être <span class="math inline">\(false\)</span>, donc <span class="math inline">\(P[x] = false\)</span>.</li>
+<li><strong>Substitution</strong> : Remplacement des variables par des termes.</li>
+<li><strong>Instance fermée</strong> : Résultat d’une substitution qui élimine toutes les variables libres (donne une formule sans variable libre).</li>
 </ul>
-<p><strong>Algorithme DPLL(P)</strong> :</p>
-<pre><code>Si P = true, retourner true.
-Si P = false, retourner false.
-Si P contient une clause unitaire x, retourner DPLL(P[x]).
-Choisir une variable x dans P.
-Retourner DPLL(P[x]) ou DPLL(P[¬x]).</code></pre>
-<p><strong>Terminaison</strong> : Le variant est le nombre de variables (diminue de 1 à chaque appel).</p>
-<p><strong>Correction</strong> : Retourne true ssi <span class="math inline">\(P\)</span> est satisfiable.</p>
-<p><strong>Exemple</strong> :</p>
-<p><span class="math display">\[ P = (p \lor q \lor r) \land (\neg q \lor r) \land \neg r \land (\neg p \lor q \lor r) \]</span></p>
+</section>
+<section id="validité-des-clauses-sous-substitution" class="level3">
+<h3 class="anchored" data-anchor-id="validité-des-clauses-sous-substitution">Validité des clauses sous substitution</h3>
 <ul>
-<li>DPLL(P) :
+<li><strong>Clause valide</strong> : Une clause est valide si elle est satisfaite pour toute interprétation dans un domaine donné avec des fonctions et prédicats fixés.</li>
+<li><strong>Effet d’une substitution</strong> : Si une clause est valide, alors toute substitution (en particulier un renommage) appliquée à cette clause préserve la validité.</li>
+</ul>
+</section>
+</section>
+<section id="rappel" class="level2">
+<h2 class="anchored" data-anchor-id="rappel">Rappel</h2>
 <ul>
-<li><span class="math inline">\(P[\neg r] = (p \lor q) \land \neg q \land (\neg p \lor q)\)</span></li>
-<li><span class="math inline">\(P[\neg r, \neg q] = p \land \neg p\)</span></li>
-<li><span class="math inline">\(P[\neg r, \neg q, p] = false\)</span></li>
+<li><strong>Loi de l’implication</strong> : <span class="math inline">\(A \Rightarrow B \equiv \neg A \lor B\)</span>.</li>
+<li><strong>Loi de l’équivalence</strong> : <span class="math inline">\(A \iff B \equiv (A \Rightarrow B) \land (B \Rightarrow A)\)</span>.</li>
+<li><strong>Distributivité des quantificateurs</strong> :
+<ul>
+<li><span class="math inline">\(\forall x (P(x) \lor Q) \equiv (\forall x P(x)) \lor Q\)</span> si <span class="math inline">\(x\)</span> n’est pas libre dans <span class="math inline">\(Q\)</span>.</li>
+<li><span class="math inline">\(\exists x (P(x) \land Q) \equiv (\exists x P(x)) \land Q\)</span> si <span class="math inline">\(x\)</span> n’est pas libre dans <span class="math inline">\(Q\)</span>.</li>
 </ul></li>
-<li>Donc <span class="math inline">\(P\)</span> est <strong>insatisfiable</strong>.</li>
-</ul>
-<p>Si DPLL retourne true, on peut reconstruire un modèle (une affectation des variables) en suivant les choix.</p>
-</section>
-<section id="améliorations-modernes-cdcl-1996-1999" class="level3">
-<h3 class="anchored" data-anchor-id="améliorations-modernes-cdcl-1996-1999">Améliorations modernes : CDCL (1996-1999)</h3>
-<p>L’algorithme <strong>Conflict-Driven Clause Learning (CDCL)</strong> étend DPLL avec :</p>
+<li><strong>Équivalences pour la négation</strong> :
 <ul>
-<li>L’apprentissage de clauses à partir des conflits.</li>
-<li>Le retour arrière non-chronologique.</li>
-<li>Une heuristique de décision.</li>
-</ul>
-<p>Cela permet de traiter des problèmes avec des centaines de milliers de variables et des millions de clauses.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-    A[Décision] --&gt; B{Propagation unitaire}
-    B --&gt; C{Conflit ?}
-    C --&gt;|Non| D[Toutes les variables assignées ?]
-    D --&gt;|Non| A
-    D --&gt;|Oui| E[SAT]
-    C --&gt;|Oui| F[Analyse du conflit]
-    F --&gt; G[Apprentissage d'une clause]
-    G --&gt; H[Retour arrière]
-    H --&gt; A
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="logique-du-premier-ordre-et-théories" class="level2">
-<h2 class="anchored" data-anchor-id="logique-du-premier-ordre-et-théories">Logique du premier ordre et théories</h2>
-<p>Revenons à l’exemple initial :</p>
-<p><span class="math display">\[ a \geq 0 \land b \geq 0 \Longrightarrow a + b \geq b + c \]</span></p>
-<p>Ici, les variables (<span class="math inline">\(a, b, c\)</span>) sont des entiers, et on utilise des fonctions (<span class="math inline">\(+\)</span>) et des prédicats (<span class="math inline">\(\geq\)</span>). C’est une <strong>formule de la logique du premier ordre (FOL)</strong>.</p>
-<section id="syntaxe-fol" class="level3">
-<h3 class="anchored" data-anchor-id="syntaxe-fol">Syntaxe FOL</h3>
-<ul>
-<li><strong>Variables</strong> : <span class="math inline">\(Var = \{a, b, c, ...\}\)</span>.</li>
-<li><strong>Domaine</strong> <span class="math inline">\(D\)</span> : un ensemble de valeurs (ex: <span class="math inline">\(\mathbb{Z}\)</span>).</li>
-<li><strong>Fonctions</strong> : <span class="math inline">\(\mathbf{F} = \{f: D^k \to D\}\)</span> (inclut les constantes, <span class="math inline">\(k=0\)</span>).</li>
-<li><strong>Prédicats</strong> : <span class="math inline">\(\mathbf{P} = \{P: D^k \to \{true, false\}\}\)</span>.</li>
-</ul>
-<p><strong>Termes</strong> :</p>
-<ul>
-<li>Une variable est un terme.</li>
-<li>Si <span class="math inline">\(t_1, ..., t_k\)</span> sont des termes et <span class="math inline">\(f \in \mathbf{F}\)</span> d’arité <span class="math inline">\(k\)</span>, alors <span class="math inline">\(f(t_1, ..., t_k)\)</span> est un terme.</li>
-</ul>
-<p><strong>Atomes</strong> :</p>
-<ul>
-<li><span class="math inline">\(true\)</span> et <span class="math inline">\(false\)</span> sont des atomes.</li>
-<li>Si <span class="math inline">\(t_1, ..., t_k\)</span> sont des termes et <span class="math inline">\(p \in \mathbf{P}\)</span> d’arité <span class="math inline">\(k\)</span>, alors <span class="math inline">\(p(t_1, ..., t_k)\)</span> est un atome.</li>
-</ul>
-<p><strong>Formules</strong> :</p>
-<ul>
-<li>Un atome est une formule.</li>
-<li>Si <span class="math inline">\(f_1, f_2\)</span> sont des formules, alors <span class="math inline">\(\neg f_1\)</span>, <span class="math inline">\(f_1 \land f_2\)</span>, <span class="math inline">\(f_1 \lor f_2\)</span>, <span class="math inline">\(f_1 \Longrightarrow f_2\)</span> sont des formules.</li>
-<li>Si <span class="math inline">\(f\)</span> est une formule et <span class="math inline">\(x\)</span> une variable, alors <span class="math inline">\(\exists x f\)</span> et <span class="math inline">\(\forall x f\)</span> sont des formules.</li>
-</ul>
-</section>
-<section id="théories" class="level3">
-<h3 class="anchored" data-anchor-id="théories">Théories</h3>
-<p>Une <strong>théorie</strong> <span class="math inline">\(\mathbf{T}\)</span> est un ensemble de formules FOL qui axiomatise un domaine particulier (ex: les entiers, les tableaux). Une formule <span class="math inline">\(f\)</span> est <strong>T-valide</strong> si elle est conséquence de <span class="math inline">\(\mathbf{T}\)</span>, i.e., pour toute interprétation <span class="math inline">\(I\)</span> qui satisfait <span class="math inline">\(\mathbf{T}\)</span> (<span class="math inline">\(I \models \mathbf{T}\)</span>), on a <span class="math inline">\(I \models f\)</span>.</p>
-<section id="exemple-théorie-des-entiers-arithmétique-linéaire" class="level4">
-<h4 class="anchored" data-anchor-id="exemple-théorie-des-entiers-arithmétique-linéaire">Exemple : Théorie des entiers (Arithmétique linéaire)</h4>
-<ul>
-<li>Fonctions : <span class="math inline">\(+\)</span>, <span class="math inline">\(-\)</span>, constantes.</li>
-<li>Prédicats : <span class="math inline">\(\geq\)</span>, <span class="math inline">\(\leq\)</span>, <span class="math inline">\(=\)</span>.</li>
-<li>Axiomes : propriétés de l’addition, de l’ordre, etc.</li>
-</ul>
-</section>
-<section id="exemple-théorie-des-tableaux" class="level4">
-<h4 class="anchored" data-anchor-id="exemple-théorie-des-tableaux">Exemple : Théorie des tableaux</h4>
-<ul>
-<li>Domaines : indices, valeurs, tableaux.</li>
-<li>Fonctions : <span class="math inline">\(select(a, i)\)</span> (lire <span class="math inline">\(a[i]\)</span>), <span class="math inline">\(store(a, i, v)\)</span> (écrire <span class="math inline">\(v\)</span> en <span class="math inline">\(i\)</span>).</li>
-<li>Axiomes : <span class="math inline">\(\forall a, i, v, select(store(a, i, v), i) = v\)</span>.</li>
-</ul>
-</section>
-<section id="exemple-égalité-avec-fonctions-non-interprétées-euf" class="level4">
-<h4 class="anchored" data-anchor-id="exemple-égalité-avec-fonctions-non-interprétées-euf">Exemple : Égalité avec fonctions non interprétées (EUF)</h4>
-<ul>
-<li>Prédicat : <span class="math inline">\(\approx\)</span> (égalité).</li>
-<li>Axiomes d’équivalence : réflexivité, symétrie, transitivité.</li>
-<li><strong>Congruence</strong> : pour toute fonction <span class="math inline">\(f\)</span> et prédicat <span class="math inline">\(p\)</span> :
-<ul>
-<li><span class="math inline">\(\forall x, y, x \approx y \Longrightarrow f(x) \approx f(y)\)</span></li>
-<li><span class="math inline">\(\forall x_1, y_1, x_2, y_2, x_1 \approx y_1 \land x_2 \approx y_2 \Longrightarrow f(x_1, x_2) \approx f(y_1, y_2)\)</span></li>
-<li><span class="math inline">\(\forall x, y, x \approx y \Longrightarrow (p(x) \Longleftrightarrow p(y))\)</span></li>
+<li><span class="math inline">\(\neg \forall x P(x) \equiv \exists x \neg P(x)\)</span>.</li>
+<li><span class="math inline">\(\neg \exists x P(x) \equiv \forall x \neg P(x)\)</span>.</li>
 </ul></li>
+<li><strong>Skolemisation</strong> : Pour <span class="math inline">\(\exists y \forall x Q(x,y)\)</span>, on introduit une fonction de Skolem <span class="math inline">\(f\)</span> telle que <span class="math inline">\(y = f(x)\)</span> (si le quantificateur existentiel est après les universels). Si le quantificateur existentiel est en tête, on introduit une constante.</li>
+<li><strong>Forme universelle</strong> : Une formule de la forme <span class="math inline">\(\forall x_1 \forall x_2 ... \forall x_n C\)</span> où <span class="math inline">\(C\)</span> est une clause (disjonction de littéraux).</li>
+<li><strong>Validité d’une clause</strong> : Une clause <span class="math inline">\(C\)</span> est valide si pour toute interprétation <span class="math inline">\(\mathcal{I}\)</span>, <span class="math inline">\(\mathcal{I} \models C\)</span>.</li>
 </ul>
 </section>
-</section>
-</section>
-<section id="smt-solving-combiner-sat-et-théories" class="level2">
-<h2 class="anchored" data-anchor-id="smt-solving-combiner-sat-et-théories">SMT Solving : combiner SAT et théories</h2>
-<p>L’idée principale : utiliser un solveur SAT pour la structure logique propositionnelle, et des solveurs spécialisés pour les théories.</p>
-<section id="algorithme-dpllt" class="level3">
-<h3 class="anchored" data-anchor-id="algorithme-dpllt">Algorithme DPLL(T)</h3>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-    A[Formule f FOL sans quantificateurs, théorie T] --&gt; B["Abstraction propositionnelle A(f)"]
-    B --&gt; C[Solveur SAT]
-    C --&gt; D{SAT ?}
-    D --&gt;|Non| E[f est T-insatisfiable]
-    D --&gt;|Oui| F[Modèle propositionnel M]
-    F --&gt; G["Concrétisation : M_T = A⁻¹(M)"]
-    G --&gt; H[Solveur de théorie T]
-    H --&gt; I{M_T T-satisfiable ?}
-    I --&gt;|Oui| J[f est T-satisfiable, modèle : M_T]
-    I --&gt;|Non| K[Apprendre clause de refus ¬M]
-    K --&gt; B
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p><strong>Abstraction propositionnelle</strong> <span class="math inline">\(A(f)\)</span> : on remplace chaque atome de <span class="math inline">\(f\)</span> par une nouvelle variable propositionnelle.</p>
-<p><strong>Exemple</strong> : <span class="math display">\[ f = (a + b \leq c \land a &gt; 0 \Longrightarrow b + c &lt; a) \lor a \leq 0 \]</span></p>
-<ul>
-<li><span class="math inline">\(p_1 \leftrightarrow a + b \leq c\)</span></li>
-<li><span class="math inline">\(p_2 \leftrightarrow a &gt; 0\)</span></li>
-<li><span class="math inline">\(p_3 \leftrightarrow b + c &lt; a\)</span></li>
-<li><span class="math inline">\(A(f) = (p_1 \land p_2 \Longrightarrow p_3) \lor \neg p_2\)</span></li>
-</ul>
-<p>Si le solveur SAT trouve un modèle <span class="math inline">\(M\)</span> (affectation des <span class="math inline">\(p_i\)</span>), on le <strong>concrétise</strong> en <span class="math inline">\(M_T = A^{-1}(M)\)</span> (on remplace les <span class="math inline">\(p_i\)</span> par les atomes correspondants). On vérifie si <span class="math inline">\(M_T\)</span> est T-satisfiable à l’aide du solveur de théorie.</p>
-<ul>
-<li>Si oui, <span class="math inline">\(M_T\)</span> est un modèle de <span class="math inline">\(f\)</span>.</li>
-<li>Si non, on ajoute une <strong>clause de refus</strong> <span class="math inline">\(\neg M\)</span> (la négation de l’affectation des <span class="math inline">\(p_i\)</span>) à <span class="math inline">\(A(f)\)</span> pour éviter le même modèle incorrect, et on itère.</li>
-</ul>
-</section>
-<section id="exemple-complet-avec-la-théorie-euf" class="level3">
-<h3 class="anchored" data-anchor-id="exemple-complet-avec-la-théorie-euf">Exemple complet avec la théorie EUF</h3>
-<p>Soit la formule <span class="math inline">\(P\)</span> : <span class="math display">\[ g(a) = c \land (f(g(a)) \neq f(c) \lor g(a) = d) \land c \neq d \]</span></p>
-<p>Abstraction propositionnelle :</p>
-<ul>
-<li><span class="math inline">\(p_1 \leftrightarrow g(a) = c\)</span></li>
-<li><span class="math inline">\(p_2 \leftrightarrow f(g(a)) = f(c)\)</span></li>
-<li><span class="math inline">\(p_3 \leftrightarrow g(a) = d\)</span></li>
-<li><span class="math inline">\(p_4 \leftrightarrow c = d\)</span></li>
-<li><span class="math inline">\(A(P) = p_1 \land (\neg p_2 \lor p_3) \land \neg p_4\)</span></li>
-</ul>
-<p>Le solveur SAT peut trouver le modèle <span class="math inline">\(M = p_1 \land \neg p_2 \land \neg p_4\)</span>.</p>
-<p>Concrétisation : <span class="math inline">\(M_T = g(a) = c \land f(g(a)) \neq f(c) \land c \neq d\)</span>.</p>
-<p>Le solveur EUF détecte que <span class="math inline">\(g(a) = c\)</span> implique <span class="math inline">\(f(g(a)) = f(c)\)</span> (congruence). Donc <span class="math inline">\(M_T\)</span> est EUF-insatisfiable.</p>
-<p>On ajoute la clause de refus : <span class="math inline">\(\neg M = \neg p_1 \lor p_2 \lor p_4\)</span>.</p>
-<p>La nouvelle formule SAT est : <span class="math inline">\(p_1 \land (\neg p_2 \lor p_3) \land \neg p_4 \land (\neg p_1 \lor p_2 \lor p_4)\)</span>.</p>
-<p>Le solveur SAT peut maintenant trouver un autre modèle, jusqu’à ce qu’une solution T-satisfiable soit trouvée ou que la formule SAT devienne insatisfiable (ce qui prouve que <span class="math inline">\(P\)</span> est T-insatisfiable).</p>
-</section>
-</section>
-<section id="formules-fol-avec-quantificateurs" class="level2">
-<h2 class="anchored" data-anchor-id="formules-fol-avec-quantificateurs">Formules FOL avec quantificateurs</h2>
-<section id="définitions" class="level3">
-<h3 class="anchored" data-anchor-id="définitions">Définitions</h3>
-<ul>
-<li><strong>Formule universelle</strong> : de la forme <span class="math inline">\(\forall x_1, ..., x_k \phi\)</span>, où <span class="math inline">\(\phi\)</span> est sans quantificateur.</li>
-<li><strong>Formule close</strong> : toute variable est liée par un quantificateur.</li>
-<li><strong>Instance close</strong> : pour une formule sans quantificateur <span class="math inline">\(\phi\)</span>, une instance close est obtenue par une substitution <span class="math inline">\(\theta\)</span> qui remplace chaque variable par un terme clos (sans variable libre). On note <span class="math inline">\(\theta(\phi)\)</span>.</li>
-</ul>
-</section>
-<section id="théorème-de-herbrand-1930" class="level3">
-<h3 class="anchored" data-anchor-id="théorème-de-herbrand-1930">Théorème de Herbrand (1930)</h3>
-<p>Un ensemble de formules FOL sans quantificateur est insatisfiable <strong>ssi</strong> il existe un ensemble fini d’instances closes qui est insatisfiable.</p>
-<p>Cela permet de réduire l’insatisfiabilité d’une formule universelle close à l’insatisfiabilité d’un ensemble fini de formules propositionnelles (en instanciant les variables par des termes du domaine).</p>
-<p><strong>Algorithme semi-décidable</strong> (TestSat) :</p>
-<pre><code>F := {ϕ}
-tant que F est satisfiable faire
-   choisir une substitution θ telle que θ(ϕ) soit une instance close
-   F := F ∪ {θ(ϕ)}
-fin tant que
-retourner "ϕ est insatisfiable"</code></pre>
-<p>Si <span class="math inline">\(\phi\)</span> est satisfiable, la boucle peut ne jamais terminer. Des techniques d’<strong>instanciation guidée</strong> (trigger, E-matching) sont utilisées en pratique.</p>
-</section>
-<section id="exemple" class="level3">
-<h3 class="anchored" data-anchor-id="exemple">Exemple</h3>
-<p>Considérons le syllogisme :</p>
-<ul>
-<li>Tous les humains sont mortels.</li>
-<li>Tous les Grecs sont humains.</li>
-<li>Donc tous les Grecs sont mortels.</li>
-</ul>
-<p>Formellement, on veut prouver que la formule suivante est valide :</p>
-<p><span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \implies (\forall x, G(x) \implies M(x)) \]</span></p>
-<p>Par réfutation, on considère sa négation :</p>
-<p><span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \land (\exists x, G(x) \land \neg M(x)) \]</span></p>
-<p>On la transforme en formule universelle close (étape par étape) :</p>
+<section id="exemples-illustratifs" class="level2">
+<h2 class="anchored" data-anchor-id="exemples-illustratifs">Exemples Illustratifs</h2>
+<section id="exemple-1-vérification-de-satisfiabilité-et-validité" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-1-vérification-de-satisfiabilité-et-validité">Exemple 1 : Vérification de satisfiabilité et validité</h3>
+<p><strong>Contexte :</strong> On considère la formule <span class="math inline">\(\forall x p(x) \iff \neg p(f(x))\)</span>.</p>
+<p><strong>Application :</strong></p>
 <ol type="1">
-<li><p><strong>Skolémisation</strong> : remplacer <span class="math inline">\(\exists x\)</span> par une constante fraîche <span class="math inline">\(s\)</span>. <span class="math display">\[ (\forall x, H(x) \implies M(x)) \land (\forall x, G(x) \implies H(x)) \land (G(s) \land \neg M(s)) \]</span></p></li>
-<li><p><strong>Mettre sous forme prénexe</strong> (tous les quantificateurs au début) : <span class="math display">\[ \forall x, y, (H(x) \implies M(x)) \land (G(y) \implies H(y)) \land G(s) \land \neg M(s) \]</span></p></li>
-<li><p><strong>Forme sans quantificateur interne</strong> (on peut supprimer les quantificateurs universels pour l’instant, car on va instancier) : <span class="math display">\[ \phi = (H(x) \implies M(x)) \land (G(y) \implies H(y)) \land G(s) \land \neg M(s) \]</span></p></li>
-</ol>
-<p>Maintenant, on applique Herbrand. L’univers de Herbrand est constitué de la constante <span class="math inline">\(s\)</span>. On prend l’instance close en remplaçant <span class="math inline">\(x\)</span> et <span class="math inline">\(y\)</span> par <span class="math inline">\(s\)</span> :</p>
-<p><span class="math display">\[ \theta(\phi) = (H(s) \implies M(s)) \land (G(s) \implies H(s)) \land G(s) \land \neg M(s) \]</span></p>
-<p>Cette formule propositionnelle est-elle satisfiable ?</p>
+<li><p><strong>Satisfiabilité</strong> : On choisit l’interprétation suivante :</p>
 <ul>
-<li>De <span class="math inline">\(G(s)\)</span> et <span class="math inline">\(G(s) \implies H(s)\)</span>, on déduit <span class="math inline">\(H(s)\)</span>.</li>
-<li>De <span class="math inline">\(H(s)\)</span> et <span class="math inline">\(H(s) \implies M(s)\)</span>, on déduit <span class="math inline">\(M(s)\)</span>.</li>
-<li>Mais on a <span class="math inline">\(\neg M(s)\)</span>. Contradiction.</li>
+<li>Domaine <span class="math inline">\(\mathcal{D} = \mathbb{N}\)</span>.</li>
+<li><span class="math inline">\(f(x) = x + 1\)</span>.</li>
+<li><span class="math inline">\(p(x)\)</span> : “<span class="math inline">\(x\)</span> est pair”.</li>
 </ul>
-<p>Donc <span class="math inline">\(\theta(\phi)\)</span> est insatisfiable, ce qui prouve que la formule originale est valide.</p>
+<p>Alors :</p>
+<ul>
+<li>Si <span class="math inline">\(x\)</span> est pair, <span class="math inline">\(p(x)\)</span> est vrai, <span class="math inline">\(f(x)=x+1\)</span> est impair, donc <span class="math inline">\(\neg p(f(x))\)</span> est vrai. Ainsi, <span class="math inline">\(p(x) \iff \neg p(f(x))\)</span> est vrai (T <span class="math inline">\(\iff\)</span> T).</li>
+<li>Si <span class="math inline">\(x\)</span> est impair, <span class="math inline">\(p(x)\)</span> est faux, <span class="math inline">\(f(x)=x+1\)</span> est pair, donc <span class="math inline">\(\neg p(f(x))\)</span> est faux. Ainsi, <span class="math inline">\(p(x) \iff \neg p(f(x))\)</span> est vrai (F <span class="math inline">\(\iff\)</span> F).</li>
+</ul>
+<p>Donc la formule est satisfaite pour tout <span class="math inline">\(x\)</span>, donc satisfiable.</p></li>
+<li><p><strong>Validité</strong> : Pour montrer qu’elle n’est pas valide, on prend une interprétation différente :</p>
+<ul>
+<li>Domaine <span class="math inline">\(\mathcal{D} = \{0\}\)</span>.</li>
+<li><span class="math inline">\(f(0)=0\)</span>.</li>
+<li><span class="math inline">\(p(0)\)</span> vrai. Alors <span class="math inline">\(p(0)\)</span> vrai et <span class="math inline">\(\neg p(f(0)) = \neg p(0)\)</span> faux, donc l’équivalence est fausse. La formule n’est donc pas valide.</li>
+</ul></li>
+</ol>
 </section>
-<section id="transformation-en-formule-universelle-close" class="level3">
-<h3 class="anchored" data-anchor-id="transformation-en-formule-universelle-close">Transformation en formule universelle close</h3>
-<p>Pour appliquer Herbrand, on doit souvent transformer une formule FOL arbitraire en une formule universelle close qui préserve l’insatisfiabilité.</p>
-<p><strong>Procédure</strong> :</p>
+<section id="exemple-2-transformation-en-forme-universelle" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-2-transformation-en-forme-universelle">Exemple 2 : Transformation en forme universelle</h3>
+<p><strong>Contexte :</strong> Transformation de la formule <span class="math inline">\(\exists x p(x) \iff \forall y \exists z q(y,z)\)</span> en forme universelle.</p>
+<p><strong>Application :</strong></p>
 <ol type="1">
-<li>Éliminer <span class="math inline">\(\implies\)</span> et <span class="math inline">\(\iff\)</span> en utilisant <span class="math inline">\(\neg, \land, \lor\)</span>.</li>
-<li>Renommer les variables pour que chaque quantificateur lie une variable fraîche.</li>
-<li><strong>Skolémisation</strong> : remplacer chaque variable existentielle <span class="math inline">\(\exists y\)</span> par un terme <span class="math inline">\(f(x_1, ..., x_k)\)</span> où <span class="math inline">\(f\)</span> est un nouveau symbole de fonction (une constante si <span class="math inline">\(k=0\)</span>) et <span class="math inline">\(x_1, ..., x_k\)</span> sont les variables universelles qui englobent <span class="math inline">\(\exists y\)</span>.</li>
-<li>Déplacer tous les quantificateurs universels en tête (forme prénexe).</li>
-</ol>
-<p><strong>Exemple de skolémisation</strong> :</p>
+<li><p>Éliminer <span class="math inline">\(\iff\)</span> : <span class="math display">\[(\exists x p(x) \Rightarrow \forall y \exists z q(y,z)) \land (\forall y \exists z q(y,z) \Rightarrow \exists x p(x))\]</span></p></li>
+<li><p>Éliminer <span class="math inline">\(\Rightarrow\)</span> (en utilisant <span class="math inline">\(A \Rightarrow B \equiv \neg A \lor B\)</span>) : <span class="math display">\[(\neg \exists x p(x) \lor \forall y \exists z q(y,z)) \land (\neg \forall y \exists z q(y,z) \lor \exists x p(x))\]</span></p></li>
+<li><p>Déplacer les négations à l’intérieur : <span class="math display">\[(\forall x \neg p(x) \lor \forall y \exists z q(y,z)) \land (\exists y \forall z \neg q(y,z) \lor \exists x p(x))\]</span></p></li>
+<li><p>Renommer les variables pour éviter les conflits : <span class="math display">\[(\forall x_1 \neg p(x_1) \lor \forall y_1 \exists z_1 q(y_1,z_1)) \land (\exists y_2 \forall z_2 \neg q(y_2,z_2) \lor \exists x_2 p(x_2))\]</span></p></li>
+<li><p>Skolemisation :</p>
 <ul>
-<li><span class="math inline">\(\forall x, \exists y, P(x, y)\)</span> devient <span class="math inline">\(\forall x, P(x, f(x))\)</span> (avec <span class="math inline">\(f\)</span> frais).</li>
-<li><span class="math inline">\(\exists y, Q(y)\)</span> devient <span class="math inline">\(Q(c)\)</span> (avec <span class="math inline">\(c\)</span> frais).</li>
-<li><span class="math inline">\(\forall x, y, \exists z, R(x, y, z)\)</span> devient <span class="math inline">\(\forall x, y, R(x, y, g(x, y))\)</span> (avec <span class="math inline">\(g\)</span> frais).</li>
+<li>Pour <span class="math inline">\(\exists z_1\)</span> dans la première disjonction, on a <span class="math inline">\(\forall y_1 \exists z_1 q(y_1,z_1)\)</span>. On introduit une fonction de Skolem <span class="math inline">\(f\)</span> telle que <span class="math inline">\(z_1 = f(y_1)\)</span>. On obtient <span class="math inline">\(\forall y_1 q(y_1, f(y_1))\)</span>.</li>
+<li>Pour <span class="math inline">\(\exists y_2\)</span> et <span class="math inline">\(\exists x_2\)</span> dans la seconde disjonction, on introduit des constantes <span class="math inline">\(a\)</span> et <span class="math inline">\(b\)</span> : <span class="math inline">\(y_2 = a\)</span> et <span class="math inline">\(x_2 = b\)</span>. On a alors : <span class="math display">\[(\forall x_1 \neg p(x_1) \lor \forall y_1 q(y_1, f(y_1))) \land (\forall z_2 \neg q(a, z_2) \lor p(b))\]</span></li>
+</ul></li>
+<li><p>Mettre sous forme prénexe (tous les quantificateurs en tête) : <span class="math display">\[\forall x_1 \forall y_1 \forall z_2 [(\neg p(x_1) \lor q(y_1, f(y_1))) \land (\neg q(a, z_2) \lor p(b))]\]</span></p>
+<p>Cette formule est maintenant sous forme universelle (conjonction de clauses quantifiées universellement).</p></li>
+</ol>
+</section>
+<section id="exemple-3-définition-inductive-des-variables-libres-fv" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-3-définition-inductive-des-variables-libres-fv">Exemple 3 : Définition inductive des variables libres (FV)</h3>
+<p><strong>Contexte :</strong> Donner une définition inductive de <span class="math inline">\(\text{FV}(\phi)\)</span> pour une formule <span class="math inline">\(\phi\)</span> du premier ordre.</p>
+<p><strong>Application :</strong> On définit d’abord <span class="math inline">\(\text{FV}\)</span> pour les termes :</p>
+<ul>
+<li><span class="math inline">\(\text{FV}(x) = \{x\}\)</span> pour une variable <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\(\text{FV}(c) = \emptyset\)</span> pour une constante <span class="math inline">\(c\)</span>.</li>
+<li><span class="math inline">\(\text{FV}(f(t_1, ..., t_n)) = \bigcup_{i=1}^n \text{FV}(t_i)\)</span>.</li>
 </ul>
-<p>Cette transformation préserve l’insatisfiabilité, ce qui suffit pour une preuve par réfutation.</p>
+<p>Puis pour les formules :</p>
+<ul>
+<li><span class="math inline">\(\text{FV}(p(t_1, ..., t_n)) = \bigcup_{i=1}^n \text{FV}(t_i)\)</span>.</li>
+<li><span class="math inline">\(\text{FV}(\neg \phi) = \text{FV}(\phi)\)</span>.</li>
+<li><span class="math inline">\(\text{FV}(\phi \land \psi) = \text{FV}(\phi) \cup \text{FV}(\psi)\)</span> (de même pour <span class="math inline">\(\lor, \Rightarrow, \iff\)</span>).</li>
+<li><span class="math inline">\(\text{FV}(\forall x \phi) = \text{FV}(\phi) \setminus \{x\}\)</span>.</li>
+<li><span class="math inline">\(\text{FV}(\exists x \phi) = \text{FV}(\phi) \setminus \{x\}\)</span>.</li>
+</ul>
+<p><strong>Exemple :</strong> Pour <span class="math inline">\(\phi = \forall x p(x) \land q(y)\)</span>, on a :</p>
+<ul>
+<li><span class="math inline">\(\text{FV}(p(x)) = \{x\}\)</span>, donc <span class="math inline">\(\text{FV}(\forall x p(x)) = \emptyset\)</span>.</li>
+<li><span class="math inline">\(\text{FV}(q(y)) = \{y\}\)</span>.</li>
+<li>Donc <span class="math inline">\(\text{FV}(\phi) = \emptyset \cup \{y\} = \{y\}\)</span>.</li>
+</ul>
+</section>
+<section id="exemple-4-substitutions-pour-obtenir-des-instances-fermées" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-4-substitutions-pour-obtenir-des-instances-fermées">Exemple 4 : Substitutions pour obtenir des instances fermées</h3>
+<p><strong>Contexte :</strong> Soit <span class="math inline">\(\phi = p(x) \iff \neg p(f(x))\)</span>. Proposer trois substitutions <span class="math inline">\(\theta\)</span> telles que <span class="math inline">\(\phi.\theta\)</span> soit une instance fermée de <span class="math inline">\(\phi\)</span>.</p>
+<p><strong>Application :</strong> Une instance fermée n’a pas de variables libres. Ici, <span class="math inline">\(x\)</span> est libre dans <span class="math inline">\(\phi\)</span> (car non quantifiée dans <span class="math inline">\(\phi\)</span> lui-même, bien que dans l’exercice on ait <span class="math inline">\(\forall x \phi\)</span>, mais ici on considère <span class="math inline">\(\phi\)</span> seul). Pour fermer <span class="math inline">\(\phi\)</span>, on doit substituer <span class="math inline">\(x\)</span> par un terme sans variable.</p>
+<ol type="1">
+<li><span class="math inline">\(\theta_1 = \{ x \mapsto a \}\)</span> où <span class="math inline">\(a\)</span> est une constante. Alors <span class="math inline">\(\phi.\theta_1 = p(a) \iff \neg p(f(a))\)</span>.</li>
+<li><span class="math inline">\(\theta_2 = \{ x \mapsto f(a) \}\)</span>. Alors <span class="math inline">\(\phi.\theta_2 = p(f(a)) \iff \neg p(f(f(a)))\)</span>.</li>
+<li><span class="math inline">\(\theta_3 = \{ x \mapsto f(f(a)) \}\)</span>. Alors <span class="math inline">\(\phi.\theta_3 = p(f(f(a))) \iff \neg p(f(f(f(a))))\)</span>.</li>
+</ol>
+<p>Chacune de ces instances est fermée car elle ne contient plus de variable.</p>
+</section>
+<section id="exemple-5-validité-des-clauses-sous-substitution" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-5-validité-des-clauses-sous-substitution">Exemple 5 : Validité des clauses sous substitution</h3>
+<p><strong>Contexte :</strong> Soit <span class="math inline">\(C\)</span> une clause valide dans un contexte <span class="math inline">\((\mathcal{D}, \mathcal{F}, \mathcal{P})\)</span>. Soit <span class="math inline">\(\Pi\)</span> une substitution sur les variables de <span class="math inline">\(C\)</span>. Prouver que si <span class="math inline">\(C\)</span> est valide, alors <span class="math inline">\(\Pi(C)\)</span> est valide. Si <span class="math inline">\(\Pi\)</span> est un renommage (bijection entre variables), prouver la réciproque.</p>
+<p><strong>Application :</strong></p>
+<ol type="1">
+<li><p><strong>Preuve directe</strong> :</p>
+<p>Si <span class="math inline">\(C\)</span> est valide, alors pour toute interprétation <span class="math inline">\(\mathcal{I}\)</span>, <span class="math inline">\(\mathcal{I} \models C\)</span>.</p>
+<p>Soit <span class="math inline">\(\mathcal{I}\)</span> une interprétation. On veut montrer <span class="math inline">\(\mathcal{I} \models \Pi(C)\)</span>.</p>
+<p>Soit <span class="math inline">\(\sigma\)</span> une affectation des variables. On définit une affectation <span class="math inline">\(\sigma'\)</span> telle que pour toute variable <span class="math inline">\(x\)</span>, <span class="math inline">\(\sigma'(x) = \mathcal{I}(\Pi(x))\)</span> (la valeur de <span class="math inline">\(\Pi(x)\)</span> dans <span class="math inline">\(\mathcal{I}\)</span>).</p>
+<p>Alors <span class="math inline">\(\mathcal{I}, \sigma \models \Pi(C)\)</span> si et seulement si <span class="math inline">\(\mathcal{I}, \sigma' \models C\)</span>.</p>
+<p>Puisque <span class="math inline">\(C\)</span> est valide, <span class="math inline">\(\mathcal{I}, \sigma' \models C\)</span>, donc <span class="math inline">\(\mathcal{I}, \sigma \models \Pi(C)\)</span>. Ainsi <span class="math inline">\(\Pi(C)\)</span> est valide.</p></li>
+<li><p><strong>Réciproque pour un renommage</strong> :</p>
+<p>Si <span class="math inline">\(\Pi\)</span> est un renommage (bijection), alors <span class="math inline">\(\Pi^{-1}\)</span> existe et est aussi une substitution.</p>
+<p>Si <span class="math inline">\(\Pi(C)\)</span> est valide, alors en appliquant le résultat précédent avec <span class="math inline">\(\Pi^{-1}\)</span>, on obtient que <span class="math inline">\(\Pi^{-1}(\Pi(C)) = C\)</span> est valide.</p></li>
+</ol>
+<p><strong>Exemple concret :</strong> Soit <span class="math inline">\(C = P(x) \lor \neg P(f(x))\)</span>. Supposons que <span class="math inline">\(C\)</span> est valide. Considérons la substitution <span class="math inline">\(\Pi = \{ x \mapsto f(y) \}\)</span>. Alors <span class="math inline">\(\Pi(C) = P(f(y)) \lor \neg P(f(f(y)))\)</span>. D’après la preuve, <span class="math inline">\(\Pi(C)\)</span> est aussi valide.</p>
 </section>
 </section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>Les solveurs SMT combinent la puissance des solveurs SAT modernes (CDCL) avec des procédures de décision pour diverses théories (EUF, arithmétique, tableaux, etc.).</p>
-<p>Pour les formules avec quantificateurs, des techniques d’instanciation basées sur le théorème de Herbrand sont utilisées, souvent guidées par des triggers et l’E-matching.</p>
-<p>Ces méthodes sont au cœur des outils de vérification déductive comme Why3, qui génèrent des obligations de preuve déchargées sur des solveurs SMT.</p>
+<section id="synthèse" class="level2">
+<h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
+<p>Les exercices de cette série mettent en œuvre les techniques de base de la logique du premier ordre :</p>
+<ul>
+<li>La distinction entre satisfiabilité et validité, avec construction d’interprétations et contre-exemples.</li>
+<li>Les transformations de formules : élimination des connecteurs, mise sous forme prénexe, skolemisation pour obtenir des formes universelles (clauses).</li>
+<li>La manipulation des variables libres et des substitutions pour obtenir des instances fermées.</li>
+<li>La préservation de la validité des clauses par substitution, en particulier par renommage.</li>
+</ul>
+<p>Ces méthodes sont fondamentales pour la résolution en logique du premier ordre, la démonstration automatique de théorèmes et la vérification de logiciels.</p>
 
 
 </section>
