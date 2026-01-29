@@ -1,0 +1,168 @@
+# Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre
+
+## Méthodes
+
+### Vérification de satisfiabilité et validité en logique du premier ordre
+- **Satisfiabilité** : Trouver une interprétation (domaine, fonctions, prédicats) qui rend la formule vraie.
+- **Validité** : Vérifier si la formule est vraie pour toutes les interprétations.
+- **Contre-exemple** : Pour montrer qu'une formule n'est pas valide, exhiber une interprétation qui la rend fausse.
+
+### Élimination des connecteurs et transformation en forme normale
+- **Élimination de l'équivalence ($\iff$)** : Remplacer $A \iff B$ par $(A \Rightarrow B) \land (B \Rightarrow A)$.
+- **Élimination de l'implication ($\Rightarrow$)** : Remplacer $A \Rightarrow B$ par $\neg A \lor B$.
+- **Mise sous forme prénexe** : Déplacer tous les quantificateurs en tête de formule.
+- **Skolemisation** : Remplacer les variables existentielles par des fonctions de Skolem (ou constantes) pour éliminer les quantificateurs existentiels et obtenir une forme universelle (clauses).
+
+### Définition inductive des variables libres (FV)
+- **Variables libres** : Variables non quantifiées dans une formule.
+- **Définition inductive** : Par récurrence sur la structure des termes et des formules.
+
+### Substitutions et instances fermées
+- **Substitution** : Remplacement des variables par des termes.
+- **Instance fermée** : Résultat d'une substitution qui élimine toutes les variables libres (donne une formule sans variable libre).
+
+### Validité des clauses sous substitution
+- **Clause valide** : Une clause est valide si elle est satisfaite pour toute interprétation dans un domaine donné avec des fonctions et prédicats fixés.
+- **Effet d'une substitution** : Si une clause est valide, alors toute substitution (en particulier un renommage) appliquée à cette clause préserve la validité.
+
+## Rappel
+- **Loi de l'implication** : $A \Rightarrow B \equiv \neg A \lor B$.
+- **Loi de l'équivalence** : $A \iff B \equiv (A \Rightarrow B) \land (B \Rightarrow A)$.
+- **Distributivité des quantificateurs** :
+  - $\forall x (P(x) \lor Q) \equiv (\forall x P(x)) \lor Q$ si $x$ n'est pas libre dans $Q$.
+  - $\exists x (P(x) \land Q) \equiv (\exists x P(x)) \land Q$ si $x$ n'est pas libre dans $Q$.
+- **Équivalences pour la négation** :
+  - $\neg \forall x P(x) \equiv \exists x \neg P(x)$.
+  - $\neg \exists x P(x) \equiv \forall x \neg P(x)$.
+- **Skolemisation** : Pour $\exists y \forall x Q(x,y)$, on introduit une fonction de Skolem $f$ telle que $y = f(x)$ (si le quantificateur existentiel est après les universels). Si le quantificateur existentiel est en tête, on introduit une constante.
+- **Forme universelle** : Une formule de la forme $\forall x_1 \forall x_2 ... \forall x_n C$ où $C$ est une clause (disjonction de littéraux).
+- **Validité d'une clause** : Une clause $C$ est valide si pour toute interprétation $\mathcal{I}$, $\mathcal{I} \models C$.
+
+## Exemples Illustratifs
+
+### Exemple 1 : Vérification de satisfiabilité et validité
+
+**Contexte :** On considère la formule $\forall x p(x) \iff \neg p(f(x))$.
+
+**Application :**
+
+1. **Satisfiabilité** : On choisit l'interprétation suivante :
+   - Domaine $\mathcal{D} = \mathbb{N}$.
+   - $f(x) = x + 1$.
+   - $p(x)$ : "$x$ est pair".
+
+   Alors :
+
+   - Si $x$ est pair, $p(x)$ est vrai, $f(x)=x+1$ est impair, donc $\neg p(f(x))$ est vrai. Ainsi, $p(x) \iff \neg p(f(x))$ est vrai (T $\iff$ T).
+   - Si $x$ est impair, $p(x)$ est faux, $f(x)=x+1$ est pair, donc $\neg p(f(x))$ est faux. Ainsi, $p(x) \iff \neg p(f(x))$ est vrai (F $\iff$ F).
+
+   Donc la formule est satisfaite pour tout $x$, donc satisfiable.
+
+2. **Validité** : Pour montrer qu'elle n'est pas valide, on prend une interprétation différente :
+   - Domaine $\mathcal{D} = \{0\}$.
+   - $f(0)=0$.
+   - $p(0)$ vrai.
+   Alors $p(0)$ vrai et $\neg p(f(0)) = \neg p(0)$ faux, donc l'équivalence est fausse. La formule n'est donc pas valide.
+
+### Exemple 2 : Transformation en forme universelle
+
+**Contexte :** Transformation de la formule $\exists x p(x) \iff \forall y \exists z q(y,z)$ en forme universelle.
+
+**Application :**
+
+1. Éliminer $\iff$ :
+   $$(\exists x p(x) \Rightarrow \forall y \exists z q(y,z)) \land (\forall y \exists z q(y,z) \Rightarrow \exists x p(x))$$
+
+2. Éliminer $\Rightarrow$ (en utilisant $A \Rightarrow B \equiv \neg A \lor B$) :
+   $$(\neg \exists x p(x) \lor \forall y \exists z q(y,z)) \land (\neg \forall y \exists z q(y,z) \lor \exists x p(x))$$
+
+3. Déplacer les négations à l'intérieur :
+   $$(\forall x \neg p(x) \lor \forall y \exists z q(y,z)) \land (\exists y \forall z \neg q(y,z) \lor \exists x p(x))$$
+
+4. Renommer les variables pour éviter les conflits :
+   $$(\forall x_1 \neg p(x_1) \lor \forall y_1 \exists z_1 q(y_1,z_1)) \land (\exists y_2 \forall z_2 \neg q(y_2,z_2) \lor \exists x_2 p(x_2))$$
+
+5. Skolemisation : 
+
+   - Pour $\exists z_1$ dans la première disjonction, on a $\forall y_1 \exists z_1 q(y_1,z_1)$. On introduit une fonction de Skolem $f$ telle que $z_1 = f(y_1)$. On obtient $\forall y_1 q(y_1, f(y_1))$.
+   - Pour $\exists y_2$ et $\exists x_2$ dans la seconde disjonction, on introduit des constantes $a$ et $b$ : $y_2 = a$ et $x_2 = b$.
+   On a alors :
+   $$(\forall x_1 \neg p(x_1) \lor \forall y_1 q(y_1, f(y_1))) \land (\forall z_2 \neg q(a, z_2) \lor p(b))$$
+
+6. Mettre sous forme prénexe (tous les quantificateurs en tête) :
+   $$\forall x_1 \forall y_1 \forall z_2 [(\neg p(x_1) \lor q(y_1, f(y_1))) \land (\neg q(a, z_2) \lor p(b))]$$
+
+   Cette formule est maintenant sous forme universelle (conjonction de clauses quantifiées universellement).
+
+### Exemple 3 : Définition inductive des variables libres (FV)
+
+**Contexte :** Donner une définition inductive de $\text{FV}(\phi)$ pour une formule $\phi$ du premier ordre.
+
+**Application :** On définit d'abord $\text{FV}$ pour les termes :
+
+- $\text{FV}(x) = \{x\}$ pour une variable $x$.
+- $\text{FV}(c) = \emptyset$ pour une constante $c$.
+- $\text{FV}(f(t_1, ..., t_n)) = \bigcup_{i=1}^n \text{FV}(t_i)$.
+
+Puis pour les formules :
+
+- $\text{FV}(p(t_1, ..., t_n)) = \bigcup_{i=1}^n \text{FV}(t_i)$.
+- $\text{FV}(\neg \phi) = \text{FV}(\phi)$.
+- $\text{FV}(\phi \land \psi) = \text{FV}(\phi) \cup \text{FV}(\psi)$ (de même pour $\lor, \Rightarrow, \iff$).
+- $\text{FV}(\forall x \phi) = \text{FV}(\phi) \setminus \{x\}$.
+- $\text{FV}(\exists x \phi) = \text{FV}(\phi) \setminus \{x\}$.
+
+**Exemple :** Pour $\phi = \forall x p(x) \land q(y)$, on a :
+
+- $\text{FV}(p(x)) = \{x\}$, donc $\text{FV}(\forall x p(x)) = \emptyset$.
+- $\text{FV}(q(y)) = \{y\}$.
+- Donc $\text{FV}(\phi) = \emptyset \cup \{y\} = \{y\}$.
+
+### Exemple 4 : Substitutions pour obtenir des instances fermées
+
+**Contexte :** Soit $\phi = p(x) \iff \neg p(f(x))$. Proposer trois substitutions $\theta$ telles que $\phi.\theta$ soit une instance fermée de $\phi$.
+
+**Application :** Une instance fermée n'a pas de variables libres. Ici, $x$ est libre dans $\phi$ (car non quantifiée dans $\phi$ lui-même, bien que dans l'exercice on ait $\forall x \phi$, mais ici on considère $\phi$ seul). Pour fermer $\phi$, on doit substituer $x$ par un terme sans variable.
+
+1. $\theta_1 = \{ x \mapsto a \}$ où $a$ est une constante. Alors $\phi.\theta_1 = p(a) \iff \neg p(f(a))$.
+2. $\theta_2 = \{ x \mapsto f(a) \}$. Alors $\phi.\theta_2 = p(f(a)) \iff \neg p(f(f(a)))$.
+3. $\theta_3 = \{ x \mapsto f(f(a)) \}$. Alors $\phi.\theta_3 = p(f(f(a))) \iff \neg p(f(f(f(a))))$.
+
+Chacune de ces instances est fermée car elle ne contient plus de variable.
+
+### Exemple 5 : Validité des clauses sous substitution
+
+**Contexte :** Soit $C$ une clause valide dans un contexte $(\mathcal{D}, \mathcal{F}, \mathcal{P})$. Soit $\Pi$ une substitution sur les variables de $C$. Prouver que si $C$ est valide, alors $\Pi(C)$ est valide. Si $\Pi$ est un renommage (bijection entre variables), prouver la réciproque.
+
+**Application :**
+
+1. **Preuve directe** :
+
+    Si $C$ est valide, alors pour toute interprétation $\mathcal{I}$, $\mathcal{I} \models C$.
+    
+    Soit $\mathcal{I}$ une interprétation. On veut montrer $\mathcal{I} \models \Pi(C)$.
+    
+    Soit $\sigma$ une affectation des variables. On définit une affectation $\sigma'$ telle que pour toute variable $x$, $\sigma'(x) = \mathcal{I}(\Pi(x))$ (la valeur de $\Pi(x)$ dans $\mathcal{I}$).
+    
+    Alors $\mathcal{I}, \sigma \models \Pi(C)$ si et seulement si $\mathcal{I}, \sigma' \models C$.
+    
+    Puisque $C$ est valide, $\mathcal{I}, \sigma' \models C$, donc $\mathcal{I}, \sigma \models \Pi(C)$. Ainsi $\Pi(C)$ est valide.
+
+2. **Réciproque pour un renommage** :
+    
+    Si $\Pi$ est un renommage (bijection), alors $\Pi^{-1}$ existe et est aussi une substitution.
+    
+    Si $\Pi(C)$ est valide, alors en appliquant le résultat précédent avec $\Pi^{-1}$, on obtient que $\Pi^{-1}(\Pi(C)) = C$ est valide.
+
+**Exemple concret :** Soit $C = P(x) \lor \neg P(f(x))$. Supposons que $C$ est valide. Considérons la substitution $\Pi = \{ x \mapsto f(y) \}$. Alors $\Pi(C) = P(f(y)) \lor \neg P(f(f(y)))$. D'après la preuve, $\Pi(C)$ est aussi valide.
+
+## Synthèse
+
+Les exercices de cette série mettent en œuvre les techniques de base de la logique du premier ordre :
+
+- La distinction entre satisfiabilité et validité, avec construction d'interprétations et contre-exemples.
+- Les transformations de formules : élimination des connecteurs, mise sous forme prénexe, skolemisation pour obtenir des formes universelles (clauses).
+- La manipulation des variables libres et des substitutions pour obtenir des instances fermées.
+- La préservation de la validité des clauses par substitution, en particulier par renommage.
+
+Ces méthodes sont fondamentales pour la résolution en logique du premier ordre, la démonstration automatique de théorèmes et la vérification de logiciels.

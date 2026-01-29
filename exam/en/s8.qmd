@@ -1,0 +1,168 @@
+# Series 8: Introduction to Quantifiers and Transformations in First-Order Logic
+
+## Methods
+
+### Satisfiability and Validity Verification in First-Order Logic
+- **Satisfiability**: Find an interpretation (domain, functions, predicates) that makes the formula true.
+- **Validity**: Verify if the formula is true for all interpretations.
+- **Counterexample**: To show a formula is not valid, exhibit an interpretation that makes it false.
+
+### Elimination of Connectives and Transformation to Normal Form
+- **Elimination of equivalence ($\iff$)**: Replace $A \iff B$ with $(A \Rightarrow B) \land (B \Rightarrow A)$.
+- **Elimination of implication ($\Rightarrow$)**: Replace $A \Rightarrow B$ with $\neg A \lor B$.
+- **Prenex form**: Move all quantifiers to the front of the formula.
+- **Skolemization**: Replace existential variables with Skolem functions (or constants) to eliminate existential quantifiers and obtain a universal form (clauses).
+
+### Inductive Definition of Free Variables (FV)
+- **Free variables**: Variables not quantified in a formula.
+- **Inductive definition**: By recursion on the structure of terms and formulas.
+
+### Substitutions and Closed Instances
+- **Substitution**: Replacement of variables by terms.
+- **Closed instance**: Result of a substitution that eliminates all free variables (yields a formula without free variables).
+
+### Validity of Clauses Under Substitution
+- **Valid clause**: A clause is valid if it is satisfied for every interpretation in a given domain with fixed functions and predicates.
+- **Effect of substitution**: If a clause is valid, then any substitution (in particular renaming) applied to that clause preserves validity.
+
+## Reminder
+- **Implication law**: $A \Rightarrow B \equiv \neg A \lor B$.
+- **Equivalence law**: $A \iff B \equiv (A \Rightarrow B) \land (B \Rightarrow A)$.
+- **Quantifier distributivity**:
+  - $\forall x (P(x) \lor Q) \equiv (\forall x P(x)) \lor Q$ if $x$ is not free in $Q$.
+  - $\exists x (P(x) \land Q) \equiv (\exists x P(x)) \land Q$ if $x$ is not free in $Q$.
+- **Negation equivalences**:
+  - $\neg \forall x P(x) \equiv \exists x \neg P(x)$.
+  - $\neg \exists x P(x) \equiv \forall x \neg P(x)$.
+- **Skolemization**: For $\exists y \forall x Q(x,y)$, introduce a Skolem function $f$ such that $y = f(x)$ (if the existential quantifier is after the universal ones). If the existential quantifier is at the front, introduce a constant.
+- **Universal form**: A formula of the form $\forall x_1 \forall x_2 ... \forall x_n C$ where $C$ is a clause (disjunction of literals).
+- **Validity of a clause**: A clause $C$ is valid if for every interpretation $\mathcal{I}$, $\mathcal{I} \models C$.
+
+## Illustrative Examples
+
+### Example 1: Satisfiability and Validity Verification
+
+**Context:** Consider the formula $\forall x p(x) \iff \neg p(f(x))$.
+
+**Application:**
+
+1. **Satisfiability**: Choose the following interpretation:
+   - Domain $\mathcal{D} = \mathbb{N}$.
+   - $f(x) = x + 1$.
+   - $p(x)$: "$x$ is even".
+
+   Then:
+
+   - If $x$ is even, $p(x)$ is true, $f(x)=x+1$ is odd, so $\neg p(f(x))$ is true. Thus, $p(x) \iff \neg p(f(x))$ is true (T $\iff$ T).
+   - If $x$ is odd, $p(x)$ is false, $f(x)=x+1$ is even, so $\neg p(f(x))$ is false. Thus, $p(x) \iff \neg p(f(x))$ is true (F $\iff$ F).
+
+   Therefore the formula is satisfied for all $x$, hence satisfiable.
+
+2. **Validity**: To show it is not valid, take a different interpretation:
+   - Domain $\mathcal{D} = \{0\}$.
+   - $f(0)=0$.
+   - $p(0)$ true.
+   Then $p(0)$ true and $\neg p(f(0)) = \neg p(0)$ false, so the equivalence is false. The formula is therefore not valid.
+
+### Example 2: Transformation to Universal Form
+
+**Context:** Transform the formula $\exists x p(x) \iff \forall y \exists z q(y,z)$ into universal form.
+
+**Application:**
+
+1. Eliminate $\iff$:
+   $$(\exists x p(x) \Rightarrow \forall y \exists z q(y,z)) \land (\forall y \exists z q(y,z) \Rightarrow \exists x p(x))$$
+
+2. Eliminate $\Rightarrow$ (using $A \Rightarrow B \equiv \neg A \lor B$):
+   $$(\neg \exists x p(x) \lor \forall y \exists z q(y,z)) \land (\neg \forall y \exists z q(y,z) \lor \exists x p(x))$$
+
+3. Move negations inside:
+   $$(\forall x \neg p(x) \lor \forall y \exists z q(y,z)) \land (\exists y \forall z \neg q(y,z) \lor \exists x p(x))$$
+
+4. Rename variables to avoid conflicts:
+   $$(\forall x_1 \neg p(x_1) \lor \forall y_1 \exists z_1 q(y_1,z_1)) \land (\exists y_2 \forall z_2 \neg q(y_2,z_2) \lor \exists x_2 p(x_2))$$
+
+5. Skolemization:
+
+   - For $\exists z_1$ in the first disjunction, we have $\forall y_1 \exists z_1 q(y_1,z_1)$. Introduce a Skolem function $f$ such that $z_1 = f(y_1)$. We obtain $\forall y_1 q(y_1, f(y_1))$.
+   - For $\exists y_2$ and $\exists x_2$ in the second disjunction, introduce constants $a$ and $b$: $y_2 = a$ and $x_2 = b$.
+   We then have:
+   $$(\forall x_1 \neg p(x_1) \lor \forall y_1 q(y_1, f(y_1))) \land (\forall z_2 \neg q(a, z_2) \lor p(b))$$
+
+6. Put into prenex form (all quantifiers at the front):
+   $$\forall x_1 \forall y_1 \forall z_2 [(\neg p(x_1) \lor q(y_1, f(y_1))) \land (\neg q(a, z_2) \lor p(b))]$$
+
+   This formula is now in universal form (conjunction of universally quantified clauses).
+
+### Example 3: Inductive Definition of Free Variables (FV)
+
+**Context:** Give an inductive definition of $\text{FV}(\phi)$ for a first-order formula $\phi$.
+
+**Application:** First define $\text{FV}$ for terms:
+
+- $\text{FV}(x) = \{x\}$ for a variable $x$.
+- $\text{FV}(c) = \emptyset$ for a constant $c$.
+- $\text{FV}(f(t_1, ..., t_n)) = \bigcup_{i=1}^n \text{FV}(t_i)$.
+
+Then for formulas:
+
+- $\text{FV}(p(t_1, ..., t_n)) = \bigcup_{i=1}^n \text{FV}(t_i)$.
+- $\text{FV}(\neg \phi) = \text{FV}(\phi)$.
+- $\text{FV}(\phi \land \psi) = \text{FV}(\phi) \cup \text{FV}(\psi)$ (similarly for $\lor, \Rightarrow, \iff$).
+- $\text{FV}(\forall x \phi) = \text{FV}(\phi) \setminus \{x\}$.
+- $\text{FV}(\exists x \phi) = \text{FV}(\phi) \setminus \{x\}$.
+
+**Example:** For $\phi = \forall x p(x) \land q(y)$, we have:
+
+- $\text{FV}(p(x)) = \{x\}$, so $\text{FV}(\forall x p(x)) = \emptyset$.
+- $\text{FV}(q(y)) = \{y\}$.
+- Therefore $\text{FV}(\phi) = \emptyset \cup \{y\} = \{y\}$.
+
+### Example 4: Substitutions to Obtain Closed Instances
+
+**Context:** Let $\phi = p(x) \iff \neg p(f(x))$. Propose three substitutions $\theta$ such that $\phi.\theta$ is a closed instance of $\phi$.
+
+**Application:** A closed instance has no free variables. Here, $x$ is free in $\phi$ (because it is not quantified in $\phi$ itself, though in the exercise we have $\forall x \phi$, but here we consider $\phi$ alone). To close $\phi$, we must substitute $x$ with a term without variables.
+
+1. $\theta_1 = \{ x \mapsto a \}$ where $a$ is a constant. Then $\phi.\theta_1 = p(a) \iff \neg p(f(a))$.
+2. $\theta_2 = \{ x \mapsto f(a) \}$. Then $\phi.\theta_2 = p(f(a)) \iff \neg p(f(f(a)))$.
+3. $\theta_3 = \{ x \mapsto f(f(a)) \}$. Then $\phi.\theta_3 = p(f(f(a))) \iff \neg p(f(f(f(a))))$.
+
+Each of these instances is closed because it contains no more variables.
+
+### Example 5: Validity of Clauses Under Substitution
+
+**Context:** Let $C$ be a valid clause in a context $(\mathcal{D}, \mathcal{F}, \mathcal{P})$. Let $\Pi$ be a substitution on the variables of $C$. Prove that if $C$ is valid, then $\Pi(C)$ is valid. If $\Pi$ is a renaming (bijection between variables), prove the converse.
+
+**Application:**
+
+1. **Direct proof**:
+
+    If $C$ is valid, then for every interpretation $\mathcal{I}$, $\mathcal{I} \models C$.
+    
+    Let $\mathcal{I}$ be an interpretation. We want to show $\mathcal{I} \models \Pi(C)$.
+    
+    Let $\sigma$ be a variable assignment. Define an assignment $\sigma'$ such that for every variable $x$, $\sigma'(x) = \mathcal{I}(\Pi(x))$ (the value of $\Pi(x)$ in $\mathcal{I}$).
+    
+    Then $\mathcal{I}, \sigma \models \Pi(C)$ if and only if $\mathcal{I}, \sigma' \models C$.
+    
+    Since $C$ is valid, $\mathcal{I}, \sigma' \models C$, therefore $\mathcal{I}, \sigma \models \Pi(C)$. Thus $\Pi(C)$ is valid.
+
+2. **Converse for renaming**:
+    
+    If $\Pi$ is a renaming (bijection), then $\Pi^{-1}$ exists and is also a substitution.
+    
+    If $\Pi(C)$ is valid, then applying the previous result with $\Pi^{-1}$, we obtain that $\Pi^{-1}(\Pi(C)) = C$ is valid.
+
+**Concrete example:** Let $C = P(x) \lor \neg P(f(x))$. Assume $C$ is valid. Consider substitution $\Pi = \{ x \mapsto f(y) \}$. Then $\Pi(C) = P(f(y)) \lor \neg P(f(f(y)))$. According to the proof, $\Pi(C)$ is also valid.
+
+## Synthesis
+
+The exercises in this series implement basic techniques of first-order logic:
+
+- Distinction between satisfiability and validity, with construction of interpretations and counterexamples.
+- Formula transformations: elimination of connectives, conversion to prenex form, skolemization to obtain universal forms (clauses).
+- Manipulation of free variables and substitutions to obtain closed instances.
+- Preservation of clause validity under substitution, particularly under renaming.
+
+These methods are fundamental for resolution in first-order logic, automated theorem proving, and software verification.
