@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ch4 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-language" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Language</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-language">    
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">English</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./fr/index.html">
+ <span class="dropdown-text">French</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Course</a></li><li class="breadcrumb-item"><a href="./ch4.html">Model Checking</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Course</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software Modeling and Verification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMT Solving</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract Interpretation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Model Checking</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#model-checking" id="toc-model-checking" class="nav-link active" data-scroll-target="#model-checking">Model Checking</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-model-checking" id="toc-introduction-to-model-checking" class="nav-link" data-scroll-target="#introduction-to-model-checking">Introduction to Model Checking</a>
+  <ul class="collapse">
+  <li><a href="#the-model-checking-problem" id="toc-the-model-checking-problem" class="nav-link" data-scroll-target="#the-model-checking-problem">The Model Checking Problem</a></li>
+  </ul></li>
+  <li><a href="#infinite-words-and-ω-regular-languages" id="toc-infinite-words-and-ω-regular-languages" class="nav-link" data-scroll-target="#infinite-words-and-ω-regular-languages">Infinite Words and ω-Regular Languages</a>
+  <ul class="collapse">
+  <li><a href="#ω-words" id="toc-ω-words" class="nav-link" data-scroll-target="#ω-words">ω-Words</a></li>
+  <li><a href="#ω-regular-expressions" id="toc-ω-regular-expressions" class="nav-link" data-scroll-target="#ω-regular-expressions">ω-Regular Expressions</a></li>
+  <li><a href="#ω-regular-languages" id="toc-ω-regular-languages" class="nav-link" data-scroll-target="#ω-regular-languages">ω-Regular Languages</a></li>
+  <li><a href="#emptiness-problem-for-ω-regular-languages" id="toc-emptiness-problem-for-ω-regular-languages" class="nav-link" data-scroll-target="#emptiness-problem-for-ω-regular-languages">Emptiness Problem for ω-Regular Languages</a></li>
+  </ul></li>
+  <li><a href="#büchi-automata" id="toc-büchi-automata" class="nav-link" data-scroll-target="#büchi-automata">Büchi Automata</a>
+  <ul class="collapse">
+  <li><a href="#formal-definition" id="toc-formal-definition" class="nav-link" data-scroll-target="#formal-definition">Formal Definition</a></li>
+  <li><a href="#acceptance-semantics" id="toc-acceptance-semantics" class="nav-link" data-scroll-target="#acceptance-semantics">Acceptance Semantics</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  </ul></li>
+  <li><a href="#linear-temporal-logic-ltl" id="toc-linear-temporal-logic-ltl" class="nav-link" data-scroll-target="#linear-temporal-logic-ltl">Linear Temporal Logic (LTL)</a>
+  <ul class="collapse">
+  <li><a href="#syntax" id="toc-syntax" class="nav-link" data-scroll-target="#syntax">Syntax</a></li>
+  <li><a href="#semantics" id="toc-semantics" class="nav-link" data-scroll-target="#semantics">Semantics</a></li>
+  <li><a href="#derived-operators" id="toc-derived-operators" class="nav-link" data-scroll-target="#derived-operators">Derived Operators</a></li>
+  <li><a href="#ltl-and-büchi-automata" id="toc-ltl-and-büchi-automata" class="nav-link" data-scroll-target="#ltl-and-büchi-automata">LTL and Büchi Automata</a></li>
+  </ul></li>
+  <li><a href="#application-to-model-checking" id="toc-application-to-model-checking" class="nav-link" data-scroll-target="#application-to-model-checking">Application to Model Checking</a>
+  <ul class="collapse">
+  <li><a href="#general-method" id="toc-general-method" class="nav-link" data-scroll-target="#general-method">General Method</a></li>
+  <li><a href="#interpretation-of-results" id="toc-interpretation-of-results" class="nav-link" data-scroll-target="#interpretation-of-results">Interpretation of Results</a></li>
+  <li><a href="#emptiness-check" id="toc-emptiness-check" class="nav-link" data-scroll-target="#emptiness-check">Emptiness Check</a></li>
+  <li><a href="#simplified-example-an-elevator" id="toc-simplified-example-an-elevator" class="nav-link" data-scroll-target="#simplified-example-an-elevator">Simplified Example: An Elevator</a></li>
+  </ul></li>
+  <li><a href="#summary-and-perspectives" id="toc-summary-and-perspectives" class="nav-link" data-scroll-target="#summary-and-perspectives">Summary and Perspectives</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch4.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="ch4.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch1.html">Course</a></li><li class="breadcrumb-item"><a href="./ch4.html">Model Checking</a></li></ol></nav></header>
+
+
+
+
+
+<section id="model-checking" class="level1">
+<h1>Model Checking</h1>
+<section id="introduction-to-model-checking" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-model-checking">Introduction to Model Checking</h2>
+<p>Model checking is a formal verification technique for systems, proposed in 1981 by Clarke, Emerson, and Sifakis. It allows automatically verifying whether a system (modeled by a finite-state automaton) satisfies a property specified in temporal logic.</p>
+<section id="the-model-checking-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-model-checking-problem">The Model Checking Problem</h3>
+<p>Given a finite automaton <span class="math inline">\(A\)</span> (possibly with labels) and a temporal logic formula <span class="math inline">\(F\)</span>, the problem is to:</p>
+<ul>
+<li>Determine if <span class="math inline">\(A \models F\)</span>, i.e., if all traces of <span class="math inline">\(A\)</span> are included in the traces of <span class="math inline">\(F\)</span>: <span class="math inline">\(Traces(A) \subseteq Traces(F)\)</span>.</li>
+<li>If not, provide a counterexample: an execution of <span class="math inline">\(A\)</span> that does not satisfy <span class="math inline">\(F\)</span>.</li>
+</ul>
+<p>The difficulty of the problem (decidability, complexity) depends on the expressiveness of <span class="math inline">\(A\)</span> and <span class="math inline">\(F\)</span>. In this course, we focus on:</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: a finite automaton with only actions (simple labels) on transitions, and nothing on states.</li>
+<li><span class="math inline">\(F\)</span>: a linear temporal logic (LTL) formula.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="infinite-words-and-ω-regular-languages" class="level2">
+<h2 class="anchored" data-anchor-id="infinite-words-and-ω-regular-languages">Infinite Words and ω-Regular Languages</h2>
+<section id="ω-words" class="level3">
+<h3 class="anchored" data-anchor-id="ω-words">ω-Words</h3>
+<p>Reactive systems do not stop, so their executions are infinite. Similarly, the properties to verify concern infinite behaviors. An infinite trace (or word) of actions is called an <strong>ω-word</strong>.</p>
+<p><strong>Example:</strong> The infinite word consisting of the infinite repetition of “ab” is written <span class="math inline">\((ab)^{\omega}\)</span>.</p>
+<p>Compare with <span class="math inline">\((ab)^{*}\)</span> which represents finite words with an arbitrary (finite) number of repetitions of “ab”. The symbol <span class="math inline">\(\omega\)</span> indicates an infinite repetition.</p>
+</section>
+<section id="ω-regular-expressions" class="level3">
+<h3 class="anchored" data-anchor-id="ω-regular-expressions">ω-Regular Expressions</h3>
+<p>By extending regular expressions with the operator <span class="math inline">\(\omega\)</span>, we define <strong>ω-regular expressions</strong>.</p>
+<p><strong>Examples:</strong> Over the alphabet <span class="math inline">\(\{a, b\}\)</span>:</p>
+<ul>
+<li><span class="math inline">\((a + b)^{*}.a^{\omega}\)</span> represents infinite words with a finite number of <span class="math inline">\(b\)</span>.</li>
+<li><span class="math inline">\((a^{*}b)^{\omega}\)</span> represents infinite words with an infinite number of <span class="math inline">\(b\)</span>.</li>
+</ul>
+<p><strong>Caution:</strong> <span class="math inline">\(a^{\omega}b^{\omega}\)</span> does not make sense (we cannot finish reading the infinite <span class="math inline">\(a\)</span> to move to <span class="math inline">\(b\)</span>) and is therefore forbidden.</p>
+</section>
+<section id="ω-regular-languages" class="level3">
+<h3 class="anchored" data-anchor-id="ω-regular-languages">ω-Regular Languages</h3>
+<p>Just as regular languages can be represented by regular expressions or finite automata, <strong>ω-regular languages</strong> are exactly those that can be expressed by:</p>
+<ul>
+<li>ω-regular expressions (with operators <span class="math inline">\(+, \cdot, *, \omega\)</span>),</li>
+<li>Büchi automata.</li>
+</ul>
+<p><strong>Definition:</strong> A language <span class="math inline">\(L\)</span> is ω-regular if it can be written in one of the following forms (and their combinations):</p>
+<ol type="1">
+<li><span class="math inline">\(L = A^{\omega}\)</span> where <span class="math inline">\(A\)</span> is a regular language and <span class="math inline">\(\epsilon \notin A\)</span>,</li>
+<li><span class="math inline">\(L = A \cdot B\)</span> where <span class="math inline">\(A\)</span> is regular and <span class="math inline">\(B\)</span> is ω-regular,</li>
+<li><span class="math inline">\(L = A \cup B\)</span> where <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are ω-regular.</li>
+</ol>
+<p><strong>Closure properties:</strong> If we have automata (finite or Büchi) for <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, we can construct a Büchi automaton for <span class="math inline">\(A^{\omega}\)</span>, <span class="math inline">\(A \cdot B\)</span>, <span class="math inline">\(A + B\)</span>, <span class="math inline">\(A \cap B\)</span>. However, complementation <span class="math inline">\(\overline{A}\)</span> is more complex (exponential size).</p>
+<p><strong>Important remark:</strong> Unlike finite automata, a nondeterministic Büchi automaton cannot always be determinized. For example, <span class="math inline">\((a + b)^{*} a^{\omega}\)</span> cannot be recognized by a deterministic Büchi automaton.</p>
+</section>
+<section id="emptiness-problem-for-ω-regular-languages" class="level3">
+<h3 class="anchored" data-anchor-id="emptiness-problem-for-ω-regular-languages">Emptiness Problem for ω-Regular Languages</h3>
+<p>The problem of deciding whether an ω-regular language <span class="math inline">\(L\)</span> is empty is <strong>decidable</strong>. Given a Büchi automaton <span class="math inline">\(A\)</span> such that <span class="math inline">\(L(A) = L\)</span>, we have:</p>
+<p><span class="math inline">\(L \neq \emptyset\)</span> if and only if <span class="math inline">\(A\)</span> contains an ω-word. Since the number of final states is finite, every accepted ω-word is ultimately periodic.</p>
+<p>Thus, <span class="math inline">\(L \neq \emptyset\)</span> iff <span class="math inline">\(A\)</span> contains a strongly connected component (SCC) reachable from the initial state and containing a final state.</p>
+<hr>
+</section>
+</section>
+<section id="büchi-automata" class="level2">
+<h2 class="anchored" data-anchor-id="büchi-automata">Büchi Automata</h2>
+<section id="formal-definition" class="level3">
+<h3 class="anchored" data-anchor-id="formal-definition">Formal Definition</h3>
+<p>A Büchi automaton is a tuple <span class="math inline">\(\mathcal{A} = (S, S_0, L, T, F)\)</span> where:</p>
+<ul>
+<li><span class="math inline">\(S\)</span>: finite set of states,</li>
+<li><span class="math inline">\(S_0 \subseteq S\)</span>: initial states,</li>
+<li><span class="math inline">\(L\)</span>: alphabet (labels),</li>
+<li><span class="math inline">\(T \subseteq S \times L \times S\)</span>: transition relation,</li>
+<li><span class="math inline">\(F \subseteq S\)</span>: final states (or acceptance states).</li>
+</ul>
+</section>
+<section id="acceptance-semantics" class="level3">
+<h3 class="anchored" data-anchor-id="acceptance-semantics">Acceptance Semantics</h3>
+<p>An ω-word <span class="math inline">\(w = a_0 a_1 a_2 \dots\)</span> is accepted by <span class="math inline">\(\mathcal{A}\)</span> if there exists an infinite execution <span class="math inline">\(s_0 s_1 s_2 \dots\)</span> such that:</p>
+<ul>
+<li><span class="math inline">\(s_0 \in S_0\)</span>,</li>
+<li>for all <span class="math inline">\(i \geq 0\)</span>, <span class="math inline">\((s_i, a_i, s_{i+1}) \in T\)</span>,</li>
+<li>and <strong>a final state <span class="math inline">\(f \in F\)</span> appears infinitely often</strong> in the execution.</li>
+</ul>
+<p>The language recognized by <span class="math inline">\(\mathcal{A}\)</span>, denoted <span class="math inline">\(L(\mathcal{A})\)</span>, is the set of accepted ω-words.</p>
+<p><strong>Remark:</strong> This acceptance condition (visiting a final state infinitely often) is characteristic of Büchi automata.</p>
+<p>Here is an example of a Büchi automaton illustrating the ω-regular language <span class="math inline">\((a+b)^* a^\omega\)</span> (infinite words containing a finite number of <span class="math inline">\(b\)</span>), integrated directly into your course.</p>
+</section>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p>The Büchi automaton below recognizes the ω-regular language <span class="math inline">\(L = (a+b)^* a^\omega\)</span>, i.e., the set of infinite words over <span class="math inline">\(\{a, b\}\)</span> that, after some finite prefix, contain only the symbol <span class="math inline">\(a\)</span>.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 239.21 122.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.8)">
+<title>buchi_example</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.8 235.21,-118.8 235.21,4 -4,4"></polygon>
+<!-- q0 -->
+<g id="node1" class="node">
+<title>q0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-40" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q0</text>
+</g>
+<!-- q0&#45;&gt;q0 -->
+<g id="edge2" class="edge">
+<title>q0-&gt;q0</title>
+<path fill="none" stroke="black" d="M62.88,-74.8C63.09,-85.55 66.46,-94 73,-94 77.29,-94 80.22,-90.36 81.78,-84.82"></path>
+<polygon fill="black" stroke="black" points="85.27,-85.17 83.12,-74.8 78.33,-84.25 85.27,-85.17"></polygon>
+<text text-anchor="middle" x="73" y="-98.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a, b</text>
+</g>
+<!-- q1 -->
+<g id="node2" class="node">
+<title>q1</title>
+<ellipse fill="none" stroke="black" cx="191.21" cy="-40" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="191.21" cy="-40" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="191.21" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q1</text>
+</g>
+<!-- q0&#45;&gt;q1 -->
+<g id="edge3" class="edge">
+<title>q0-&gt;q1</title>
+<path fill="none" stroke="black" d="M109.18,-40C119.21,-40 130.32,-40 141.01,-40"></path>
+<polygon fill="black" stroke="black" points="141.09,-43.5 151.09,-40 141.09,-36.5 141.09,-43.5"></polygon>
+<text text-anchor="middle" x="130.11" y="-44.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a</text>
+</g>
+<!-- q1&#45;&gt;q1 -->
+<g id="edge4" class="edge">
+<title>q1-&gt;q1</title>
+<path fill="none" stroke="black" d="M180.01,-78.49C180.45,-89.5 184.18,-98 191.21,-98 195.83,-98 199.02,-94.34 200.8,-88.71"></path>
+<polygon fill="black" stroke="black" points="204.31,-88.91 202.42,-78.49 197.4,-87.81 204.31,-88.91"></polygon>
+<text text-anchor="middle" x="191.21" y="-102.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a</text>
+</g>
+<!-- start -->
+<g id="node3" class="node">
+<title>start</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-40" rx="0" ry="0"></ellipse>
+</g>
+<!-- start&#45;&gt;q0 -->
+<g id="edge1" class="edge">
+<title>start-&gt;q0</title>
+<path fill="none" stroke="black" d="M1.05,-40C1.91,-40 13.39,-40 26.87,-40"></path>
+<polygon fill="black" stroke="black" points="26.92,-43.5 36.92,-40 26.92,-36.5 26.92,-43.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation of the automaton:</strong></p>
+<ul>
+<li>From the initial state <span class="math inline">\(q_0\)</span>, the automaton can read any finite sequence (possibly empty) of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> while staying in <span class="math inline">\(q_0\)</span> (transition on <span class="math inline">\(a, b\)</span>).</li>
+<li>At any time, upon reading an <span class="math inline">\(a\)</span>, it can choose to go to the final state <span class="math inline">\(q_1\)</span>.</li>
+<li>Once in <span class="math inline">\(q_1\)</span>, it can only read <span class="math inline">\(a\)</span> (loop on <span class="math inline">\(a\)</span>) to stay there.</li>
+<li>For an infinite word to be <strong>accepted</strong>, there must exist an execution that visits <span class="math inline">\(q_1\)</span> infinitely often. The only way to do this is to go to <span class="math inline">\(q_1\)</span> at some point and then read only <span class="math inline">\(a\)</span> indefinitely. Therefore, any accepted word must end with an infinity of <span class="math inline">\(a\)</span>, which exactly corresponds to the definition of the language <span class="math inline">\((a+b)^* a^\omega\)</span>.</li>
+</ul>
+<p>This example also illustrates the <strong>nondeterminism</strong> of some Büchi automata: upon reading an <span class="math inline">\(a\)</span> in <span class="math inline">\(q_0\)</span>, the automaton can choose between staying in <span class="math inline">\(q_0\)</span> or going to <span class="math inline">\(q_1\)</span>. This nondeterminism is essential to recognize this language with a Büchi automaton.</p>
+<hr>
+</section>
+</section>
+<section id="linear-temporal-logic-ltl" class="level2">
+<h2 class="anchored" data-anchor-id="linear-temporal-logic-ltl">Linear Temporal Logic (LTL)</h2>
+<p>Introduced by Pnueli in 1977, LTL allows expressing properties about the infinite behaviors of systems.</p>
+<section id="syntax" class="level3">
+<h3 class="anchored" data-anchor-id="syntax">Syntax</h3>
+<p>The syntax of LTL is defined by the following grammar:</p>
+<p><span class="math display">\[
+\phi ::= a \mid \neg \phi \mid \phi_1 \lor \phi_2 \mid \bigcirc \phi \mid \phi_1 \ \mathcal{U} \ \phi_2
+\]</span></p>
+<p>where <span class="math inline">\(a\)</span> is a propositional variable (an action or atomic property).</p>
+</section>
+<section id="semantics" class="level3">
+<h3 class="anchored" data-anchor-id="semantics">Semantics</h3>
+<p>An LTL formula <span class="math inline">\(\phi\)</span> interprets an ω-word <span class="math inline">\(\sigma = (\sigma_i)_{i \geq 0}\)</span> (where each <span class="math inline">\(\sigma_i\)</span> is a set of propositions true at instant <span class="math inline">\(i\)</span>). The satisfaction relation <span class="math inline">\(\sigma \models \phi\)</span> is defined inductively:</p>
+<ul>
+<li><span class="math inline">\(\sigma \models a\)</span> iff <span class="math inline">\(a \in \sigma_0\)</span> (the proposition <span class="math inline">\(a\)</span> is true at the first instant).</li>
+<li><span class="math inline">\(\sigma \models \neg \phi\)</span> iff <span class="math inline">\(\sigma \not\models \phi\)</span>.</li>
+<li><span class="math inline">\(\sigma \models \phi_1 \lor \phi_2\)</span> iff <span class="math inline">\(\sigma \models \phi_1\)</span> or <span class="math inline">\(\sigma \models \phi_2\)</span>.</li>
+<li><span class="math inline">\(\sigma \models \bigcirc \phi\)</span> iff <span class="math inline">\(\sigma' = (\sigma_i)_{i \geq 1} \models \phi\)</span> (the formula <span class="math inline">\(\phi\)</span> is true at the next instant).</li>
+<li><span class="math inline">\(\sigma \models \phi_1 \ \mathcal{U} \ \phi_2\)</span> iff there exists <span class="math inline">\(j \geq 0\)</span> such that:
+<ul>
+<li><span class="math inline">\(\sigma^{(j)} = (\sigma_i)_{i \geq j} \models \phi_2\)</span>,</li>
+<li>and for all <span class="math inline">\(k\)</span> with <span class="math inline">\(0 \leq k &lt; j\)</span>, we have <span class="math inline">\(\sigma^{(k)} = (\sigma_i)_{i \geq k} \models \phi_1\)</span>.</li>
+</ul></li>
+</ul>
+<p>Intuitively, <span class="math inline">\(\phi_1 \ \mathcal{U} \ \phi_2\)</span> means that <span class="math inline">\(\phi_1\)</span> remains true until <span class="math inline">\(\phi_2\)</span> becomes true (and <span class="math inline">\(\phi_2\)</span> eventually becomes true).</p>
+</section>
+<section id="derived-operators" class="level3">
+<h3 class="anchored" data-anchor-id="derived-operators">Derived Operators</h3>
+<p>From the basic operators, we define:</p>
+<ul>
+<li><strong>Eventually:</strong> <span class="math inline">\(\lozenge \phi \equiv \text{True} \ \mathcal{U} \ \phi\)</span>. The formula <span class="math inline">\(\phi\)</span> becomes true after a finite time.</li>
+<li><strong>Always:</strong> <span class="math inline">\(\square \phi \equiv \neg \lozenge \neg \phi\)</span>. The formula <span class="math inline">\(\phi\)</span> is true at every instant.</li>
+</ul>
+<p><strong>Some useful equivalences:</strong></p>
+<ul>
+<li><span class="math inline">\(\square (a \lor b) \neq \square a \lor \square b\)</span></li>
+<li><span class="math inline">\(\lozenge (a \lor b) \equiv \lozenge a \lor \lozenge b\)</span></li>
+<li><span class="math inline">\(\square (a \land b) \equiv \square a \land \square b\)</span></li>
+<li><span class="math inline">\(\lozenge (a \land b) \neq \lozenge a \land \lozenge b\)</span> (since <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> can occur at different instants).</li>
+</ul>
+</section>
+<section id="ltl-and-büchi-automata" class="level3">
+<h3 class="anchored" data-anchor-id="ltl-and-büchi-automata">LTL and Büchi Automata</h3>
+<p>A fundamental result: every LTL formula can be translated into a Büchi automaton that accepts exactly the ω-words satisfying the formula. Algorithms exist for this construction.</p>
+<section id="büchi-automata-for-basic-ltl-operators" class="level4">
+<h4 class="anchored" data-anchor-id="büchi-automata-for-basic-ltl-operators">Büchi Automata for Basic LTL Operators</h4>
+<p>To better understand the semantics of LTL operators, here are Büchi automata that recognize exactly the ω-words satisfying each formula.</p>
+<p><strong>1. Next Operator: <span class="math inline">\(\bigcirc a\)</span></strong></p>
+<p>The formula <span class="math inline">\(\bigcirc a\)</span> requires that <span class="math inline">\(a\)</span> be true at the instant following the current instant.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 361.21 246.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>next_operator</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 357.21,-242.8 357.21,4 -4,4"></polygon>
+<!-- s0 -->
+<g id="node1" class="node">
+<title>s0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-100" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-95.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s0</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<ellipse fill="none" stroke="black" cx="188" cy="-100" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="188" y="-95.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s1</text>
+</g>
+<!-- s0&#45;&gt;s1 -->
+<g id="edge2" class="edge">
+<title>s0-&gt;s1</title>
+<path fill="none" stroke="black" d="M109.13,-100C119.44,-100 130.87,-100 141.72,-100"></path>
+<polygon fill="black" stroke="black" points="141.89,-103.5 151.89,-100 141.89,-96.5 141.89,-103.5"></polygon>
+<text text-anchor="middle" x="130.5" y="-104.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<ellipse fill="none" stroke="black" cx="313.21" cy="-164" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="313.21" cy="-164" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="313.21" y="-159.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s2</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge4" class="edge">
+<title>s1-&gt;s2</title>
+<path fill="none" stroke="black" d="M220.41,-116.32C234.95,-123.87 252.48,-132.97 268.3,-141.19"></path>
+<polygon fill="black" stroke="black" points="266.9,-144.41 277.39,-145.91 270.13,-138.19 266.9,-144.41"></polygon>
+<text text-anchor="middle" x="248.61" y="-138.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a</text>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<ellipse fill="gray" stroke="black" cx="313.21" cy="-36" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="313.21" y="-31.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s3</text>
+</g>
+<!-- s1&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s1-&gt;s3</title>
+<path fill="none" stroke="black" d="M220.41,-83.68C236.05,-75.56 255.14,-65.64 271.86,-56.96"></path>
+<polygon fill="black" stroke="black" points="273.6,-60 280.86,-52.29 270.37,-53.79 273.6,-60"></polygon>
+<text text-anchor="middle" x="248.61" y="-76.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">¬a</text>
+</g>
+<!-- s2&#45;&gt;s2 -->
+<g id="edge5" class="edge">
+<title>s2-&gt;s2</title>
+<path fill="none" stroke="black" d="M301.25,-202.21C301.66,-213.36 305.65,-222 313.21,-222 318.29,-222 321.76,-218.1 323.62,-212.16"></path>
+<polygon fill="black" stroke="black" points="327.08,-212.63 325.18,-202.21 320.17,-211.55 327.08,-212.63"></polygon>
+<text text-anchor="middle" x="313.21" y="-226.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- s3&#45;&gt;s3 -->
+<g id="edge6" class="edge">
+<title>s3-&gt;s3</title>
+<path fill="none" stroke="black" d="M301.21,-70.01C301.28,-81.14 305.28,-90 313.21,-90 318.55,-90 322.1,-86 323.88,-80"></path>
+<polygon fill="black" stroke="black" points="327.36,-80.39 325.21,-70.01 320.42,-79.46 327.36,-80.39"></polygon>
+<text text-anchor="middle" x="313.21" y="-94.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- init -->
+<g id="node5" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-100" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;s0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;s0</title>
+<path fill="none" stroke="black" d="M1.05,-100C1.91,-100 13.39,-100 26.87,-100"></path>
+<polygon fill="black" stroke="black" points="26.92,-103.5 36.92,-100 26.92,-96.5 26.92,-103.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation:</strong> The automaton immediately moves from the initial state <span class="math inline">\(s_0\)</span> to <span class="math inline">\(s_1\)</span> (representing the next instant). If <span class="math inline">\(a\)</span> is true in this next state (<span class="math inline">\(s_1\)</span>), it goes to the final state <span class="math inline">\(s_2\)</span> and the word is accepted. If <span class="math inline">\(a\)</span> is false, it enters the sink state <span class="math inline">\(s_3\)</span> and is not accepted.</p>
+<p><strong>2. Until Operator: <span class="math inline">\(a \ \mathcal{U} \ b\)</span></strong></p>
+<p>The formula <span class="math inline">\(a \ \mathcal{U} \ b\)</span> requires that <span class="math inline">\(a\)</span> remain true until <span class="math inline">\(b\)</span> becomes true (and <span class="math inline">\(b\)</span> must eventually become true).</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 277.71 246.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>until_operator</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 273.71,-242.8 273.71,4 -4,4"></polygon>
+<!-- s0 -->
+<g id="node1" class="node">
+<title>s0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-100" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-95.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s0</text>
+</g>
+<!-- s0&#45;&gt;s0 -->
+<g id="edge2" class="edge">
+<title>s0-&gt;s0</title>
+<path fill="none" stroke="black" d="M62.88,-134.8C63.09,-145.55 66.46,-154 73,-154 77.29,-154 80.22,-150.36 81.78,-144.82"></path>
+<polygon fill="black" stroke="black" points="85.27,-145.17 83.12,-134.8 78.33,-144.25 85.27,-145.17"></polygon>
+<text text-anchor="middle" x="73" y="-158.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a ∧ ¬b</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<ellipse fill="none" stroke="black" cx="229.71" cy="-164" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="229.71" cy="-164" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="229.71" y="-159.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s1</text>
+</g>
+<!-- s0&#45;&gt;s1 -->
+<g id="edge3" class="edge">
+<title>s0-&gt;s1</title>
+<path fill="none" stroke="black" d="M106.43,-113.42C128.65,-122.61 158.43,-134.93 183.04,-145.11"></path>
+<polygon fill="black" stroke="black" points="181.96,-148.45 192.53,-149.03 184.63,-141.98 181.96,-148.45"></polygon>
+<text text-anchor="middle" x="149.36" y="-143.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">b</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<ellipse fill="gray" stroke="black" cx="229.71" cy="-36" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="229.71" y="-31.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s2</text>
+</g>
+<!-- s0&#45;&gt;s2 -->
+<g id="edge4" class="edge">
+<title>s0-&gt;s2</title>
+<path fill="none" stroke="black" d="M106.43,-86.58C129.77,-76.93 161.45,-63.82 186.72,-53.37"></path>
+<polygon fill="black" stroke="black" points="188.15,-56.57 196.06,-49.51 185.48,-50.1 188.15,-56.57"></polygon>
+<text text-anchor="middle" x="149.36" y="-82.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">¬a ∧ ¬b</text>
+</g>
+<!-- s1&#45;&gt;s1 -->
+<g id="edge5" class="edge">
+<title>s1-&gt;s1</title>
+<path fill="none" stroke="black" d="M214.72,-201.1C214.95,-212.78 219.95,-222 229.71,-222 236.43,-222 240.89,-217.64 243.09,-211.12"></path>
+<polygon fill="black" stroke="black" points="246.57,-211.52 244.71,-201.1 239.66,-210.41 246.57,-211.52"></polygon>
+<text text-anchor="middle" x="229.71" y="-226.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- s2&#45;&gt;s2 -->
+<g id="edge6" class="edge">
+<title>s2-&gt;s2</title>
+<path fill="none" stroke="black" d="M214.72,-68.96C214.48,-80.57 219.48,-90 229.71,-90 236.75,-90 241.31,-85.54 243.4,-78.98"></path>
+<polygon fill="black" stroke="black" points="246.88,-79.32 244.71,-68.96 239.94,-78.42 246.88,-79.32"></polygon>
+<text text-anchor="middle" x="229.71" y="-94.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- init -->
+<g id="node4" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-100" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;s0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;s0</title>
+<path fill="none" stroke="black" d="M1.05,-100C1.91,-100 13.39,-100 26.87,-100"></path>
+<polygon fill="black" stroke="black" points="26.92,-103.5 36.92,-100 26.92,-96.5 26.92,-103.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation:</strong> As long as <span class="math inline">\(a \land \lnot b\)</span> is true, the automaton remains in the initial state <span class="math inline">\(s_0\)</span>. As soon as <span class="math inline">\(b\)</span> becomes true, it moves to the final state <span class="math inline">\(s_1\)</span> (and stays there) and the word is accepted. If <span class="math inline">\(\lnot a \land \lnot b\)</span> becomes true, it enters the sink state <span class="math inline">\(s_2\)</span> and the word is not accepted.</p>
+<p><strong>3. Eventually Operator: <span class="math inline">\(\lozenge a\)</span></strong></p>
+<p>The formula <span class="math inline">\(\lozenge a\)</span> requires that <span class="math inline">\(a\)</span> become true at some future moment.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 239.21 135.60" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 131.6)">
+<title>eventually_operator</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-131.6 235.21,-131.6 235.21,4 -4,4"></polygon>
+<!-- s0 -->
+<g id="node1" class="node">
+<title>s0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-40" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s0</text>
+</g>
+<!-- s0&#45;&gt;s0 -->
+<g id="edge2" class="edge">
+<title>s0-&gt;s0</title>
+<path fill="none" stroke="black" d="M62.88,-74.8C63.09,-85.55 66.46,-94 73,-94 77.29,-94 80.22,-90.36 81.78,-84.82"></path>
+<polygon fill="black" stroke="black" points="85.27,-85.17 83.12,-74.8 78.33,-84.25 85.27,-85.17"></polygon>
+<text text-anchor="middle" x="73" y="-115" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+<text text-anchor="middle" x="73" y="-98.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(including a and ¬a)</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<ellipse fill="none" stroke="black" cx="191.21" cy="-40" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="191.21" cy="-40" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="191.21" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s1</text>
+</g>
+<!-- s0&#45;&gt;s1 -->
+<g id="edge3" class="edge">
+<title>s0-&gt;s1</title>
+<path fill="none" stroke="black" d="M109.18,-40C119.21,-40 130.32,-40 141.01,-40"></path>
+<polygon fill="black" stroke="black" points="141.09,-43.5 151.09,-40 141.09,-36.5 141.09,-43.5"></polygon>
+<text text-anchor="middle" x="130.11" y="-44.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a</text>
+</g>
+<!-- s1&#45;&gt;s1 -->
+<g id="edge4" class="edge">
+<title>s1-&gt;s1</title>
+<path fill="none" stroke="black" d="M180.01,-78.49C180.45,-89.5 184.18,-98 191.21,-98 195.83,-98 199.02,-94.34 200.8,-88.71"></path>
+<polygon fill="black" stroke="black" points="204.31,-88.91 202.42,-78.49 197.4,-87.81 204.31,-88.91"></polygon>
+<text text-anchor="middle" x="191.21" y="-102.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- init -->
+<g id="node3" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-40" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;s0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;s0</title>
+<path fill="none" stroke="black" d="M1.05,-40C1.91,-40 13.39,-40 26.87,-40"></path>
+<polygon fill="black" stroke="black" points="26.92,-43.5 36.92,-40 26.92,-36.5 26.92,-43.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation:</strong> The automaton remains in the initial state <span class="math inline">\(s_0\)</span>. At some point, when <span class="math inline">\(a\)</span> becomes true (not excluding that other <span class="math inline">\(a\)</span> may have occurred), it moves to the final state <span class="math inline">\(s_1\)</span> and stays there, accepting the word. If <span class="math inline">\(a\)</span> is never true, it remains indefinitely in <span class="math inline">\(s_0\)</span> and the word is not accepted (because <span class="math inline">\(s_0\)</span> is not final).</p>
+<p><strong>4. Always Operator: <span class="math inline">\(\square a\)</span></strong></p>
+<p>The formula <span class="math inline">\(\square a\)</span> requires that <span class="math inline">\(a\)</span> be true at every instant.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 246.21 122.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.8)">
+<title>always_operator</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.8 242.21,-118.8 242.21,4 -4,4"></polygon>
+<!-- s0 -->
+<g id="node1" class="node">
+<title>s0</title>
+<ellipse fill="none" stroke="black" cx="77" cy="-40" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="77" cy="-40" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="77" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s0</text>
+</g>
+<!-- s0&#45;&gt;s0 -->
+<g id="edge2" class="edge">
+<title>s0-&gt;s0</title>
+<path fill="none" stroke="black" d="M66.18,-78.76C66.65,-89.64 70.26,-98 77,-98 81.42,-98 84.5,-94.4 86.22,-88.85"></path>
+<polygon fill="black" stroke="black" points="89.71,-89.19 87.82,-78.76 82.8,-88.09 89.71,-89.19"></polygon>
+<text text-anchor="middle" x="77" y="-102.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">a</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<ellipse fill="gray" stroke="black" cx="202.21" cy="-40" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="202.21" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s1</text>
+</g>
+<!-- s0&#45;&gt;s1 -->
+<g id="edge3" class="edge">
+<title>s0-&gt;s1</title>
+<path fill="none" stroke="black" d="M117.32,-40C129.54,-40 143.1,-40 155.7,-40"></path>
+<polygon fill="black" stroke="black" points="156.01,-43.5 166.01,-40 156.01,-36.5 156.01,-43.5"></polygon>
+<text text-anchor="middle" x="141.61" y="-44.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">¬a</text>
+</g>
+<!-- s1&#45;&gt;s1 -->
+<g id="edge4" class="edge">
+<title>s1-&gt;s1</title>
+<path fill="none" stroke="black" d="M190.97,-74.28C191.08,-85.28 194.83,-94 202.21,-94 207.06,-94 210.34,-90.24 212.05,-84.55"></path>
+<polygon fill="black" stroke="black" points="215.57,-84.66 213.46,-74.28 208.64,-83.71 215.57,-84.66"></polygon>
+<text text-anchor="middle" x="202.21" y="-98.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- init -->
+<g id="node3" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-40" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;s0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;s0</title>
+<path fill="none" stroke="black" d="M1.05,-40C1.93,-40 13.15,-40 26.66,-40"></path>
+<polygon fill="black" stroke="black" points="26.78,-43.5 36.78,-40 26.78,-36.5 26.78,-43.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation:</strong> The automaton starts in the final state <span class="math inline">\(s_0\)</span>. As long as <span class="math inline">\(a\)</span> is true, it remains in <span class="math inline">\(s_0\)</span>. As soon as <span class="math inline">\(a\)</span> becomes false, it enters the sink state <span class="math inline">\(s_1\)</span> and the word is not accepted. To be accepted, <span class="math inline">\(a\)</span> must therefore be true at every instant.</p>
+<p>These automata illustrate how the semantics of each operator translates into acceptance conditions on infinite executions. They form the basis for the systematic construction of automata for more complex LTL formulas.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="application-to-model-checking" class="level2">
+<h2 class="anchored" data-anchor-id="application-to-model-checking">Application to Model Checking</h2>
+<section id="general-method" class="level3">
+<h3 class="anchored" data-anchor-id="general-method">General Method</h3>
+<p>To verify that a system <span class="math inline">\(A\)</span> (modeled by a Büchi automaton) satisfies a property <span class="math inline">\(F\)</span> (expressed in LTL), we follow these steps:</p>
+<ol type="1">
+<li>Model the system with a Büchi automaton <span class="math inline">\(A\)</span>.</li>
+<li>Express the desired property as an LTL formula <span class="math inline">\(F\)</span>.</li>
+<li>Construct a Büchi automaton for the negation of <span class="math inline">\(F\)</span>, denoted <span class="math inline">\(\neg F\)</span>.</li>
+<li>Compute the synchronous product of automata <span class="math inline">\(A\)</span> and <span class="math inline">\(\neg F\)</span>, which accepts the language <span class="math inline">\(L(A) \cap L(\neg F)\)</span>.</li>
+<li>Check if <span class="math inline">\(L(A) \cap L(\neg F)\)</span> is empty.</li>
+</ol>
+</section>
+<section id="interpretation-of-results" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-of-results">Interpretation of Results</h3>
+<ul>
+<li>If <span class="math inline">\(L(A) \cap L(\neg F) = \emptyset\)</span>, then <span class="math inline">\(L(A) \subseteq L(F)\)</span>, which means that <span class="math inline">\(A \models F\)</span> (the system satisfies the property).</li>
+<li>Otherwise, any ω-word in <span class="math inline">\(L(A) \cap L(\neg F)\)</span> is a <strong>counterexample</strong>: an execution of system <span class="math inline">\(A\)</span> that violates property <span class="math inline">\(F\)</span>.</li>
+</ul>
+</section>
+<section id="emptiness-check" class="level3">
+<h3 class="anchored" data-anchor-id="emptiness-check">Emptiness Check</h3>
+<p>To check if <span class="math inline">\(L(A) \cap L(\neg F)\)</span> is empty, we use the algorithm based on strongly connected components (SCC):</p>
+<ul>
+<li>Construct the graph of the product automaton.</li>
+<li>Look for an SCC that is:
+<ol type="1">
+<li>Reachable from an initial state,</li>
+<li>Contains at least one final state.</li>
+</ol></li>
+<li>If such an SCC exists, then the language is non-empty (there is a counterexample). Otherwise, it is empty.</li>
+</ul>
+</section>
+<section id="simplified-example-an-elevator" class="level3">
+<h3 class="anchored" data-anchor-id="simplified-example-an-elevator">Simplified Example: An Elevator</h3>
+<p>Consider an elevator system modeled by an automaton <span class="math inline">\(A\)</span>. A safety property could be: “if the elevator starts, then immediately after, it will remain moving until it stops”. In LTL, this is expressed:</p>
+<p><span class="math display">\[F = \square \left(\text{start} \Rightarrow \bigcirc \left(\text{move}\ \mathcal{U} \ \text{stop}\right)\right)\]</span></p>
+<p>The negation is:</p>
+<p><span class="math display">\[\neg F = \lozenge \left(\text{start} \land \bigcirc \left(\neg (\text{move} \ \mathcal{U} \ \text{stop})\right)\right)\]</span></p>
+<section id="step-1-system-modeling" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-system-modeling">Step 1: System Modeling</h4>
+<p>Here is automaton <span class="math inline">\(A\)</span> representing the simplified behavior of an elevator:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 408.03 240.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 236)">
+<title>elevator_system</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-236 404.03,-236 404.03,4 -4,4"></polygon>
+<!-- start -->
+<g id="node1" class="node">
+<title>start</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-144" rx="0" ry="0"></ellipse>
+</g>
+<!-- q0 -->
+<g id="node2" class="node">
+<title>q0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-144" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-139.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q0</text>
+</g>
+<!-- start&#45;&gt;q0 -->
+<g id="edge1" class="edge">
+<title>start-&gt;q0</title>
+<path fill="none" stroke="black" d="M1.05,-144C1.91,-144 13.39,-144 26.87,-144"></path>
+<polygon fill="black" stroke="black" points="26.92,-147.5 36.92,-144 26.92,-140.5 26.92,-147.5"></polygon>
+</g>
+<!-- q1 -->
+<g id="node3" class="node">
+<title>q1</title>
+<ellipse fill="none" stroke="black" cx="227.27" cy="-196" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="227.27" y="-191.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q1</text>
+</g>
+<!-- q0&#45;&gt;q1 -->
+<g id="edge2" class="edge">
+<title>q0-&gt;q1</title>
+<path fill="none" stroke="black" d="M100.84,-167.03C108.81,-172.77 117.86,-178.34 127,-182 143.86,-188.75 163.46,-192.33 180.78,-194.19"></path>
+<polygon fill="black" stroke="black" points="180.94,-197.72 191.22,-195.15 181.58,-190.75 180.94,-197.72"></polygon>
+<text text-anchor="middle" x="150.13" y="-197.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">open</text>
+</g>
+<!-- q2 -->
+<g id="node4" class="node">
+<title>q2</title>
+<ellipse fill="none" stroke="black" cx="227.27" cy="-99" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="227.27" y="-94.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q2</text>
+</g>
+<!-- q0&#45;&gt;q2 -->
+<g id="edge4" class="edge">
+<title>q0-&gt;q2</title>
+<path fill="none" stroke="black" d="M106.94,-131.84C113.55,-129.54 120.47,-127.22 127,-125.2 144.94,-119.66 164.92,-114.25 182.23,-109.79"></path>
+<polygon fill="black" stroke="black" points="183.24,-113.14 192.07,-107.28 181.52,-106.36 183.24,-113.14"></polygon>
+<text text-anchor="middle" x="150.13" y="-130.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">set floor</text>
+</g>
+<!-- q1&#45;&gt;q0 -->
+<g id="edge3" class="edge">
+<title>q1-&gt;q0</title>
+<path fill="none" stroke="black" d="M198.29,-174.58C190.53,-169.51 181.87,-164.6 173.27,-161.2 156.13,-154.43 136.29,-150.32 118.88,-147.83"></path>
+<polygon fill="black" stroke="black" points="119.31,-144.35 108.94,-146.54 118.41,-151.29 119.31,-144.35"></polygon>
+<text text-anchor="middle" x="150.13" y="-166.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">close</text>
+</g>
+<!-- q2&#45;&gt;q0 -->
+<g id="edge5" class="edge">
+<title>q2-&gt;q0</title>
+<path fill="none" stroke="black" d="M192.45,-89.43C172.68,-85.58 147.64,-83.79 127,-92.2 118.08,-95.84 109.84,-101.78 102.64,-108.37"></path>
+<polygon fill="black" stroke="black" points="99.9,-106.16 95.27,-115.69 104.83,-111.13 99.9,-106.16"></polygon>
+<text text-anchor="middle" x="150.13" y="-97.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">reset</text>
+</g>
+<!-- q3 -->
+<g id="node5" class="node">
+<title>q3</title>
+<ellipse fill="none" stroke="black" cx="364.03" cy="-160" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="364.03" y="-155.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q3</text>
+</g>
+<!-- q2&#45;&gt;q3 -->
+<g id="edge6" class="edge">
+<title>q2-&gt;q3</title>
+<path fill="none" stroke="black" d="M255.73,-121.43C263.63,-127.11 272.49,-132.78 281.27,-137 293.01,-142.65 306.39,-147.14 318.88,-150.59"></path>
+<polygon fill="black" stroke="black" points="318.09,-154.01 328.65,-153.15 319.86,-147.23 318.09,-154.01"></polygon>
+<text text-anchor="middle" x="295.65" y="-152.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">open</text>
+</g>
+<!-- q4 -->
+<g id="node6" class="node">
+<title>q4</title>
+<ellipse fill="none" stroke="black" cx="364.03" cy="-36" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="364.03" y="-31.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q4</text>
+</g>
+<!-- q2&#45;&gt;q4 -->
+<g id="edge8" class="edge">
+<title>q2-&gt;q4</title>
+<path fill="none" stroke="black" d="M260.2,-84.07C278.61,-75.46 301.96,-64.55 321.75,-55.3"></path>
+<polygon fill="black" stroke="black" points="323.28,-58.45 330.86,-51.04 320.31,-52.11 323.28,-58.45"></polygon>
+<text text-anchor="middle" x="295.65" y="-78.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">start</text>
+</g>
+<!-- q3&#45;&gt;q2 -->
+<g id="edge7" class="edge">
+<title>q3-&gt;q2</title>
+<path fill="none" stroke="black" d="M337.83,-134.97C329.55,-127.96 319.92,-120.97 310.03,-116.2 298.7,-110.74 285.66,-107.01 273.37,-104.45"></path>
+<polygon fill="black" stroke="black" points="273.76,-100.96 263.28,-102.58 272.48,-107.85 273.76,-100.96"></polygon>
+<text text-anchor="middle" x="295.65" y="-121.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">close</text>
+</g>
+<!-- q4&#45;&gt;q2 -->
+<g id="edge9" class="edge">
+<title>q4-&gt;q2</title>
+<path fill="none" stroke="black" d="M328.16,-32.56C313.08,-32.47 295.64,-34.33 281.27,-41.2 271.2,-46.01 262.15,-53.66 254.5,-61.84"></path>
+<polygon fill="black" stroke="black" points="251.81,-59.6 247.87,-69.44 257.08,-64.21 251.81,-59.6"></polygon>
+<text text-anchor="middle" x="295.65" y="-46.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">stop</text>
+</g>
+<!-- q4&#45;&gt;q4 -->
+<g id="edge10" class="edge">
+<title>q4-&gt;q4</title>
+<path fill="none" stroke="black" d="M351.28,-69.75C351.28,-81 355.53,-90 364.03,-90 369.74,-90 373.53,-85.94 375.41,-79.86"></path>
+<polygon fill="black" stroke="black" points="378.9,-80.13 376.78,-69.75 371.97,-79.19 378.9,-80.13"></polygon>
+<text text-anchor="middle" x="364.03" y="-94.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">move</text>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>State Descriptions:</strong></p>
+<ul>
+<li><strong><span class="math inline">\(q_0\)</span></strong>: Rest state (doors closed, no floor selected)</li>
+<li><strong><span class="math inline">\(q_1\)</span></strong>: Doors open</li>
+<li><strong><span class="math inline">\(q_2\)</span></strong>: Floor selected (waiting)</li>
+<li><strong><span class="math inline">\(q_3\)</span></strong>: Doors open after floor selection</li>
+<li><strong><span class="math inline">\(q_4\)</span></strong>: Elevator in motion</li>
+</ul>
+</section>
+<section id="step-2-construction-of-büchi-automata-for-f-and-neg-f" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-construction-of-büchi-automata-for-f-and-neg-f">Step 2: Construction of Büchi Automata for <span class="math inline">\(F\)</span> and <span class="math inline">\(\neg F\)</span></h4>
+<p><strong>1. Büchi Automaton for <span class="math inline">\(F = \square(\text{start} \Rightarrow \bigcirc(\text{move} \ \mathcal{U} \ \text{stop}))\)</span></strong></p>
+<p>This automaton accepts executions where each occurrence of <code>start</code> is followed by a state where <code>move</code> remains true until <code>stop</code> becomes true.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 451.04 122.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.8)">
+<title>buchi_F</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.8 447.04,-118.8 447.04,4 -4,4"></polygon>
+<!-- s0 -->
+<g id="node1" class="node">
+<title>s0</title>
+<ellipse fill="none" stroke="black" cx="77" cy="-40" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="77" cy="-40" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="77" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s0</text>
+</g>
+<!-- s0&#45;&gt;s0 -->
+<g id="edge2" class="edge">
+<title>s0-&gt;s0</title>
+<path fill="none" stroke="black" d="M66.18,-78.76C66.65,-89.64 70.26,-98 77,-98 81.42,-98 84.5,-94.4 86.22,-88.85"></path>
+<polygon fill="black" stroke="black" points="89.71,-89.19 87.82,-78.76 82.8,-88.09 89.71,-89.19"></polygon>
+<text text-anchor="middle" x="77" y="-102.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">¬start</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<ellipse fill="none" stroke="black" cx="213.1" cy="-40" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="213.1" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s1</text>
+</g>
+<!-- s0&#45;&gt;s1 -->
+<g id="edge3" class="edge">
+<title>s0-&gt;s1</title>
+<path fill="none" stroke="black" d="M117.15,-40C132.62,-40 150.51,-40 166.56,-40"></path>
+<polygon fill="black" stroke="black" points="166.8,-43.5 176.8,-40 166.8,-36.5 166.8,-43.5"></polygon>
+<text text-anchor="middle" x="147.05" y="-44.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">start</text>
+</g>
+<!-- s1&#45;&gt;s0 -->
+<g id="edge4" class="edge">
+<title>s1-&gt;s0</title>
+<path fill="none" stroke="black" d="M180.16,-25.26C173.35,-22.75 166.1,-20.52 159.1,-19.2 147.5,-17.01 135.1,-18.3 123.57,-21.08"></path>
+<polygon fill="black" stroke="black" points="122.38,-17.78 113.71,-23.87 124.29,-24.52 122.38,-17.78"></polygon>
+<text text-anchor="middle" x="147.05" y="-24.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">stop</text>
+</g>
+<!-- s1&#45;&gt;s1 -->
+<g id="edge5" class="edge">
+<title>s1-&gt;s1</title>
+<path fill="none" stroke="black" d="M200.73,-74.01C200.79,-85.14 204.92,-94 213.1,-94 218.6,-94 222.27,-90 224.1,-84"></path>
+<polygon fill="black" stroke="black" points="227.58,-84.4 225.48,-74.01 220.65,-83.44 227.58,-84.4"></polygon>
+<text text-anchor="middle" x="213.1" y="-98.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">move ∧ ¬stop</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<ellipse fill="gray" stroke="black" cx="407.04" cy="-40" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="407.04" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">s2</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge6" class="edge">
+<title>s1-&gt;s2</title>
+<path fill="none" stroke="black" d="M249.31,-40C280.6,-40 326.52,-40 360.58,-40"></path>
+<polygon fill="black" stroke="black" points="360.74,-43.5 370.74,-40 360.74,-36.5 360.74,-43.5"></polygon>
+<text text-anchor="middle" x="310.07" y="-44.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">¬move ∧ ¬stop</text>
+</g>
+<!-- s2&#45;&gt;s2 -->
+<g id="edge7" class="edge">
+<title>s2-&gt;s2</title>
+<path fill="none" stroke="black" d="M389.13,-71.35C388.23,-83.69 394.2,-94 407.04,-94 416.08,-94 421.71,-88.9 423.94,-81.59"></path>
+<polygon fill="black" stroke="black" points="427.45,-81.64 424.96,-71.35 420.49,-80.95 427.45,-81.64"></polygon>
+<text text-anchor="middle" x="407.04" y="-98.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- init -->
+<g id="node4" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-40" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;s0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;s0</title>
+<path fill="none" stroke="black" d="M1.05,-40C1.93,-40 13.15,-40 26.66,-40"></path>
+<polygon fill="black" stroke="black" points="26.78,-43.5 36.78,-40 26.78,-36.5 26.78,-43.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation:</strong></p>
+<ul>
+<li><strong><span class="math inline">\(s_0\)</span></strong> (final state): No current obligation</li>
+<li><strong><span class="math inline">\(s_1\)</span></strong>: A <code>start</code> just occurred, we must now verify <span class="math inline">\(\text{move} \ \mathcal{U} \ \text{stop}\)</span></li>
+<li><strong>Acceptance condition</strong>: Visit <span class="math inline">\(s_0\)</span> infinitely often</li>
+<li>An execution is accepted only if each obligation <span class="math inline">\(\text{move} \ \mathcal{U} \ \text{stop}\)</span> is eventually satisfied (by a <code>stop</code>)</li>
+</ul>
+<p><strong>2. Büchi Automaton for <span class="math inline">\(\neg F = \lozenge(\text{start} \land \bigcirc(\neg(\text{move} \ \mathcal{U} \ \text{stop})))\)</span></strong></p>
+<p>This automaton accepts executions where at some moment, a <code>start</code> occurs and immediately after, <span class="math inline">\(\text{move} \ \mathcal{U} \ \text{stop}\)</span> is false.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 459.04 246.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>buchi_notF</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 455.04,-242.8 455.04,4 -4,4"></polygon>
+<!-- t0 -->
+<g id="node1" class="node">
+<title>t0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-100" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-95.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">t0</text>
+</g>
+<!-- t0&#45;&gt;t0 -->
+<g id="edge2" class="edge">
+<title>t0-&gt;t0</title>
+<path fill="none" stroke="black" d="M62.88,-134.8C63.09,-145.55 66.46,-154 73,-154 77.29,-154 80.22,-150.36 81.78,-144.82"></path>
+<polygon fill="black" stroke="black" points="85.27,-145.17 83.12,-134.8 78.33,-144.25 85.27,-145.17"></polygon>
+<text text-anchor="middle" x="73" y="-158.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- t1 -->
+<g id="node2" class="node">
+<title>t1</title>
+<ellipse fill="none" stroke="black" cx="209.1" cy="-100" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="209.1" cy="-100" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="209.1" y="-95.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">t1</text>
+</g>
+<!-- t0&#45;&gt;t1 -->
+<g id="edge3" class="edge">
+<title>t0-&gt;t1</title>
+<path fill="none" stroke="black" d="M109.23,-100C124.4,-100 142.39,-100 158.85,-100"></path>
+<polygon fill="black" stroke="black" points="158.85,-103.5 168.85,-100 158.85,-96.5 158.85,-103.5"></polygon>
+<text text-anchor="middle" x="139.05" y="-104.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">start</text>
+</g>
+<!-- t1&#45;&gt;t1 -->
+<g id="edge4" class="edge">
+<title>t1-&gt;t1</title>
+<path fill="none" stroke="black" d="M196.01,-137.93C196.4,-149.22 200.76,-158 209.1,-158 214.71,-158 218.52,-154.04 220.53,-148.01"></path>
+<polygon fill="black" stroke="black" points="224.02,-148.37 222.2,-137.93 217.11,-147.23 224.02,-148.37"></polygon>
+<text text-anchor="middle" x="209.1" y="-162.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">move ∧ ¬stop</text>
+</g>
+<!-- t2 -->
+<g id="node3" class="node">
+<title>t2</title>
+<ellipse fill="none" stroke="black" cx="411.04" cy="-164" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="411.04" cy="-164" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="411.04" y="-159.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">t2</text>
+</g>
+<!-- t1&#45;&gt;t2 -->
+<g id="edge5" class="edge">
+<title>t1-&gt;t2</title>
+<path fill="none" stroke="black" d="M247.71,-112.04C280.39,-122.5 327.86,-137.69 363.03,-148.95"></path>
+<polygon fill="black" stroke="black" points="362.02,-152.3 372.61,-152.02 364.15,-145.63 362.02,-152.3"></polygon>
+<text text-anchor="middle" x="310.07" y="-149.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">¬move ∧ ¬stop</text>
+</g>
+<!-- t3 -->
+<g id="node4" class="node">
+<title>t3</title>
+<ellipse fill="gray" stroke="black" cx="411.04" cy="-36" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="411.04" y="-31.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">t3</text>
+</g>
+<!-- t1&#45;&gt;t3 -->
+<g id="edge6" class="edge">
+<title>t1-&gt;t3</title>
+<path fill="none" stroke="black" d="M247.71,-87.96C281.63,-77.11 331.49,-61.15 366.99,-49.78"></path>
+<polygon fill="black" stroke="black" points="368.14,-53.09 376.59,-46.71 366,-46.42 368.14,-53.09"></polygon>
+<text text-anchor="middle" x="310.07" y="-86.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">stop</text>
+</g>
+<!-- t2&#45;&gt;t2 -->
+<g id="edge7" class="edge">
+<title>t2-&gt;t2</title>
+<path fill="none" stroke="black" d="M392.31,-199.4C392.01,-211.87 398.25,-222 411.04,-222 420.04,-222 425.8,-216.99 428.32,-209.68"></path>
+<polygon fill="black" stroke="black" points="431.84,-209.79 429.78,-199.4 424.91,-208.8 431.84,-209.79"></polygon>
+<text text-anchor="middle" x="411.04" y="-226.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- t3&#45;&gt;t3 -->
+<g id="edge8" class="edge">
+<title>t3-&gt;t3</title>
+<path fill="none" stroke="black" d="M392.41,-67.08C391.36,-79.54 397.57,-90 411.04,-90 420.52,-90 426.4,-84.83 428.7,-77.42"></path>
+<polygon fill="black" stroke="black" points="432.22,-77.36 429.68,-67.08 425.25,-76.7 432.22,-77.36"></polygon>
+<text text-anchor="middle" x="411.04" y="-94.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">*</text>
+</g>
+<!-- init -->
+<g id="node5" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-100" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;t0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;t0</title>
+<path fill="none" stroke="black" d="M1.05,-100C1.91,-100 13.39,-100 26.87,-100"></path>
+<polygon fill="black" stroke="black" points="26.92,-103.5 36.92,-100 26.92,-96.5 26.92,-103.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Operation:</strong></p>
+<ul>
+<li><strong><span class="math inline">\(t_0\)</span></strong>: We have not yet seen the problematic <code>start</code></li>
+<li><strong><span class="math inline">\(t_1\)</span></strong>: We just saw <code>start</code>, we move to the next instant</li>
+<li><strong><span class="math inline">\(t_2\)</span></strong> (final state): We verify <span class="math inline">\(\neg(\text{move} \ \mathcal{U} \ \text{stop})\)</span>; here as long as we have <code>move ∧ ¬stop</code>, we stay in <span class="math inline">\(t_2\)</span></li>
+<li><strong><span class="math inline">\(t_3\)</span></strong> (final state): We have <code>¬move ∧ ¬stop</code>, which immediately violates <span class="math inline">\(\text{move} \ \mathcal{U} \ \text{stop}\)</span></li>
+<li><strong>Acceptance condition</strong>: Visit <span class="math inline">\(t_2\)</span> or <span class="math inline">\(t_3\)</span> infinitely often</li>
+<li>An execution is accepted if it remains indefinitely in <span class="math inline">\(t_2\)</span> (with <code>move ∧ ¬stop</code>) or in <span class="math inline">\(t_3\)</span></li>
+</ul>
+</section>
+<section id="step-3-synchronous-product-a-times-neg-f" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-synchronous-product-a-times-neg-f">Step 3: Synchronous Product <span class="math inline">\(A \times \neg F\)</span></h4>
+<p>The product combines the states of <span class="math inline">\(A\)</span> and <span class="math inline">\(\neg F\)</span>. Let’s analyze possible executions:</p>
+<p><strong>Problematic Execution:</strong></p>
+<ol type="1">
+<li><span class="math inline">\(q_0 \xrightarrow{\text{set floor}} q_2\)</span></li>
+<li><span class="math inline">\(q_2 \xrightarrow{\text{start}} q_4\)</span></li>
+<li><span class="math inline">\(q_4 \xrightarrow{\text{move}} q_4 \xrightarrow{\text{move}} q_4 \xrightarrow{\text{move}} \dots\)</span></li>
+</ol>
+<p>This execution corresponds to the word: <code>set floor, start, move, move, move, ...</code></p>
+<p><strong>In the Product:</strong></p>
+<ul>
+<li>After <code>start</code>, we go to <span class="math inline">\(t_2\)</span> in <span class="math inline">\(\neg F\)</span></li>
+<li>In <span class="math inline">\(t_2\)</span>, as long as we read <code>move ∧ ¬stop</code>, we stay in <span class="math inline">\(t_2\)</span></li>
+<li>Since the elevator can remain indefinitely in <span class="math inline">\(q_4\)</span> with <code>move</code>, we have an SCC <span class="math inline">\((q_4, t_2)\)</span> with the <code>move</code> loop</li>
+</ul>
+<p>This SCC <span class="math inline">\((q_4, t_2)\)</span> is:</p>
+<ol type="1">
+<li>Reachable from the initial state</li>
+<li>Contains a final state (<span class="math inline">\(t_2\)</span> is final)</li>
+</ol>
+</section>
+<section id="step-3-synchronous-product-a-times-neg-f-detailed" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-synchronous-product-a-times-neg-f-detailed">Step 3: Synchronous Product <span class="math inline">\(A \times \neg F\)</span> (Detailed)</h4>
+<p>The synchronous product combines the states of <span class="math inline">\(A\)</span> and <span class="math inline">\(\neg F\)</span>. A state of the product is a pair <span class="math inline">\((q_i, t_j)\)</span> where <span class="math inline">\(q_i\)</span> is a system state and <span class="math inline">\(t_j\)</span> a state of the property-violating automaton.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 838.40 450.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 446)">
+<title>product_automaton</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-446 834.4,-446 834.4,4 -4,4"></polygon>
+<!-- q0_t0 -->
+<g id="node1" class="node">
+<title>q0_t0</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-354" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="73" y="-349.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q0, t0)</text>
+</g>
+<!-- q1_t0 -->
+<g id="node2" class="node">
+<title>q1_t0</title>
+<ellipse fill="none" stroke="black" cx="227.27" cy="-406" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="227.27" y="-401.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q1, t0)</text>
+</g>
+<!-- q0_t0&#45;&gt;q1_t0 -->
+<g id="edge2" class="edge">
+<title>q0_t0-&gt;q1_t0</title>
+<path fill="none" stroke="black" d="M100.84,-377.03C108.81,-382.77 117.86,-388.34 127,-392 143.86,-398.75 163.46,-402.33 180.78,-404.19"></path>
+<polygon fill="black" stroke="black" points="180.94,-407.72 191.22,-405.15 181.58,-400.75 180.94,-407.72"></polygon>
+<text text-anchor="middle" x="150.13" y="-408.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">open</text>
+</g>
+<!-- q2_t0 -->
+<g id="node3" class="node">
+<title>q2_t0</title>
+<ellipse fill="none" stroke="black" cx="227.27" cy="-309" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="227.27" y="-304.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q2, t0)</text>
+</g>
+<!-- q0_t0&#45;&gt;q2_t0 -->
+<g id="edge3" class="edge">
+<title>q0_t0-&gt;q2_t0</title>
+<path fill="none" stroke="black" d="M106.94,-341.84C113.55,-339.54 120.47,-337.22 127,-335.2 144.94,-329.66 164.92,-324.25 182.23,-319.79"></path>
+<polygon fill="black" stroke="black" points="183.24,-323.14 192.07,-317.28 181.52,-316.36 183.24,-323.14"></polygon>
+<text text-anchor="middle" x="150.13" y="-340.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">set floor</text>
+</g>
+<!-- q1_t0&#45;&gt;q0_t0 -->
+<g id="edge4" class="edge">
+<title>q1_t0-&gt;q0_t0</title>
+<path fill="none" stroke="black" d="M198.29,-384.58C190.53,-379.51 181.87,-374.6 173.27,-371.2 156.13,-364.43 136.29,-360.32 118.88,-357.83"></path>
+<polygon fill="black" stroke="black" points="119.31,-354.35 108.94,-356.54 118.41,-361.29 119.31,-354.35"></polygon>
+<text text-anchor="middle" x="150.13" y="-376.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">close</text>
+</g>
+<!-- q2_t0&#45;&gt;q0_t0 -->
+<g id="edge5" class="edge">
+<title>q2_t0-&gt;q0_t0</title>
+<path fill="none" stroke="black" d="M192.45,-299.43C172.68,-295.58 147.64,-293.79 127,-302.2 118.08,-305.84 109.84,-311.78 102.64,-318.37"></path>
+<polygon fill="black" stroke="black" points="99.9,-316.16 95.27,-325.69 104.83,-321.13 99.9,-316.16"></polygon>
+<text text-anchor="middle" x="150.13" y="-307.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">reset</text>
+</g>
+<!-- q3_t0 -->
+<g id="node4" class="node">
+<title>q3_t0</title>
+<ellipse fill="none" stroke="black" cx="368.03" cy="-393" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="368.03" y="-388.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q3, t0)</text>
+</g>
+<!-- q2_t0&#45;&gt;q3_t0 -->
+<g id="edge6" class="edge">
+<title>q2_t0-&gt;q3_t0</title>
+<path fill="none" stroke="black" d="M248.04,-338.54C256.98,-349.86 268.42,-361.97 281.27,-370 293.57,-377.69 308.43,-382.84 322.29,-386.27"></path>
+<polygon fill="black" stroke="black" points="321.64,-389.71 332.16,-388.48 323.17,-382.88 321.64,-389.71"></polygon>
+<text text-anchor="middle" x="295.65" y="-387.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">open</text>
+</g>
+<!-- q4_t0 -->
+<g id="node5" class="node">
+<title>q4_t0</title>
+<ellipse fill="none" stroke="black" cx="368.03" cy="-269" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="368.03" y="-264.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q4, t0)</text>
+</g>
+<!-- q2_t0&#45;&gt;q4_t0 -->
+<g id="edge7" class="edge">
+<title>q2_t0-&gt;q4_t0</title>
+<path fill="none" stroke="black" d="M262.57,-300.12C277.23,-296.24 294.51,-291.54 310.03,-287 314.59,-285.67 319.33,-284.24 324.05,-282.79"></path>
+<polygon fill="black" stroke="black" points="325.14,-286.12 333.65,-279.81 323.06,-279.43 325.14,-286.12"></polygon>
+<text text-anchor="middle" x="295.65" y="-299.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">start</text>
+</g>
+<!-- q4_t1 -->
+<g id="node6" class="node">
+<title>q4_t1</title>
+<ellipse fill="none" stroke="red" cx="368.03" cy="-141" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="red" cx="368.03" cy="-141" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="368.03" y="-136.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q4, t1)</text>
+</g>
+<!-- q2_t0&#45;&gt;q4_t1 -->
+<g id="edge8" class="edge">
+<title>q2_t0-&gt;q4_t1</title>
+<path fill="none" stroke="black" d="M249.91,-280.74C259.41,-268.49 270.76,-254.04 281.27,-241.2 298.39,-220.27 317.98,-197.32 334.1,-178.67"></path>
+<polygon fill="black" stroke="black" points="336.88,-180.81 340.78,-170.96 331.59,-176.22 336.88,-180.81"></polygon>
+<text text-anchor="middle" x="295.65" y="-246.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">start</text>
+</g>
+<!-- q3_t0&#45;&gt;q2_t0 -->
+<g id="edge9" class="edge">
+<title>q3_t0-&gt;q2_t0</title>
+<path fill="none" stroke="black" d="M339.7,-370.24C330.55,-363.1 320.1,-355.46 310.03,-349.2 297.38,-341.34 282.98,-333.82 269.82,-327.46"></path>
+<polygon fill="black" stroke="black" points="271.04,-324.17 260.5,-323.04 268.04,-330.49 271.04,-324.17"></polygon>
+<text text-anchor="middle" x="295.65" y="-354.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">close</text>
+</g>
+<!-- q4_t0&#45;&gt;q2_t0 -->
+<g id="edge10" class="edge">
+<title>q4_t0-&gt;q2_t0</title>
+<path fill="none" stroke="black" d="M332.34,-262.19C316.37,-260.48 297.42,-260.49 281.27,-266.2 274.14,-268.72 267.26,-272.65 260.96,-277.13"></path>
+<polygon fill="black" stroke="black" points="258.51,-274.6 252.75,-283.5 262.8,-280.13 258.51,-274.6"></polygon>
+<text text-anchor="middle" x="295.65" y="-271.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">stop</text>
+</g>
+<!-- q4_t0&#45;&gt;q4_t0 -->
+<g id="edge11" class="edge">
+<title>q4_t0-&gt;q4_t0</title>
+<path fill="none" stroke="black" d="M355.28,-302.75C355.28,-314 359.53,-323 368.03,-323 373.74,-323 377.53,-318.94 379.41,-312.86"></path>
+<polygon fill="black" stroke="black" points="382.9,-313.13 380.78,-302.75 375.97,-312.19 382.9,-313.13"></polygon>
+<text text-anchor="middle" x="368.03" y="-327.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">move</text>
+</g>
+<!-- q4_t1&#45;&gt;q4_t1 -->
+<g id="edge13" class="edge">
+<title>q4_t1-&gt;q4_t1</title>
+<path fill="none" stroke="black" d="M355.31,-178.93C355.69,-190.22 359.93,-199 368.03,-199 373.47,-199 377.17,-195.04 379.13,-189.01"></path>
+<polygon fill="black" stroke="black" points="382.62,-189.36 380.75,-178.93 375.71,-188.25 382.62,-189.36"></polygon>
+<text text-anchor="middle" x="368.03" y="-203.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">move</text>
+</g>
+<!-- q2_t3 -->
+<g id="node9" class="node">
+<title>q2_t3</title>
+<ellipse fill="none" stroke="black" cx="503.37" cy="-141" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="503.37" y="-136.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q2, t3)</text>
+</g>
+<!-- q4_t1&#45;&gt;q2_t3 -->
+<g id="edge12" class="edge">
+<title>q4_t1-&gt;q2_t3</title>
+<path fill="none" stroke="black" d="M408.32,-141C423.57,-141 441.13,-141 456.92,-141"></path>
+<polygon fill="black" stroke="black" points="457,-144.5 467,-141 457,-137.5 457,-144.5"></polygon>
+<text text-anchor="middle" x="437.7" y="-145.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">stop</text>
+</g>
+<!-- q0_t3 -->
+<g id="node7" class="node">
+<title>q0_t3</title>
+<ellipse fill="none" stroke="black" cx="657.63" cy="-250" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="657.63" y="-245.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q0, t3)</text>
+</g>
+<!-- q1_t3 -->
+<g id="node8" class="node">
+<title>q1_t3</title>
+<ellipse fill="none" stroke="black" cx="794.4" cy="-250" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="794.4" y="-245.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q1, t3)</text>
+</g>
+<!-- q0_t3&#45;&gt;q1_t3 -->
+<g id="edge17" class="edge">
+<title>q0_t3-&gt;q1_t3</title>
+<path fill="none" stroke="black" d="M693.69,-250C710.25,-250 730.22,-250 747.93,-250"></path>
+<polygon fill="black" stroke="black" points="748.05,-253.5 758.05,-250 748.05,-246.5 748.05,-253.5"></polygon>
+<text text-anchor="middle" x="726.02" y="-254.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">open</text>
+</g>
+<!-- q0_t3&#45;&gt;q2_t3 -->
+<g id="edge18" class="edge">
+<title>q0_t3-&gt;q2_t3</title>
+<path fill="none" stroke="black" d="M630.21,-226.53C621.89,-219.44 612.54,-211.8 603.63,-205.2 600.65,-202.99 569.27,-182.73 542.58,-165.56"></path>
+<polygon fill="black" stroke="black" points="544.43,-162.58 534.12,-160.11 540.64,-168.47 544.43,-162.58"></polygon>
+<text text-anchor="middle" x="580.5" y="-210.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">set floor</text>
+</g>
+<!-- q1_t3&#45;&gt;q0_t3 -->
+<g id="edge19" class="edge">
+<title>q1_t3-&gt;q0_t3</title>
+<path fill="none" stroke="black" d="M761.46,-235.26C754.65,-232.75 747.39,-230.52 740.4,-229.2 727.84,-226.82 724.2,-226.82 711.63,-229.2 707.92,-229.9 704.13,-230.86 700.38,-231.98"></path>
+<polygon fill="black" stroke="black" points="698.95,-228.77 690.58,-235.26 701.17,-235.4 698.95,-228.77"></polygon>
+<text text-anchor="middle" x="726.02" y="-234.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">close</text>
+</g>
+<!-- q2_t3&#45;&gt;q0_t3 -->
+<g id="edge14" class="edge">
+<title>q2_t3-&gt;q0_t3</title>
+<path fill="none" stroke="black" d="M517.54,-174.15C526.28,-192.05 539.46,-213.07 557.37,-226 572.94,-237.24 593.11,-243.27 611.2,-246.48"></path>
+<polygon fill="black" stroke="black" points="610.86,-249.97 621.28,-248.02 611.92,-243.05 610.86,-249.97"></polygon>
+<text text-anchor="middle" x="580.5" y="-249.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">reset</text>
+</g>
+<!-- q3_t3 -->
+<g id="node10" class="node">
+<title>q3_t3</title>
+<ellipse fill="none" stroke="black" cx="657.63" cy="-160" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="657.63" y="-155.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q3, t3)</text>
+</g>
+<!-- q2_t3&#45;&gt;q3_t3 -->
+<g id="edge15" class="edge">
+<title>q2_t3-&gt;q3_t3</title>
+<path fill="none" stroke="black" d="M539.3,-145.36C560.87,-148.05 588.75,-151.53 611.92,-154.42"></path>
+<polygon fill="black" stroke="black" points="611.51,-157.9 621.86,-155.66 612.37,-150.95 611.51,-157.9"></polygon>
+<text text-anchor="middle" x="580.5" y="-158.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">open</text>
+</g>
+<!-- q4_t3 -->
+<g id="node11" class="node">
+<title>q4_t3</title>
+<ellipse fill="none" stroke="black" cx="657.63" cy="-36" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="657.63" y="-31.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">(q4, t3)</text>
+</g>
+<!-- q2_t3&#45;&gt;q4_t3 -->
+<g id="edge16" class="edge">
+<title>q2_t3-&gt;q4_t3</title>
+<path fill="none" stroke="black" d="M533.16,-120.27C540.99,-114.69 549.48,-108.68 557.37,-103.2 577.43,-89.26 599.97,-73.97 618.5,-61.5"></path>
+<polygon fill="black" stroke="black" points="620.62,-64.29 626.97,-55.81 616.72,-58.48 620.62,-64.29"></polygon>
+<text text-anchor="middle" x="580.5" y="-108.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">start</text>
+</g>
+<!-- q3_t3&#45;&gt;q2_t3 -->
+<g id="edge20" class="edge">
+<title>q3_t3-&gt;q2_t3</title>
+<path fill="none" stroke="black" d="M628.57,-138.67C620.88,-133.97 612.27,-129.66 603.63,-127.2 585.73,-122.11 565.45,-123.68 547.91,-127.24"></path>
+<polygon fill="black" stroke="black" points="546.9,-123.88 537.94,-129.53 548.47,-130.7 546.9,-123.88"></polygon>
+<text text-anchor="middle" x="580.5" y="-132.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">close</text>
+</g>
+<!-- q4_t3&#45;&gt;q2_t3 -->
+<g id="edge21" class="edge">
+<title>q4_t3-&gt;q2_t3</title>
+<path fill="none" stroke="black" d="M621.34,-34.21C601.06,-34.84 576,-38.6 557.37,-51.2 540.8,-62.41 528.65,-80.68 520.21,-97.83"></path>
+<polygon fill="black" stroke="black" points="516.9,-96.64 515.89,-107.18 523.26,-99.57 516.9,-96.64"></polygon>
+<text text-anchor="middle" x="580.5" y="-56.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">stop</text>
+</g>
+<!-- q4_t3&#45;&gt;q4_t3 -->
+<g id="edge22" class="edge">
+<title>q4_t3-&gt;q4_t3</title>
+<path fill="none" stroke="black" d="M644.88,-69.75C644.88,-81 649.13,-90 657.63,-90 663.35,-90 667.14,-85.94 669.01,-79.86"></path>
+<polygon fill="black" stroke="black" points="672.51,-80.13 670.38,-69.75 665.57,-79.19 672.51,-80.13"></polygon>
+<text text-anchor="middle" x="657.63" y="-94.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">move</text>
+</g>
+<!-- init -->
+<g id="node12" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-354" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;q0_t0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;q0_t0</title>
+<path fill="none" stroke="black" d="M1.05,-354C1.91,-354 13.39,-354 26.87,-354"></path>
+<polygon fill="black" stroke="black" points="26.92,-357.5 36.92,-354 26.92,-350.5 26.92,-357.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Product Analysis:</strong></p>
+<ol type="1">
+<li><p><strong>Final States</strong>: Only <span class="math inline">\((q_4, t_1)\)</span> is final (represented by a red double circle), because <span class="math inline">\(t_1\)</span> is a final state in <span class="math inline">\(\neg F\)</span>.</p></li>
+<li><p><strong>Problematic Strongly Connected Component (SCC)</strong>:</p>
+<ul>
+<li>The state <span class="math inline">\((q_4, t_1)\)</span> forms an SCC with the transition <span class="math inline">\((q_4, t_1) \xrightarrow{move} (q_4, t_1)\)</span></li>
+<li>This SCC is reachable from the initial state via: <span class="math inline">\((q_0, t_0) \xrightarrow{\text{set floor}} (q_2, t_0) \xrightarrow{\text{start}} (q_4, t_1)\)</span></li>
+<li>This SCC contains a final state (<span class="math inline">\(t_1\)</span> is final)</li>
+</ul></li>
+</ol>
+</section>
+<section id="step-4-emptiness-check" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-emptiness-check">Step 4: Emptiness Check</h4>
+<p>Since there exists an SCC <span class="math inline">\((q_4, t_1)\)</span> that:</p>
+<ol type="1">
+<li>Is reachable from an initial state</li>
+<li>Contains at least one final state</li>
+</ol>
+<p>Then <span class="math inline">\(L(A) \cap L(\neg F) \neq \emptyset\)</span>.</p>
+</section>
+<section id="step-5-counterexample" class="level4">
+<h4 class="anchored" data-anchor-id="step-5-counterexample">Step 5: Counterexample</h4>
+<p>Since the language is not empty, we can extract a counterexample. The following execution is accepted by the product:</p>
+<ol type="1">
+<li><span class="math inline">\((q_0, t_0) \xrightarrow{\text{set floor}} (q_2, t_0)\)</span></li>
+<li><span class="math inline">\((q_2, t_0) \xrightarrow{\text{start}} (q_4, t_1)\)</span></li>
+<li><span class="math inline">\((q_4, t_1) \xrightarrow{\text{move}} (q_4, t_1) \xrightarrow{\text{move}} (q_4, t_1) \xrightarrow{\text{move}} \dots\)</span></li>
+</ol>
+<p>This execution corresponds to the infinite word: <code>set floor, start, move, move, move, ...</code></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>The system <span class="math inline">\(A\)</span> <strong>does not satisfy</strong> property <span class="math inline">\(F\)</span></li>
+<li>Reason: the elevator can start and continue moving indefinitely without ever executing the <code>stop</code> action</li>
+<li>To correct this, we would need to modify the system to guarantee that after a <code>start</code>, the elevator always eventually executes <code>stop</code> (for example by adding a timer or monitoring)</li>
+</ul>
+<p>This example illustrates how LTL model checking can detect design flaws in systems.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary-and-perspectives" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-perspectives">Summary and Perspectives</h2>
+<p>Model checking is an automatic and complete method (under the assumptions of a finite system) for verifying temporal properties. The key points are:</p>
+<ul>
+<li>Modeling the system and properties with Büchi automata and LTL logic.</li>
+<li>Reducing the verification problem to an emptiness problem of intersection of ω-regular languages.</li>
+<li>Using graph algorithms (SCC) to decide emptiness.</li>
+</ul>
+<p>However, complexity can be high (notably due to constructing the automaton for the negation of the LTL formula). Optimization techniques and industrial tools (like SPIN, NuSMV) are developed to apply model checking to real-size systems.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
