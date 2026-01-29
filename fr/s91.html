@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>s91 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-langage" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Langage</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-langage">    
+        <li>
+    <a class="dropdown-item" href="./../index.html">
+ <span class="dropdown-text">Anglais</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">Français</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s91.html">Série 10 : Interprétation Abstraite II/III</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modélisation et Vérification de Logiciels</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMT Solving</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interprétation Abstraite</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model Checking</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 4 : Faible Précondition avec Boucles et Vérification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 5 : Vérification de programmes avec Why3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 6 : Résolution SAT et Modélisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 7 : DPLL avec théories et théorie des tableaux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 9 : Interprétation Abstraite I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s91.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Série 10 : Interprétation Abstraite II/III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s92.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 11 : Vérification de Modèles avec Automates de Büchi et LTL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#série-10-interprétation-abstraite-iiiii" id="toc-série-10-interprétation-abstraite-iiiii" class="nav-link active" data-scroll-target="#série-10-interprétation-abstraite-iiiii">Série 10 : Interprétation Abstraite II/III</a>
+  <ul class="collapse">
+  <li><a href="#méthodes" id="toc-méthodes" class="nav-link" data-scroll-target="#méthodes">Méthodes</a>
+  <ul class="collapse">
+  <li><a href="#analyse-des-structures-dordre" id="toc-analyse-des-structures-dordre" class="nav-link" data-scroll-target="#analyse-des-structures-dordre">Analyse des structures d’ordre</a></li>
+  <li><a href="#analyse-des-fonctions-sur-des-treillis" id="toc-analyse-des-fonctions-sur-des-treillis" class="nav-link" data-scroll-target="#analyse-des-fonctions-sur-des-treillis">Analyse des fonctions sur des treillis</a></li>
+  <li><a href="#connexions-de-galois-galois-connections" id="toc-connexions-de-galois-galois-connections" class="nav-link" data-scroll-target="#connexions-de-galois-galois-connections">Connexions de Galois (Galois Connections)</a></li>
+  <li><a href="#interprétation-abstraite-de-programmes" id="toc-interprétation-abstraite-de-programmes" class="nav-link" data-scroll-target="#interprétation-abstraite-de-programmes">Interprétation abstraite de programmes</a></li>
+  </ul></li>
+  <li><a href="#rappel" id="toc-rappel" class="nav-link" data-scroll-target="#rappel">Rappel</a></li>
+  <li><a href="#exemples-illustratifs" id="toc-exemples-illustratifs" class="nav-link" data-scroll-target="#exemples-illustratifs">Exemples Illustratifs</a>
+  <ul class="collapse">
+  <li><a href="#exemple-1-vérification-quun-poset-est-un-treillis-complet" id="toc-exemple-1-vérification-quun-poset-est-un-treillis-complet" class="nav-link" data-scroll-target="#exemple-1-vérification-quun-poset-est-un-treillis-complet">Exemple 1 : Vérification qu’un poset est un treillis complet</a></li>
+  <li><a href="#exemple-2-définition-dun-ordre-et-calcul-dinfsup-sur-le-domaine-des-intervalles" id="toc-exemple-2-définition-dun-ordre-et-calcul-dinfsup-sur-le-domaine-des-intervalles" class="nav-link" data-scroll-target="#exemple-2-définition-dun-ordre-et-calcul-dinfsup-sur-le-domaine-des-intervalles">Exemple 2 : Définition d’un ordre et calcul d’inf/sup sur le domaine des intervalles</a></li>
+  <li><a href="#exemple-3-preuve-quune-fonction-scott-continue-est-monotone" id="toc-exemple-3-preuve-quune-fonction-scott-continue-est-monotone" class="nav-link" data-scroll-target="#exemple-3-preuve-quune-fonction-scott-continue-est-monotone">Exemple 3 : Preuve qu’une fonction Scott-continue est monotone</a></li>
+  <li><a href="#exemple-4-construction-dune-connexion-de-galois-entre-mathcalpmathbbz-et-mathcali" id="toc-exemple-4-construction-dune-connexion-de-galois-entre-mathcalpmathbbz-et-mathcali" class="nav-link" data-scroll-target="#exemple-4-construction-dune-connexion-de-galois-entre-mathcalpmathbbz-et-mathcali">Exemple 4 : Construction d’une Connexion de Galois entre <span class="math inline">\(\mathcal{P}(\mathbb{Z})\)</span> et <span class="math inline">\(\mathcal{I}\)</span></a></li>
+  <li><a href="#exemple-5-analyse-de-programme-avec-le-treillis-des-intervalles" id="toc-exemple-5-analyse-de-programme-avec-le-treillis-des-intervalles" class="nav-link" data-scroll-target="#exemple-5-analyse-de-programme-avec-le-treillis-des-intervalles">Exemple 5 : Analyse de programme avec le treillis des intervalles</a></li>
+  </ul></li>
+  <li><a href="#synthèse" id="toc-synthèse" class="nav-link" data-scroll-target="#synthèse">Synthèse</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s91.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s91.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s91.html">Série 10 : Interprétation Abstraite II/III</a></li></ol></nav></header>
+
+
+
+
+
+<section id="série-10-interprétation-abstraite-iiiii" class="level1">
+<h1>Série 10 : Interprétation Abstraite II/III</h1>
+<section id="méthodes" class="level2">
+<h2 class="anchored" data-anchor-id="méthodes">Méthodes</h2>
+<section id="analyse-des-structures-dordre" class="level3">
+<h3 class="anchored" data-anchor-id="analyse-des-structures-dordre">Analyse des structures d’ordre</h3>
+<ul>
+<li><strong>Vérification des propriétés de treillis</strong> : Déterminer si un poset donné est un treillis, un treillis complet, ou un treillis semi-complet en vérifiant l’existence d’infimum et de supremum pour toute paire (treillis) et pour tout sous-ensemble (complet).</li>
+<li><strong>Construction d’ordre sur des domaines abstraits</strong> : Définir un ordre qui capture la notion de « précision » entre éléments abstraits (ex. : inclusion pour les intervalles).</li>
+<li><strong>Produit cartésien de treillis</strong> : Montrer que le produit de deux treillis complets, muni de l’ordre produit, est lui-même un treillis complet.</li>
+</ul>
+</section>
+<section id="analyse-des-fonctions-sur-des-treillis" class="level3">
+<h3 class="anchored" data-anchor-id="analyse-des-fonctions-sur-des-treillis">Analyse des fonctions sur des treillis</h3>
+<ul>
+<li><strong>Monotonie et continuité de Scott</strong> : Prouver qu’une fonction est monotone et/ou Scott-continue. La continuité de Scott garantit la préservation des suprémums de chaînes croissantes.</li>
+<li><strong>Composition de fonctions continues</strong> : Montrer que la composée de deux fonctions Scott-continues est Scott-continue.</li>
+<li><strong>Calcul de points fixes</strong> : Appliquer le théorème de Kleene pour calculer le point fixe le plus bas (lfp) d’une fonction continue, souvent via l’itération à partir de <span class="math inline">\(\perp\)</span>.</li>
+<li><strong>Comparaison de points fixes</strong> : Si <span class="math inline">\(f(x) \leq g(x)\)</span> pour tout <span class="math inline">\(x\)</span>, alors <span class="math inline">\(\text{lfp}(f) \leq \text{lfp}(g)\)</span>.</li>
+</ul>
+</section>
+<section id="connexions-de-galois-galois-connections" class="level3">
+<h3 class="anchored" data-anchor-id="connexions-de-galois-galois-connections">Connexions de Galois (Galois Connections)</h3>
+<ul>
+<li><strong>Définition des fonctions <span class="math inline">\(\alpha\)</span> (abstraction) et <span class="math inline">\(\gamma\)</span> (concrétisation)</strong> entre un domaine concret et un domaine abstrait.</li>
+<li><strong>Preuve des propriétés fondamentales</strong> : Vérifier que <span class="math inline">\((\alpha, \gamma)\)</span> forment bien une connexion de Galois, i.e., <span class="math inline">\(\alpha(X) \subseteq i \Leftrightarrow X \subseteq \gamma(i)\)</span>.</li>
+<li><strong>Propriétés dérivées</strong> : Montrer que <span class="math inline">\(\alpha\)</span> et <span class="math inline">\(\gamma\)</span> sont monotones, que <span class="math inline">\(x \leq \gamma(\alpha(x))\)</span>, et que <span class="math inline">\(\alpha(\gamma(y)) \leq y\)</span>.</li>
+</ul>
+</section>
+<section id="interprétation-abstraite-de-programmes" class="level3">
+<h3 class="anchored" data-anchor-id="interprétation-abstraite-de-programmes">Interprétation abstraite de programmes</h3>
+<ul>
+<li><strong>Construction du système d’équations</strong> : À partir d’un CFG (Control Flow Graph), écrire les équations de point fixe pour chaque point de programme.</li>
+<li><strong>Résolution itérative</strong> : Appliquer l’itération de Kleene sur un domaine abstrait (ex. : treillis des signes, des intervalles) jusqu’à convergence.</li>
+<li><strong>Traitement des conditions</strong> : Définir l’opérateur de “filtrage” (<span class="math inline">\(\cap [condition]\)</span>) pour raffiner l’information à une garde (ex. : <span class="math inline">\(x \geq y\)</span> dans le domaine des intervalles).</li>
+</ul>
+</section>
+</section>
+<section id="rappel" class="level2">
+<h2 class="anchored" data-anchor-id="rappel">Rappel</h2>
+<ul>
+<li><strong>Treillis complet</strong> : Tout sous-ensemble a un infimum et un supremum.</li>
+<li><strong>Continuité de Scott</strong> : <span class="math inline">\(f(\sup_{i} u_i) = \sup_{i} f(u_i)\)</span> pour toute chaîne croissante <span class="math inline">\((u_i)\)</span>.</li>
+<li><strong>Théorème de Kleene</strong> : Dans un treillis complet, une fonction Scott-continue a un plus petit point fixe donné par <span class="math inline">\(\sup_{n \geq 0} f^n(\perp)\)</span>.</li>
+<li><strong>Connexion de Galois</strong> : Paire <span class="math inline">\((\alpha: \mathcal{C} \to \mathcal{A}, \gamma: \mathcal{A} \to \mathcal{C})\)</span> vérifiant <span class="math inline">\(\forall X \in \mathcal{C}, \forall i \in \mathcal{A}, \alpha(X) \subseteq i \Leftrightarrow X \subseteq \gamma(i)\)</span>.</li>
+<li><strong>Ordre produit</strong> : <span class="math inline">\((a,b) \leq (c,d) \Leftrightarrow a \leq c \land b \leq d\)</span>. Infimum et supremum se calculent composante par composante.</li>
+</ul>
+</section>
+<section id="exemples-illustratifs" class="level2">
+<h2 class="anchored" data-anchor-id="exemples-illustratifs">Exemples Illustratifs</h2>
+<section id="exemple-1-vérification-quun-poset-est-un-treillis-complet" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-1-vérification-quun-poset-est-un-treillis-complet">Exemple 1 : Vérification qu’un poset est un treillis complet</h3>
+<p><strong>Contexte :</strong> L’exercice demande si <span class="math inline">\((\mathbb{N}, \leq)\)</span> est un treillis (complet).</p>
+<p><strong>Application :</strong></p>
+<ul>
+<li>C’est un treillis car pour toute paire <span class="math inline">\(\{a,b\}\)</span>, <span class="math inline">\(\inf(a,b) = \min(a,b)\)</span> et <span class="math inline">\(\sup(a,b) = \max(a,b)\)</span> existent dans <span class="math inline">\(\mathbb{N}\)</span>.</li>
+<li>Il n’est <strong>pas complet</strong> car le sous-ensemble <span class="math inline">\(X = \mathbb{N}\)</span> n’a pas de supremum dans <span class="math inline">\(\mathbb{N}\)</span> (<span class="math inline">\(\sup(\mathbb{N}) = +\infty \notin \mathbb{N}\)</span>).</li>
+<li>C’est un <strong>treillis semi-complet</strong> car tout sous-ensemble <span class="math inline">\(A \subseteq \mathbb{N}\)</span> a un infimum (son minimum).</li>
+<li>En revanche, <span class="math inline">\((\mathbb{N} \cup \{\infty\}, \leq)\)</span> est un treillis complet.</li>
+</ul>
+</section>
+<section id="exemple-2-définition-dun-ordre-et-calcul-dinfsup-sur-le-domaine-des-intervalles" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-2-définition-dun-ordre-et-calcul-dinfsup-sur-le-domaine-des-intervalles">Exemple 2 : Définition d’un ordre et calcul d’inf/sup sur le domaine des intervalles</h3>
+<p><strong>Contexte :</strong> Pour l’ensemble d’intervalles <span class="math inline">\(\mathcal{I}\)</span>, définir un ordre représentant la perte de précision.</p>
+<p><strong>Application :</strong></p>
+<ul>
+<li>On définit l’ordre par la <strong>contre-inclusion</strong> des ensembles de valeurs : <span class="math inline">\((a,c) \leq (b,d) \Leftrightarrow [b,d] \supseteq [a,c] \Leftrightarrow (b \leq a \wedge c \leq d)\)</span>.</li>
+<li>L’infimum correspond à l’<strong>intersection</strong> des ensembles de valeurs : <span class="math display">\[\inf((a,c),(b,d)) = (\max(a,b), \min(c,d))\]</span> (ce qui donne l’intervalle le plus petit contenu dans les deux).</li>
+<li>Le supremum correspond à l’<strong>union</strong> (la plus petite sur-approximation) : <span class="math display">\[\sup((a,c),(b,d)) = (\min(a,b), \max(c,d))\]</span></li>
+<li>On prouve que <span class="math inline">\((\mathcal{I}, \leq)\)</span> est un treillis complet en utilisant cette correspondance avec l’inclusion d’ensembles.</li>
+</ul>
+</section>
+<section id="exemple-3-preuve-quune-fonction-scott-continue-est-monotone" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-3-preuve-quune-fonction-scott-continue-est-monotone">Exemple 3 : Preuve qu’une fonction Scott-continue est monotone</h3>
+<p><strong>Contexte :</strong> Soit <span class="math inline">\(f: E \to F\)</span> Scott-continue, avec <span class="math inline">\(E, F\)</span> des treillis complets.</p>
+<p><strong>Application :</strong> Soit <span class="math inline">\(x, y \in E\)</span> tels que <span class="math inline">\(x \leq y\)</span>.</p>
+<ol type="1">
+<li>Construire la chaîne croissante <span class="math inline">\((u_i)\)</span> : <span class="math inline">\(u_0 = x\)</span>, et <span class="math inline">\(u_i = y\)</span> pour tout <span class="math inline">\(i \geq 1\)</span>.</li>
+<li>Par construction, <span class="math inline">\(\sup_{i} u_i = y\)</span>.</li>
+<li>Par continuité de Scott : <span class="math inline">\(f(y) = f(\sup_i u_i) = \sup_i f(u_i)\)</span>.</li>
+<li>En particulier, <span class="math inline">\(f(u_0) = f(x) \leq \sup_i f(u_i) = f(y)\)</span>.</li>
+<li>Donc <span class="math inline">\(f(x) \leq f(y)\)</span>, ce qui prouve la monotonie.</li>
+</ol>
+</section>
+<section id="exemple-4-construction-dune-connexion-de-galois-entre-mathcalpmathbbz-et-mathcali" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-4-construction-dune-connexion-de-galois-entre-mathcalpmathbbz-et-mathcali">Exemple 4 : Construction d’une Connexion de Galois entre <span class="math inline">\(\mathcal{P}(\mathbb{Z})\)</span> et <span class="math inline">\(\mathcal{I}\)</span></h3>
+<p><strong>Contexte :</strong> Définir <span class="math inline">\(\alpha\)</span> et <span class="math inline">\(\gamma\)</span> entre l’ensemble des parties de <span class="math inline">\(\mathbb{Z}\)</span> (concret) et le treillis des intervalles <span class="math inline">\(\mathcal{I}\)</span> (abstrait).</p>
+<p><strong>Application :</strong></p>
+<ul>
+<li><strong>Fonction d’abstraction <span class="math inline">\(\alpha\)</span></strong> : <span class="math display">\[\alpha: \mathcal{P}(\mathbb{Z}) \to \mathcal{I}, \quad \alpha(X) = [\inf X, \sup X]\]</span> (avec <span class="math inline">\(\inf \emptyset = +\infty\)</span>, <span class="math inline">\(\sup \emptyset = -\infty\)</span> par convention).</li>
+<li><strong>Fonction de concrétisation <span class="math inline">\(\gamma\)</span></strong> : <span class="math display">\[\gamma: \mathcal{I} \to \mathcal{P}(\mathbb{Z}), \quad \gamma([a,b]) = \{z \in \mathbb{Z} \mid a \leq z \leq b\}\]</span></li>
+<li><strong>Preuve de la connexion</strong> : Il faut montrer <span class="math inline">\(\forall X \subseteq \mathbb{Z}, \forall i \in \mathcal{I}\)</span> : <span class="math display">\[\alpha(X) \subseteq \mathcal{I} i \Leftrightarrow X \subseteq \gamma(i)\]</span>
+<ol type="1">
+<li>(<span class="math inline">\(\Rightarrow\)</span>) Si <span class="math inline">\([\inf X, \sup X] \subseteq i\)</span>, alors tout <span class="math inline">\(x \in X\)</span> vérifie <span class="math inline">\(x \in \gamma(i)\)</span>.</li>
+<li>(<span class="math inline">\(\Leftarrow\)</span>) Si <span class="math inline">\(X \subseteq \gamma(i)\)</span>, alors <span class="math inline">\(\inf X \geq a\)</span> et <span class="math inline">\(\sup X \leq b\)</span>, donc <span class="math inline">\([\inf X, \sup X] \subseteq [a,b] = i\)</span>.</li>
+</ol></li>
+</ul>
+</section>
+<section id="exemple-5-analyse-de-programme-avec-le-treillis-des-intervalles" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-5-analyse-de-programme-avec-le-treillis-des-intervalles">Exemple 5 : Analyse de programme avec le treillis des intervalles</h3>
+<p><strong>Contexte :</strong> Analyser le programme suivant avec le domaine des intervalles :</p>
+<pre><code>y := 3; x := 4;
+while (x &gt;= y) do x := x - 4; done;</code></pre>
+<p><strong>Application :</strong></p>
+<ol type="1">
+<li><strong>CFG et équations</strong> :
+<ul>
+<li>Entrée : <span class="math inline">\(v_0 = (x: \top, y: \top)\)</span></li>
+<li><span class="math inline">\(v_1 = (x: [4,4], y: [3,3])\)</span> après les affectations.</li>
+<li>Boucle (point <span class="math inline">\(v_2\)</span>) : <span class="math inline">\(v_2 = v_1 \sqcup F(v_2)\)</span>, où <span class="math inline">\(F\)</span> est la fonction de transfert du corps.</li>
+<li>Corps de boucle : <span class="math inline">\(F((x,y)) = (x-4, y) \cap [x \geq y]\)</span>.</li>
+</ul></li>
+<li><strong>Itération de Kleene</strong> :
+<ul>
+<li><span class="math inline">\(v_2^{(0)} = \perp = (x: \bot, y: \bot)\)</span></li>
+<li><span class="math inline">\(v_2^{(1)} = v_1 \sqcup F(\perp) = (x:[4,4], y:[3,3])\)</span></li>
+<li>Calcul de <span class="math inline">\(F(v_2^{(1)})\)</span> : <span class="math inline">\((x: [4,4]-4, y:[3,3]) = (x:[0,0], y:[3,3])\)</span>. La condition <span class="math inline">\(x \geq y\)</span> devient <span class="math inline">\([0,0] \geq [3,3]\)</span> qui est faux, donc le résultat est <span class="math inline">\(\bot\)</span>.</li>
+<li><span class="math inline">\(v_2^{(2)} = v_1 \sqcup \bot = v_2^{(1)}\)</span>. Point fixe atteint.</li>
+</ul></li>
+<li><strong>Résultat</strong> : À la sortie de la boucle, <span class="math inline">\(x = [4,4]\)</span> et <span class="math inline">\(y = [3,3]\)</span>. La boucle ne s’exécute pas.</li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 605.00 584.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 580)">
+<title>méthodes</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-580 601,-580 601,4 -4,4"></polygon>
+<!-- Structures d&#39;Ordre -->
+<g id="node1" class="node">
+<title>Structures d'Ordre</title>
+<path fill="none" stroke="black" d="M136.69,-63C136.69,-63 41.81,-63 41.81,-63 35.81,-63 29.81,-57 29.81,-51 29.81,-51 29.81,-39 29.81,-39 29.81,-33 35.81,-27 41.81,-27 41.81,-27 136.69,-27 136.69,-27 142.69,-27 148.69,-33 148.69,-39 148.69,-39 148.69,-51 148.69,-51 148.69,-57 142.69,-63 136.69,-63"></path>
+<text text-anchor="middle" x="89.25" y="-40.8" font-family="Times,serif" font-size="14.00">Structures d'Ordre</text>
+</g>
+<!-- Treillis Complet -->
+<g id="node2" class="node">
+<title>Treillis Complet</title>
+<path fill="none" stroke="black" d="M350.78,-90C350.78,-90 266.47,-90 266.47,-90 260.47,-90 254.47,-84 254.47,-78 254.47,-78 254.47,-66 254.47,-66 254.47,-60 260.47,-54 266.47,-54 266.47,-54 350.78,-54 350.78,-54 356.78,-54 362.78,-60 362.78,-66 362.78,-66 362.78,-78 362.78,-78 362.78,-84 356.78,-90 350.78,-90"></path>
+<text text-anchor="middle" x="308.62" y="-67.8" font-family="Times,serif" font-size="14.00">Treillis Complet</text>
+</g>
+<!-- Structures d&#39;Ordre&#45;&gt;Treillis Complet -->
+<g id="edge1" class="edge">
+<title>Structures d'Ordre-&gt;Treillis Complet</title>
+<path fill="none" stroke="black" d="M148.5,-52.24C178.11,-55.91 214.12,-60.39 244.4,-64.15"></path>
+<polygon fill="black" stroke="black" points="244.07,-67.63 254.43,-65.39 244.93,-60.69 244.07,-67.63"></polygon>
+</g>
+<!-- Ordre Produit -->
+<g id="node3" class="node">
+<title>Ordre Produit</title>
+<path fill="none" stroke="black" d="M343.5,-36C343.5,-36 273.75,-36 273.75,-36 267.75,-36 261.75,-30 261.75,-24 261.75,-24 261.75,-12 261.75,-12 261.75,-6 267.75,0 273.75,0 273.75,0 343.5,0 343.5,0 349.5,0 355.5,-6 355.5,-12 355.5,-12 355.5,-24 355.5,-24 355.5,-30 349.5,-36 343.5,-36"></path>
+<text text-anchor="middle" x="308.62" y="-13.8" font-family="Times,serif" font-size="14.00">Ordre Produit</text>
+</g>
+<!-- Structures d&#39;Ordre&#45;&gt;Ordre Produit -->
+<g id="edge2" class="edge">
+<title>Structures d'Ordre-&gt;Ordre Produit</title>
+<path fill="none" stroke="black" d="M148.5,-37.76C180.5,-33.79 220,-28.88 251.64,-24.95"></path>
+<polygon fill="black" stroke="black" points="252.12,-28.42 261.61,-23.72 251.26,-21.47 252.12,-28.42"></polygon>
+</g>
+<!-- Domaine de Calcul -->
+<g id="node15" class="node">
+<title>Domaine de Calcul</title>
+<path fill="none" stroke="black" d="M567.95,-90C567.95,-90 467.8,-90 467.8,-90 461.8,-90 455.8,-84 455.8,-78 455.8,-78 455.8,-66 455.8,-66 455.8,-60 461.8,-54 467.8,-54 467.8,-54 567.95,-54 567.95,-54 573.95,-54 579.95,-60 579.95,-66 579.95,-66 579.95,-78 579.95,-78 579.95,-84 573.95,-90 567.95,-90"></path>
+<text text-anchor="middle" x="517.87" y="-67.8" font-family="Times,serif" font-size="14.00">Domaine de Calcul</text>
+</g>
+<!-- Treillis Complet&#45;&gt;Domaine de Calcul -->
+<g id="edge11" class="edge">
+<title>Treillis Complet-&gt;Domaine de Calcul</title>
+<path fill="none" stroke="black" d="M362.73,-72C387.93,-72 418.41,-72 445.6,-72"></path>
+<polygon fill="black" stroke="black" points="445.83,-75.5 455.83,-72 445.83,-68.5 445.83,-75.5"></polygon>
+</g>
+<!-- Domaines Multivariés -->
+<g id="node16" class="node">
+<title>Domaines Multivariés</title>
+<path fill="none" stroke="black" d="M576.47,-36C576.47,-36 459.28,-36 459.28,-36 453.28,-36 447.28,-30 447.28,-24 447.28,-24 447.28,-12 447.28,-12 447.28,-6 453.28,0 459.28,0 459.28,0 576.47,0 576.47,0 582.47,0 588.47,-6 588.47,-12 588.47,-12 588.47,-24 588.47,-24 588.47,-30 582.47,-36 576.47,-36"></path>
+<text text-anchor="middle" x="517.87" y="-13.8" font-family="Times,serif" font-size="14.00">Domaines Multivariés</text>
+</g>
+<!-- Ordre Produit&#45;&gt;Domaines Multivariés -->
+<g id="edge12" class="edge">
+<title>Ordre Produit-&gt;Domaines Multivariés</title>
+<path fill="none" stroke="black" d="M355.36,-18C379.36,-18 409.45,-18 437.13,-18"></path>
+<polygon fill="black" stroke="black" points="437.21,-21.5 447.21,-18 437.21,-14.5 437.21,-21.5"></polygon>
+</g>
+<!-- Fonctions -->
+<g id="node4" class="node">
+<title>Fonctions</title>
+<path fill="none" stroke="black" d="M112.98,-198C112.98,-198 65.52,-198 65.52,-198 59.52,-198 53.52,-192 53.52,-186 53.52,-186 53.52,-174 53.52,-174 53.52,-168 59.52,-162 65.52,-162 65.52,-162 112.98,-162 112.98,-162 118.98,-162 124.98,-168 124.98,-174 124.98,-174 124.98,-186 124.98,-186 124.98,-192 118.98,-198 112.98,-198"></path>
+<text text-anchor="middle" x="89.25" y="-175.8" font-family="Times,serif" font-size="14.00">Fonctions</text>
+</g>
+<!-- Monotonie -->
+<g id="node5" class="node">
+<title>Monotonie</title>
+<path fill="none" stroke="black" d="M335.57,-252C335.57,-252 281.68,-252 281.68,-252 275.68,-252 269.68,-246 269.68,-240 269.68,-240 269.68,-228 269.68,-228 269.68,-222 275.68,-216 281.68,-216 281.68,-216 335.57,-216 335.57,-216 341.57,-216 347.57,-222 347.57,-228 347.57,-228 347.57,-240 347.57,-240 347.57,-246 341.57,-252 335.57,-252"></path>
+<text text-anchor="middle" x="308.62" y="-229.8" font-family="Times,serif" font-size="14.00">Monotonie</text>
+</g>
+<!-- Fonctions&#45;&gt;Monotonie -->
+<g id="edge3" class="edge">
+<title>Fonctions-&gt;Monotonie</title>
+<path fill="none" stroke="black" d="M125.18,-188.68C161.69,-197.75 219.22,-212.04 259.91,-222.15"></path>
+<polygon fill="black" stroke="black" points="259.32,-225.61 269.86,-224.62 261,-218.81 259.32,-225.61"></polygon>
+</g>
+<!-- Continuité de Scott -->
+<g id="node6" class="node">
+<title>Continuité de Scott</title>
+<path fill="none" stroke="black" d="M359.01,-198C359.01,-198 258.23,-198 258.23,-198 252.23,-198 246.23,-192 246.23,-186 246.23,-186 246.23,-174 246.23,-174 246.23,-168 252.23,-162 258.23,-162 258.23,-162 359.01,-162 359.01,-162 365.01,-162 371.01,-168 371.01,-174 371.01,-174 371.01,-186 371.01,-186 371.01,-192 365.01,-198 359.01,-198"></path>
+<text text-anchor="middle" x="308.62" y="-175.8" font-family="Times,serif" font-size="14.00">Continuité de Scott</text>
+</g>
+<!-- Fonctions&#45;&gt;Continuité de Scott -->
+<g id="edge4" class="edge">
+<title>Fonctions-&gt;Continuité de Scott</title>
+<path fill="none" stroke="black" d="M125.18,-180C154.9,-180 198.57,-180 235.73,-180"></path>
+<polygon fill="black" stroke="black" points="236.03,-183.5 246.03,-180 236.03,-176.5 236.03,-183.5"></polygon>
+</g>
+<!-- Points Fixes (Kleene) -->
+<g id="node7" class="node">
+<title>Points Fixes (Kleene)</title>
+<path fill="none" stroke="black" d="M365.44,-144C365.44,-144 251.81,-144 251.81,-144 245.81,-144 239.81,-138 239.81,-132 239.81,-132 239.81,-120 239.81,-120 239.81,-114 245.81,-108 251.81,-108 251.81,-108 365.44,-108 365.44,-108 371.44,-108 377.44,-114 377.44,-120 377.44,-120 377.44,-132 377.44,-132 377.44,-138 371.44,-144 365.44,-144"></path>
+<text text-anchor="middle" x="308.62" y="-121.8" font-family="Times,serif" font-size="14.00">Points Fixes (Kleene)</text>
+</g>
+<!-- Fonctions&#45;&gt;Points Fixes (Kleene) -->
+<g id="edge5" class="edge">
+<title>Fonctions-&gt;Points Fixes (Kleene)</title>
+<path fill="none" stroke="black" d="M125.18,-171.32C153.37,-164.32 194.1,-154.2 229.93,-145.3"></path>
+<polygon fill="black" stroke="black" points="231.02,-148.64 239.89,-142.83 229.34,-141.84 231.02,-148.64"></polygon>
+</g>
+<!-- Garantie de Convergence -->
+<g id="node17" class="node">
+<title>Garantie de Convergence</title>
+<path fill="none" stroke="black" d="M585.14,-198C585.14,-198 450.61,-198 450.61,-198 444.61,-198 438.61,-192 438.61,-186 438.61,-186 438.61,-174 438.61,-174 438.61,-168 444.61,-162 450.61,-162 450.61,-162 585.14,-162 585.14,-162 591.14,-162 597.14,-168 597.14,-174 597.14,-174 597.14,-186 597.14,-186 597.14,-192 591.14,-198 585.14,-198"></path>
+<text text-anchor="middle" x="517.87" y="-175.8" font-family="Times,serif" font-size="14.00">Garantie de Convergence</text>
+</g>
+<!-- Continuité de Scott&#45;&gt;Garantie de Convergence -->
+<g id="edge13" class="edge">
+<title>Continuité de Scott-&gt;Garantie de Convergence</title>
+<path fill="none" stroke="black" d="M371.24,-180C389.23,-180 409.25,-180 428.54,-180"></path>
+<polygon fill="black" stroke="black" points="428.55,-183.5 438.55,-180 428.55,-176.5 428.55,-183.5"></polygon>
+</g>
+<!-- Solution du Système -->
+<g id="node18" class="node">
+<title>Solution du Système</title>
+<path fill="none" stroke="black" d="M572.06,-144C572.06,-144 463.69,-144 463.69,-144 457.69,-144 451.69,-138 451.69,-132 451.69,-132 451.69,-120 451.69,-120 451.69,-114 457.69,-108 463.69,-108 463.69,-108 572.06,-108 572.06,-108 578.06,-108 584.06,-114 584.06,-120 584.06,-120 584.06,-132 584.06,-132 584.06,-138 578.06,-144 572.06,-144"></path>
+<text text-anchor="middle" x="517.87" y="-121.8" font-family="Times,serif" font-size="14.00">Solution du Système</text>
+</g>
+<!-- Points Fixes (Kleene)&#45;&gt;Solution du Système -->
+<g id="edge14" class="edge">
+<title>Points Fixes (Kleene)-&gt;Solution du Système</title>
+<path fill="none" stroke="black" d="M377.48,-126C397.98,-126 420.6,-126 441.55,-126"></path>
+<polygon fill="black" stroke="black" points="441.68,-129.5 451.68,-126 441.68,-122.5 441.68,-129.5"></polygon>
+</g>
+<!-- Connexion de Galois -->
+<g id="node8" class="node">
+<title>Connexion de Galois</title>
+<path fill="none" stroke="black" d="M144.46,-333C144.46,-333 34.04,-333 34.04,-333 28.04,-333 22.04,-327 22.04,-321 22.04,-321 22.04,-309 22.04,-309 22.04,-303 28.04,-297 34.04,-297 34.04,-297 144.46,-297 144.46,-297 150.46,-297 156.46,-303 156.46,-309 156.46,-309 156.46,-321 156.46,-321 156.46,-327 150.46,-333 144.46,-333"></path>
+<text text-anchor="middle" x="89.25" y="-310.8" font-family="Times,serif" font-size="14.00">Connexion de Galois</text>
+</g>
+<!-- α (abstraction) -->
+<g id="node9" class="node">
+<title>α (abstraction)</title>
+<path fill="none" stroke="black" d="M345.37,-360C345.37,-360 271.88,-360 271.88,-360 265.88,-360 259.88,-354 259.88,-348 259.88,-348 259.88,-336 259.88,-336 259.88,-330 265.88,-324 271.88,-324 271.88,-324 345.37,-324 345.37,-324 351.37,-324 357.37,-330 357.37,-336 357.37,-336 357.37,-348 357.37,-348 357.37,-354 351.37,-360 345.37,-360"></path>
+<text text-anchor="middle" x="308.62" y="-337.8" font-family="Times,serif" font-size="14.00">α (abstraction)</text>
+</g>
+<!-- Connexion de Galois&#45;&gt;α (abstraction) -->
+<g id="edge6" class="edge">
+<title>Connexion de Galois-&gt;α (abstraction)</title>
+<path fill="none" stroke="black" d="M156.36,-323.21C186.06,-326.9 220.8,-331.22 249.49,-334.78"></path>
+<polygon fill="black" stroke="black" points="249.42,-338.3 259.77,-336.06 250.28,-331.35 249.42,-338.3"></polygon>
+</g>
+<!-- γ (concrétisation) -->
+<g id="node10" class="node">
+<title>γ (concrétisation)</title>
+<path fill="none" stroke="black" d="M354.26,-306C354.26,-306 262.99,-306 262.99,-306 256.99,-306 250.99,-300 250.99,-294 250.99,-294 250.99,-282 250.99,-282 250.99,-276 256.99,-270 262.99,-270 262.99,-270 354.26,-270 354.26,-270 360.26,-270 366.26,-276 366.26,-282 366.26,-282 366.26,-294 366.26,-294 366.26,-300 360.26,-306 354.26,-306"></path>
+<text text-anchor="middle" x="308.62" y="-283.8" font-family="Times,serif" font-size="14.00">γ (concrétisation)</text>
+</g>
+<!-- Connexion de Galois&#45;&gt;γ (concrétisation) -->
+<g id="edge7" class="edge">
+<title>Connexion de Galois-&gt;γ (concrétisation)</title>
+<path fill="none" stroke="black" d="M156.36,-306.79C183.16,-303.46 214.07,-299.62 240.93,-296.28"></path>
+<polygon fill="black" stroke="black" points="241.52,-299.74 251.01,-295.03 240.65,-292.79 241.52,-299.74"></polygon>
+</g>
+<!-- Interprétation de Programme -->
+<g id="node11" class="node">
+<title>Interprétation de Programme</title>
+<path fill="none" stroke="black" d="M166.26,-468C166.26,-468 12.25,-468 12.25,-468 6.25,-468 0.25,-462 0.25,-456 0.25,-456 0.25,-444 0.25,-444 0.25,-438 6.25,-432 12.25,-432 12.25,-432 166.26,-432 166.26,-432 172.26,-432 178.26,-438 178.26,-444 178.26,-444 178.26,-456 178.26,-456 178.26,-462 172.26,-468 166.26,-468"></path>
+<text text-anchor="middle" x="89.25" y="-445.8" font-family="Times,serif" font-size="14.00">Interprétation de Programme</text>
+</g>
+<!-- CFG &amp; Équations -->
+<g id="node12" class="node">
+<title>CFG &amp; Équations</title>
+<path fill="none" stroke="black" d="M354.19,-522C354.19,-522 263.06,-522 263.06,-522 257.06,-522 251.06,-516 251.06,-510 251.06,-510 251.06,-498 251.06,-498 251.06,-492 257.06,-486 263.06,-486 263.06,-486 354.19,-486 354.19,-486 360.19,-486 366.19,-492 366.19,-498 366.19,-498 366.19,-510 366.19,-510 366.19,-516 360.19,-522 354.19,-522"></path>
+<text text-anchor="middle" x="308.62" y="-499.8" font-family="Times,serif" font-size="14.00">CFG &amp; Équations</text>
+</g>
+<!-- Interprétation de Programme&#45;&gt;CFG &amp; Équations -->
+<g id="edge8" class="edge">
+<title>Interprétation de Programme-&gt;CFG &amp; Équations</title>
+<path fill="none" stroke="black" d="M162.94,-468.06C188.1,-474.31 216.17,-481.28 240.84,-487.41"></path>
+<polygon fill="black" stroke="black" points="240.28,-490.88 250.83,-489.89 241.97,-484.08 240.28,-490.88"></polygon>
+</g>
+<!-- Itération sur Domaine Abstrait -->
+<g id="node13" class="node">
+<title>Itération sur Domaine Abstrait</title>
+<path fill="none" stroke="black" d="M390.86,-468C390.86,-468 226.38,-468 226.38,-468 220.38,-468 214.38,-462 214.38,-456 214.38,-456 214.38,-444 214.38,-444 214.38,-438 220.38,-432 226.38,-432 226.38,-432 390.86,-432 390.86,-432 396.86,-432 402.86,-438 402.86,-444 402.86,-444 402.86,-456 402.86,-456 402.86,-462 396.86,-468 390.86,-468"></path>
+<text text-anchor="middle" x="308.62" y="-445.8" font-family="Times,serif" font-size="14.00">Itération sur Domaine Abstrait</text>
+</g>
+<!-- Interprétation de Programme&#45;&gt;Itération sur Domaine Abstrait -->
+<g id="edge9" class="edge">
+<title>Interprétation de Programme-&gt;Itération sur Domaine Abstrait</title>
+<path fill="none" stroke="black" d="M178.35,-450C186.89,-450 195.61,-450 204.29,-450"></path>
+<polygon fill="black" stroke="black" points="204.44,-453.5 214.44,-450 204.44,-446.5 204.44,-453.5"></polygon>
+</g>
+<!-- Filtrage par Condition -->
+<g id="node14" class="node">
+<title>Filtrage par Condition</title>
+<path fill="none" stroke="black" d="M367.05,-414C367.05,-414 250.19,-414 250.19,-414 244.19,-414 238.19,-408 238.19,-402 238.19,-402 238.19,-390 238.19,-390 238.19,-384 244.19,-378 250.19,-378 250.19,-378 367.05,-378 367.05,-378 373.05,-378 379.05,-384 379.05,-390 379.05,-390 379.05,-402 379.05,-402 379.05,-408 373.05,-414 367.05,-414"></path>
+<text text-anchor="middle" x="308.62" y="-391.8" font-family="Times,serif" font-size="14.00">Filtrage par Condition</text>
+</g>
+<!-- Interprétation de Programme&#45;&gt;Filtrage par Condition -->
+<g id="edge10" class="edge">
+<title>Interprétation de Programme-&gt;Filtrage par Condition</title>
+<path fill="none" stroke="black" d="M162.94,-431.94C184.02,-426.71 207.14,-420.96 228.6,-415.63"></path>
+<polygon fill="black" stroke="black" points="229.46,-419.02 238.32,-413.22 227.77,-412.23 229.46,-419.02"></polygon>
+</g>
+<!-- Analyse Statique -->
+<g id="node21" class="node">
+<title>Analyse Statique</title>
+<path fill="none" stroke="black" d="M561.63,-468C561.63,-468 474.11,-468 474.11,-468 468.11,-468 462.11,-462 462.11,-456 462.11,-456 462.11,-444 462.11,-444 462.11,-438 468.11,-432 474.11,-432 474.11,-432 561.63,-432 561.63,-432 567.63,-432 573.63,-438 573.63,-444 573.63,-444 573.63,-456 573.63,-456 573.63,-462 567.63,-468 561.63,-468"></path>
+<text text-anchor="middle" x="517.87" y="-445.8" font-family="Times,serif" font-size="14.00">Analyse Statique</text>
+</g>
+<!-- Itération sur Domaine Abstrait&#45;&gt;Analyse Statique -->
+<g id="edge16" class="edge">
+<title>Itération sur Domaine Abstrait-&gt;Analyse Statique</title>
+<path fill="none" stroke="black" d="M402.94,-450C419.51,-450 436.44,-450 452,-450"></path>
+<polygon fill="black" stroke="black" points="452.01,-453.5 462.01,-450 452.01,-446.5 452.01,-453.5"></polygon>
+</g>
+<!-- α/γ -->
+<g id="node19" class="node">
+<title>α/γ</title>
+<path fill="none" stroke="black" d="M104.25,-576C104.25,-576 74.25,-576 74.25,-576 68.25,-576 62.25,-570 62.25,-564 62.25,-564 62.25,-552 62.25,-552 62.25,-546 68.25,-540 74.25,-540 74.25,-540 104.25,-540 104.25,-540 110.25,-540 116.25,-546 116.25,-552 116.25,-552 116.25,-564 116.25,-564 116.25,-570 110.25,-576 104.25,-576"></path>
+<text text-anchor="middle" x="89.25" y="-553.8" font-family="Times,serif" font-size="14.00">α/γ</text>
+</g>
+<!-- Correction de l&#39;Abstraction -->
+<g id="node20" class="node">
+<title>Correction de l'Abstraction</title>
+<path fill="none" stroke="black" d="M380.44,-576C380.44,-576 236.81,-576 236.81,-576 230.81,-576 224.81,-570 224.81,-564 224.81,-564 224.81,-552 224.81,-552 224.81,-546 230.81,-540 236.81,-540 236.81,-540 380.44,-540 380.44,-540 386.44,-540 392.44,-546 392.44,-552 392.44,-552 392.44,-564 392.44,-564 392.44,-570 386.44,-576 380.44,-576"></path>
+<text text-anchor="middle" x="308.62" y="-553.8" font-family="Times,serif" font-size="14.00">Correction de l'Abstraction</text>
+</g>
+<!-- α/γ&#45;&gt;Correction de l&#39;Abstraction -->
+<g id="edge15" class="edge">
+<title>α/γ-&gt;Correction de l'Abstraction</title>
+<path fill="none" stroke="black" d="M116.47,-558C140.83,-558 178.59,-558 214.14,-558"></path>
+<polygon fill="black" stroke="black" points="214.59,-561.5 224.59,-558 214.59,-554.5 214.59,-561.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="synthèse" class="level2">
+<h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
+<p>Cette série met en lumière les fondements mathématiques de l’interprétation abstraite : les <strong>treillis complets</strong> servent de domaine de calcul, la <strong>continuité de Scott</strong> assure la convergence des itérations, et les <strong>connexions de Galois</strong> garantissent la correction de l’abstraction.</p>
+<p>La méthode centrale combine la modélisation d’un programme par un <strong>système d’équations de point fixe</strong> et sa résolution itérative sur un domaine abstrait (signes, intervalles).</p>
+<p>Ces techniques permettent d’inférer automatiquement des propriétés sur les programmes (bornes de variables, signes) sans les exécuter.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

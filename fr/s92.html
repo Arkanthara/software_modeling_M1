@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>s92 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-langage" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Langage</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-langage">    
+        <li>
+    <a class="dropdown-item" href="./../index.html">
+ <span class="dropdown-text">Anglais</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">Français</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s92.html">Série 11 : Vérification de Modèles avec Automates de Büchi et LTL</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modélisation et Vérification de Logiciels</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMT Solving</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interprétation Abstraite</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model Checking</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 4 : Faible Précondition avec Boucles et Vérification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 5 : Vérification de programmes avec Why3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 6 : Résolution SAT et Modélisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 7 : DPLL avec théories et théorie des tableaux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 8 : Introduction aux quantificateurs et transformations en logique du premier ordre</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 9 : Interprétation Abstraite I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s91.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Série 10 : Interprétation Abstraite II/III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s92.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Série 11 : Vérification de Modèles avec Automates de Büchi et LTL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#série-11-vérification-de-modèles-avec-automates-de-büchi-et-ltl" id="toc-série-11-vérification-de-modèles-avec-automates-de-büchi-et-ltl" class="nav-link active" data-scroll-target="#série-11-vérification-de-modèles-avec-automates-de-büchi-et-ltl">Série 11 : Vérification de Modèles avec Automates de Büchi et LTL</a>
+  <ul class="collapse">
+  <li><a href="#méthodes" id="toc-méthodes" class="nav-link" data-scroll-target="#méthodes">Méthodes</a>
+  <ul class="collapse">
+  <li><a href="#construction-dautomates-de-büchi-ba-à-partir-dexpressions-ω-régulières" id="toc-construction-dautomates-de-büchi-ba-à-partir-dexpressions-ω-régulières" class="nav-link" data-scroll-target="#construction-dautomates-de-büchi-ba-à-partir-dexpressions-ω-régulières">Construction d’Automates de Büchi (BA) à partir d’Expressions ω-Régulières</a></li>
+  <li><a href="#opérations-sur-les-automates-de-büchi" id="toc-opérations-sur-les-automates-de-büchi" class="nav-link" data-scroll-target="#opérations-sur-les-automates-de-büchi">Opérations sur les Automates de Büchi</a></li>
+  <li><a href="#traduction-entre-propriétés-expressions-ω-régulières-ltl-et-automates-de-büchi" id="toc-traduction-entre-propriétés-expressions-ω-régulières-ltl-et-automates-de-büchi" class="nav-link" data-scroll-target="#traduction-entre-propriétés-expressions-ω-régulières-ltl-et-automates-de-büchi">Traduction entre Propriétés, Expressions ω-Régulières, LTL et Automates de Büchi</a></li>
+  <li><a href="#vérification-de-satisfiabilité-et-de-validité-pour-les-formules-ltl" id="toc-vérification-de-satisfiabilité-et-de-validité-pour-les-formules-ltl" class="nav-link" data-scroll-target="#vérification-de-satisfiabilité-et-de-validité-pour-les-formules-ltl">Vérification de Satisfiabilité et de Validité pour les Formules LTL</a></li>
+  <li><a href="#vérification-de-modèles-model-checking-par-produit-synchrone" id="toc-vérification-de-modèles-model-checking-par-produit-synchrone" class="nav-link" data-scroll-target="#vérification-de-modèles-model-checking-par-produit-synchrone">Vérification de Modèles (Model Checking) par Produit Synchrone</a></li>
+  <li><a href="#manipulation-des-connecteurs-ltl-étendus" id="toc-manipulation-des-connecteurs-ltl-étendus" class="nav-link" data-scroll-target="#manipulation-des-connecteurs-ltl-étendus">Manipulation des Connecteurs LTL Étendus</a></li>
+  </ul></li>
+  <li><a href="#rappel" id="toc-rappel" class="nav-link" data-scroll-target="#rappel">Rappel</a></li>
+  <li><a href="#exemples-illustratifs" id="toc-exemples-illustratifs" class="nav-link" data-scroll-target="#exemples-illustratifs">Exemples Illustratifs</a>
+  <ul class="collapse">
+  <li><a href="#exemple-1-traduction-dune-propriété-en-ba-et-expression-ω-régulière" id="toc-exemple-1-traduction-dune-propriété-en-ba-et-expression-ω-régulière" class="nav-link" data-scroll-target="#exemple-1-traduction-dune-propriété-en-ba-et-expression-ω-régulière">Exemple 1 : Traduction d’une Propriété en BA et Expression ω-Régulière</a></li>
+  <li><a href="#exemple-2-opération-de-concatenation-fa-et-ba" id="toc-exemple-2-opération-de-concatenation-fa-et-ba" class="nav-link" data-scroll-target="#exemple-2-opération-de-concatenation-fa-et-ba">Exemple 2 : Opération de Concatenation FA et BA</a></li>
+  <li><a href="#exemple-3-model-checking-par-produit-synchrone" id="toc-exemple-3-model-checking-par-produit-synchrone" class="nav-link" data-scroll-target="#exemple-3-model-checking-par-produit-synchrone">Exemple 3 : Model Checking par Produit Synchrone</a></li>
+  </ul></li>
+  <li><a href="#synthèse" id="toc-synthèse" class="nav-link" data-scroll-target="#synthèse">Synthèse</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s92.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s92.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercices</a></li><li class="breadcrumb-item"><a href="./s92.html">Série 11 : Vérification de Modèles avec Automates de Büchi et LTL</a></li></ol></nav></header>
+
+
+
+
+
+<section id="série-11-vérification-de-modèles-avec-automates-de-büchi-et-ltl" class="level1">
+<h1>Série 11 : Vérification de Modèles avec Automates de Büchi et LTL</h1>
+<section id="méthodes" class="level2">
+<h2 class="anchored" data-anchor-id="méthodes">Méthodes</h2>
+<section id="construction-dautomates-de-büchi-ba-à-partir-dexpressions-ω-régulières" class="level3">
+<h3 class="anchored" data-anchor-id="construction-dautomates-de-büchi-ba-à-partir-dexpressions-ω-régulières">Construction d’Automates de Büchi (BA) à partir d’Expressions ω-Régulières</h3>
+<ul>
+<li><strong>Objectif</strong> : Représenter un langage de mots infinis (ω-langage) décrit par une expression ω-régulière sous forme d’automate de Büchi.</li>
+<li><strong>Méthode</strong> : Appliquer des constructions de base pour les opérateurs de concaténation, union, étoile de Kleene et omega-puissance (<span class="math inline">\(\cdot^\omega\)</span>), puis les combiner.</li>
+</ul>
+</section>
+<section id="opérations-sur-les-automates-de-büchi" class="level3">
+<h3 class="anchored" data-anchor-id="opérations-sur-les-automates-de-büchi">Opérations sur les Automates de Büchi</h3>
+<ul>
+<li><strong>Concatenation d’un Automate Fini (FA) et d’un BA</strong> :
+<ol type="1">
+<li>Conserver les états des deux automates <span class="math inline">\(A\)</span> (FA) et <span class="math inline">\(B\)</span> (BA).</li>
+<li>L’état initial est celui de <span class="math inline">\(A\)</span>.</li>
+<li>Les états acceptants (finaux) sont ceux de <span class="math inline">\(B\)</span>.</li>
+<li>Conserver toutes les transitions existantes.</li>
+<li>Pour chaque transition de <span class="math inline">\(A\)</span> allant vers un de ses états finaux, ajouter une transition étiquetée de même depuis l’origine vers l’état initial de <span class="math inline">\(B\)</span>.</li>
+</ol></li>
+<li><strong>Omega-puissance d’un Automate Fini (<span class="math inline">\(A^\omega\)</span>)</strong> :
+<ol type="1">
+<li>Conserver les états de l’automate fini <span class="math inline">\(A\)</span>.</li>
+<li>L’état initial est celui de <span class="math inline">\(A\)</span>.</li>
+<li>Les états acceptants sont ceux qui sont accessibles depuis eux-mêmes via un cycle (i.e., font partie d’une composante fortement connexe accessible).</li>
+<li>Toutes les transitions sont conservées. L’automate ainsi obtenu accepte les exécutions infinies qui traversent indéfiniment au moins un état acceptant.</li>
+</ol></li>
+</ul>
+</section>
+<section id="traduction-entre-propriétés-expressions-ω-régulières-ltl-et-automates-de-büchi" class="level3">
+<h3 class="anchored" data-anchor-id="traduction-entre-propriétés-expressions-ω-régulières-ltl-et-automates-de-büchi">Traduction entre Propriétés, Expressions ω-Régulières, LTL et Automates de Büchi</h3>
+<ul>
+<li><strong>Objectif</strong> : Exprimer une propriété décrite en langage naturel sous différentes formes formelles équivalentes.</li>
+<li><strong>Processus</strong> :
+<ol type="1">
+<li>Comprendre la sémantique de la propriété (mots infinis acceptés vs rejetés).</li>
+<li>Proposer une expression ω-régulière qui capture cette sémantique.</li>
+<li>Construire un BA qui reconnaît cette expression.</li>
+<li>(Si possible) Fournir une formule LTL équivalente.</li>
+</ol></li>
+</ul>
+</section>
+<section id="vérification-de-satisfiabilité-et-de-validité-pour-les-formules-ltl" class="level3">
+<h3 class="anchored" data-anchor-id="vérification-de-satisfiabilité-et-de-validité-pour-les-formules-ltl">Vérification de Satisfiabilité et de Validité pour les Formules LTL</h3>
+<ul>
+<li><strong>Satisfiabilité</strong> : Existe-t-il au moins un mot infini (une exécution) qui satisfait la formule <span class="math inline">\(\phi\)</span> ? Méthode : Proposer un contre-exemple concret <span class="math inline">\(w\)</span> tel que <span class="math inline">\(w \models \phi\)</span>.</li>
+<li><strong>Validité</strong> : La formule <span class="math inline">\(\phi\)</span> est-elle vraie pour tous les mots infinis ? Méthode : Prouver la validité par raisonnement sémantique, ou montrer qu’elle n’est pas valide en exhibant un contre-exemple <span class="math inline">\(w\)</span> tel que <span class="math inline">\(w \not\models \phi\)</span>.</li>
+</ul>
+</section>
+<section id="vérification-de-modèles-model-checking-par-produit-synchrone" class="level3">
+<h3 class="anchored" data-anchor-id="vérification-de-modèles-model-checking-par-produit-synchrone">Vérification de Modèles (Model Checking) par Produit Synchrone</h3>
+<ul>
+<li><strong>Objectif</strong> : Vérifier si tous les comportements (mots infinis) d’un système <span class="math inline">\(A\)</span> satisfont une propriété <span class="math inline">\(\phi\)</span> (<span class="math inline">\(A \models \phi\)</span>).</li>
+<li><strong>Méthode</strong> :
+<ol type="1">
+<li>Négation : Construire l’automate de Büchi <span class="math inline">\(B_{\neg\phi}\)</span> pour la négation de la propriété.</li>
+<li>Produit Synchrone : Construire l’automate produit <span class="math inline">\(A \times B_{\neg\phi}\)</span> qui reconnaît l’intersection des langages <span class="math inline">\(L(A) \cap L(\neg\phi)\)</span>.</li>
+<li>Analyse des SCC : Chercher dans le graphe produit une Composante Fortement Connexe (SCC) qui soit accessible depuis l’état initial et qui contienne <strong>au moins un état acceptant</strong> de <span class="math inline">\(B_{\neg\phi}\)</span>.
+<ul>
+<li>Si une telle SCC existe : <span class="math inline">\(L(A) \cap L(\neg\phi) \neq \emptyset\)</span>, donc <span class="math inline">\(A \not\models \phi\)</span>. Un contre-exemple est un mot dans cette SCC.</li>
+<li>Si aucune telle SCC n’existe : <span class="math inline">\(L(A) \cap L(\neg\phi) = \emptyset\)</span>, donc <span class="math inline">\(A \models \phi\)</span>.</li>
+</ul></li>
+</ol></li>
+</ul>
+</section>
+<section id="manipulation-des-connecteurs-ltl-étendus" class="level3">
+<h3 class="anchored" data-anchor-id="manipulation-des-connecteurs-ltl-étendus">Manipulation des Connecteurs LTL Étendus</h3>
+<ul>
+<li><strong>Weak Until (<span class="math inline">\(p \mathbf{W} q\)</span>)</strong> : “<span class="math inline">\(p\)</span> reste vrai jusqu’à ce que <span class="math inline">\(q\)</span> devienne vrai, sans garantie que <span class="math inline">\(q\)</span> arrive”. Formellement : <span class="math inline">\(\sigma \models p \mathbf{W} q \iff (\sigma \models p \mathcal{U} q) \lor (\sigma \models \square p)\)</span>.</li>
+<li><strong>Infinitely Often (<span class="math inline">\(F^{\infty} p\)</span>)</strong> : “<span class="math inline">\(p\)</span> est vrai une infinité de fois”. Formellement : <span class="math inline">\(\sigma \models F^{\infty} p \iff \forall i \geq 0, \exists j \geq i, \sigma^j \models p\)</span>. Peut s’exprimer en LTL standard par <span class="math inline">\(\square \diamond p\)</span>.</li>
+</ul>
+</section>
+</section>
+<section id="rappel" class="level2">
+<h2 class="anchored" data-anchor-id="rappel">Rappel</h2>
+<ul>
+<li><strong>Automate de Büchi</strong> : Automate sur des mots infinis où un mot est accepté s’il existe une exécution qui visite <strong>un état acceptant (final) une infinité de fois</strong>.</li>
+<li><strong>Expression ω-Régulière</strong> : Généralise les expressions régulières aux langages infinis. Les opérateurs de base sont la concaténation, l’union, l’étoile de Kleene <span class="math inline">\(*\)</span> (répétition finie) et l’opérateur omega <span class="math inline">\(\omega\)</span> (répétition infinie).</li>
+<li><strong>Sémantique LTL</strong> : Une formule LTL est interprétée sur un mot infini <span class="math inline">\(\sigma = \sigma_0\sigma_1\sigma_2...\)</span>.
+<ul>
+<li><span class="math inline">\(\sigma \models \circ \phi \iff \sigma^1 \models \phi\)</span></li>
+<li><span class="math inline">\(\sigma \models \square \phi \iff \forall i \geq 0, \sigma^i \models \phi\)</span></li>
+<li><span class="math inline">\(\sigma \models \diamond \phi \iff \exists i \geq 0, \sigma^i \models \phi\)</span></li>
+<li><span class="math inline">\(\sigma \models \phi \mathcal{U} \psi \iff \exists i \geq 0\)</span> tel que <span class="math inline">\(\sigma^i \models \psi\)</span> et <span class="math inline">\(\forall 0 \leq j &lt; i, \sigma^j \models \phi\)</span></li>
+</ul></li>
+<li><strong>Produit Synchrone</strong> : Étant donné <span class="math inline">\(A = (Q_A, \Sigma, \delta_A, q_{0A}, F_A)\)</span> et <span class="math inline">\(B = (Q_B, \Sigma, \delta_B, q_{0B}, F_B)\)</span>, le produit <span class="math inline">\(A \times B\)</span> a pour états <span class="math inline">\(Q_A \times Q_B\)</span>, état initial <span class="math inline">\((q_{0A}, q_{0B})\)</span>, et une transition <span class="math inline">\(((s,t), a, (s', t'))\)</span> si <span class="math inline">\((s,a,s') \in \delta_A\)</span> et <span class="math inline">\((t,a,t') \in \delta_B\)</span>. Les états acceptants dépendent du type d’automate.</li>
+</ul>
+</section>
+<section id="exemples-illustratifs" class="level2">
+<h2 class="anchored" data-anchor-id="exemples-illustratifs">Exemples Illustratifs</h2>
+<section id="exemple-1-traduction-dune-propriété-en-ba-et-expression-ω-régulière" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-1-traduction-dune-propriété-en-ba-et-expression-ω-régulière">Exemple 1 : Traduction d’une Propriété en BA et Expression ω-Régulière</h3>
+<p><strong>Contexte :</strong> Exprimer la propriété “a response is eventually provided on each request”.</p>
+<p><strong>Application :</strong></p>
+<ol type="1">
+<li><strong>Sémantique</strong> : Après chaque occurrence de <code>req</code>, il doit finir par y avoir une occurrence de <code>res</code>. Un mot comme <code>(req any* res)^ω</code> est accepté. Un mot comme <code>req (any)^ω</code> (une requête jamais servie) est rejeté.</li>
+<li><strong>Expression ω-Régulière</strong> : <span class="math display">\[((\texttt{req} \cup \texttt{res} \cup \texttt{any})^* \cdot \texttt{res})^\omega \quad \cup \quad ((\texttt{req} \cup \texttt{res} \cup \texttt{any})^* \cdot \texttt{req} \cdot (\texttt{any})^* \cdot \texttt{res})^\omega\]</span> Une expression plus simple et équivalente serait <span class="math inline">\(((\neg\texttt{req})^* \cdot \texttt{req} \cdot (\neg\texttt{res})^* \cdot \texttt{res})^\omega\)</span></li>
+<li><strong>Construction du BA</strong> : L’automate a deux états principaux :
+<ul>
+<li><span class="math inline">\(q_0\)</span> : “En attente d’une requête ou rien de spécial”.</li>
+<li><span class="math inline">\(q_1\)</span> : “Une requête a été émise et on attend la réponse”.</li>
+<li>Transition de <span class="math inline">\(q_0\)</span> à <span class="math inline">\(q_1\)</span> sur <code>req</code>.</li>
+<li>Transition de <span class="math inline">\(q_1\)</span> à <span class="math inline">\(q_1\)</span> sur <code>any</code> mais <code>res</code>.</li>
+<li>Transition de <span class="math inline">\(q_1\)</span> à <span class="math inline">\(q_0\)</span> sur <code>res</code> (la requête est servie).</li>
+<li>Toutes les autres transitions (e.g., <code>any</code> dans <span class="math inline">\(q_0\)</span>, <code>req</code> dans <span class="math inline">\(q_1\)</span>) restent dans l’état courant.</li>
+<li>L’état initial est <span class="math inline">\(q_0\)</span>. <strong>Tous les états sont acceptants</strong> pour garantir que les requêtes en attente (<span class="math inline">\(q_1\)</span>) doivent être quittées (en allant vers <span class="math inline">\(q_0\)</span> via <code>res</code>) pour que l’exécution soit acceptante (car il faut visiter un état acceptant une infinité de fois, on ne peut donc rester bloqué dans <span class="math inline">\(q_1\)</span>).</li>
+</ul></li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 250.88 122.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.8)">
+<title>request_response</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.8 246.88,-118.8 246.88,4 -4,4"></polygon>
+<!-- q0 -->
+<g id="node1" class="node">
+<title>q0</title>
+<ellipse fill="none" stroke="black" cx="77" cy="-40" rx="36" ry="36"></ellipse>
+<ellipse fill="none" stroke="black" cx="77" cy="-40" rx="40" ry="40"></ellipse>
+<text text-anchor="middle" x="77" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q0</text>
+</g>
+<!-- q0&#45;&gt;q0 -->
+<g id="edge3" class="edge">
+<title>q0-&gt;q0</title>
+<path fill="none" stroke="black" d="M66.18,-78.76C66.65,-89.64 70.26,-98 77,-98 81.42,-98 84.5,-94.4 86.22,-88.85"></path>
+<polygon fill="black" stroke="black" points="89.71,-89.19 87.82,-78.76 82.8,-88.09 89.71,-89.19"></polygon>
+<text text-anchor="middle" x="77" y="-102.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">res, any</text>
+</g>
+<!-- q1 -->
+<g id="node2" class="node">
+<title>q1</title>
+<ellipse fill="none" stroke="black" cx="206.88" cy="-40" rx="36" ry="36"></ellipse>
+<text text-anchor="middle" x="206.88" y="-35.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">q1</text>
+</g>
+<!-- q0&#45;&gt;q1 -->
+<g id="edge2" class="edge">
+<title>q0-&gt;q1</title>
+<path fill="none" stroke="black" d="M117.06,-40C130.77,-40 146.29,-40 160.48,-40"></path>
+<polygon fill="black" stroke="black" points="160.53,-43.5 170.53,-40 160.53,-36.5 160.53,-43.5"></polygon>
+<text text-anchor="middle" x="143.94" y="-44.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">req</text>
+</g>
+<!-- q1&#45;&gt;q0 -->
+<g id="edge5" class="edge">
+<title>q1-&gt;q0</title>
+<path fill="none" stroke="black" d="M173.93,-25.26C167.12,-22.75 159.87,-20.52 152.88,-19.2 143.23,-17.38 133.03,-18.27 123.35,-20.48"></path>
+<polygon fill="black" stroke="black" points="122.22,-17.16 113.51,-23.2 124.08,-23.91 122.22,-17.16"></polygon>
+<text text-anchor="middle" x="143.94" y="-24.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">res</text>
+</g>
+<!-- q1&#45;&gt;q1 -->
+<g id="edge4" class="edge">
+<title>q1-&gt;q1</title>
+<path fill="none" stroke="black" d="M195.25,-74.28C195.37,-85.28 199.25,-94 206.88,-94 211.88,-94 215.27,-90.24 217.04,-84.55"></path>
+<polygon fill="black" stroke="black" points="220.56,-84.67 218.5,-74.28 213.63,-83.69 220.56,-84.67"></polygon>
+<text text-anchor="middle" x="206.88" y="-98.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">req, any</text>
+</g>
+<!-- init -->
+<g id="node3" class="node">
+<title>init</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-40" rx="0" ry="0"></ellipse>
+</g>
+<!-- init&#45;&gt;q0 -->
+<g id="edge1" class="edge">
+<title>init-&gt;q0</title>
+<path fill="none" stroke="black" d="M1.05,-40C1.93,-40 13.15,-40 26.66,-40"></path>
+<polygon fill="black" stroke="black" points="26.78,-43.5 36.78,-40 26.78,-36.5 26.78,-43.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="exemple-2-opération-de-concatenation-fa-et-ba" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-2-opération-de-concatenation-fa-et-ba">Exemple 2 : Opération de Concatenation FA et BA</h3>
+<p><strong>Contexte :</strong> Construire un BA pour <span class="math inline">\((ab + c)c^{*}(ab^{*})^{\omega}\)</span> à partir d’un FA pour <span class="math inline">\((ab + c)c^{*}\)</span> et d’un BA pour <span class="math inline">\((ab^{*})^{\omega}\)</span>.</p>
+<p><strong>Application :</strong></p>
+<ol type="1">
+<li>Soit <span class="math inline">\(A\)</span> le FA pour <span class="math inline">\((ab + c)c^{*}\)</span>. Il a un état initial <span class="math inline">\(i_A\)</span> et (au moins) un état final <span class="math inline">\(f_A\)</span>.</li>
+<li>Soit <span class="math inline">\(B\)</span> le BA pour <span class="math inline">\((ab^{*})^{\omega}\)</span>. Il a un état initial <span class="math inline">\(i_B\)</span> et des états acceptants <span class="math inline">\(F_B\)</span>.</li>
+<li><strong>Construction du BA pour la concaténation</strong> :
+<ul>
+<li>États : Union disjointe des états de <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span>.</li>
+<li>État initial : <span class="math inline">\(i_A\)</span>.</li>
+<li>États acceptants : <span class="math inline">\(F_B\)</span> (ceux de <span class="math inline">\(B\)</span> seulement).</li>
+<li>Transitions : Toutes les transitions de <span class="math inline">\(A\)</span> et de <span class="math inline">\(B\)</span> sont conservées.</li>
+<li><strong>Transitions ajoutées</strong> : Pour <strong>chaque</strong> transition dans <span class="math inline">\(A\)</span> de la forme <span class="math inline">\((p, \alpha, f_A)\)</span> où <span class="math inline">\(f_A\)</span> est un état final de <span class="math inline">\(A\)</span>, on ajoute une <strong>nouvelle</strong> transition <span class="math inline">\((p, \alpha, i_B)\)</span> vers l’état initial de <span class="math inline">\(B\)</span>.</li>
+</ul></li>
+<li><strong>Justification</strong> : Pour être accepté, un mot doit d’abord être accepté par le préfixe fini reconnu par <span class="math inline">\(A\)</span> (ce qui amène à un état final <span class="math inline">\(f_A\)</span>), puis immédiatement commencer et satisfaire le suffixe infini reconnu par <span class="math inline">\(B\)</span>. La transition ajoutée permet ce “passage de relais”.</li>
+</ol>
+</section>
+<section id="exemple-3-model-checking-par-produit-synchrone" class="level3">
+<h3 class="anchored" data-anchor-id="exemple-3-model-checking-par-produit-synchrone">Exemple 3 : Model Checking par Produit Synchrone</h3>
+<p><strong>Contexte :</strong> Vérifier si l’automate <span class="math inline">\(A\)</span> (avec <span class="math inline">\(L(A) = (bc)^\omega\)</span>) satisfait <span class="math inline">\(\phi_2 = \square (a \Rightarrow \diamond c)\)</span>.</p>
+<p><strong>Application :</strong></p>
+<ol type="1">
+<li><strong>Négation de la propriété</strong> : <span class="math inline">\(\neg \phi_2 = \neg \square (a \Rightarrow \diamond c) = \diamond (a \land \square \neg c)\)</span>.</li>
+<li><strong>Construction de <span class="math inline">\(B_{\neg\phi_2}\)</span></strong> :
+<ul>
+<li>Il cherche à capturer un moment où <span class="math inline">\(a\)</span> est vrai et ensuite <span class="math inline">\(c\)</span> est <strong>toujours faux</strong>.</li>
+<li>L’automate montré a des états représentant “n’a pas encore vu <span class="math inline">\(a \land \square\neg c\)</span>” (initial), “a vu <span class="math inline">\(a\)</span> et maintenant vérifie <span class="math inline">\(\square\neg c\)</span>” (acceptant).</li>
+<li>Il reste dans l’état acceptant uniquement en lisant des lettres où <span class="math inline">\(c\)</span> est faux.</li>
+</ul></li>
+<li><strong>Produit Synchrone <span class="math inline">\(A \times B_{\neg\phi_2}\)</span></strong> :
+<ul>
+<li>On couple les états de <span class="math inline">\(A\)</span> (par exemple <span class="math inline">\(s_1, s_2, s_3\)</span>) avec ceux de <span class="math inline">\(B\)</span>.</li>
+<li>L’automate <span class="math inline">\(A\)</span> ne génère que les lettres <code>b</code> et <code>c</code>. Il ne génère <strong>jamais</strong> la lettre <code>a</code>.</li>
+</ul></li>
+<li><strong>Analyse</strong> : La prémisse <span class="math inline">\(a\)</span> de la formule <span class="math inline">\(\phi_2\)</span> n’est jamais vraie dans aucun mot de <span class="math inline">\(L(A)\)</span>. Par conséquent, l’implication <span class="math inline">\(a \Rightarrow \diamond c\)</span> est <strong>vacuously true</strong> à chaque position. La formule <span class="math inline">\(\phi_2\)</span> est donc vraie sur tout mot de <span class="math inline">\(L(A)\)</span>.</li>
+<li><strong>Vérification par SCC</strong> : Dans le produit, aucune exécution ne peut atteindre l’état acceptant de <span class="math inline">\(B_{\neg\phi_2}\)</span> car cela nécessiterait de lire un <code>a</code>. Donc, aucune SCC accessible ne contient d’état acceptant de <span class="math inline">\(B_{\neg\phi_2}\)</span>. On conclut que <span class="math inline">\(L(A) \cap L(\neg\phi_2) = \emptyset\)</span>, donc <strong><span class="math inline">\(A \models \phi_2\)</span></strong>.</li>
+</ol>
+</section>
+</section>
+<section id="synthèse" class="level2">
+<h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
+<p>Cette série d’exercices couvre le cœur de la vérification de modèles basée sur les automates. Les compétences clés sont :</p>
+<ol type="1">
+<li>la manipulation formelle des ω-langages via des expressions et des automates de Büchi</li>
+<li>la traduction entre différentes notations (LTL, expressions, automates)</li>
+<li>l’utilisation d’opérations sur les automates pour construire des représentations complexes</li>
+<li>l’application de l’algorithme central de model checking via le produit synchrone et la recherche de SCC.</li>
+</ol>
+<p>La compréhension fine de la sémantique de LTL et de l’acceptation par Büchi est fondamentale pour toutes ces tâches.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>s91 – Software Modeling and Verification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9ee82e006983bafa07c9ac29a901142c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-96c1bb8b336142dcc39f931773fab1b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Software Modeling and Verification</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-language" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-globe" role="img">
+</i> 
+ <span class="menu-text">Language</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-language">    
+        <li>
+    <a class="dropdown-item" href="./index.html">
+ <span class="dropdown-text">English</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./fr/index.html">
+ <span class="dropdown-text">French</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercises</a></li><li class="breadcrumb-item"><a href="./s91.html">Series 10: Abstract Interpretation II/III</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Course</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software Modeling and Verification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMT Solving</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract Interpretation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model Checking</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercises</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Serie 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Serie 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 4: Weakest Precondition with Loops and Verification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 5: Program Verification with Why3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 6: SAT Solving and Modeling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 7: DPLL with Theories and Array Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 8: Introduction to Quantifiers and Transformations in First-Order Logic</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 9: Abstract Interpretation I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s91.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Series 10: Abstract Interpretation II/III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./s92.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Series 11: Model Checking with Büchi Automata and LTL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#series-10-abstract-interpretation-iiiii" id="toc-series-10-abstract-interpretation-iiiii" class="nav-link active" data-scroll-target="#series-10-abstract-interpretation-iiiii">Series 10: Abstract Interpretation II/III</a>
+  <ul class="collapse">
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#analysis-of-order-structures" id="toc-analysis-of-order-structures" class="nav-link" data-scroll-target="#analysis-of-order-structures">Analysis of Order Structures</a></li>
+  <li><a href="#analysis-of-functions-on-lattices" id="toc-analysis-of-functions-on-lattices" class="nav-link" data-scroll-target="#analysis-of-functions-on-lattices">Analysis of Functions on Lattices</a></li>
+  <li><a href="#galois-connections" id="toc-galois-connections" class="nav-link" data-scroll-target="#galois-connections">Galois Connections</a></li>
+  <li><a href="#abstract-interpretation-of-programs" id="toc-abstract-interpretation-of-programs" class="nav-link" data-scroll-target="#abstract-interpretation-of-programs">Abstract Interpretation of Programs</a></li>
+  </ul></li>
+  <li><a href="#reminder" id="toc-reminder" class="nav-link" data-scroll-target="#reminder">Reminder</a></li>
+  <li><a href="#illustrative-examples" id="toc-illustrative-examples" class="nav-link" data-scroll-target="#illustrative-examples">Illustrative Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-verification-that-a-poset-is-a-complete-lattice" id="toc-example-1-verification-that-a-poset-is-a-complete-lattice" class="nav-link" data-scroll-target="#example-1-verification-that-a-poset-is-a-complete-lattice">Example 1: Verification that a poset is a complete lattice</a></li>
+  <li><a href="#example-2-definition-of-an-order-and-infsup-calculation-on-the-interval-domain" id="toc-example-2-definition-of-an-order-and-infsup-calculation-on-the-interval-domain" class="nav-link" data-scroll-target="#example-2-definition-of-an-order-and-infsup-calculation-on-the-interval-domain">Example 2: Definition of an order and inf/sup calculation on the interval domain</a></li>
+  <li><a href="#example-3-proof-that-a-scott-continuous-function-is-monotonic" id="toc-example-3-proof-that-a-scott-continuous-function-is-monotonic" class="nav-link" data-scroll-target="#example-3-proof-that-a-scott-continuous-function-is-monotonic">Example 3: Proof that a Scott-continuous function is monotonic</a></li>
+  <li><a href="#example-4-construction-of-a-galois-connection-between-mathcalpmathbbz-and-mathcali" id="toc-example-4-construction-of-a-galois-connection-between-mathcalpmathbbz-and-mathcali" class="nav-link" data-scroll-target="#example-4-construction-of-a-galois-connection-between-mathcalpmathbbz-and-mathcali">Example 4: Construction of a Galois Connection between <span class="math inline">\(\mathcal{P}(\mathbb{Z})\)</span> and <span class="math inline">\(\mathcal{I}\)</span></a></li>
+  <li><a href="#example-5-program-analysis-with-the-interval-lattice" id="toc-example-5-program-analysis-with-the-interval-lattice" class="nav-link" data-scroll-target="#example-5-program-analysis-with-the-interval-lattice">Example 5: Program Analysis with the Interval Lattice</a></li>
+  </ul></li>
+  <li><a href="#synthesis" id="toc-synthesis" class="nav-link" data-scroll-target="#synthesis">Synthesis</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="s91.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="s91.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./s1.html">Exercises</a></li><li class="breadcrumb-item"><a href="./s91.html">Series 10: Abstract Interpretation II/III</a></li></ol></nav></header>
+
+
+
+
+
+<section id="series-10-abstract-interpretation-iiiii" class="level1">
+<h1>Series 10: Abstract Interpretation II/III</h1>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="analysis-of-order-structures" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-of-order-structures">Analysis of Order Structures</h3>
+<ul>
+<li><strong>Verification of lattice properties</strong>: Determine if a given poset is a lattice, a complete lattice, or a semi-complete lattice by checking the existence of infimum and supremum for any pair (lattice) and for any subset (complete).</li>
+<li><strong>Construction of order on abstract domains</strong>: Define an order that captures the notion of “precision” between abstract elements (e.g., inclusion for intervals).</li>
+<li><strong>Cartesian product of lattices</strong>: Show that the product of two complete lattices, equipped with the product order, is itself a complete lattice.</li>
+</ul>
+</section>
+<section id="analysis-of-functions-on-lattices" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-of-functions-on-lattices">Analysis of Functions on Lattices</h3>
+<ul>
+<li><strong>Monotonicity and Scott-continuity</strong>: Prove that a function is monotonic and/or Scott-continuous. Scott-continuity guarantees preservation of suprema of increasing chains.</li>
+<li><strong>Composition of continuous functions</strong>: Show that the composition of two Scott-continuous functions is Scott-continuous.</li>
+<li><strong>Fixed-point calculation</strong>: Apply Kleene’s theorem to compute the least fixed point (lfp) of a continuous function, often via iteration starting from <span class="math inline">\(\perp\)</span>.</li>
+<li><strong>Comparison of fixed points</strong>: If <span class="math inline">\(f(x) \leq g(x)\)</span> for all <span class="math inline">\(x\)</span>, then <span class="math inline">\(\text{lfp}(f) \leq \text{lfp}(g)\)</span>.</li>
+</ul>
+</section>
+<section id="galois-connections" class="level3">
+<h3 class="anchored" data-anchor-id="galois-connections">Galois Connections</h3>
+<ul>
+<li><strong>Definition of functions <span class="math inline">\(\alpha\)</span> (abstraction) and <span class="math inline">\(\gamma\)</span> (concretization)</strong> between a concrete domain and an abstract domain.</li>
+<li><strong>Proof of fundamental properties</strong>: Verify that <span class="math inline">\((\alpha, \gamma)\)</span> indeed form a Galois connection, i.e., <span class="math inline">\(\alpha(X) \subseteq i \Leftrightarrow X \subseteq \gamma(i)\)</span>.</li>
+<li><strong>Derived properties</strong>: Show that <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span> are monotonic, that <span class="math inline">\(x \leq \gamma(\alpha(x))\)</span>, and that <span class="math inline">\(\alpha(\gamma(y)) \leq y\)</span>.</li>
+</ul>
+</section>
+<section id="abstract-interpretation-of-programs" class="level3">
+<h3 class="anchored" data-anchor-id="abstract-interpretation-of-programs">Abstract Interpretation of Programs</h3>
+<ul>
+<li><strong>Construction of the equation system</strong>: From a CFG (Control Flow Graph), write the fixed-point equations for each program point.</li>
+<li><strong>Iterative resolution</strong>: Apply Kleene iteration on an abstract domain (e.g., sign lattice, interval lattice) until convergence.</li>
+<li><strong>Condition handling</strong>: Define the “filtering” operator (<span class="math inline">\(\cap [condition]\)</span>) to refine information at a guard (e.g., <span class="math inline">\(x \geq y\)</span> in the interval domain).</li>
+</ul>
+</section>
+</section>
+<section id="reminder" class="level2">
+<h2 class="anchored" data-anchor-id="reminder">Reminder</h2>
+<ul>
+<li><strong>Complete lattice</strong>: Every subset has an infimum and a supremum.</li>
+<li><strong>Scott-continuity</strong>: <span class="math inline">\(f(\sup_{i} u_i) = \sup_{i} f(u_i)\)</span> for any increasing chain <span class="math inline">\((u_i)\)</span>.</li>
+<li><strong>Kleene’s theorem</strong>: In a complete lattice, a Scott-continuous function has a least fixed point given by <span class="math inline">\(\sup_{n \geq 0} f^n(\perp)\)</span>.</li>
+<li><strong>Galois connection</strong>: Pair <span class="math inline">\((\alpha: \mathcal{C} \to \mathcal{A}, \gamma: \mathcal{A} \to \mathcal{C})\)</span> satisfying <span class="math inline">\(\forall X \in \mathcal{C}, \forall i \in \mathcal{A}, \alpha(X) \subseteq i \Leftrightarrow X \subseteq \gamma(i)\)</span>.</li>
+<li><strong>Product order</strong>: <span class="math inline">\((a,b) \leq (c,d) \Leftrightarrow a \leq c \land b \leq d\)</span>. Infimum and supremum are computed componentwise.</li>
+</ul>
+</section>
+<section id="illustrative-examples" class="level2">
+<h2 class="anchored" data-anchor-id="illustrative-examples">Illustrative Examples</h2>
+<section id="example-1-verification-that-a-poset-is-a-complete-lattice" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-verification-that-a-poset-is-a-complete-lattice">Example 1: Verification that a poset is a complete lattice</h3>
+<p><strong>Context:</strong> The exercise asks whether <span class="math inline">\((\mathbb{N}, \leq)\)</span> is a (complete) lattice.</p>
+<p><strong>Application:</strong></p>
+<ul>
+<li>It is a lattice because for any pair <span class="math inline">\(\{a,b\}\)</span>, <span class="math inline">\(\inf(a,b) = \min(a,b)\)</span> and <span class="math inline">\(\sup(a,b) = \max(a,b)\)</span> exist in <span class="math inline">\(\mathbb{N}\)</span>.</li>
+<li>It is <strong>not complete</strong> because the subset <span class="math inline">\(X = \mathbb{N}\)</span> has no supremum in <span class="math inline">\(\mathbb{N}\)</span> (<span class="math inline">\(\sup(\mathbb{N}) = +\infty \notin \mathbb{N}\)</span>).</li>
+<li>It is a <strong>semi-complete lattice</strong> because every subset <span class="math inline">\(A \subseteq \mathbb{N}\)</span> has an infimum (its minimum).</li>
+<li>However, <span class="math inline">\((\mathbb{N} \cup \{\infty\}, \leq)\)</span> is a complete lattice.</li>
+</ul>
+</section>
+<section id="example-2-definition-of-an-order-and-infsup-calculation-on-the-interval-domain" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-definition-of-an-order-and-infsup-calculation-on-the-interval-domain">Example 2: Definition of an order and inf/sup calculation on the interval domain</h3>
+<p><strong>Context:</strong> For the set of intervals <span class="math inline">\(\mathcal{I}\)</span>, define an order representing loss of precision.</p>
+<p><strong>Application:</strong></p>
+<ul>
+<li>Define the order by <strong>reverse inclusion</strong> of value sets: <span class="math inline">\((a,c) \leq (b,d) \Leftrightarrow [b,d] \supseteq [a,c] \Leftrightarrow (b \leq a \wedge c \leq d)\)</span>.</li>
+<li>The infimum corresponds to the <strong>intersection</strong> of value sets: <span class="math display">\[\inf((a,c),(b,d)) = (\max(a,b), \min(c,d))\]</span> (which gives the smallest interval contained in both).</li>
+<li>The supremum corresponds to the <strong>union</strong> (the smallest over-approximation): <span class="math display">\[\sup((a,c),(b,d)) = (\min(a,b), \max(c,d))\]</span></li>
+<li>Prove that <span class="math inline">\((\mathcal{I}, \leq)\)</span> is a complete lattice using this correspondence with set inclusion.</li>
+</ul>
+</section>
+<section id="example-3-proof-that-a-scott-continuous-function-is-monotonic" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-proof-that-a-scott-continuous-function-is-monotonic">Example 3: Proof that a Scott-continuous function is monotonic</h3>
+<p><strong>Context:</strong> Let <span class="math inline">\(f: E \to F\)</span> be Scott-continuous, with <span class="math inline">\(E, F\)</span> complete lattices.</p>
+<p><strong>Application:</strong> Let <span class="math inline">\(x, y \in E\)</span> such that <span class="math inline">\(x \leq y\)</span>.</p>
+<ol type="1">
+<li>Construct the increasing chain <span class="math inline">\((u_i)\)</span>: <span class="math inline">\(u_0 = x\)</span>, and <span class="math inline">\(u_i = y\)</span> for all <span class="math inline">\(i \geq 1\)</span>.</li>
+<li>By construction, <span class="math inline">\(\sup_{i} u_i = y\)</span>.</li>
+<li>By Scott-continuity: <span class="math inline">\(f(y) = f(\sup_i u_i) = \sup_i f(u_i)\)</span>.</li>
+<li>In particular, <span class="math inline">\(f(u_0) = f(x) \leq \sup_i f(u_i) = f(y)\)</span>.</li>
+<li>Therefore <span class="math inline">\(f(x) \leq f(y)\)</span>, which proves monotonicity.</li>
+</ol>
+</section>
+<section id="example-4-construction-of-a-galois-connection-between-mathcalpmathbbz-and-mathcali" class="level3">
+<h3 class="anchored" data-anchor-id="example-4-construction-of-a-galois-connection-between-mathcalpmathbbz-and-mathcali">Example 4: Construction of a Galois Connection between <span class="math inline">\(\mathcal{P}(\mathbb{Z})\)</span> and <span class="math inline">\(\mathcal{I}\)</span></h3>
+<p><strong>Context:</strong> Define <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span> between the power set of <span class="math inline">\(\mathbb{Z}\)</span> (concrete) and the interval lattice <span class="math inline">\(\mathcal{I}\)</span> (abstract).</p>
+<p><strong>Application:</strong></p>
+<ul>
+<li><strong>Abstraction function <span class="math inline">\(\alpha\)</span></strong>: <span class="math display">\[\alpha: \mathcal{P}(\mathbb{Z}) \to \mathcal{I}, \quad \alpha(X) = [\inf X, \sup X]\]</span> (with <span class="math inline">\(\inf \emptyset = +\infty\)</span>, <span class="math inline">\(\sup \emptyset = -\infty\)</span> by convention).</li>
+<li><strong>Concretization function <span class="math inline">\(\gamma\)</span></strong>: <span class="math display">\[\gamma: \mathcal{I} \to \mathcal{P}(\mathbb{Z}), \quad \gamma([a,b]) = \{z \in \mathbb{Z} \mid a \leq z \leq b\}\]</span></li>
+<li><strong>Proof of the connection</strong>: Must show <span class="math inline">\(\forall X \subseteq \mathbb{Z}, \forall i \in \mathcal{I}\)</span>: <span class="math display">\[\alpha(X) \subseteq \mathcal{I} i \Leftrightarrow X \subseteq \gamma(i)\]</span>
+<ol type="1">
+<li>(<span class="math inline">\(\Rightarrow\)</span>) If <span class="math inline">\([\inf X, \sup X] \subseteq i\)</span>, then every <span class="math inline">\(x \in X\)</span> satisfies <span class="math inline">\(x \in \gamma(i)\)</span>.</li>
+<li>(<span class="math inline">\(\Leftarrow\)</span>) If <span class="math inline">\(X \subseteq \gamma(i)\)</span>, then <span class="math inline">\(\inf X \geq a\)</span> and <span class="math inline">\(\sup X \leq b\)</span>, so <span class="math inline">\([\inf X, \sup X] \subseteq [a,b] = i\)</span>.</li>
+</ol></li>
+</ul>
+</section>
+<section id="example-5-program-analysis-with-the-interval-lattice" class="level3">
+<h3 class="anchored" data-anchor-id="example-5-program-analysis-with-the-interval-lattice">Example 5: Program Analysis with the Interval Lattice</h3>
+<p><strong>Context:</strong> Analyze the following program with the interval domain:</p>
+<pre><code>y := 3; x := 4;
+while (x &gt;= y) do x := x - 4; done;</code></pre>
+<p><strong>Application:</strong></p>
+<ol type="1">
+<li><strong>CFG and equations</strong>:
+<ul>
+<li>Entry: <span class="math inline">\(v_0 = (x: \top, y: \top)\)</span></li>
+<li><span class="math inline">\(v_1 = (x: [4,4], y: [3,3])\)</span> after assignments.</li>
+<li>Loop (point <span class="math inline">\(v_2\)</span>): <span class="math inline">\(v_2 = v_1 \sqcup F(v_2)\)</span>, where <span class="math inline">\(F\)</span> is the transfer function of the body.</li>
+<li>Loop body: <span class="math inline">\(F((x,y)) = (x-4, y) \cap [x \geq y]\)</span>.</li>
+</ul></li>
+<li><strong>Kleene iteration</strong>:
+<ul>
+<li><span class="math inline">\(v_2^{(0)} = \perp = (x: \bot, y: \bot)\)</span></li>
+<li><span class="math inline">\(v_2^{(1)} = v_1 \sqcup F(\perp) = (x:[4,4], y:[3,3])\)</span></li>
+<li>Compute <span class="math inline">\(F(v_2^{(1)})\)</span>: <span class="math inline">\((x: [4,4]-4, y:[3,3]) = (x:[0,0], y:[3,3])\)</span>. The condition <span class="math inline">\(x \geq y\)</span> becomes <span class="math inline">\([0,0] \geq [3,3]\)</span> which is false, so the result is <span class="math inline">\(\bot\)</span>.</li>
+<li><span class="math inline">\(v_2^{(2)} = v_1 \sqcup \bot = v_2^{(1)}\)</span>. Fixed point reached.</li>
+</ul></li>
+<li><strong>Result</strong>: At loop exit, <span class="math inline">\(x = [4,4]\)</span> and <span class="math inline">\(y = [3,3]\)</span>. The loop does not execute.</li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 555.23 584.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 580)">
+<title>méthodes</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-580 551.23,-580 551.23,4 -4,4"></polygon>
+<!-- Order Structures -->
+<g id="node1" class="node">
+<title>Order Structures</title>
+<path fill="none" stroke="black" d="M114.36,-63C114.36,-63 29.54,-63 29.54,-63 23.54,-63 17.54,-57 17.54,-51 17.54,-51 17.54,-39 17.54,-39 17.54,-33 23.54,-27 29.54,-27 29.54,-27 114.36,-27 114.36,-27 120.36,-27 126.36,-33 126.36,-39 126.36,-39 126.36,-51 126.36,-51 126.36,-57 120.36,-63 114.36,-63"></path>
+<text text-anchor="middle" x="71.95" y="-40.8" font-family="Times,serif" font-size="14.00">Order Structures</text>
+</g>
+<!-- Complete Lattice -->
+<g id="node2" class="node">
+<title>Complete Lattice</title>
+<path fill="none" stroke="black" d="M314.42,-90C314.42,-90 225.83,-90 225.83,-90 219.83,-90 213.83,-84 213.83,-78 213.83,-78 213.83,-66 213.83,-66 213.83,-60 219.83,-54 225.83,-54 225.83,-54 314.42,-54 314.42,-54 320.42,-54 326.42,-60 326.42,-66 326.42,-66 326.42,-78 326.42,-78 326.42,-84 320.42,-90 314.42,-90"></path>
+<text text-anchor="middle" x="270.13" y="-67.8" font-family="Times,serif" font-size="14.00">Complete Lattice</text>
+</g>
+<!-- Order Structures&#45;&gt;Complete Lattice -->
+<g id="edge1" class="edge">
+<title>Order Structures-&gt;Complete Lattice</title>
+<path fill="none" stroke="black" d="M126.56,-52.38C150.29,-55.64 178.42,-59.52 203.41,-62.95"></path>
+<polygon fill="black" stroke="black" points="203.15,-66.45 213.53,-64.35 204.1,-59.52 203.15,-66.45"></polygon>
+</g>
+<!-- Product Order -->
+<g id="node3" class="node">
+<title>Product Order</title>
+<path fill="none" stroke="black" d="M305.83,-36C305.83,-36 234.43,-36 234.43,-36 228.43,-36 222.43,-30 222.43,-24 222.43,-24 222.43,-12 222.43,-12 222.43,-6 228.43,0 234.43,0 234.43,0 305.83,0 305.83,0 311.83,0 317.83,-6 317.83,-12 317.83,-12 317.83,-24 317.83,-24 317.83,-30 311.83,-36 305.83,-36"></path>
+<text text-anchor="middle" x="270.13" y="-13.8" font-family="Times,serif" font-size="14.00">Product Order</text>
+</g>
+<!-- Order Structures&#45;&gt;Product Order -->
+<g id="edge2" class="edge">
+<title>Order Structures-&gt;Product Order</title>
+<path fill="none" stroke="black" d="M126.56,-37.62C153.11,-33.97 185.19,-29.55 212.19,-25.84"></path>
+<polygon fill="black" stroke="black" points="212.83,-29.28 222.26,-24.45 211.88,-22.35 212.83,-29.28"></polygon>
+</g>
+<!-- Computation Domain -->
+<g id="node15" class="node">
+<title>Computation Domain</title>
+<path fill="none" stroke="black" d="M528.5,-90C528.5,-90 415.07,-90 415.07,-90 409.07,-90 403.07,-84 403.07,-78 403.07,-78 403.07,-66 403.07,-66 403.07,-60 409.07,-54 415.07,-54 415.07,-54 528.5,-54 528.5,-54 534.5,-54 540.5,-60 540.5,-66 540.5,-66 540.5,-78 540.5,-78 540.5,-84 534.5,-90 528.5,-90"></path>
+<text text-anchor="middle" x="471.79" y="-67.8" font-family="Times,serif" font-size="14.00">Computation Domain</text>
+</g>
+<!-- Complete Lattice&#45;&gt;Computation Domain -->
+<g id="edge11" class="edge">
+<title>Complete Lattice-&gt;Computation Domain</title>
+<path fill="none" stroke="black" d="M326.48,-72C347,-72 370.66,-72 392.82,-72"></path>
+<polygon fill="black" stroke="black" points="392.88,-75.5 402.88,-72 392.88,-68.5 392.88,-75.5"></polygon>
+</g>
+<!-- Multivariate Domains -->
+<g id="node16" class="node">
+<title>Multivariate Domains</title>
+<path fill="none" stroke="black" d="M529.54,-36C529.54,-36 414.04,-36 414.04,-36 408.04,-36 402.04,-30 402.04,-24 402.04,-24 402.04,-12 402.04,-12 402.04,-6 408.04,0 414.04,0 414.04,0 529.54,0 529.54,0 535.54,0 541.54,-6 541.54,-12 541.54,-12 541.54,-24 541.54,-24 541.54,-30 535.54,-36 529.54,-36"></path>
+<text text-anchor="middle" x="471.79" y="-13.8" font-family="Times,serif" font-size="14.00">Multivariate Domains</text>
+</g>
+<!-- Product Order&#45;&gt;Multivariate Domains -->
+<g id="edge12" class="edge">
+<title>Product Order-&gt;Multivariate Domains</title>
+<path fill="none" stroke="black" d="M317.94,-18C339.92,-18 366.74,-18 391.73,-18"></path>
+<polygon fill="black" stroke="black" points="391.94,-21.5 401.94,-18 391.94,-14.5 391.94,-21.5"></polygon>
+</g>
+<!-- Functions -->
+<g id="node4" class="node">
+<title>Functions</title>
+<path fill="none" stroke="black" d="M95.68,-198C95.68,-198 48.22,-198 48.22,-198 42.22,-198 36.22,-192 36.22,-186 36.22,-186 36.22,-174 36.22,-174 36.22,-168 42.22,-162 48.22,-162 48.22,-162 95.68,-162 95.68,-162 101.68,-162 107.68,-168 107.68,-174 107.68,-174 107.68,-186 107.68,-186 107.68,-192 101.68,-198 95.68,-198"></path>
+<text text-anchor="middle" x="71.95" y="-175.8" font-family="Times,serif" font-size="14.00">Functions</text>
+</g>
+<!-- Monotonicity -->
+<g id="node5" class="node">
+<title>Monotonicity</title>
+<path fill="none" stroke="black" d="M304.35,-252C304.35,-252 235.91,-252 235.91,-252 229.91,-252 223.91,-246 223.91,-240 223.91,-240 223.91,-228 223.91,-228 223.91,-222 229.91,-216 235.91,-216 235.91,-216 304.35,-216 304.35,-216 310.35,-216 316.35,-222 316.35,-228 316.35,-228 316.35,-240 316.35,-240 316.35,-246 310.35,-252 304.35,-252"></path>
+<text text-anchor="middle" x="270.13" y="-229.8" font-family="Times,serif" font-size="14.00">Monotonicity</text>
+</g>
+<!-- Functions&#45;&gt;Monotonicity -->
+<g id="edge3" class="edge">
+<title>Functions-&gt;Monotonicity</title>
+<path fill="none" stroke="black" d="M107.57,-189.53C137,-197.63 179.8,-209.41 213.95,-218.81"></path>
+<polygon fill="black" stroke="black" points="213.22,-222.24 223.79,-221.52 215.08,-215.49 213.22,-222.24"></polygon>
+</g>
+<!-- Scott&#45;Continuity -->
+<g id="node6" class="node">
+<title>Scott-Continuity</title>
+<path fill="none" stroke="black" d="M312.96,-198C312.96,-198 227.29,-198 227.29,-198 221.29,-198 215.29,-192 215.29,-186 215.29,-186 215.29,-174 215.29,-174 215.29,-168 221.29,-162 227.29,-162 227.29,-162 312.96,-162 312.96,-162 318.96,-162 324.96,-168 324.96,-174 324.96,-174 324.96,-186 324.96,-186 324.96,-192 318.96,-198 312.96,-198"></path>
+<text text-anchor="middle" x="270.13" y="-175.8" font-family="Times,serif" font-size="14.00">Scott-Continuity</text>
+</g>
+<!-- Functions&#45;&gt;Scott&#45;Continuity -->
+<g id="edge4" class="edge">
+<title>Functions-&gt;Scott-Continuity</title>
+<path fill="none" stroke="black" d="M107.57,-180C134.47,-180 172.53,-180 204.95,-180"></path>
+<polygon fill="black" stroke="black" points="205.25,-183.5 215.25,-180 205.25,-176.5 205.25,-183.5"></polygon>
+</g>
+<!-- Fixed Points (Kleene) -->
+<g id="node7" class="node">
+<title>Fixed Points (Kleene)</title>
+<path fill="none" stroke="black" d="M327.5,-144C327.5,-144 212.76,-144 212.76,-144 206.76,-144 200.76,-138 200.76,-132 200.76,-132 200.76,-120 200.76,-120 200.76,-114 206.76,-108 212.76,-108 212.76,-108 327.5,-108 327.5,-108 333.5,-108 339.5,-114 339.5,-120 339.5,-120 339.5,-132 339.5,-132 339.5,-138 333.5,-144 327.5,-144"></path>
+<text text-anchor="middle" x="270.13" y="-121.8" font-family="Times,serif" font-size="14.00">Fixed Points (Kleene)</text>
+</g>
+<!-- Functions&#45;&gt;Fixed Points (Kleene) -->
+<g id="edge5" class="edge">
+<title>Functions-&gt;Fixed Points (Kleene)</title>
+<path fill="none" stroke="black" d="M107.57,-170.47C131.39,-163.91 163.95,-154.95 193.61,-146.79"></path>
+<polygon fill="black" stroke="black" points="194.82,-150.08 203.54,-144.05 192.97,-143.33 194.82,-150.08"></polygon>
+</g>
+<!-- Convergence Guarantee -->
+<g id="node17" class="node">
+<title>Convergence Guarantee</title>
+<path fill="none" stroke="black" d="M535.16,-198C535.16,-198 408.42,-198 408.42,-198 402.42,-198 396.42,-192 396.42,-186 396.42,-186 396.42,-174 396.42,-174 396.42,-168 402.42,-162 408.42,-162 408.42,-162 535.16,-162 535.16,-162 541.16,-162 547.16,-168 547.16,-174 547.16,-174 547.16,-186 547.16,-186 547.16,-192 541.16,-198 535.16,-198"></path>
+<text text-anchor="middle" x="471.79" y="-175.8" font-family="Times,serif" font-size="14.00">Convergence Guarantee</text>
+</g>
+<!-- Scott&#45;Continuity&#45;&gt;Convergence Guarantee -->
+<g id="edge13" class="edge">
+<title>Scott-Continuity-&gt;Convergence Guarantee</title>
+<path fill="none" stroke="black" d="M324.9,-180C343.75,-180 365.42,-180 386.19,-180"></path>
+<polygon fill="black" stroke="black" points="386.3,-183.5 396.3,-180 386.3,-176.5 386.3,-183.5"></polygon>
+</g>
+<!-- System Solution -->
+<g id="node18" class="node">
+<title>System Solution</title>
+<path fill="none" stroke="black" d="M513.97,-144C513.97,-144 429.61,-144 429.61,-144 423.61,-144 417.61,-138 417.61,-132 417.61,-132 417.61,-120 417.61,-120 417.61,-114 423.61,-108 429.61,-108 429.61,-108 513.97,-108 513.97,-108 519.97,-108 525.97,-114 525.97,-120 525.97,-120 525.97,-132 525.97,-132 525.97,-138 519.97,-144 513.97,-144"></path>
+<text text-anchor="middle" x="471.79" y="-121.8" font-family="Times,serif" font-size="14.00">System Solution</text>
+</g>
+<!-- Fixed Points (Kleene)&#45;&gt;System Solution -->
+<g id="edge14" class="edge">
+<title>Fixed Points (Kleene)-&gt;System Solution</title>
+<path fill="none" stroke="black" d="M339.56,-126C361.58,-126 385.88,-126 407.51,-126"></path>
+<polygon fill="black" stroke="black" points="407.58,-129.5 417.58,-126 407.58,-122.5 407.58,-129.5"></polygon>
+</g>
+<!-- Galois Connection -->
+<g id="node8" class="node">
+<title>Galois Connection</title>
+<path fill="none" stroke="black" d="M120.05,-333C120.05,-333 23.85,-333 23.85,-333 17.85,-333 11.85,-327 11.85,-321 11.85,-321 11.85,-309 11.85,-309 11.85,-303 17.85,-297 23.85,-297 23.85,-297 120.05,-297 120.05,-297 126.05,-297 132.05,-303 132.05,-309 132.05,-309 132.05,-321 132.05,-321 132.05,-327 126.05,-333 120.05,-333"></path>
+<text text-anchor="middle" x="71.95" y="-310.8" font-family="Times,serif" font-size="14.00">Galois Connection</text>
+</g>
+<!-- α (abstraction) -->
+<g id="node9" class="node">
+<title>α (abstraction)</title>
+<path fill="none" stroke="black" d="M306.87,-360C306.87,-360 233.38,-360 233.38,-360 227.38,-360 221.38,-354 221.38,-348 221.38,-348 221.38,-336 221.38,-336 221.38,-330 227.38,-324 233.38,-324 233.38,-324 306.87,-324 306.87,-324 312.87,-324 318.87,-330 318.87,-336 318.87,-336 318.87,-348 318.87,-348 318.87,-354 312.87,-360 306.87,-360"></path>
+<text text-anchor="middle" x="270.13" y="-337.8" font-family="Times,serif" font-size="14.00">α (abstraction)</text>
+</g>
+<!-- Galois Connection&#45;&gt;α (abstraction) -->
+<g id="edge6" class="edge">
+<title>Galois Connection-&gt;α (abstraction)</title>
+<path fill="none" stroke="black" d="M132.08,-323.14C157.16,-326.59 186.31,-330.6 211.26,-334.04"></path>
+<polygon fill="black" stroke="black" points="210.92,-337.52 221.31,-335.42 211.88,-330.59 210.92,-337.52"></polygon>
+</g>
+<!-- γ (concretization) -->
+<g id="node10" class="node">
+<title>γ (concretization)</title>
+<path fill="none" stroke="black" d="M315.74,-306C315.74,-306 224.51,-306 224.51,-306 218.51,-306 212.51,-300 212.51,-294 212.51,-294 212.51,-282 212.51,-282 212.51,-276 218.51,-270 224.51,-270 224.51,-270 315.74,-270 315.74,-270 321.74,-270 327.74,-276 327.74,-282 327.74,-282 327.74,-294 327.74,-294 327.74,-300 321.74,-306 315.74,-306"></path>
+<text text-anchor="middle" x="270.13" y="-283.8" font-family="Times,serif" font-size="14.00">γ (concretization)</text>
+</g>
+<!-- Galois Connection&#45;&gt;γ (concretization) -->
+<g id="edge7" class="edge">
+<title>Galois Connection-&gt;γ (concretization)</title>
+<path fill="none" stroke="black" d="M132.08,-306.86C154.29,-303.81 179.68,-300.31 202.52,-297.17"></path>
+<polygon fill="black" stroke="black" points="203.05,-300.63 212.48,-295.8 202.09,-293.69 203.05,-300.63"></polygon>
+</g>
+<!-- Program Interpretation -->
+<g id="node11" class="node">
+<title>Program Interpretation</title>
+<path fill="none" stroke="black" d="M131.85,-468C131.85,-468 12.05,-468 12.05,-468 6.05,-468 0.05,-462 0.05,-456 0.05,-456 0.05,-444 0.05,-444 0.05,-438 6.05,-432 12.05,-432 12.05,-432 131.85,-432 131.85,-432 137.85,-432 143.85,-438 143.85,-444 143.85,-444 143.85,-456 143.85,-456 143.85,-462 137.85,-468 131.85,-468"></path>
+<text text-anchor="middle" x="71.95" y="-445.8" font-family="Times,serif" font-size="14.00">Program Interpretation</text>
+</g>
+<!-- CFG &amp; Equations -->
+<g id="node12" class="node">
+<title>CFG &amp; Equations</title>
+<path fill="none" stroke="black" d="M316.74,-522C316.74,-522 223.51,-522 223.51,-522 217.51,-522 211.51,-516 211.51,-510 211.51,-510 211.51,-498 211.51,-498 211.51,-492 217.51,-486 223.51,-486 223.51,-486 316.74,-486 316.74,-486 322.74,-486 328.74,-492 328.74,-498 328.74,-498 328.74,-510 328.74,-510 328.74,-516 322.74,-522 316.74,-522"></path>
+<text text-anchor="middle" x="270.13" y="-499.8" font-family="Times,serif" font-size="14.00">CFG &amp; Equations</text>
+</g>
+<!-- Program Interpretation&#45;&gt;CFG &amp; Equations -->
+<g id="edge8" class="edge">
+<title>Program Interpretation-&gt;CFG &amp; Equations</title>
+<path fill="none" stroke="black" d="M138.55,-468.06C158.84,-473.64 181.22,-479.8 201.64,-485.42"></path>
+<polygon fill="black" stroke="black" points="200.92,-488.86 211.49,-488.14 202.78,-482.11 200.92,-488.86"></polygon>
+</g>
+<!-- Iteration on Abstract Domain -->
+<g id="node13" class="node">
+<title>Iteration on Abstract Domain</title>
+<path fill="none" stroke="black" d="M348.58,-468C348.58,-468 191.67,-468 191.67,-468 185.67,-468 179.67,-462 179.67,-456 179.67,-456 179.67,-444 179.67,-444 179.67,-438 185.67,-432 191.67,-432 191.67,-432 348.58,-432 348.58,-432 354.58,-432 360.58,-438 360.58,-444 360.58,-444 360.58,-456 360.58,-456 360.58,-462 354.58,-468 348.58,-468"></path>
+<text text-anchor="middle" x="270.13" y="-445.8" font-family="Times,serif" font-size="14.00">Iteration on Abstract Domain</text>
+</g>
+<!-- Program Interpretation&#45;&gt;Iteration on Abstract Domain -->
+<g id="edge9" class="edge">
+<title>Program Interpretation-&gt;Iteration on Abstract Domain</title>
+<path fill="none" stroke="black" d="M144.05,-450C152.41,-450 161.04,-450 169.69,-450"></path>
+<polygon fill="black" stroke="black" points="169.84,-453.5 179.84,-450 169.84,-446.5 169.84,-453.5"></polygon>
+</g>
+<!-- Condition Filtering -->
+<g id="node14" class="node">
+<title>Condition Filtering</title>
+<path fill="none" stroke="black" d="M319.85,-414C319.85,-414 220.4,-414 220.4,-414 214.4,-414 208.4,-408 208.4,-402 208.4,-402 208.4,-390 208.4,-390 208.4,-384 214.4,-378 220.4,-378 220.4,-378 319.85,-378 319.85,-378 325.85,-378 331.85,-384 331.85,-390 331.85,-390 331.85,-402 331.85,-402 331.85,-408 325.85,-414 319.85,-414"></path>
+<text text-anchor="middle" x="270.13" y="-391.8" font-family="Times,serif" font-size="14.00">Condition Filtering</text>
+</g>
+<!-- Program Interpretation&#45;&gt;Condition Filtering -->
+<g id="edge10" class="edge">
+<title>Program Interpretation-&gt;Condition Filtering</title>
+<path fill="none" stroke="black" d="M138.55,-431.94C157.79,-426.65 178.92,-420.83 198.47,-415.45"></path>
+<polygon fill="black" stroke="black" points="199.52,-418.79 208.23,-412.76 197.66,-412.04 199.52,-418.79"></polygon>
+</g>
+<!-- Static Analysis -->
+<g id="node21" class="node">
+<title>Static Analysis</title>
+<path fill="none" stroke="black" d="M510.17,-468C510.17,-468 433.41,-468 433.41,-468 427.41,-468 421.41,-462 421.41,-456 421.41,-456 421.41,-444 421.41,-444 421.41,-438 427.41,-432 433.41,-432 433.41,-432 510.17,-432 510.17,-432 516.17,-432 522.17,-438 522.17,-444 522.17,-444 522.17,-456 522.17,-456 522.17,-462 516.17,-468 510.17,-468"></path>
+<text text-anchor="middle" x="471.79" y="-445.8" font-family="Times,serif" font-size="14.00">Static Analysis</text>
+</g>
+<!-- Iteration on Abstract Domain&#45;&gt;Static Analysis -->
+<g id="edge16" class="edge">
+<title>Iteration on Abstract Domain-&gt;Static Analysis</title>
+<path fill="none" stroke="black" d="M360.45,-450C377.65,-450 395.28,-450 411.25,-450"></path>
+<polygon fill="black" stroke="black" points="411.49,-453.5 421.49,-450 411.49,-446.5 411.49,-453.5"></polygon>
+</g>
+<!-- α/γ -->
+<g id="node19" class="node">
+<title>α/γ</title>
+<path fill="none" stroke="black" d="M86.95,-576C86.95,-576 56.95,-576 56.95,-576 50.95,-576 44.95,-570 44.95,-564 44.95,-564 44.95,-552 44.95,-552 44.95,-546 50.95,-540 56.95,-540 56.95,-540 86.95,-540 86.95,-540 92.95,-540 98.95,-546 98.95,-552 98.95,-552 98.95,-564 98.95,-564 98.95,-570 92.95,-576 86.95,-576"></path>
+<text text-anchor="middle" x="71.95" y="-553.8" font-family="Times,serif" font-size="14.00">α/γ</text>
+</g>
+<!-- Abstraction Correctness -->
+<g id="node20" class="node">
+<title>Abstraction Correctness</title>
+<path fill="none" stroke="black" d="M333.53,-576C333.53,-576 206.72,-576 206.72,-576 200.72,-576 194.72,-570 194.72,-564 194.72,-564 194.72,-552 194.72,-552 194.72,-546 200.72,-540 206.72,-540 206.72,-540 333.53,-540 333.53,-540 339.53,-540 345.53,-546 345.53,-552 345.53,-552 345.53,-564 345.53,-564 345.53,-570 339.53,-576 333.53,-576"></path>
+<text text-anchor="middle" x="270.13" y="-553.8" font-family="Times,serif" font-size="14.00">Abstraction Correctness</text>
+</g>
+<!-- α/γ&#45;&gt;Abstraction Correctness -->
+<g id="edge15" class="edge">
+<title>α/γ-&gt;Abstraction Correctness</title>
+<path fill="none" stroke="black" d="M99,-558C120.91,-558 153.51,-558 184.33,-558"></path>
+<polygon fill="black" stroke="black" points="184.7,-561.5 194.7,-558 184.7,-554.5 184.7,-561.5"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="synthesis" class="level2">
+<h2 class="anchored" data-anchor-id="synthesis">Synthesis</h2>
+<p>This series highlights the mathematical foundations of abstract interpretation: <strong>complete lattices</strong> serve as computation domains, <strong>Scott-continuity</strong> ensures iteration convergence, and <strong>Galois connections</strong> guarantee abstraction correctness.</p>
+<p>The core method combines modeling a program by a <strong>fixed-point equation system</strong> and its iterative resolution on an abstract domain (signs, intervals).</p>
+<p>These techniques allow automatically inferring properties about programs (variable bounds, signs) without executing them.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
